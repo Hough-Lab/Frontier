@@ -1,7 +1,7 @@
 module.exports = {
   DB_HOST: 'localhost',
-  DB_PORT: 'db_port',
-  DB_USERNAME: 'root',
+  DB_PORT: '5432',
+  DB_USERNAME: 'davidsolsona',
   DB_PASSWORD: '1234',
-  DB_DATABASE: 'db_db',
+  DB_DATABASE: 'frontier',
 };

@@ -46,7 +46,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     verifications: {
       type: DataTypes.INTEGER,
-      defaultValue: false,
     },
     certified: {
       type: DataTypes.BOOLEAN,
@@ -54,16 +53,16 @@ module.exports = (sequelize, DataTypes) => {
     },
   });
 
-  User.associate = (models) => {
-    // User.belongsTo(models.Course);
-    User.hasMany(models.Location);
-    User.hasMany(models.User);
-    User.hasMany(models.Plan);
-    User.hasMany(models.UserTag);
-    User.hasMany(models.PointOfInterest);
-    User.hasMany(models.Review);
-    User.hasMany(models.Chat);
-  };
+  // User.associate = (models) => {
+  //   // User.belongsTo(models.Course);
+  //   User.hasMany(models.Location);
+  //   User.hasMany(models.User);
+  //   User.hasMany(models.Plan);
+  //   User.hasMany(models.UserTag);
+  //   User.hasMany(models.PointOfInterest);
+  //   User.hasMany(models.Review);
+  //   User.hasMany(models.Chat);
+  // };
 
   return User;
 };
