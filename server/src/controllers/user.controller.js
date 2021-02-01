@@ -1,8 +1,9 @@
 const bcrypt = require('bcrypt');
-const models = require('../models').sequelize.models;
 const uuid = require("uuid");
 
-const {validateRegisterInput, validateLoginInput} = require('../util/validators')
+const models = require('../models').sequelize.models;
+const { generateAuthToken } = require("../utils/authHelpers.js");
+const {validateRegisterInput, validateLoginInput} = require('../utils/validators')
 
 exports.RegisterUser = async (req, res) => {
   try {
@@ -56,10 +57,51 @@ exports.RegisterUser = async (req, res) => {
       password: hashedPw,
       lastSeen: createdDate.toISOString()
     });
-    res.status(201);
-    res.send(newUser);
+    const token = await generateAuthToken(userId);
+    res.status(201).cookie("authToken", token).send(newUser);
   } catch (e) {
     res.status(500);
     res.send(e.message);
   }
 };
+
+exports.LoginUser = async (req, res) => {
+  try {
+    const {
+      email, password
+    } = req.body;
+    const user = await models.User.findOne({where: {email}})
+    if (!user) {
+      throw new Error("Invalid email or password")
+    }
+    const matched = await bcrypt.compare(password, user.password)
+    if (!matched) {
+      throw new Error("Invalid email or password")
+    }
+
+    // Returning true returns the plain object, and plain: true is to return the object itself without including unnecessary data.
+    const userUpdated = await models.User.update(
+      { lastSeen: new Date().toISOString() }, 
+      { where: { email }, 
+      returning: true,
+      plain: true }
+    )
+    
+    // The response sent to the front end is userUpdated[1].dataValues because it is where Sequelize holds the user data
+    const token = await generateAuthToken(user.userId)
+    res.status(200).cookie('authToken', token).send(userUpdated[1].dataValues)
+    } catch (e) {
+    res.status(500);
+    res.send(e.message);
+  }
+}
+
+exports.LogoutUser = async (req, res) => {
+  const {email} = req.body
+  await models.User.update(
+    { lastSeen: new Date().toISOString() }, 
+    { where: { email }}
+  )
+  res.clearCookie('authToken')
+  res.sendStatus(204)
+}
