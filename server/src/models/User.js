@@ -8,6 +8,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
+    username: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     firstName: {
       type: DataTypes.STRING,
       allowNull: false,
