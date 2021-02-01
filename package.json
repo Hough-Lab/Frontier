@@ -19,12 +19,11 @@
   "homepage": "https://github.com/Hough-Lab/Frontier#readme",
   "devDependencies": {
     "@react-native-community/eslint-config": "^2.0.0",
-    "cz-conventional-changelog": "^3.3.0",
+    "@types/googlemaps": "^3.43.2",
     "eslint": "^7.19.0"
   },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
+  "lint": "eslint .",
+  "dependencies": {
+    "commitizen": "^4.2.3"
   }
 }
