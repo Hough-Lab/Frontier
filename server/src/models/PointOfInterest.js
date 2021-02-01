@@ -1,0 +1,25 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+: {
+  type: DataTypes.,
+  allowNull:,
+  defaultValue:,
+},
