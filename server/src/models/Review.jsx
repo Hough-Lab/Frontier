@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const Review = sequelize.define("Assignment", {
+  const Review = sequelize.define("Review", {
     reviewId: {
       type: DataTypes.UUID,
       allowNull: false,
@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
     createdAt: {
       type: DataTypes.STRING,
       allowNull: false,
-      defaultValue:, //???
+      defaultValue: new Date().toISOString(), //? format is '2021-02-01T15:39:27.194Z'
     },
     budgetLevel: {
       type: DataTypes.INT,
@@ -36,27 +36,15 @@ module.exports = (sequelize, DataTypes) => {
     },
     picture: {
       type: DataTypes.STRING,
-      allowNull:,
-      defaultValue:,
+      allowNull: true,
     },
   });
 
-  //TODO - add assignments for Location-location, POI-POI, owner-User, tags - PlaceTag[]
-
-
-  Assignment.associate = (models) => {
-    .belongsTo(models.User);
-    Review.hasOne(models.Location); //? the location of the point of interest --------------- Maybe not needed?
+  Review.associate = (models) => {
+    Review.hasOne(models.Location); //! the location of the review - if it's close enough to an existing POI, will automatically be assigned to the exisitng POI
     Review.hasOne(models.PointOfInterest); //? the point of interest the review is for
     Review.hasOne(models.User); //? user who posts review
     Review.hasMany(models.ReviewTags) //? t
   };
-
-  return Assignment;
+  return Review;
 };
-
-: {
-  type: DataTypes.,
-  allowNull:,
-  defaultValue:,
-},
