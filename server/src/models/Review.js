@@ -1,27 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
   const Review = sequelize.define("Assignment", {
-    fileData: {
-      type: DataTypes.BLOB,
-      allowNull: true,
-    },
-    mimeType: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    dismissed: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-      defaultValue: false,
-    },
-    likes: {
-      type: DataTypes.ARRAY(DataTypes.UUID),
-      allowNull: false,
-    },
-    fileName: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-//~_____________________________________________________reference above____________________________________________________________
     reviewId: {
       type: DataTypes.UUID,
       allowNull: false,
@@ -61,7 +39,6 @@ module.exports = (sequelize, DataTypes) => {
       allowNull:,
       defaultValue:,
     },
-
   });
 
   //TODO - add assignments for Location-location, POI-POI, owner-User, tags - PlaceTag[]
@@ -69,8 +46,10 @@ module.exports = (sequelize, DataTypes) => {
 
   Assignment.associate = (models) => {
     .belongsTo(models.User);
-    Review.hasOne(models.Location);
-    Review.hasMany(models.)
+    Review.hasOne(models.Location); //? the location of the point of interest --------------- Maybe not needed?
+    Review.hasOne(models.PointOfInterest); //? the point of interest the review is for
+    Review.hasOne(models.User); //? user who posts review
+    Review.hasMany(models.ReviewTags) //? t
   };
 
   return Assignment;
