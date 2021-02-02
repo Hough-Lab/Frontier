@@ -84,13 +84,6 @@ const styles = StyleSheet.create({
   uploadImageBtn: {
     flex: 1,
   },
-  plusSign: {
-    position: 'absolute',
-    top: 25,
-    left: 35,
-    backgroundColor: Colors.white,
-    borderRadius: 50,
-  },
   helpfulTip: {
     flexDirection: 'row',
   },
