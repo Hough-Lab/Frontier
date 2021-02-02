@@ -1,33 +1,53 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
-import { AntDesign, MaterialIcons, Ionicons } from '@expo/vector-icons'; 
+import { AntDesign, MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 
-const BottomTabBar = () => {
+import { Navigation } from '../interfaces/interfaces';
+
+const BottomTabBar = ({ navigation }: { navigation: Navigation }) => {
   return (
     <View style={styles.container}>
       <View>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate('MainStackNavigator', {
+              screen: 'HomeScreen',
+            })
+          }
+        >
           <MaterialIcons name="home-filled" size={35} color="black" />
         </TouchableOpacity>
       </View>
 
       <View>
-        <TouchableOpacity style={styles.plusBtn}>
+        <TouchableOpacity
+          style={styles.plusBtn}
+          onPress={() =>
+            navigation.navigate('TipNavigator', {
+              screen: 'CreateTipScreen',
+            })
+          }
+        >
           <AntDesign name="pluscircle" size={50} color="black" />
         </TouchableOpacity>
       </View>
 
       <View>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate('MainStackNavigator', {
+              screen: 'UserProfileScreen',
+            })
+          }
+        >
           <Ionicons name="person-circle" size={35} color="black" />
         </TouchableOpacity>
       </View>
-
     </View>
-  )
-}
+  );
+};
 
 export default BottomTabBar;
 
@@ -37,7 +57,7 @@ const styles = StyleSheet.create({
     width: '100%',
     justifyContent: 'space-around',
     padding: 10,
-    height: 50, 
+    height: 50,
   },
   plusBtn: {
     position: 'relative',

@@ -8,6 +8,12 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 import reduxThunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
+import {
+  BottomTabBarOptions,
+  BottomTabBarProps,
+  createBottomTabNavigator,
+} from '@react-navigation/bottom-tabs';
+
 
 import reducers from './reducers';
 import LoginScreen from './screens/LoginScreen';
@@ -16,8 +22,12 @@ import RegisterDOBScreen from './screens/RegisterOptionalScreens/RegisterDOBScre
 import RegisterLanguageScreen from './screens/RegisterOptionalScreens/RegisterLanguageScreen';
 import RegisterTagsScreen from './screens/RegisterOptionalScreens/RegisterTagsScreen';
 import RegisterProfilePicScreen from './screens/RegisterOptionalScreens/RegisterProfilePicScreen';
+import CreateTipScreen from './screens/CreateTipScreen';
+import DisplayTipScreen from './screens/DisplayTipScreen';
 import HomeScreen from './screens/HomeScreen';
 import BottomTabBar from './components/BottomTabBar';
+import UserProfileScreen from './screens/UserProfileScreen';
+import { Navigation } from './interfaces/interfaces';
 
 declare global {
   interface Window {
@@ -74,10 +84,21 @@ const LoginStackNavigator = () => {
   );
 };
 
+const TipNavigator = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="CreateTipScreen" component={CreateTipScreen} />
+      <Stack.Screen name="DisplayTipScreen" component={DisplayTipScreen} />
+    </Stack.Navigator>
+  );
+};
+
 const MainStackNavigator = () => {
   return (
-    <Tab.Navigator tabBar={() => <BottomTabBar />}>
+    <Tab.Navigator tabBar={(props) => <BottomTabBar {...props} />}>
       <Tab.Screen name="HomeScreen" component={HomeScreen} />
+      <Tab.Screen name="TipNavigator" component={TipNavigator} />
+      <Tab.Screen name="UserProfileScreen" component={UserProfileScreen} />
     </Tab.Navigator>
   );
 };
