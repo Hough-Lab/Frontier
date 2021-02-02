@@ -27,9 +27,9 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Plan.associate = (models) => {
-    Plan.belongsTo(models.User);
-    Plan.hasOne(models.PointOfInterest); //? location of the plan
-    Plan.hasOne(models.Event) //? optional event for the plan
+    // Plan.belongsTo(models.User);
+    // Plan.hasOne(models.PointOfInterest); //? location of the plan
+    // // Plan.hasOne(models.Event) //? optional event for the plan
   };
   return Plan;
 };
