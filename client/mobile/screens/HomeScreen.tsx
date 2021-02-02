@@ -5,8 +5,9 @@ import MapView, { Marker } from 'react-native-maps';
 
 import { FontAwesome5 } from '@expo/vector-icons';
 import Colors from '../assets/colors';
+import { Navigation } from '../interfaces/interfaces';
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
   return (
     <View style={styles.container}>
       <MapView
@@ -25,6 +26,11 @@ const HomeScreen = () => {
           }}
           title={'A place'}
           description={'Descriptions go here'}
+          onPress={() =>
+            navigation.navigate('MainStackNavigator', {
+              screen: 'DisplayPOIScreen',
+            })
+          }
         />
       </MapView>
 

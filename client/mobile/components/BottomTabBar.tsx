@@ -3,7 +3,6 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
 import { AntDesign, MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
-
 import { Navigation } from '../interfaces/interfaces';
 
 const BottomTabBar = ({ navigation }: { navigation: Navigation }) => {
@@ -38,7 +37,7 @@ const BottomTabBar = ({ navigation }: { navigation: Navigation }) => {
         <TouchableOpacity
           onPress={() =>
             navigation.navigate('MainStackNavigator', {
-              screen: 'UserProfileScreen',
+              screen: 'EventNavigator',
             })
           }
         >
