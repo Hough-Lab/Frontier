@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import HomeScreen from './screens/HomeScreen/HomeScreen';
+import React, { useState, useEffect } from "react";
+import HomeScreen from "./screens/HomeScreen/HomeScreen";
 
 function App() {
   const [userCoordinates, setUserCoordinates] = useState({
@@ -8,22 +8,22 @@ function App() {
   });
 
   useEffect(() => {
-    if ('geolocation' in navigator) {
+    if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          console.log('position :>> ', position);
+          console.log("position :>> ", position);
           setUserCoordinates({
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           });
           console.log(
-            `Lat: ${position.coords.latitude} Lng: ${position.coords.longitude}`,
+            `Lat: ${position.coords.latitude} Lng: ${position.coords.longitude}`
           );
         },
-        (err) => alert(`Error (${err.code}): ${err.message}`),
+        (err) => alert(`Error (${err.code}): ${err.message}`)
       );
     } else {
-      alert('Geolocation is not supported by your browser.');
+      alert("Geolocation is not supported by your browser.");
     }
   }, [setUserCoordinates]);
 
