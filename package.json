@@ -19,7 +19,8 @@
   "homepage": "https://github.com/Hough-Lab/Frontier#readme",
   "devDependencies": {
     "@react-native-community/eslint-config": "^2.0.0",
-    "eslint": "^7.19.0"
+    "eslint": "^7.19.0",
+    "prettier": "2.2.1"
   },
   "lint": "eslint .",
   "dependencies": {
