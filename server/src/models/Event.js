@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const Event = sequelize.define("Event", {
+  const Event = sequelize.define('Event', {
     eventId: {
       type: DataTypes.UUID,
       allowNull: false,
@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
     picture: {
       type: DataTypes.STRING,
       allowNull: false,
-      defaultValue:'' //TODO insert stock 'no image' src/url here
+      defaultValue: '', //TODO insert stock 'no image' src/url here
     },
   });
 

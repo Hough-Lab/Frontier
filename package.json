@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint .",
     "start": "nodemon server/src/index.js"
   },
   "repository": {
@@ -19,10 +20,12 @@
   "homepage": "https://github.com/Hough-Lab/Frontier#readme",
   "devDependencies": {
     "@react-native-community/eslint-config": "^2.0.0",
+    "@types/googlemaps": "^3.43.2",
     "eslint": "^7.19.0"
   },
   "lint": "eslint .",
   "dependencies": {
+    "commitizen": "^4.2.3",
     "bcrypt": "^5.0.0",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
