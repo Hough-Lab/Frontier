@@ -41,10 +41,13 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Review.associate = (models) => {
+    Review.belongsTo(models.User);
+    Review.belongsTo(models.PointOfInterest);
+    Review.belongsToMany(models.ReviewTags, { through: 'Review_ReviewTags' })
     Review.hasOne(models.Location); //! the location of the review - if it's close enough to an existing POI, will automatically be assigned to the exisitng POI
     Review.hasOne(models.PointOfInterest); //? the point of interest the review is for
     Review.hasOne(models.User); //? user who posts review
-    Review.hasMany(models.ReviewTags) //? tags which feature in this review
+    Review.hasMany(models.ReviewTag) //? tags which feature in this review
   };
   return Review;
 };
