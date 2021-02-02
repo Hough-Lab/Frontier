@@ -1,8 +1,7 @@
 import React, { useEffect, CSSProperties } from 'react';
 
 import './MapComponent.css';
-
-import { GoogleKey } from '../../googleConfig';
+import { GoogleKey } from '../../googleConfig.js';
 
 interface IProps {
   userCoordinates: {

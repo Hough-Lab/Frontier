@@ -6,6 +6,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
+    "postinstall": "rndebugger-open",
     "debug": "open 'rndebugger://set-debugger-loc?host=localhost&port=19000'"
   },
   "dependencies": {
@@ -42,7 +43,6 @@
     "@types/react-dom": "~16.9.8",
     "@types/react-native": "~0.63.2",
     "@types/react-redux": "^7.1.16",
-    "react-native-debugger-open": "^0.3.25",
     "typescript": "~4.0.0"
   },
   "private": true
