@@ -4,4 +4,5 @@ module.exports = {
   DB_USERNAME: 'db_username',
   DB_PASSWORD: 'db_password',
   DB_DATABASE: 'db_db',
+  JWT_SECRET: 'SECRET_KEY',
 };

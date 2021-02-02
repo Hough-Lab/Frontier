@@ -19,6 +19,11 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use('/api/user', routers.userRouter);
+app.use('/api/event', routers.eventRouter);
+app.use('/api/review', routers.reviewRouter);
+app.use('/api/plan', routers.planRouter);
+app.use('/api/POI', routers.POIRouter);
+app.use('/api/chat', routers.chatRouter);
 
 const server = require('http').createServer(app);
 
