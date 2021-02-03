@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { Text, StyleSheet, View } from 'react-native';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { getLocation, geocodeLocationByName } from '../utils/locationService';
+import { GoogleKey } from '../config';
 
 const GooglePlacesInput = () => {
   return (
@@ -14,7 +15,7 @@ const GooglePlacesInput = () => {
         console.log('DETAILS', details);
       }}
       query={{
-        key: '',
+        key: GoogleKey,
         language: 'en',
       }}
     />
