@@ -24,3 +24,5 @@ yarn-error.log*
 
 package-lock.json
 eslintcache
+.eslintrc.js
+.prettierrc.js
