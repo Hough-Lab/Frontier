@@ -14,9 +14,10 @@ import "./CreateTipScreen.css";
 
 const mockArrayTags = ["Food", "Adventure", "Nature"];
 
-const handleImageUpload = (file) => {
-  const image = document.createElement("img");
-  image.src = URL.createObjectURL(file);
+const handleImageUpload = () => {
+  console.log("Image Upload");
+  // const image = document.createElement("img");
+  //image.src = URL.createObjectURL();
   // <div className="selectedPhotoOutput">{photo}</div>
 };
 
@@ -35,6 +36,7 @@ export function CreateTipScreen() {
               multiple={false}
             />
           </div>
+
           <div className="titleInputContainer">
             <label>Tip Name</label>
             <input type="text" name="TipName" placeholder="Type Tip Name..." />
