@@ -11,14 +11,10 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   PointOfInterest.associate = (models) => {
-    // PointOfInterest.belongsToMany(models.User, { through: 'PointOfInterest_FavoritedBy' })
-    // PointOfInterest.belongsToMany(models.Review, { through: 'PointOfInterest_Reviews' })
-    // PointOfInterest.belongsToMany(models.Event, { through: 'PointOfInterest_Events', constraints: false })
+    PointOfInterest.belongsToMany(models.User, { through: 'PointOfInterest_FavoritedBy' })
+    PointOfInterest.belongsToMany(models.Review, { through: 'PointOfInterest_Reviews' })
+    PointOfInterest.belongsToMany(models.Event, { through: 'PointOfInterest_Events' })
     PointOfInterest.hasOne(models.Location); //? location of the POI
-    PointOfInterest.hasMany(models.Event); //? list of events at the POI
-    PointOfInterest.hasMany(models.Review); //? list of revies for the POI
-    PointOfInterest.hasMany(models.ReviewTag); //? POI tags extracted from the review tags for this poi
-    PointOfInterest.hasMany(models.User); //? users who favorite this POI
   };
   return PointOfInterest;
 };
