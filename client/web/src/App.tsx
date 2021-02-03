@@ -1,32 +1,24 @@
-import React, { useState, useEffect } from "react";
-import HomeScreen from "./screens/HomeScreen/HomeScreen";
-import { checkLocationEnabled } from "./utils/mapFunctions";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { CreateEventScreen } from "./screens/CreateEventScreen/CreateEventScreen";
-import { CreateTipScreen } from "./screens/CreateTipScreen/CreateTipScreen";
-import { RegisterScreen } from "./screens/RegisterScreen/RegisterScreen";
-import { LoginScreen } from "./screens/LoginScreen/LoginScreen";
-import reducers from "./reducers";
-import reduxThunk from "redux-thunk";
-import { createStore, applyMiddleware, compose } from "redux";
-import { composeWithDevTools } from "redux-devtools-extension";
+import React, { useEffect } from 'react';
+import HomeScreen from './screens/HomeScreen/HomeScreen';
+import { checkLocationEnabled } from './utils/mapFunctions';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { CreateEventScreen } from './screens/CreateEventScreen/CreateEventScreen';
+import { CreateTipScreen } from './screens/CreateTipScreen/CreateTipScreen';
+import { RegisterScreen } from './screens/RegisterScreen/RegisterScreen';
+import { LoginScreen } from './screens/LoginScreen/LoginScreen';
 
-const store = createStore(
-  reducers,
-  composeWithDevTools(applyMiddleware(reduxThunk))
-);
+import { store } from './index';
 
 export type AppDispatch = typeof store.dispatch;
 
 function App() {
   // userStartLocation = checkLocationEnabled();
-  const [userCoordinates, setUserCoordinates] = useState(
-    checkLocationEnabled()
-  );
   // console.log(userStartLocation);
   //useEffect(() => {}, [setUserCoordinates]);
 
-  useEffect(() => {});
+  useEffect(() => {
+    checkLocationEnabled();
+  }, []);
   return (
     <Router>
       <div className="App">
@@ -64,7 +56,7 @@ function App() {
             <CreateTipScreen />
           </Route>
           <Route path="/">
-            <HomeScreen userCoordinates={userCoordinates} />
+            <HomeScreen />
           </Route>
         </Switch>
       </div>
