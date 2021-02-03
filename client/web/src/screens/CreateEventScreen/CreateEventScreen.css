@@ -1,3 +1,111 @@
+* {
+  padding: 5px;
+}
+
+.container {
+  border: 2px solid red;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 20%;
+  min-width: 330px;
+}
+
+input {
+  max-width: 250px;
+}
+
+textarea {
+  max-width: 250px;
+}
+
+button {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.descriptionInputContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.photoUploadContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.titleInputContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.locationInputContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.tagSelectionContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.ratingInputContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.priceLevelInputContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.dateInputContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.selectPrivateEventContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.tagOutput {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.rating {
+  unicode-bidi: bidi-override;
+  direction: rtl;
+}
+.rating > span {
+  display: inline-block;
+  position: relative;
+  width: 1.1em;
+}
+.rating > span:hover:before,
+.rating > span:hover ~ span:before {
+  content: "\2605";
+  position: absolute;
+}
+
 .rating {
   unicode-bidi: bidi-override;
   direction: rtl;
