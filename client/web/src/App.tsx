@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
+
 import HomeScreen from './screens/HomeScreen/HomeScreen';
+
+const queryClient = new QueryClient();
 
 function App() {
   const [userCoordinates, setUserCoordinates] = useState({
