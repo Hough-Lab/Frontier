@@ -2,7 +2,7 @@ import React from "react";
 import LocationAutoCompleteInput from "../../components/LocationAutoCompleteInput/LocationAutoCompleteInput";
 import "./CreateEventScreen.css";
 
-const handleImageUpload = () => {
+const handleImageUpload = (file: string) => {
   const image = document.createElement("img");
   image.src = URL.createObjectURL(file);
   // <div className="selectedPhotoOutput">{photo}</div>

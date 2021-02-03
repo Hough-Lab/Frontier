@@ -12,11 +12,13 @@ import React from "react";
 import LocationAutoCompleteInput from "../../components/LocationAutoCompleteInput/LocationAutoCompleteInput";
 import "./CreateTipScreen.css";
 
-const handleImageUpload = () => {
-  console.log("Image Change");
-};
-
 const mockArrayTags = ["Food", "Adventure", "Nature"];
+
+const handleImageUpload = (file) => {
+  const image = document.createElement("img");
+  image.src = URL.createObjectURL(file);
+  // <div className="selectedPhotoOutput">{photo}</div>
+};
 
 export function CreateTipScreen() {
   return (
