@@ -7,42 +7,18 @@ import {
   ScrollView,
   TextInput,
 } from 'react-native';
-import {
-  AntDesign,
-  Entypo,
-  MaterialCommunityIcons,
-  MaterialIcons,
-  Ionicons,
-} from '@expo/vector-icons';
+import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 
 import { Navigation } from '../interfaces/interfaces';
 import Colors from '../assets/colors';
+import UploadImageComponent from '../components/UploadImageComponent';
+import TagsInsertComponent from '../components/TagsInsertComponent';
 
 const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
   return (
     <ScrollView style={styles.container}>
-      {/* Upload Image section */}
-      <View style={styles.uploadImageArea}>
-        <TouchableOpacity style={styles.uploadImageBtn} onPress={() => {}}>
-          <Entypo name="image" size={50} color="black" />
-          <View style={styles.plusSign}>
-            <AntDesign name="pluscircle" size={24} color="black" />
-          </View>
-        </TouchableOpacity>
-      </View>
-
-      {/* Insert Tags section */}
-      <View style={styles.tagsContainer}>
-        <View style={styles.labelView}>
-          <Text style={styles.labelText}>Tags:</Text>
-        </View>
-        <View style={styles.inputView}>
-          <TextInput placeholder="Tag name" />
-        </View>
-        <TouchableOpacity>
-          <AntDesign name="pluscircleo" size={24} color="black" />
-        </TouchableOpacity>
-      </View>
+      <UploadImageComponent />
+      <TagsInsertComponent />
 
       {/* Event title and location*/}
       <View style={styles.eventTitleView}>
@@ -80,26 +56,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 30,
-  },
-  uploadImageArea: {
-    width: '100%',
-    height: 100,
-    justifyContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'center',
-    backgroundColor: Colors.grey,
-    padding: 20,
-    marginVertical: 20,
-  },
-  uploadImageBtn: {
-    flex: 1,
-  },
-  plusSign: {
-    position: 'absolute',
-    top: 25,
-    left: 35,
-    backgroundColor: Colors.white,
-    borderRadius: 50,
   },
   tagsContainer: {
     flexDirection: 'row',

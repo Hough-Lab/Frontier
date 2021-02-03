@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { AppDispatch } from '../App';
-import { Navigation } from '../interfaces/interfaces';
 import { GET_CURRENT_USER, REGISTER_USER, SET_ERROR } from './types';
 
 const REACT_APP_SERVER_URI = 'http://localhost:5000';
@@ -12,7 +11,6 @@ export const registerUser = (
   username: string,
   firstName: string,
   lastName: string,
-  navigation: Navigation,
 ) => async (dispatch: AppDispatch) => {
   const { data } = await axios.post(
     `${REACT_APP_SERVER_URI}/api/user/register/`,
@@ -24,11 +22,7 @@ export const registerUser = (
       firstName: firstName,
       lastName: lastName,
     },
-    { withCredentials: true },
   );
-  dispatch({ type: REGISTER_USER, payload: data });
 
-  if (data.email) {
-    navigation.navigate('RegisterDOBScreen');
-  }
+  dispatch({ type: REGISTER_USER, payload: data });
 };

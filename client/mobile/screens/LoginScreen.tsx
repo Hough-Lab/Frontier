@@ -1,10 +1,30 @@
-import React from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import React, { useState, useCallback } from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  TouchableOpacity,
+} from 'react-native';
+import { connect, useDispatch } from 'react-redux';
 
+import { loginUser } from '../actions';
 import Colors from '../assets/colors';
 import { Navigation } from '../interfaces/interfaces';
+import { User } from '../interfaces/reducerInterfaces';
 
-const LoginScreen = ({ navigation }:{ navigation : Navigation }) => {
+const LoginScreen = ({ navigation }: { navigation: Navigation }) => {
+  const [inputValues, setInputValues] = useState({
+    email: '',
+    password: '',
+  });
+
+  const dispatch = useDispatch();
+
+  const handleSubmit = useCallback(() => {
+    dispatch(loginUser(inputValues.email, inputValues.password, navigation));
+  }, [inputValues]);
+
   return (
     <View style={styles.container}>
       <View style={styles.title}>
@@ -12,14 +32,27 @@ const LoginScreen = ({ navigation }:{ navigation : Navigation }) => {
       </View>
 
       <View style={styles.inputContainer}>
-        <TextInput placeholder="Email" />
+        <TextInput
+          placeholder="Email"
+          value={inputValues.email}
+          onChangeText={(text) =>
+            setInputValues({ ...inputValues, email: text })
+          }
+        />
       </View>
 
       <View style={styles.inputContainer}>
-        <TextInput placeholder="Password" />
+        <TextInput
+          placeholder="Password"
+          value={inputValues.password}
+          secureTextEntry={true}
+          onChangeText={(text) =>
+            setInputValues({ ...inputValues, password: text })
+          }
+        />
       </View>
 
-      <TouchableOpacity style={styles.loginBtn} onPress={() => navigation.navigate('MainStackNavigator', { screen: 'HomeScreen'})}>
+      <TouchableOpacity style={styles.loginBtn} onPress={handleSubmit}>
         <Text style={styles.loginBtnText}>Login</Text>
       </TouchableOpacity>
 
@@ -30,10 +63,16 @@ const LoginScreen = ({ navigation }:{ navigation : Navigation }) => {
         </TouchableOpacity>
       </View>
     </View>
-  )
-}
+  );
+};
 
-export default LoginScreen;
+const mapStateToProps = ({ user }: { user: User }) => {
+  return { user };
+};
+
+const mapDispatchToProps = { loginUser };
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
 
 const styles = StyleSheet.create({
   container: {
@@ -78,6 +117,5 @@ const styles = StyleSheet.create({
     color: Colors.blue,
     fontWeight: 'bold',
     paddingLeft: 5,
-  }
+  },
 });
-

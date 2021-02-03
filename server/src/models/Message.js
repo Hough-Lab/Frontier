@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   const Message = sequelize.define("Message", {
-    MessageId: {
+    messageId: {
       type: DataTypes.UUID,
       allowNull: false,
     },
@@ -17,9 +17,7 @@ module.exports = (sequelize, DataTypes) => {
 
   //!below not finished
   Message.associate = (models) => {
-    Message.belongsToMany(models.Chat, { through: 'Message_Chats' }) //! not sure if necessary??
     Message.belongsTo(models.Chat);
-    Message.hasOne(models.User); //? User who sent the message
   };
   return Message;
 };

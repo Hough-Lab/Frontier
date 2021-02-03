@@ -76,14 +76,14 @@ const DisplayEventScreen = () => {
       </ScrollView>
 
       <View style={styles.userStatusContainer}>
-        <View style={styles.userStatus}>
+        <TouchableOpacity style={styles.userStatus} activeOpacity={0.7}>
           <AntDesign name="check" size={24} color={Colors.pink} />
           <Text>I'm going!</Text>
-        </View>
-        <View style={styles.userStatus}>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.userStatus} activeOpacity={0.7}>
           <FontAwesome name="star-o" size={24} color={Colors.grey} />
           <Text>I'm interested</Text>
-        </View>
+        </TouchableOpacity>
       </View>
     </View>
   );

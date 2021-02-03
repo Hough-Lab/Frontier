@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   const Plan = sequelize.define("Plan", {
-    PlanId: {
+    planId: {
       type: DataTypes.UUID,
       allowNull: false,
     },
@@ -27,9 +27,7 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Plan.associate = (models) => {
-    // Plan.belongsTo(models.User);
-    // Plan.hasOne(models.PointOfInterest); //? location of the plan
-    // // Plan.hasOne(models.Event) //? optional event for the plan
+    Plan.belongsTo(models.User);
   };
   return Plan;
 };
