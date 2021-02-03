@@ -1,9 +1,12 @@
+
 import React, { useState, useEffect } from "react";
 import HomeScreen from "./screens/HomeScreen/HomeScreen";
 import { checkLocationEnabled } from "./utils/mapFunctions";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { CreateEventScreen } from "./screens/CreateEventScreen/CreateEventScreen";
 import { CreateTipScreen } from "./screens/CreateTipScreen/CreateTipScreen";
+
+const queryClient = new QueryClient();
 
 function App() {
   // userStartLocation = checkLocationEnabled();

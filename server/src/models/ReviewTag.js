@@ -11,9 +11,9 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   ReviewTag.associate = (models) => {
-    ReviewTag.hasMany(models.Review); //? Reviews which feature this particular tag
+    ReviewTag.belongsToMany(models.Review, { through: 'ReviewTag_Reviews' })
+    // ReviewTag.hasMany(models.Review); //? Reviews which feature this particular tag
   };
   return ReviewTag;
 };
 
-//TODO - add 'belongsTo' for this schema

@@ -1,10 +1,44 @@
-import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
+import React, { useState, useCallback } from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  TextInput,
+} from 'react-native';
+import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
+import { registerUser } from '../actions/registerActions';
+import { User } from '../interfaces/reducerInterfaces';
 import Colors from '../assets/colors';
 import { Navigation } from '../interfaces/interfaces';
 
-const RegisterScreen = ({ navigation }:{ navigation : Navigation }) => {
+const RegisterScreen = ({ navigation }: { navigation: Navigation }) => {
+  const [inputValues, setInputValues] = useState({
+    username: '',
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+  });
+  const dispatch = useDispatch();
+
+  const handleSubmit = useCallback(() => {
+    dispatch(
+      registerUser(
+        inputValues.email,
+        inputValues.password,
+        inputValues.confirmPassword,
+        inputValues.username,
+        inputValues.firstName,
+        inputValues.lastName,
+      ),
+    );
+    navigation.navigate('RegisterDOBScreen');
+  }, [inputValues]);
+
   return (
     <View style={styles.container}>
       <View style={styles.title}>
@@ -12,27 +46,71 @@ const RegisterScreen = ({ navigation }:{ navigation : Navigation }) => {
       </View>
 
       <View style={styles.inputContainer}>
-        <TextInput placeholder="First Name" />
+        <TextInput
+          placeholder="Username"
+          value={inputValues.username}
+          onChangeText={(text) =>
+            setInputValues({ ...inputValues, username: text })
+          }
+        />
       </View>
 
       <View style={styles.inputContainer}>
-        <TextInput placeholder="Last Name" />
+        <TextInput
+          placeholder="First Name"
+          value={inputValues.firstName}
+          onChangeText={(text) =>
+            setInputValues({ ...inputValues, firstName: text })
+          }
+        />
       </View>
 
       <View style={styles.inputContainer}>
-        <TextInput placeholder="Email" />
+        <TextInput
+          placeholder="Last Name"
+          value={inputValues.lastName}
+          onChangeText={(text) =>
+            setInputValues({ ...inputValues, lastName: text })
+          }
+        />
       </View>
 
       <View style={styles.inputContainer}>
-        <TextInput placeholder="Password" secureTextEntry={true} />
+        <TextInput
+          placeholder="Email"
+          value={inputValues.email}
+          onChangeText={(text) =>
+            setInputValues({ ...inputValues, email: text })
+          }
+        />
       </View>
 
       <View style={styles.inputContainer}>
-        <TextInput placeholder="Confirm Password" secureTextEntry={true} />
+        <TextInput
+          placeholder="Password"
+          secureTextEntry={true}
+          value={inputValues.password}
+          onChangeText={(text) =>
+            setInputValues({ ...inputValues, password: text })
+          }
+        />
+      </View>
+
+      <View style={styles.inputContainer}>
+        <TextInput
+          placeholder="Confirm Password"
+          secureTextEntry={true}
+          value={inputValues.confirmPassword}
+          onChangeText={(text) =>
+            setInputValues({ ...inputValues, confirmPassword: text })
+          }
+        />
       </View>
 
       <TouchableOpacity style={styles.registerBtn}>
-        <Text style={styles.registerBtnText} onPress={() => navigation.navigate('RegisterDOBScreen')}>Register</Text>
+        <Text style={styles.registerBtnText} onPress={handleSubmit}>
+          Register
+        </Text>
       </TouchableOpacity>
 
       <View style={styles.msgAndRegister}>
@@ -42,10 +120,16 @@ const RegisterScreen = ({ navigation }:{ navigation : Navigation }) => {
         </TouchableOpacity>
       </View>
     </View>
-  )
-}
+  );
+};
 
-export default RegisterScreen;
+const mapStateToProps = ({ user }: { user: User }) => {
+  return { user };
+};
+
+const mapDispatchToProps = { registerUser };
+
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterScreen);
 
 const styles = StyleSheet.create({
   container: {
@@ -90,5 +174,5 @@ const styles = StyleSheet.create({
     color: Colors.blue,
     fontWeight: 'bold',
     paddingLeft: 5,
-  }
-})
+  },
+});
