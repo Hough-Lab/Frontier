@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   const Location = sequelize.define("Location", {
-    LocationId: {
+    locationId: {
       type: DataTypes.UUID,
       allowNull: false,
     },
@@ -23,7 +23,6 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Location.associate = (models) => {
-    Location.belongsToMany(models.Plan, { through: 'Location_Plans' })
     Location.belongsToMany(models.PointOfInterest, { through: 'Location_PointsOfInterest' }) //! NOTE the 'S' in Point's'OfInterest
   };
   return Location;
