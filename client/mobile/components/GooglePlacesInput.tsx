@@ -14,7 +14,7 @@ const GooglePlacesInput = () => {
         console.log('DETAILS', details);
       }}
       query={{
-        key: 'AIzaSyC-ZSDjiRV3gfsFCLS_Hgo5TA-nPW0yRYI',
+        key: '',
         language: 'en',
       }}
     />
