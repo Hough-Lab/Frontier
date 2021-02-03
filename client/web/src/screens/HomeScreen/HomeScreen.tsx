@@ -1,5 +1,5 @@
-import React from 'react';
-import MapComponent from '../../components/MapComponent/MapComponent';
+import React from "react";
+import MapComponent from "../../components/MapComponent/MapComponent";
 
 interface IProps {
   userCoordinates: {
@@ -9,12 +9,12 @@ interface IProps {
 }
 
 function HomeScreen({ userCoordinates }: IProps) {
-  console.log('userCoordinates in HomeScreen:>> ', userCoordinates);
+  console.log("userCoordinates in HomeScreen:>> ", userCoordinates);
   return (
     <div>
       <MapComponent
         userCoordinates={userCoordinates}
-        style={{ minWidth: '340px', minHeight: '400px' }}
+        style={{ minWidth: "340px", minHeight: "400px" }}
       />
     </div>
   );

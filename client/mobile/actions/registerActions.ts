@@ -1,7 +1,4 @@
-import { Dispatch } from 'react';
 import axios from 'axios';
-import { History } from 'history';
-
 import { AppDispatch } from '../App';
 import { GET_CURRENT_USER, REGISTER_USER, SET_ERROR } from './types';
 
@@ -16,15 +13,16 @@ export const registerUser = (
   lastName: string,
 ) => async (dispatch: AppDispatch) => {
   const { data } = await axios.post(
-    `${REACT_APP_SERVER_URI}/api/user/register`,
+    `${REACT_APP_SERVER_URI}/api/user/register/`,
     {
-      email,
-      password,
-      confirmPassword,
-      username,
-      firstName,
-      lastName,
+      email: email,
+      password: password,
+      confirmPassword: confirmPassword,
+      username: username,
+      firstName: firstName,
+      lastName: lastName,
     },
   );
+
   dispatch({ type: REGISTER_USER, payload: data });
 };
