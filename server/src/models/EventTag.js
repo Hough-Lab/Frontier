@@ -11,9 +11,8 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   EventTag.associate = (models) => {
-    EventTag.hasMany(models.Event); //? Events which feature this particular tag
+    EventTag.belongsToMany(models.Event, { through: 'EventTag_Events' });
   };
   return EventTag;
 };
 
-//TODO - add 'belongsTo' for this schema

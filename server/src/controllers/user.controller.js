@@ -1,9 +1,12 @@
 const bcrypt = require('bcrypt');
-const uuid = require("uuid");
+const uuid = require('uuid');
 
 const models = require('../models').sequelize.models;
-const { generateAuthToken } = require("../utils/authHelpers.js");
-const {validateRegisterInput, validateLoginInput} = require('../utils/validators')
+const { generateAuthToken } = require('../utils/authHelpers.js');
+const {
+  validateRegisterInput,
+  validateLoginInput,
+} = require('../utils/validators');
 
 exports.RegisterUser = async (req, res) => {
   try {
@@ -21,28 +24,43 @@ exports.RegisterUser = async (req, res) => {
       userTags,
     } = req.body;
 
-    const {valid, errors} = validateRegisterInput(
-      email, username, password, confirmPassword, firstName, lastName
-    )
+    const { valid, errors } = validateRegisterInput(
+      email,
+      username,
+      password,
+      confirmPassword,
+      firstName,
+      lastName,
+    );
 
     if (!valid) {
-      res.status(500)
-      return res.send({errors})
+      res.status(500);
+      return res.send({ errors });
     }
-    const existingUser = await models.User.findOne({ where: { username: username } });
+    const existingUser = await models.User.findOne({
+      where: { username: username },
+    });
     if (existingUser) {
-      res.status(500)
-      return res.send({errors: { usernameAlreadyExists: 'Username not available'}})
+      res.status(500);
+      return res.send({
+        errors: { usernameAlreadyExists: 'Username not available' },
+      });
     }
-    const existingEmail = await models.User.findOne({ where: { email: email } });
+    const existingEmail = await models.User.findOne({
+      where: { email: email },
+    });
     if (existingEmail) {
-      res.status(500)
-      return res.send({errors: { emailAlreadyExists: 'This email is already linked to an account'}})
+      res.status(500);
+      return res.send({
+        errors: {
+          emailAlreadyExists: 'This email is already linked to an account',
+        },
+      });
     }
 
     const hashedPw = await bcrypt.hash(password, 10);
     const userId = uuid.v4();
-    const createdDate = new Date()
+    const createdDate = new Date();
     const newUser = await models.User.create({
       userId,
       username,
@@ -55,10 +73,10 @@ exports.RegisterUser = async (req, res) => {
       profilePicture,
       userTags,
       password: hashedPw,
-      lastSeen: createdDate.toISOString()
+      lastSeen: createdDate.toISOString(),
     });
     const token = await generateAuthToken(userId);
-    res.status(201).cookie("authToken", token).send(newUser);
+    res.status(201).cookie('authToken', token).send(newUser);
   } catch (e) {
     res.status(500);
     res.send(e.message);
@@ -67,41 +85,37 @@ exports.RegisterUser = async (req, res) => {
 
 exports.LoginUser = async (req, res) => {
   try {
-    const {
-      email, password
-    } = req.body;
-    const user = await models.User.findOne({where: {email}})
+    const { email, password } = req.body;
+    const user = await models.User.findOne({ where: { email } });
     if (!user) {
-      throw new Error("Invalid email or password")
+      throw new Error('Invalid email or password');
     }
-    const matched = await bcrypt.compare(password, user.password)
+    const matched = await bcrypt.compare(password, user.password);
     if (!matched) {
-      throw new Error("Invalid email or password")
+      throw new Error('Invalid email or password');
     }
 
     // Returning true returns the plain object, and plain: true is to return the object itself without including unnecessary data.
     const userUpdated = await models.User.update(
-      { lastSeen: new Date().toISOString() }, 
-      { where: { email }, 
-      returning: true,
-      plain: true }
-    )
-    
+      { lastSeen: new Date().toISOString() },
+      { where: { email }, returning: true, plain: true },
+    );
+
     // The response sent to the front end is userUpdated[1].dataValues because it is where Sequelize holds the user data
-    const token = await generateAuthToken(user.userId)
-    res.status(200).cookie('authToken', token).send(userUpdated[1].dataValues)
-    } catch (e) {
+    const token = await generateAuthToken(user.userId);
+    res.status(200).cookie('authToken', token).send(userUpdated[1].dataValues);
+  } catch (e) {
     res.status(500);
     res.send(e.message);
   }
-}
+};
 
 exports.LogoutUser = async (req, res) => {
-  const {email} = req.body
+  const { email } = req.body;
   await models.User.update(
-    { lastSeen: new Date().toISOString() }, 
-    { where: { email }}
-  )
-  res.clearCookie('authToken')
-  res.sendStatus(204)
-}
+    { lastSeen: new Date().toISOString() },
+    { where: { email } },
+  );
+  res.clearCookie('authToken');
+  res.sendStatus(204);
+};

@@ -4,6 +4,7 @@ import "./MapComponent.css";
 
 import { GoogleKey } from "../../googleConfig";
 
+
 interface IProps {
   userCoordinates: {
     lat: number;

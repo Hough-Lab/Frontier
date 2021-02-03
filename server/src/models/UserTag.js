@@ -11,9 +11,10 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   UserTag.associate = (models) => {
-    UserTag.hasMany(models.User); //? users who define this tag as an 'interest' in their profile
+    UserTag.belongsToMany(models.User, { through: 'UserTag_Users' });
+    // UserTag.hasMany(models.User); //? users who define this tag as an 'interest' in their profile
   };
   return UserTag;
 };
 
-//TODO - add 'belongsTo' for this schema
+

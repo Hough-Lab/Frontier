@@ -15,17 +15,16 @@ module.exports = (sequelize, DataTypes) => {
     longitude: {
       type: DataTypes.DECIMAL(10, 6),
       allowNull: false,
+    },
+    threeWords: {
+      type: DataTypes.STRING,
+      allowNull: true
     }
   });
 
-
-  //!below not finished
   Location.associate = (models) => {
-    Location.hasOne(models.Location); //? location of the POI
-    Location.hasMany(models.Event); //? list of events at the POI
-    Location.hasMany(models.Review); //? list of revies for the POI
-    Location.hasMany(models.ReviewTags); //? POI tags extracted from the review tags for this poi
-    Location.hasMany(models.User); //? users who favorite this POI
+    Location.belongsToMany(models.Plan, { through: 'Location_Plans' })
+    Location.belongsToMany(models.PointOfInterest, { through: 'Location_PointsOfInterest' }) //! NOTE the 'S' in Point's'OfInterest
   };
   return Location;
 };
