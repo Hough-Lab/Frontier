@@ -3,12 +3,11 @@ import {
   StyleSheet,
   Text,
   View,
-  Image,
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
 import ViewMoreText from 'react-native-view-more-text';
-import { Rating, AirbnbRating } from 'react-native-ratings';
+import { AirbnbRating } from 'react-native-ratings';
 
 import { AntDesign, Entypo, Ionicons } from '@expo/vector-icons';
 import Colors from '../assets/colors';
