@@ -7,9 +7,7 @@ import {
   TextInput,
   ScrollView,
 } from 'react-native';
-
-import Colors from '../assets/colors';
-import { Navigation } from '../interfaces/interfaces';
+import { Rating, AirbnbRating } from 'react-native-ratings';
 import {
   AntDesign,
   Entypo,
@@ -18,13 +16,12 @@ import {
   FontAwesome,
 } from '@expo/vector-icons';
 
+import Colors from '../assets/colors';
+import { Navigation } from '../interfaces/interfaces';
+
 const CreateTipScreen = ({ navigation }: { navigation: Navigation }) => {
   return (
     <ScrollView style={styles.container}>
-      <View style={styles.titleView}>
-        <Text style={styles.titleText}>Create Travel Tip</Text>
-      </View>
-
       {/* Upload Image section */}
       <View style={styles.uploadImageArea}>
         <TouchableOpacity style={styles.uploadImageBtn} onPress={() => {}}>
@@ -68,21 +65,13 @@ const CreateTipScreen = ({ navigation }: { navigation: Navigation }) => {
 
       {/* Star Rating section */}
       <View style={styles.starsView}>
-        <TouchableOpacity>
-          <FontAwesome name="star" size={24} color={Colors.blue} />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <FontAwesome name="star" size={24} color={Colors.blue} />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <FontAwesome name="star" size={24} color={Colors.blue} />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <FontAwesome name="star" size={24} color={Colors.grey} />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <FontAwesome name="star" size={24} color={Colors.grey} />
-        </TouchableOpacity>
+        <AirbnbRating
+          count={5}
+          reviews={['Terrible', 'Bad', 'OK', 'Good', 'Excellent']}
+          defaultRating={5}
+          size={20}
+          isDisabled={false}
+        />
       </View>
 
       {/* Description section */}
@@ -117,12 +106,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 30,
-  },
-  titleView: {
-    height: 50,
-  },
-  titleText: {
-    fontSize: 25,
   },
   uploadImageArea: {
     width: '100%',
@@ -163,8 +146,6 @@ const styles = StyleSheet.create({
   },
   starsView: {
     paddingVertical: 20,
-    flexDirection: 'row',
-    justifyContent: 'center',
   },
   descriptionView: {
     borderWidth: 1,
@@ -183,6 +164,7 @@ const styles = StyleSheet.create({
     marginVertical: 20,
     borderRadius: 20,
     elevation: 5,
+    marginBottom: 70,
   },
   shareBtnText: {
     color: Colors.white,

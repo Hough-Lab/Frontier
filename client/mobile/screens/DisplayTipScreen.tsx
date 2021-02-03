@@ -8,6 +8,7 @@ import {
   ScrollView,
 } from 'react-native';
 import ViewMoreText from 'react-native-view-more-text';
+import { Rating, AirbnbRating } from 'react-native-ratings';
 
 import { AntDesign, Entypo, Ionicons } from '@expo/vector-icons';
 import Colors from '../assets/colors';
@@ -24,7 +25,15 @@ const DisplayTipScreen = () => {
       <View style={styles.tipIntro}>
         <Ionicons name="location-sharp" size={24} color="black" />
         <Text>here goes the address</Text>
-        <Text>need to add rating stars</Text>
+        <View style={styles.starsView}>
+          <AirbnbRating
+            count={5}
+            defaultRating={5}
+            size={20}
+            isDisabled={true}
+            showRating={false}
+          />
+        </View>
       </View>
 
       <View>
@@ -42,10 +51,10 @@ const DisplayTipScreen = () => {
 
         <Text>xx other travellers found this tip helpful</Text>
         <View style={styles.helpfulTip}>
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity onPress={() => {}} style={styles.icon}>
             <AntDesign name="like2" size={30} color={Colors.blue} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity onPress={() => {}} style={styles.icon}>
             <AntDesign name="dislike2" size={30} color={Colors.pink} />
           </TouchableOpacity>
         </View>
@@ -75,18 +84,17 @@ const styles = StyleSheet.create({
   uploadImageBtn: {
     flex: 1,
   },
-  plusSign: {
-    position: 'absolute',
-    top: 25,
-    left: 35,
-    backgroundColor: Colors.white,
-    borderRadius: 50,
-  },
   helpfulTip: {
     flexDirection: 'row',
   },
+  starsView: {
+    paddingVertical: 20,
+    paddingLeft: 5,
+  },
   tipIntro: {
     flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   tipTitle: {
     fontWeight: 'bold',
@@ -98,5 +106,9 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.green,
     height: 45,
     width: 100,
+  },
+  icon: {
+    paddingHorizontal: 15,
+    paddingVertical: 5,
   },
 });
