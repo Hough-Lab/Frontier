@@ -3,3 +3,9 @@ node_modules
 .DS_Store
 client/.DS_Store
 server/src/config.js
+.prettierrc.js
+package-lock.json
+.eslintcache
+.prettierrc.js
+.eslintrc.js
+config.js
