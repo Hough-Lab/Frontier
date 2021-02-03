@@ -1,39 +1,51 @@
-import React, { useState, useEffect } from 'react';
 
-import HomeScreen from './screens/HomeScreen/HomeScreen';
+import React, { useState, useEffect } from "react";
+import HomeScreen from "./screens/HomeScreen/HomeScreen";
+import { checkLocationEnabled } from "./utils/mapFunctions";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { CreateEventScreen } from "./screens/CreateEventScreen/CreateEventScreen";
+import { CreateTipScreen } from "./screens/CreateTipScreen/CreateTipScreen";
 
 const queryClient = new QueryClient();
 
 function App() {
-  const [userCoordinates, setUserCoordinates] = useState({
-    lat: 48.856613,
-    lng: 2.352222,
-  });
+  // userStartLocation = checkLocationEnabled();
+  const [userCoordinates, setUserCoordinates] = useState(
+    checkLocationEnabled()
+  );
+  // console.log(userStartLocation);
+  //useEffect(() => {}, [setUserCoordinates]);
 
-  useEffect(() => {
-    if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          console.log('position :>> ', position);
-          setUserCoordinates({
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          });
-          console.log(
-            `Lat: ${position.coords.latitude} Lng: ${position.coords.longitude}`,
-          );
-        },
-        (err) => alert(`Error (${err.code}): ${err.message}`),
-      );
-    } else {
-      alert('Geolocation is not supported by your browser.');
-    }
-  }, [setUserCoordinates]);
-
+  useEffect(() => {});
   return (
-    <div className="App">
-      <HomeScreen userCoordinates={userCoordinates} />
-    </div>
+    <Router>
+      <div className="App">
+        <nav>
+          <ul>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/createEvent">Create Event</Link>
+            </li>
+            <li>
+              <Link to="/createTip">Create Tip</Link>
+            </li>
+          </ul>
+        </nav>
+        <Switch>
+          <Route path="/createEvent">
+            <CreateEventScreen />
+          </Route>
+          <Route path="/createTip">
+            <CreateTipScreen />
+          </Route>
+          <Route path="/">
+            <HomeScreen userCoordinates={userCoordinates} />
+          </Route>
+        </Switch>
+      </div>
+    </Router>
   );
 }
 
