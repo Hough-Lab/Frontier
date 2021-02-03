@@ -6,6 +6,6 @@ server/src/config.js
 .prettierrc.js
 package-lock.json
 .eslintcache
-.prettierrc.js
 .eslintrc.js
 config.js
+
