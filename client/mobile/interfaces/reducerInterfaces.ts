@@ -21,4 +21,37 @@ export interface User {
   certified: boolean;
 }
 
+export interface PointOfInterest {
+  formattedAddress: string;
+  latitude: string;
+  longitude: string;
+}
+
+export interface Event {
+  eventId: string;
+  dateFrom: string;
+  dateTo: string;
+  title: string;
+  description: string;
+  maxCapacity: number;
+  isPrivate: boolean;
+  picture: string;
+  pointOfInterest: PointOfInterest;
+  tags: string[];
+}
+
+export interface Review {
+  reviewId: string;
+  createdAt: string;
+  budgetLevel: number;
+  title: string;
+  description: string;
+  rating: number;
+  safetyRating: number;
+  safetyComment: string;
+  picture: string;
+  pointOfInterest: PointOfInterest;
+  tags: string[];
+}
+
 //TODO set up rest of interfaces
