@@ -7,43 +7,20 @@ import {
   TextInput,
   ScrollView,
 } from 'react-native';
-import { Rating, AirbnbRating } from 'react-native-ratings';
-import {
-  AntDesign,
-  Entypo,
-  MaterialCommunityIcons,
-  Ionicons,
-  FontAwesome,
-} from '@expo/vector-icons';
+import { AirbnbRating } from 'react-native-ratings';
+import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 
 import Colors from '../assets/colors';
 import { Navigation } from '../interfaces/interfaces';
+import UploadImageComponent from '../components/UploadImageComponent';
+import TagsInsertComponent from '../components/TagsInsertComponent';
+import GooglePlacesInput from '../components/GooglePlacesInput';
 
 const CreateTipScreen = ({ navigation }: { navigation: Navigation }) => {
   return (
     <ScrollView style={styles.container}>
-      {/* Upload Image section */}
-      <View style={styles.uploadImageArea}>
-        <TouchableOpacity style={styles.uploadImageBtn} onPress={() => {}}>
-          <Entypo name="image" size={50} color="black" />
-          <View style={styles.plusSign}>
-            <AntDesign name="pluscircle" size={24} color="black" />
-          </View>
-        </TouchableOpacity>
-      </View>
-
-      {/* Insert Tags section */}
-      <View style={styles.tagsContainer}>
-        <View style={styles.labelView}>
-          <Text style={styles.labelText}>Tags:</Text>
-        </View>
-        <View style={styles.inputView}>
-          <TextInput placeholder="Tag name" />
-        </View>
-        <TouchableOpacity>
-          <AntDesign name="pluscircleo" size={24} color="black" />
-        </TouchableOpacity>
-      </View>
+      <UploadImageComponent />
+      <TagsInsertComponent />
 
       {/* Tip title and location*/}
       <View style={styles.tipTitleView}>
@@ -58,9 +35,7 @@ const CreateTipScreen = ({ navigation }: { navigation: Navigation }) => {
       </View>
       <View style={styles.tipTitleView}>
         <Ionicons name="location-sharp" size={24} color="black" />
-        <View style={styles.inputView}>
-          <TextInput placeholder="Location" />
-        </View>
+        <GooglePlacesInput />
       </View>
 
       {/* Star Rating section */}
@@ -106,33 +81,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 30,
-  },
-  uploadImageArea: {
-    width: '100%',
-    height: 100,
-    justifyContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'center',
-    backgroundColor: Colors.grey,
-    padding: 20,
-    marginVertical: 20,
-  },
-  uploadImageBtn: {
-    flex: 1,
-  },
-  plusSign: {
-    position: 'absolute',
-    top: 25,
-    left: 35,
-    backgroundColor: Colors.white,
-    borderRadius: 50,
-  },
-  tagsContainer: {
-    flexDirection: 'row',
-  },
-  labelView: {},
-  labelText: {
-    fontSize: 16,
   },
   inputView: {
     width: 200,
