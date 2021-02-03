@@ -22,6 +22,8 @@ const LoginScreen = ({ navigation }: { navigation: Navigation }) => {
   const dispatch = useDispatch();
 
   const handleSubmit = useCallback(() => {
+    console.log('handlesubmit');
+
     dispatch(loginUser(inputValues.email, inputValues.password, navigation));
   }, [inputValues]);
 
