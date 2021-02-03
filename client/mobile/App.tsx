@@ -13,7 +13,6 @@ import {
   createBottomTabNavigator,
 } from '@react-navigation/bottom-tabs';
 
-
 import reducers from './reducers';
 import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
@@ -131,7 +130,7 @@ const MainStackNavigator = () => {
       <Tab.Screen name="TipNavigator" component={TipNavigator} />
       <Tab.Screen name="EventNavigator" component={EventNavigator} />
       <Tab.Screen name="DisplayPOIScreen" component={DisplayPOIScreen} />
-      {/* <Tab.Screen name="UserProfileScreen" component={UserProfileScreen} /> */}
+      <Tab.Screen name="UserProfileScreen" component={UserProfileScreen} />
     </Tab.Navigator>
   );
 };
