@@ -28,7 +28,7 @@ export const registerUser = (
   );
   dispatch({ type: REGISTER_USER, payload: data });
 
-  if (data.email) {
+  if (data.user.email) {
     navigation.navigate('RegisterDOBScreen');
   }
 };
