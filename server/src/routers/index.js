@@ -11,5 +11,5 @@ module.exports = {
   reviewRouter,
   planRouter,
   POIRouter,
-  chatRouter
+  chatRouter,
 };
