@@ -18,9 +18,11 @@ export interface Navigation {
 }
 
 export interface Iimage {
-  cancelled: boolean,
-  height: number,
-  type: string,
-  uri: string,
-  width: number,
+  result: { 
+    cancelled: boolean,
+    height: number,
+    type: string,
+    uri: string,
+    width: number,
+  }
 }

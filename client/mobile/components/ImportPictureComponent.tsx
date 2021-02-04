@@ -11,9 +11,10 @@ import { AntDesign, Entypo } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 
 import Colors from '../assets/colors';
+import { Iimage } from '../interfaces/interfaces';
 
 const ImportPictureComponent = () => {
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState<string>();
 
   useEffect(() => {
     (async () => {
