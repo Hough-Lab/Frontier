@@ -58,23 +58,19 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   User.associate = (models) => {
+    User.hasMany(models.Event)
+    User.hasMany(models.Review)
+    User.hasMany(models.UserTag);
+    User.hasMany(models.PointOfInterest);
+    User.hasMany(models.Plan);
+    User.hasMany(models.Chat);
     // User.belongsTo(models.Event);
     // User.belongsToMany(models.Event, { through: 'User_Events_Attending'});
     // User.belongsTo(models.Review);
     // User.belongsToMany(models.Review, { through: 'User_Reviews'});
-    User.belongsToMany(models.Message, { through: 'User_Messages'})
     // User.belongsToMany(models.Event, { through: 'User_Events_Interested'});
     // User.belongsToMany(models.UserTag, { through: 'User_UserTags'});
-    User.belongsToMany(models.Chat, { through: 'User_Chats'});
-    User.belongsToMany(models.PointOfInterest, { through: 'User_PointsOfInterest'});
-    User.hasMany(models.Location);
-    User.hasMany(models.User);
-    User.hasMany(models.Plan);
-    User.hasMany(models.UserTag);
-    User.hasMany(models.Event)
     // User.hasMany(models.PointOfInterest);
-    User.hasMany(models.Review);
-    // User.hasMany(models.Chat);
   };
 
   return User;

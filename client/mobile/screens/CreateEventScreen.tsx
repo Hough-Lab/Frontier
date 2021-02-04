@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,54 +7,52 @@ import {
   ScrollView,
   TextInput,
 } from 'react-native';
-import {
-  AntDesign,
-  Entypo,
-  MaterialCommunityIcons,
-  MaterialIcons,
-  Ionicons,
-} from '@expo/vector-icons';
+import { MaterialIcons, Ionicons } from '@expo/vector-icons';
+import { connect, useDispatch } from 'react-redux';
 
+import { createEvent } from '../actions';
 import { Navigation } from '../interfaces/interfaces';
 import Colors from '../assets/colors';
+import UploadImageComponent from '../components/UploadImageComponent';
+import TagsInsertComponent from '../components/TagsInsertComponent';
 
 const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
+  const [inputValues, setInputValues] = useState({ title: '', location: '' });
+
+  const dispatch = useDispatch();
+
+  const handleSubmit = useCallback(() => {
+    dispatch(createEvent(inputValues.title, inputValues.location, navigation));
+  }, [inputValues]);
+
   return (
     <ScrollView style={styles.container}>
-      {/* Upload Image section */}
-      <View style={styles.uploadImageArea}>
-        <TouchableOpacity style={styles.uploadImageBtn} onPress={() => {}}>
-          <Entypo name="image" size={50} color="black" />
-          <View style={styles.plusSign}>
-            <AntDesign name="pluscircle" size={24} color="black" />
-          </View>
-        </TouchableOpacity>
-      </View>
-
-      {/* Insert Tags section */}
-      <View style={styles.tagsContainer}>
-        <View style={styles.labelView}>
-          <Text style={styles.labelText}>Tags:</Text>
-        </View>
-        <View style={styles.inputView}>
-          <TextInput placeholder="Tag name" />
-        </View>
-        <TouchableOpacity>
-          <AntDesign name="pluscircleo" size={24} color="black" />
-        </TouchableOpacity>
-      </View>
+      <UploadImageComponent />
+      <TagsInsertComponent />
 
       {/* Event title and location*/}
       <View style={styles.eventTitleView}>
         <MaterialIcons name="event" size={24} color="black" />
         <View style={styles.inputView}>
-          <TextInput placeholder="Title" />
+          <TextInput
+            placeholder="Title"
+            value={inputValues.title}
+            onChangeText={(text) =>
+              setInputValues({ ...inputValues, title: text })
+            }
+          />
         </View>
       </View>
       <View style={styles.eventTitleView}>
         <Ionicons name="location-sharp" size={24} color="black" />
         <View style={styles.inputView}>
-          <TextInput placeholder="Location" />
+          <TextInput
+            placeholder="Location"
+            value={inputValues.location}
+            onChangeText={(text) =>
+              setInputValues({ ...inputValues, location: text })
+            }
+          />
         </View>
       </View>
 
@@ -62,11 +60,7 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
       <TouchableOpacity
         style={styles.createBtn}
         activeOpacity={0.7}
-        onPress={() =>
-          navigation.navigate('EventNavigator', {
-            screen: 'DisplayEventScreen',
-          })
-        }
+        onPress={handleSubmit}
       >
         <Text style={styles.createBtnText}>CREATE</Text>
       </TouchableOpacity>
@@ -74,32 +68,16 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
   );
 };
 
-export default CreateEventScreen;
+const mapStateToProps = ({ event }: { event: Event }) => {
+  return { event };
+};
+
+export default connect(mapStateToProps, { createEvent })(CreateEventScreen);
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 30,
-  },
-  uploadImageArea: {
-    width: '100%',
-    height: 100,
-    justifyContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'center',
-    backgroundColor: Colors.grey,
-    padding: 20,
-    marginVertical: 20,
-  },
-  uploadImageBtn: {
-    flex: 1,
-  },
-  plusSign: {
-    position: 'absolute',
-    top: 25,
-    left: 35,
-    backgroundColor: Colors.white,
-    borderRadius: 50,
   },
   tagsContainer: {
     flexDirection: 'row',

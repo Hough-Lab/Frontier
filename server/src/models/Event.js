@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    private: {
+    isPrivate: {
       type: DataTypes.BOOLEAN,
       allowNull: true,
     },
@@ -37,14 +37,12 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Event.associate = (models) => {
-    Event.belongsTo(models.PointOfInterest);
     Event.belongsToMany(models.User, { through: 'Event_Users' });
-
+    Event.hasOne(models.PointOfInterest); //! the location of the review - if it's close enough to an existing POI, will automatically be assigned to the exisitng POI
+    Event.hasMany(models.EventTag); //?
     // Event.belongsToMany(models.EventTag, { through: 'EventTag_Events' });
     // Event.belongsToMany(models.Plan, { through: 'Event_Plans' });
-    Event.hasOne(models.Location); //! the location of the review - if it's close enough to an existing POI, will automatically be assigned to the exisitng POI
     // Event.hasOne(models.PointOfInterest); //? the point of interest the event is for
-    Event.hasMany(models.EventTag) //?
     // Event.hasMany(models.User); //? user who posts the event __________ Users[] interested in the event __________ Users[] going to the event
   };
 

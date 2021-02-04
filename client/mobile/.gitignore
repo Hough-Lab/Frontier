@@ -1,5 +1,7 @@
 node_modules/**/*
+package-lock.json
 .env
+config.ts
 .expo/*
 npm-debug.*
 *.jks
@@ -15,4 +17,3 @@ package-lock.json
 
 # macOS
 .DS_Store
-

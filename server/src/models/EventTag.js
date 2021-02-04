@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   const EventTag = sequelize.define("EventTag", {
-    EventTagId: {
+    eventTagId: {
       type: DataTypes.UUID,
       allowNull: false,
     },

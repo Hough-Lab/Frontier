@@ -76,7 +76,7 @@ exports.RegisterUser = async (req, res) => {
       lastSeen: createdDate.toISOString(),
     });
     const token = await generateAuthToken(userId);
-    res.status(201).cookie('authToken', token).send(newUser);
+    res.status(201).send({ user: newUser, token });
   } catch (e) {
     res.status(500);
     res.send(e.message);
@@ -103,7 +103,7 @@ exports.LoginUser = async (req, res) => {
 
     // The response sent to the front end is userUpdated[1].dataValues because it is where Sequelize holds the user data
     const token = await generateAuthToken(user.userId);
-    res.status(200).cookie('authToken', token).send(userUpdated[1].dataValues);
+    res.status(200).send({ user: userUpdated[1].dataValues, token });
   } catch (e) {
     res.status(500);
     res.send(e.message);
@@ -118,4 +118,9 @@ exports.LogoutUser = async (req, res) => {
   );
   res.clearCookie('authToken');
   res.sendStatus(204);
+};
+exports.test = async (req, res) => {
+  console.log('REQ.USER', req.user);
+  console.log('REQ.TOKEN', req.token);
+  res.send(JSON.stringify('user', req.user, 'req.token', req.token));
 };

@@ -6,8 +6,7 @@ import {
   TouchableOpacity,
   TextInput,
 } from 'react-native';
-import { connect } from 'react-redux';
-import { useDispatch } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 
 import { registerUser } from '../actions/registerActions';
 import { User } from '../interfaces/reducerInterfaces';
@@ -34,9 +33,9 @@ const RegisterScreen = ({ navigation }: { navigation: Navigation }) => {
         inputValues.username,
         inputValues.firstName,
         inputValues.lastName,
+        navigation,
       ),
     );
-    navigation.navigate('RegisterDOBScreen');
   }, [inputValues]);
 
   return (
@@ -107,10 +106,8 @@ const RegisterScreen = ({ navigation }: { navigation: Navigation }) => {
         />
       </View>
 
-      <TouchableOpacity style={styles.registerBtn}>
-        <Text style={styles.registerBtnText} onPress={handleSubmit}>
-          Register
-        </Text>
+      <TouchableOpacity style={styles.registerBtn} onPress={handleSubmit}>
+        <Text style={styles.registerBtnText}>Register</Text>
       </TouchableOpacity>
 
       <View style={styles.msgAndRegister}>
