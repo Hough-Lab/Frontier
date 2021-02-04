@@ -8,7 +8,11 @@ import {
   ScrollView,
 } from 'react-native';
 import { AirbnbRating, Rating } from 'react-native-ratings';
-import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
+import {
+  MaterialCommunityIcons,
+  Ionicons,
+  FontAwesome5,
+} from '@expo/vector-icons';
 import { connect, useDispatch } from 'react-redux';
 
 import { createReview } from '../store/actions';
@@ -27,6 +31,11 @@ const CreateTipScreen = ({ navigation }: { navigation: Navigation }) => {
   const [inputValues, setInputValues] = useState({
     title: '',
     description: '',
+    rating: 3,
+    budgetLevel: 10,
+    safetyRating: 2,
+    safetyComment: '',
+    picture: '',
   });
 
   const dispatch = useDispatch();
@@ -72,11 +81,9 @@ const CreateTipScreen = ({ navigation }: { navigation: Navigation }) => {
           defaultRating={5}
           size={20}
           isDisabled={false}
-          // TODO fix onChange with proper type
-          // value={inputValues.rating}
-          // onChangeText={(text) =>
-          //   setInputValues({ ...inputValues, rating: text })
-          // }
+          onFinishRating={(text) => {
+            setInputValues({ ...inputValues, rating: text });
+          }}
         />
       </View>
 
@@ -87,10 +94,53 @@ const CreateTipScreen = ({ navigation }: { navigation: Navigation }) => {
           defaultValue={''}
           multiline={true}
           value={inputValues.description}
+          onChangeText={(text) => {
+            setInputValues({ ...inputValues, description: text });
+          }}
+        />
+      </View>
+
+      {/* Safety Ratings */}
+      <View style={styles.starsView}>
+        <Text style={{ textAlign: 'center' }}>Safety Ratings</Text>
+        <AirbnbRating
+          count={3}
+          reviews={['Not Safe', 'Fairly Safe', 'Super Safe']}
+          defaultRating={2}
+          size={20}
+          isDisabled={false}
+          onFinishRating={(text) => {
+            setInputValues({ ...inputValues, safetyRating: text });
+            console.log(inputValues);
+          }}
+        />
+      </View>
+
+      {/* Safety Comment section */}
+      <View style={styles.descriptionView}>
+        <TextInput
+          placeholder="Comment on safety..."
+          defaultValue={''}
+          multiline={true}
+          value={inputValues.safetyComment}
           onChangeText={(text) =>
-            setInputValues({ ...inputValues, description: text })
+            setInputValues({ ...inputValues, safetyComment: text })
           }
         />
+      </View>
+
+      {/* Budget Level section */}
+      <View style={styles.budgetView}>
+        <FontAwesome5 name="money-bill-wave" size={24} color="black" />
+        <View style={styles.inputView}>
+          <TextInput
+            placeholder="Budget"
+            keyboardType="numeric"
+            onChangeText={(text) => {
+              setInputValues({ ...inputValues, budgetLevel: parseInt(text) });
+            }}
+          />
+        </View>
       </View>
 
       {/* SHARE button */}
@@ -126,7 +176,6 @@ const styles = StyleSheet.create({
   tipTitleView: {
     paddingTop: 30,
     flexDirection: 'row',
-    justifyContent: 'center',
   },
   starsView: {
     paddingVertical: 20,
@@ -149,6 +198,10 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     elevation: 5,
     marginBottom: 70,
+  },
+  budgetView: {
+    flexDirection: 'row',
+    paddingTop: 30,
   },
   shareBtnText: {
     color: Colors.white,
