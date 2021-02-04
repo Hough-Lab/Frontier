@@ -1,11 +1,10 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
-import { User } from '../interfaces/reducerInterfaces';
+import { User, SystemState } from '../interfaces/reducerInterfaces';
 
 const UserProfileScreen = () => {
-  const user: User = useSelector((state) => state.user);
-  console.log(user);
+  const user: User = useSelector((state: SystemState) => state.user);
   return (
     <View style={styles.container}>
       <Text>ProfileScreen</Text>
