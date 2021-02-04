@@ -4,7 +4,7 @@ import MapComponent from '../../components/MapComponent/MapComponent';
 function HomeScreen() {
   return (
     <div>
-      <MapComponent style={{ minWidth: '340px', minHeight: '400px' }} />
+      <MapComponent />
     </div>
   );
 }

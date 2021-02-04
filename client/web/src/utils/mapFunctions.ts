@@ -10,18 +10,14 @@ export const checkLocationEnabled = () => {
           lat: position.coords.latitude,
           lng: position.coords.longitude,
         };
+        console.log('pos before dispatch:', pos);
         store.dispatch(updateCoords(pos));
-
-        //TODO: Dispatch updatecoords action to update state with new coords
       },
       (err) => {
         alert(`Error (${err.code}): ${err.message}`);
       },
     );
-    console.log(pos);
-    console.log(navigator.geolocation.getCurrentPosition);
   } else {
     alert('Geolocation is not supported by your browser.');
   }
-  return pos;
 };

@@ -10,12 +10,20 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+import { checkLocationEnabled } from './utils/mapFunctions';
+
 export const store = createStore(
   rootReducer,
   composeWithDevTools(applyMiddleware(reduxThunk)),
 );
 
-store.subscribe(() => console.log(store.getState()));
+const initializeLocation = async () => {
+  await checkLocationEnabled();
+};
+
+initializeLocation();
+
+store.subscribe(() => console.log('State Obj:', store.getState()));
 
 ReactDOM.render(
   <React.StrictMode>
