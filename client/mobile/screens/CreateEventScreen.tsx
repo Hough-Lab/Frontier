@@ -26,17 +26,34 @@ LogBox.ignoreLogs([
 ]);
 
 const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
-  const [inputValues, setInputValues] = useState({ title: '', location: '' });
-  const [isEnabled, setIsEnabled] = useState(false);
+  const [inputValues, setInputValues] = useState({
+    title: '',
+    location: {},
+    dateFrom: new Date(Date.now()),
+    dateTo: new Date(Date.now()),
+    description: 'This is a temporary description.',
+    maxCapacity: 10,
+    isPrivate: false,
+  });
+
+  const [selectedLoc, setSelectedLoc] = useState({});
 
   // function to toggle the switch button
-  const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+  const toggleSwitch = () => {
+    setInputValues({
+      ...inputValues,
+      location: selectedLoc,
+      isPrivate: !inputValues.isPrivate,
+    });
+    console.log(inputValues);
+  };
 
   const [date, setDate] = useState<Date>(new Date());
   const [mode, setMode] = useState<string>('date');
   const [show, setShow] = useState<boolean>(false);
 
   const onChange = (selectedDate: Date) => {
+    console.log(date);
     const currentDate = selectedDate || date;
     setShow(Platform.OS === 'ios');
     setDate(currentDate);
@@ -58,7 +75,19 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
   const dispatch = useDispatch();
 
   const handleSubmit = useCallback(() => {
-    dispatch(createEvent(inputValues.title, inputValues.location, navigation));
+    setInputValues({ ...inputValues, location: selectedLoc });
+    dispatch(
+      createEvent(
+        inputValues.title,
+        inputValues.location,
+        inputValues.dateFrom,
+        inputValues.dateTo,
+        inputValues.description,
+        inputValues.maxCapacity,
+        inputValues.isPrivate,
+        navigation,
+      ),
+    );
   }, [inputValues]);
 
   return (
@@ -113,16 +142,16 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
 
       <View style={styles.eventTitleView}>
         <Ionicons name="location-sharp" size={24} color="black" />
-        <GooglePlacesInput />
+        <GooglePlacesInput setSelectedLoc={setSelectedLoc} />
       </View>
 
       <View style={styles.isPrivate}>
         <Text>Private event</Text>
         <Switch
           trackColor={{ false: '#767577', true: '#81b0ff' }}
-          thumbColor={isEnabled ? Colors.blue : '#f4f3f4'}
+          thumbColor={inputValues.isPrivate ? Colors.blue : '#f4f3f4'}
           onValueChange={toggleSwitch}
-          value={isEnabled}
+          value={!inputValues.isPrivate}
         />
       </View>
 

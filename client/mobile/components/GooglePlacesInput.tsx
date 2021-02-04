@@ -6,17 +6,22 @@ import { GoogleKey } from '../config';
 
 import Colors from '../assets/colors';
 
-const GooglePlacesInput = () => {
+const GooglePlacesInput = ({ setSelectedLoc }) => {
   return (
     <GooglePlacesAutocomplete
       placeholder="Search"
       minLength={2}
       fetchDetails={true}
-      onPress={(data, details = null) => {
+      onPress={(data, details) => {
         // 'details' is provided when fetchDetails = true
-        console.log('pressed');
-        console.log('DATA', data);
-        console.log('DETAILS', details);
+        // console.log('pressed');
+        // console.log('DATA', data);
+        // console.log('DETAILS', details);
+        setSelectedLoc({
+          formattedAddress: details?.formatted_address,
+          latitude: details?.geometry.location.lat,
+          longitude: details?.geometry.location.lng,
+        });
       }}
       enablePoweredByContainer={false}
       styles={{

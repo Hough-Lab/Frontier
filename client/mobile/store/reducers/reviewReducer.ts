@@ -13,8 +13,8 @@ const initialState: Review = {
   picture: '',
   pointOfInterest: {
     formattedAddress: '',
-    latitude: '',
-    longitude: '',
+    latitude: 0,
+    longitude: 0,
   },
   tags: [],
 };
