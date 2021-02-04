@@ -32,7 +32,7 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
   }, [inputValues]);
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container} keyboardShouldPersistTaps="always">
       <UploadImageComponent />
       <TagsInsertComponent />
 

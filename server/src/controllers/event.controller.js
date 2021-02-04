@@ -31,6 +31,7 @@ exports.PostEvent = async (req, res) => {
     if (!newEvent) throw new Error('could not add Event');
     res.status(201).send(newEvent);
   } catch (err) {
+    console.error('THIS IS THE ERROR', err);
     res.status(500).send(err);
   }
 };
