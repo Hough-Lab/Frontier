@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { AppDispatch } from '../App';
-import { Navigation } from '../interfaces/interfaces';
+import { AppDispatch } from '../../App';
+import { Navigation } from '../../interfaces/interfaces';
 import { CREATE_REVIEW, GET_CURRENT_REVIEW } from './types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 

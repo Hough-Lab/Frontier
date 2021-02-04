@@ -1,4 +1,4 @@
-import { FrontierAction } from '../interfaces/reducerInterfaces';
+import { FrontierAction } from '../../interfaces/reducerInterfaces';
 import { SET_ERROR, CLEAR_ERROR } from '../actions/types';
 
 const reducer = (state = '', action: FrontierAction<string>) => {

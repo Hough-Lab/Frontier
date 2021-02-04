@@ -10,7 +10,7 @@ import {
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { connect, useDispatch } from 'react-redux';
 
-import { createEvent } from '../actions';
+import { createEvent } from '../store/actions';
 import { Navigation } from '../interfaces/interfaces';
 import Colors from '../assets/colors';
 import UploadImageComponent from '../components/UploadImageComponent';

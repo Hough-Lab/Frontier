@@ -4,7 +4,6 @@ const models = require('../models').sequelize.models;
 exports.PostEvent = async (req, res) => {
   try {
     const {
-      EventId = uuid.v4(),
       dateFrom,
       dateTo,
       title,
@@ -14,8 +13,12 @@ exports.PostEvent = async (req, res) => {
       picture,
     } = req.body;
 
+    const eventId = uuid.v4();
+    const user = req.user;
+    console.log(user);
+
     const newEvent = await models.Event.create({
-      EventId,
+      eventId,
       dateFrom,
       dateTo,
       title,
@@ -23,9 +26,9 @@ exports.PostEvent = async (req, res) => {
       maxCapacity,
       private,
       picture,
-    })
+    });
 
-    if (!newEvent) throw new Error("could not add Event");
+    if (!newEvent) throw new Error('could not add Event');
     res.status(201).send(newEvent);
   } catch (err) {
     res.status(500).send(err);
@@ -40,7 +43,7 @@ exports.DeleteEvent = async (req, res) => {
     });
     res.sendStatus(204);
   } catch (err) {
-    console.log(err)
+    console.log(err);
     res.status(500).send(err);
   }
 };

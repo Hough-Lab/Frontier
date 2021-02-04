@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { AppDispatch } from '../App';
-import { Navigation } from '../interfaces/interfaces';
+import { AppDispatch } from '../../App';
+import { Navigation } from '../../interfaces/interfaces';
 import { CREATE_EVENT, GET_CURRENT_EVENT } from './types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -22,7 +22,7 @@ export const createEvent = (
       // the wrong format, the server will return 'Action not authorised'.
 
       const { data } = await axios.post(
-        `${REACT_APP_SERVER_URI}/api/event/create/`,
+        `${REACT_APP_SERVER_URI}/api/event/postEvent/`,
         {
           title: title,
           location: location,
