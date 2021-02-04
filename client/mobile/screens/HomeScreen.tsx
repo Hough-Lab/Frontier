@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   View,
+  ActivityIndicator,
   TouchableOpacity,
   LayoutAnimation,
   Platform,
@@ -21,6 +22,7 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
   const [latitude, setLatitude]: any = useState(51.5167);
   const [longitude, setLongitude]: any = useState(0.0667);
   const [errorMsg, setErrorMsg] = useState('');
+  const [isLoading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     (async () => {
@@ -36,10 +38,14 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
         return;
       }
 
-      let location = await Location.getCurrentPositionAsync({});
-      setLocation(location);
-      setLatitude(location?.coords.latitude);
-      setLongitude(location?.coords.longitude);
+      Location.getCurrentPositionAsync({})
+        .then((location) => {
+          setLocation(location);
+          setLatitude(location?.coords.latitude);
+          setLongitude(location?.coords.longitude);
+        })
+        .catch((error) => console.error(error))
+        .finally(() => setLoading(false));
     })();
   }, []);
 
@@ -55,29 +61,35 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
 
   return (
     <View style={styles.container}>
-      <MapView
-        style={{ flex: 1 }}
-        initialRegion={{
-          latitude: latitude,
-          longitude: longitude,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
-        }}
-      >
-        <Marker
-          coordinate={{
+      {isLoading ? (
+        <View style={styles.loading}>
+          <ActivityIndicator color={Colors.pink} size="large" />
+        </View>
+      ) : (
+        <MapView
+          style={{ flex: 1 }}
+          initialRegion={{
             latitude: latitude,
             longitude: longitude,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
           }}
-          title={'A place'}
-          description={'Descriptions go here'}
-          onPress={() =>
-            navigation.navigate('MainStackNavigator', {
-              screen: 'DisplayPOIScreen',
-            })
-          }
-        />
-      </MapView>
+        >
+          <Marker
+            coordinate={{
+              latitude: latitude,
+              longitude: longitude,
+            }}
+            title={'A place'}
+            description={'Descriptions go here'}
+            onPress={() =>
+              navigation.navigate('MainStackNavigator', {
+                screen: 'DisplayPOIScreen',
+              })
+            }
+          />
+        </MapView>
+      )}
 
       <View style={styles.recenterBtn}>
         <TouchableOpacity>
@@ -96,6 +108,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'grey',
+  },
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   recenterBtn: {
     position: 'absolute',
