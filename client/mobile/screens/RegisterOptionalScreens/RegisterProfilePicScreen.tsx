@@ -5,8 +5,6 @@ import {
   Text,
   View,
   TouchableOpacity,
-  TextInput,
-  Touchable,
   Platform,
 } from 'react-native';
 import { AntDesign, Entypo } from '@expo/vector-icons';
@@ -14,42 +12,15 @@ import * as ImagePicker from 'expo-image-picker';
 
 import Colors from '../../assets/colors';
 import { Navigation } from '../../interfaces/interfaces';
+import ImportPictureComponent from '../../components/ImportPictureComponent';
 
 const RegisterProfilePicScreen = ({
   navigation,
+  image,
 }: {
   navigation: Navigation;
+  image: string;
 }) => {
-  const [image, setImage] = useState(null);
-
-  useEffect(() => {
-    (async () => {
-      if (Platform.OS !== 'web') {
-        const {
-          status,
-        } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-        if (status !== 'granted') {
-          alert('Sorry, we need camera roll permissions to make this work!');
-        }
-      }
-    })();
-  }, []);
-
-  const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [3, 3],
-      quality: 1,
-    });
-
-    console.log(result);
-
-    if (!result.cancelled) {
-      setImage(result.uri);
-    }
-  };
-
   return (
     <View style={styles.container}>
       <View style={styles.title}>
@@ -60,12 +31,7 @@ const RegisterProfilePicScreen = ({
         <View style={styles.label}>
           <Text style={styles.labelText}>Upload your profile picture</Text>
         </View>
-        <View style={styles.inputContainer}>
-          <Entypo name="image" size={50} color="black" />
-          <TouchableOpacity style={styles.plusBtn} onPress={pickImage}>
-            <AntDesign name="pluscircle" size={24} color="black" />
-          </TouchableOpacity>
-        </View>
+        <ImportPictureComponent />
       </View>
       <View>
         {image && (
@@ -75,6 +41,7 @@ const RegisterProfilePicScreen = ({
           />
         )}
       </View>
+
       <View style={styles.bottomBtnsContainer}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <AntDesign name="leftcircle" size={40} color={Colors.pink} />

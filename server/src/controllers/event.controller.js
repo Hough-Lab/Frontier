@@ -49,6 +49,7 @@ exports.PostEvent = async (req, res) => {
       res.status(201).send(newEvent);
     }
   } catch (err) {
+    console.error('THIS IS THE ERROR', err);
     res.status(500).send(err);
   }
 };
