@@ -110,6 +110,15 @@ exports.LoginUser = async (req, res) => {
   }
 };
 
+exports.LogoutUser = async (req, res) => {
+  const { email } = req.body;
+  await models.User.update(
+    { lastSeen: new Date().toISOString() },
+    { where: { email } },
+  );
+  res.clearCookie('authToken');
+  res.sendStatus(204);
+};
 exports.test = async (req, res) => {
   console.log('REQ.USER', req.user);
   console.log('REQ.TOKEN', req.token);
