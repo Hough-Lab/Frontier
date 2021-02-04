@@ -1,9 +1,9 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { AppDispatch } from '../App';
+import { AppDispatch } from '../../App';
 import { GET_CURRENT_USER, SET_ERROR } from './types';
-import { Navigation } from '../interfaces/interfaces';
+import { Navigation } from '../../interfaces/interfaces';
 
 const REACT_APP_SERVER_URI = 'http://localhost:5000';
 

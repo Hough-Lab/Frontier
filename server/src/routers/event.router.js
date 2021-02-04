@@ -1,11 +1,12 @@
 const router = require('express').Router();
-module.exports = router;
+const { authMiddleware } = require('../middlewares/auth');
 
 const {
   PostEvent,
   DeleteEvent,
 } = require('../controllers/event.controller.js');
 
-router.post('/postEvent', PostEvent);
-router.post('/deleteEvent', DeleteEvent);
+router.post('/postEvent', authMiddleware, PostEvent);
+router.post('/deleteEvent', authMiddleware, DeleteEvent);
 
+module.exports = router;

@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { connect, useDispatch } from 'react-redux';
 
-import { loginUser } from '../actions';
+import { loginUser } from '../store/actions';
 import Colors from '../assets/colors';
 import { Navigation } from '../interfaces/interfaces';
 import { User } from '../interfaces/reducerInterfaces';

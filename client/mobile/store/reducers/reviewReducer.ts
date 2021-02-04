@@ -1,5 +1,5 @@
 import { GET_CURRENT_REVIEW, CREATE_REVIEW } from '../actions/types';
-import { FrontierAction, Review } from '../interfaces/reducerInterfaces';
+import { FrontierAction, Review } from '../../interfaces/reducerInterfaces';
 
 const initialState: Review = {
   reviewId: '',
