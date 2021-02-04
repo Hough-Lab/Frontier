@@ -2,16 +2,12 @@ import React from 'react';
 import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { AntDesign, Entypo } from '@expo/vector-icons';
 import Colors from '../assets/colors';
+import ImportPictureComponent from './ImportPictureComponent';
 
 const UploadImageComponent = () => {
   return (
     <View style={styles.uploadImageArea}>
-      <TouchableOpacity style={styles.uploadImageBtn} onPress={() => {}}>
-        <Entypo name="image" size={50} color="black" />
-        <View style={styles.plusSign}>
-          <AntDesign name="pluscircle" size={24} color="black" />
-        </View>
-      </TouchableOpacity>
+      <ImportPictureComponent />
     </View>
   );
 };

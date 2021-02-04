@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
-import authReducer from './reviewReducer';
-import reviewReducer from './eventReducer';
-import eventReducer from './authReducer';
+import authReducer from './authReducer';
+import reviewReducer from './reviewReducer';
+import eventReducer from './eventReducer';
 import errorReducer from './errorReducer';
 
 export default combineReducers({
