@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import {
   StyleSheet,
   Text,
@@ -9,14 +9,30 @@ import {
 } from 'react-native';
 import { AirbnbRating } from 'react-native-ratings';
 import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
+import { connect, useDispatch } from 'react-redux';
 
+import { createReview } from '../actions';
 import Colors from '../assets/colors';
 import { Navigation } from '../interfaces/interfaces';
 import UploadImageComponent from '../components/UploadImageComponent';
 import TagsInsertComponent from '../components/TagsInsertComponent';
 import GooglePlacesInput from '../components/GooglePlacesInput';
+import { Review } from '../interfaces/reducerInterfaces';
 
 const CreateTipScreen = ({ navigation }: { navigation: Navigation }) => {
+  const [inputValues, setInputValues] = useState({
+    title: '',
+    description: '',
+  });
+
+  const dispatch = useDispatch();
+
+  const handleSubmit = useCallback(() => {
+    dispatch(
+      createReview(inputValues.title, inputValues.description, navigation),
+    );
+  }, [inputValues]);
+
   return (
     <ScrollView style={styles.container}>
       <UploadImageComponent />
@@ -30,7 +46,13 @@ const CreateTipScreen = ({ navigation }: { navigation: Navigation }) => {
           color="black"
         />
         <View style={styles.inputView}>
-          <TextInput placeholder="Title" />
+          <TextInput
+            placeholder="Title"
+            value={inputValues.title}
+            onChangeText={(text) =>
+              setInputValues({ ...inputValues, title: text })
+            }
+          />
         </View>
       </View>
       <View style={styles.tipTitleView}>
@@ -46,16 +68,24 @@ const CreateTipScreen = ({ navigation }: { navigation: Navigation }) => {
           defaultRating={5}
           size={20}
           isDisabled={false}
+          // TODO fix onChange with proper type
+          // value={inputValues.rating}
+          // onChangeText={(text) =>
+          //   setInputValues({ ...inputValues, rating: text })
+          // }
         />
       </View>
 
       {/* Description section */}
       <View style={styles.descriptionView}>
         <TextInput
-          onChangeText={() => {}}
           placeholder="Add description..."
           defaultValue={''}
           multiline={true}
+          value={inputValues.description}
+          onChangeText={(text) =>
+            setInputValues({ ...inputValues, description: text })
+          }
         />
       </View>
 
@@ -63,11 +93,7 @@ const CreateTipScreen = ({ navigation }: { navigation: Navigation }) => {
       <TouchableOpacity
         style={styles.shareBtn}
         activeOpacity={0.7}
-        onPress={() =>
-          navigation.navigate('TipNavigator', {
-            screen: 'DisplayTipScreen',
-          })
-        }
+        onPress={handleSubmit}
       >
         <Text style={styles.shareBtnText}>SHARE</Text>
       </TouchableOpacity>
@@ -75,7 +101,13 @@ const CreateTipScreen = ({ navigation }: { navigation: Navigation }) => {
   );
 };
 
-export default CreateTipScreen;
+const mapStateToProps = ({ review }: { review: Review }) => {
+  return { review };
+};
+
+const mapDispatchToProps = { createReview };
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreateTipScreen);
 
 const styles = StyleSheet.create({
   container: {

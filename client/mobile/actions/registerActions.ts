@@ -28,6 +28,8 @@ export const registerUser = (
   );
   dispatch({ type: REGISTER_USER, payload: data });
 
+  // The axios request will return the registered user and the token. Only if the object 'user' returned by the server has a property 'email', meaning that it is a user
+  // and not an error, it will take the user to the map screen
   if (data.user.email) {
     navigation.navigate('RegisterDOBScreen');
   }
