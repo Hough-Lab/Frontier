@@ -42,7 +42,15 @@ const CreateTipScreen = ({ navigation }: { navigation: Navigation }) => {
 
   const handleSubmit = useCallback(() => {
     dispatch(
-      createReview(inputValues.title, inputValues.description, navigation),
+      createReview(
+        inputValues.title,
+        inputValues.description,
+        inputValues.rating,
+        inputValues.budgetLevel,
+        inputValues.safetyRating,
+        inputValues.safetyComment,
+        navigation,
+      ),
     );
   }, [inputValues]);
 
@@ -111,7 +119,6 @@ const CreateTipScreen = ({ navigation }: { navigation: Navigation }) => {
           isDisabled={false}
           onFinishRating={(text) => {
             setInputValues({ ...inputValues, safetyRating: text });
-            console.log(inputValues);
           }}
         />
       </View>
