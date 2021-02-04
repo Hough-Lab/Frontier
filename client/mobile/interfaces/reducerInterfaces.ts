@@ -23,14 +23,14 @@ export interface User {
 
 export interface PointOfInterest {
   formattedAddress: string;
-  latitude: string;
-  longitude: string;
+  latitude: number;
+  longitude: number;
 }
 
 export interface Event {
   eventId: string;
-  dateFrom: string;
-  dateTo: string;
+  dateFrom: Date;
+  dateTo: Date;
   title: string;
   description: string;
   maxCapacity: number;

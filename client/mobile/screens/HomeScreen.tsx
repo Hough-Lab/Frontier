@@ -23,7 +23,7 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
   const [latitude, setLatitude]: any = useState(51.5167);
   const [longitude, setLongitude]: any = useState(0.0667);
   const [errorMsg, setErrorMsg] = useState('');
-  const [isLoading, setLoading] = useState<boolean>(false);
+  const [isLoading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     (async () => {
