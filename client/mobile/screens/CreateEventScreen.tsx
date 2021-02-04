@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   ScrollView,
   TextInput,
+  LogBox,
 } from 'react-native';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { connect, useDispatch } from 'react-redux';
@@ -15,6 +16,11 @@ import { Navigation } from '../interfaces/interfaces';
 import Colors from '../assets/colors';
 import UploadImageComponent from '../components/UploadImageComponent';
 import TagsInsertComponent from '../components/TagsInsertComponent';
+import GooglePlacesInput from '../components/GooglePlacesInput';
+
+LogBox.ignoreLogs([
+  'VirtualizedLists should never be nested', // TODO: Remove when fixed
+]);
 
 const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
   const [inputValues, setInputValues] = useState({ title: '', location: '' });
@@ -45,7 +51,8 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
       </View>
       <View style={styles.eventTitleView}>
         <Ionicons name="location-sharp" size={24} color="black" />
-        <View style={styles.inputView}>
+        <GooglePlacesInput />
+        {/* <View style={styles.inputView}>
           <TextInput
             placeholder="Location"
             value={inputValues.location}
@@ -53,7 +60,7 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
               setInputValues({ ...inputValues, location: text })
             }
           />
-        </View>
+        </View> */}
       </View>
 
       {/* Create button */}

@@ -7,7 +7,7 @@ import {
   TextInput,
   ScrollView,
 } from 'react-native';
-import { AirbnbRating } from 'react-native-ratings';
+import { AirbnbRating, Rating } from 'react-native-ratings';
 import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 import { connect, useDispatch } from 'react-redux';
 
@@ -18,6 +18,10 @@ import UploadImageComponent from '../components/UploadImageComponent';
 import TagsInsertComponent from '../components/TagsInsertComponent';
 import GooglePlacesInput from '../components/GooglePlacesInput';
 import { Review } from '../interfaces/reducerInterfaces';
+
+// LogBox.ignoreLogs([
+//   'VirtualizedLists should never be nested', // TODO: Remove when fixed
+// ]);
 
 const CreateTipScreen = ({ navigation }: { navigation: Navigation }) => {
   const [inputValues, setInputValues] = useState({
@@ -34,7 +38,7 @@ const CreateTipScreen = ({ navigation }: { navigation: Navigation }) => {
   }, [inputValues]);
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container} keyboardShouldPersistTaps="always">
       <UploadImageComponent />
       <TagsInsertComponent />
 
