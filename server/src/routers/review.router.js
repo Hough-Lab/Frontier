@@ -2,11 +2,10 @@ const router = require('express').Router();
 
 const {
   PostReview,
-  DeleteReview
+  DeleteReview,
 } = require('../controllers/review.controller.js');
 
-router.post('/newReview', PostReview);
+router.post('/postReview', PostReview);
 router.delete('/deleteReview', DeleteReview);
-
 
 module.exports = router;

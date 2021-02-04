@@ -4,32 +4,50 @@ const models = require('../models').sequelize.models;
 exports.PostEvent = async (req, res) => {
   try {
     const {
+      formattedAddress,
+      latitude,
+      longitude,
       dateFrom,
       dateTo,
       title,
       description,
       maxCapacity,
-      private,
+      isPrivate,
       picture,
     } = req.body;
 
+    const POIId = uuid.v4();
+    const newPOI = await models.PointOfInterest.create({
+      pointOfInterestId: POIId,
+      formattedAddress,
+      latitude,
+      longitude,
+    });
+
+    console.log(newPOI);
+
     const eventId = uuid.v4();
     const user = req.user;
-    console.log(user);
 
     const newEvent = await models.Event.create({
       eventId,
+      pointOfInterestId: POIId,
       dateFrom,
       dateTo,
       title,
       description,
       maxCapacity,
-      private,
+      isPrivate,
       picture,
+      UserId: user.id,
+      createdBy: user.userId,
     });
 
-    if (!newEvent) throw new Error('could not add Event');
-    res.status(201).send(newEvent);
+    if (!newEvent) {
+      throw new Error('could not add Event');
+    } else {
+      res.status(201).send(newEvent);
+    }
   } catch (err) {
     res.status(500).send(err);
   }
