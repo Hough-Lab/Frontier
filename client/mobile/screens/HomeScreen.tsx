@@ -25,6 +25,17 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
   const [errorMsg, setErrorMsg] = useState('');
   const [isLoading, setLoading] = useState<boolean>(true);
 
+  const recenter = () => {
+    setLocation({
+      latitude: latitude,
+      longitude: longitude,
+      latitudeDelta: 0.0122,
+      longitudeDelta:
+        (Dimensions.get('window').width / Dimensions.get('window').height) *
+        0.0122,
+    });
+  };
+
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestPermissionsAsync();
@@ -53,6 +64,7 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
       ) : (
         <MapView
           style={{ flex: 1 }}
+          showsUserLocation={true}
           initialRegion={{
             latitude: latitude,
             longitude: longitude,
@@ -62,6 +74,7 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
                 Dimensions.get('window').height) *
               0.0122,
           }}
+          region={location}
         >
           <Marker
             coordinate={{
@@ -70,6 +83,7 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
             }}
             title={'Current location'}
             // description={'Descriptions go here'}
+            pinColor={Colors.blue}
             onPress={() =>
               navigation.navigate('MainStackNavigator', {
                 screen: 'DisplayPOIScreen',
@@ -80,7 +94,7 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
       )}
 
       <View style={styles.recenterBtn}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={recenter}>
           <FontAwesome5 name="location-arrow" size={24} color={Colors.blue} />
         </TouchableOpacity>
       </View>
