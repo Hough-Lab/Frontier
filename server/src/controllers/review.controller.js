@@ -33,6 +33,39 @@ exports.PostReview = async (req, res) => {
     res.status(500).send(err);
   }
 }
+
+exports.GetReviewById = async (req, res) => {
+  try {
+    const { reviewId } = req.params
+    const review = await models.Review.findAll(
+    {
+      where: { reviewId: reviewId },
+    })
+    console.log('review', review)
+    if (!review) throw new Error("Review not found");
+    res.status(200).send(review);
+  } catch (err) {
+    res.status(500).send(err)
+  }
+}
+
+exports.GetAllReviews = async (req, res) => {
+  try {
+    const reviews = await models.Review.findAll()
+    console.log(reviews)
+    if (!reviews) throw new Error("No reviews found");
+    res.status(200).send(reviews);
+  } catch (err) {
+    res.status(500).send(err)
+  }
+}
+
+
+
+
+
+
+
 //!below not working yet
 exports.DeleteReview = async (req, res) => {
   try {
