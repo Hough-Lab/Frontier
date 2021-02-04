@@ -6,7 +6,11 @@ import { GoogleKey } from '../config';
 
 import Colors from '../assets/colors';
 
-const GooglePlacesInput = ({ setSelectedLoc }) => {
+const GooglePlacesInput = ({
+  setSelectedLoc,
+}: {
+  setSelectedLoc: React.Dispatch<React.SetStateAction<{}>>;
+}) => {
   return (
     <GooglePlacesAutocomplete
       placeholder="Search"
