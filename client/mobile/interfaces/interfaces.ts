@@ -16,3 +16,11 @@ export interface Navigation {
   setOptions: Function,
   setParams: Function,
 }
+
+export interface Iimage {
+  cancelled: boolean,
+  height: number,
+  type: string,
+  uri: string,
+  width: number,
+}
