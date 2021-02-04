@@ -1,5 +1,5 @@
 import { GET_CURRENT_USER, REGISTER_USER } from '../actions/types';
-import { FrontierAction, User } from '../interfaces/reducerInterfaces';
+import { FrontierAction, User } from '../../interfaces/reducerInterfaces';
 
 const initialState: User = {
   userId: '',

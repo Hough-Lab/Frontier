@@ -5,10 +5,13 @@ const { JWT_SECRET } = require('../config');
 exports.authMiddleware = async (req, res, next) => {
   const authHeader = req.headers.authorization;
   if (authHeader) {
-    console.log(authHeader);
     const encodedToken = authHeader.split('Bearer ')[1];
     if (encodedToken) {
-      const token = jwt.verify(encodedToken, JWT_SECRET);
+      try {
+        const token = jwt.verify(encodedToken, JWT_SECRET);
+      } catch (e) {
+        res.sendStatus(500).send(e);
+      }
       const user = await models.User.findOne({
         where: { userId: token.userId },
       });

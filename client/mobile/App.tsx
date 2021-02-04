@@ -13,7 +13,7 @@ import {
   createBottomTabNavigator,
 } from '@react-navigation/bottom-tabs';
 
-import reducers from './reducers';
+import reducers from './store/reducers';
 import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import RegisterDOBScreen from './screens/RegisterOptionalScreens/RegisterDOBScreen';
