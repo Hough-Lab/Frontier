@@ -29,16 +29,14 @@ export interface User {
 
 export interface Event {
   eventId: string;
-  dateFrom: Date;
-  dateTo: Date;
+  dateFrom: string;
+  dateTo: string;
   title: string;
   description: string;
   maxCapacity: number;
   isPrivate: boolean;
   picture: string;
-  formattedAddress: string;
-  latitude: string;
-  longitude: string;
+  pointOfInterestId: string;
   tags: string[];
 }
 

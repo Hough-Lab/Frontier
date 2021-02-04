@@ -28,21 +28,31 @@ LogBox.ignoreLogs([
 const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
   const [inputValues, setInputValues] = useState({
     title: '',
-    location: {},
-    dateFrom: new Date(Date.now()),
-    dateTo: new Date(Date.now()),
+    formattedAddress: '',
+    latitude: 0,
+    longitude: 0,
+    dateFrom: new Date(Date.now()).toString(),
+    dateTo: new Date(Date.now()).toString(),
     description: 'This is a temporary description.',
     maxCapacity: 10,
     isPrivate: false,
+    picture: "new File(['foo'], 'foo.jpg')",
+    tags: [],
   });
 
-  const [selectedLoc, setSelectedLoc] = useState({});
+  const [selectedLoc, setSelectedLoc] = useState({
+    formattedAddress: '',
+    latitude: 0,
+    longitude: 0,
+  });
 
   // function to toggle the switch button
   const toggleSwitch = () => {
     setInputValues({
       ...inputValues,
-      location: selectedLoc,
+      formattedAddress: selectedLoc.formattedAddress,
+      latitude: selectedLoc.latitude,
+      longitude: selectedLoc.longitude,
       isPrivate: !inputValues.isPrivate,
     });
     console.log(inputValues);
@@ -75,16 +85,25 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
   const dispatch = useDispatch();
 
   const handleSubmit = useCallback(() => {
-    setInputValues({ ...inputValues, location: selectedLoc });
+    setInputValues({
+      ...inputValues,
+      formattedAddress: selectedLoc.formattedAddress,
+      latitude: selectedLoc.latitude,
+      longitude: selectedLoc.longitude,
+    });
     dispatch(
       createEvent(
         inputValues.title,
-        inputValues.location,
+        inputValues.formattedAddress,
+        inputValues.latitude,
+        inputValues.longitude,
         inputValues.dateFrom,
         inputValues.dateTo,
         inputValues.description,
         inputValues.maxCapacity,
         inputValues.isPrivate,
+        inputValues.picture,
+        inputValues.tags,
         navigation,
       ),
     );

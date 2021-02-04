@@ -3,18 +3,14 @@ import { FrontierAction, Event } from '../../interfaces/reducerInterfaces';
 
 const initialState: Event = {
   eventId: '',
-  dateFrom: new Date(),
-  dateTo: new Date(),
+  dateFrom: '',
+  dateTo: '',
   title: '',
   description: '',
   maxCapacity: 10,
   isPrivate: true,
   picture: '',
-  pointOfInterest: {
-    formattedAddress: '',
-    latitude: 0,
-    longitude: 0,
-  },
+  pointOfInterestId: '',
   tags: [],
 };
 

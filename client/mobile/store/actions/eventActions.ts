@@ -8,17 +8,16 @@ const REACT_APP_SERVER_URI = 'http://localhost:5000';
 
 export const createEvent = (
   title: string,
-  description: string,
   formattedAddress: string,
-  latitude: string,
-  longitude: string,
-  picture: File,
-  tags: string[],
+  latitude: number,
+  longitude: number,
   dateFrom: string,
   dateTo: string,
   description: string,
   maxCapacity: number,
   isPrivate: boolean,
+  picture: File,
+  tags: string[],
   navigation: Navigation,
 ) => async (dispatch: AppDispatch) => {
   try {
@@ -45,9 +44,6 @@ export const createEvent = (
           maxCapacity: maxCapacity,
           isPrivate: isPrivate,
           tags: tags,
-          description: description,
-          maxCapacity: maxCapacity,
-          isPrivate: isPrivate
         },
         {
           headers: {
