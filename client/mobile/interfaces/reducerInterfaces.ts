@@ -5,6 +5,12 @@ export interface FrontierAction<T> extends Action {
   payload: T;
 }
 
+export interface SystemState {
+  user: User;
+  event: Event;
+  review: Review;
+}
+
 export interface User {
   userId: string;
   isBusiness: boolean;
@@ -19,12 +25,6 @@ export interface User {
   email: string;
   verifications: number;
   certified: boolean;
-}
-
-export interface PointOfInterest {
-  formattedAddress: string;
-  latitude: number;
-  longitude: number;
 }
 
 export interface Event {
@@ -50,7 +50,9 @@ export interface Review {
   safetyRating: number;
   safetyComment: string;
   picture: string;
-  pointOfInterest: PointOfInterest;
+  formattedAddress: string;
+  latitude: string;
+  longitude: string;
   tags: string[];
 }
 
