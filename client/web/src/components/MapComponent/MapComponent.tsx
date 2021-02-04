@@ -7,6 +7,7 @@ import {
   Marker,
   InfoWindow,
 } from '@react-google-maps/api';
+import './MapComponent.css';
 
 interface Location {
   name?: string;
@@ -20,43 +21,31 @@ const locations = [
   {
     name: 'Location 1',
     location: {
-      lat: 41.3954,
-      lng: 2.162,
+      lat: 51.4626,
+      lng: -0.2163,
     },
   },
   {
     name: 'Location 2',
     location: {
-      lat: 41.3917,
-      lng: 2.1649,
+      lat: 51.4628,
+      lng: -0.215,
     },
   },
   {
     name: 'Location 3',
     location: {
-      lat: 41.3773,
-      lng: 2.1585,
-    },
-  },
-  {
-    name: 'Location 4',
-    location: {
-      lat: 41.3797,
-      lng: 2.1682,
-    },
-  },
-  {
-    name: 'Location 5',
-    location: {
-      lat: 41.4055,
-      lng: 2.1915,
+      lat: 51.4634,
+      lng: -0.2167,
     },
   },
 ];
 
 const MapComponent = () => {
   const initialPosition = { lat: 0, lng: 0 };
+  let initialState: Location = {};
   const [currentPosition, setCurrentPosition] = useState(initialPosition);
+  const [selected, setSelected] = useState(initialState);
 
   const success = (position: GeolocationPosition) => {
     const currentPosition = {
@@ -66,61 +55,35 @@ const MapComponent = () => {
     setCurrentPosition(currentPosition);
   };
 
-  const onMarkerDragEnd = (e: google.maps.MapMouseEvent) => {
-    const lat = e.latLng.lat();
-    const lng = e.latLng.lng();
-    setCurrentPosition({ lat, lng });
-  };
-
-<<<<<<< HEAD
-  // useEffect(() => {
-  //   marker.setPosition(userCoordinates);
-  //   map.panTo(userCoordinates);
-  // }, [userCoordinates]);
-=======
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition(success);
-  });
-  // let initialState: Location = {};
-  // const [selected, setSelected] = useState(initialState);
-
-  // const onSelect = (item: Location) => {
-  //   setSelected(item);
+  // const onMarkerDragEnd = (e: google.maps.MapMouseEvent) => {
+  //   const lat = e.latLng.lat();
+  //   const lng = e.latLng.lng();
+  //   setCurrentPosition({ lat, lng });
   // };
 
-  const mapStyles = {
-    height: '100vh',
-    width: '100%',
+  const onSelect = (item: Location) => {
+    setSelected(item);
   };
 
-  const defaultCenter = {
-    lat: 41.3851,
-    lng: 2.1734,
+  const mapStyles = {
+    height: '1000px',
+    width: '1000px',
   };
->>>>>>> 13ca5533b07703f0d42bc0e5cdb8aa57a3772add
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(success);
+  }, []);
 
   return (
     <LoadScript googleMapsApiKey={GoogleKey}>
       <GoogleMap
         mapContainerStyle={mapStyles}
-        zoom={13}
+        zoom={15}
         center={currentPosition}
       >
-        {currentPosition.lat ? (
-          <Marker
-            position={currentPosition}
-            onDragEnd={(e) => onMarkerDragEnd(e)}
-            draggable={true}
-          />
-        ) : null}
-      </GoogleMap>
-    </LoadScript>
-  );
-};
-export default MapComponent;
-
-{
-  /* <Marker
+        {locations.map((item) => {
+          return (
+            <Marker
               key={item.name}
               position={item.location}
               onClick={() => onSelect(item)}
@@ -132,7 +95,19 @@ export default MapComponent;
             position={selected.location}
             onCloseClick={() => setSelected({})}
             key={selected.name}
-          >
-            <p>{selected.name}</p>
-          </InfoWindow> */
-}
+          ></InfoWindow>
+        )}
+      </GoogleMap>
+    </LoadScript>
+  );
+};
+
+export default MapComponent;
+
+/* {currentPosition.lat ? (
+    <Marker
+      position={currentPosition}
+      onDragEnd={(e) => onMarkerDragEnd(e)}
+      draggable={true}
+    />
+  ) : null}  */

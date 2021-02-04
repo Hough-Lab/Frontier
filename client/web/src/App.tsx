@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import HomeScreen from './screens/HomeScreen/HomeScreen';
+import './App.css';
 
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import { CreateEventScreen } from './screens/CreateEventScreen/CreateEventScreen';
@@ -19,34 +20,7 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <ul>
-          <li>
-            <Link to="/login">Login</Link>
-          </li>
-          <li>
-            <Link to="/register">Register</Link>
-          </li>
-
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/pointOfInterest">Point of Interest</Link>
-          </li>
-          <li>
-            <Link to="/createEvent">Create Event</Link>
-          </li>
-          <li>
-            <Link to="/viewEvent">View Event</Link>
-          </li>
-          <li>
-            <Link to="/createTip">Create Tip</Link>
-          </li>
-          <li>
-            <Link to="/viewTip">Tip Event</Link>
-          </li>
-        </ul>
-
+        <NavBar />
         <Switch>
           <Route path="/pointOfInterest">
             <DisplayPOIScreen />
