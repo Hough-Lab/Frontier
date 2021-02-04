@@ -45,7 +45,7 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Event.associate = (models) => {
-    Event.belongsTo(models.User);
+    // Event.belongsTo(models.User);
     // Event.hasOne(models.PointOfInterest); //! the location of the review - if it's close enough to an existing POI, will automatically be assigned to the exisitng POI
     // Event.hasMany(models.EventTag); //?
     // Event.belongsToMany(models.EventTag, { through: 'EventTag_Events' });

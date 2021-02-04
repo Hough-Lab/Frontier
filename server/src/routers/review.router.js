@@ -6,8 +6,9 @@ const {
   GetReviewById,
   GetAllReviews,
 } = require('../controllers/review.controller.js');
+const { authMiddleware } = require('../middlewares/auth.js');
 
-router.post('/postReview', PostReview);
+router.post('/postReview', authMiddleware, PostReview);
 router.delete('/deleteReview', DeleteReview);
 router.get('/:reviewId', GetReviewById);
 router.get('/getAllReviews', GetAllReviews);

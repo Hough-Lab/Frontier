@@ -1,6 +1,6 @@
 const uuid = require('uuid');
 const models = require('../models').sequelize.models;
-const { deletePOI } = require('./pointOfInterest.controller');
+const { createPOI } = require('./pointOfInterest.controller');
 
 exports.PostReview = async (req, res) => {
   try {
@@ -17,9 +17,17 @@ exports.PostReview = async (req, res) => {
       picture,
     } = req.body;
 
-    await createPOI(formattedAddress, latitude, longitude);
+    // const await createPOI(formattedAddress, latitude, longitude);
+    const POIId = uuid.v4();
+    const newPOI = await models.PointOfInterest.create({
+      pointOfInterestId: POIId,
+      formattedAddress,
+      latitude,
+      longitude,
+    });
     const reviewId = uuid.v4();
     const user = req.user;
+    console.log(newPOI);
 
     const newReview = await models.Review.create({
       reviewId,
@@ -41,6 +49,7 @@ exports.PostReview = async (req, res) => {
       res.status(201).send(newReview);
     }
   } catch (err) {
+    console.log(err);
     res.status(500).send(err);
   }
 };

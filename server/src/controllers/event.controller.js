@@ -24,8 +24,6 @@ exports.PostEvent = async (req, res) => {
       longitude,
     });
 
-    console.log(newPOI);
-
     const eventId = uuid.v4();
     const user = req.user;
 

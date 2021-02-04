@@ -9,6 +9,7 @@ exports.createPOI = async (formattedAddress, latitude, longitude) => {
     latitude,
     longitude,
   });
+  console.log(newPOI);
 };
 
 // Place id will be the Review ID or the Event ID. This function checks if there
