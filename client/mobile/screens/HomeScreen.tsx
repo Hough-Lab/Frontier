@@ -7,6 +7,7 @@ import {
   LayoutAnimation,
   Platform,
   UIManager,
+  Dimensions,
 } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import Constants from 'expo-constants';
@@ -26,12 +27,6 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
 
   useEffect(() => {
     (async () => {
-      if (Platform.OS === 'android' && !Constants.isDevice) {
-        setErrorMsg(
-          'Oops, this will not work on Snack in an Android emulator. Try it on your device!',
-        );
-        return;
-      }
       let { status } = await Location.requestPermissionsAsync();
       if (status !== 'granted') {
         setErrorMsg('Permission to access location was denied');
@@ -49,16 +44,6 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
     })();
   }, []);
 
-  console.log('location', location);
-  console.log('latitude', latitude);
-
-  let text = 'Waiting..';
-  if (errorMsg) {
-    text = errorMsg;
-  } else if (location) {
-    text = JSON.stringify(location);
-  }
-
   return (
     <View style={styles.container}>
       {isLoading ? (
@@ -71,8 +56,11 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
           initialRegion={{
             latitude: latitude,
             longitude: longitude,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
+            latitudeDelta: 0.0122,
+            longitudeDelta:
+              (Dimensions.get('window').width /
+                Dimensions.get('window').height) *
+              0.0122,
           }}
         >
           <Marker
@@ -80,8 +68,8 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
               latitude: latitude,
               longitude: longitude,
             }}
-            title={'A place'}
-            description={'Descriptions go here'}
+            title={'Current location'}
+            // description={'Descriptions go here'}
             onPress={() =>
               navigation.navigate('MainStackNavigator', {
                 screen: 'DisplayPOIScreen',

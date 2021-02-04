@@ -7,9 +7,12 @@ import {
   ScrollView,
   TextInput,
   LogBox,
+  Switch,
+  Platform,
 } from 'react-native';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { connect, useDispatch } from 'react-redux';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 import { createEvent } from '../store/actions';
 import { Navigation } from '../interfaces/interfaces';
@@ -24,6 +27,33 @@ LogBox.ignoreLogs([
 
 const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
   const [inputValues, setInputValues] = useState({ title: '', location: '' });
+  const [isEnabled, setIsEnabled] = useState(false);
+
+  // function to toggle the switch button
+  const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+
+  const [date, setDate] = useState<Date>(new Date());
+  const [mode, setMode] = useState<string>('date');
+  const [show, setShow] = useState<boolean>(false);
+
+  const onChange = (selectedDate: Date) => {
+    const currentDate = selectedDate || date;
+    setShow(Platform.OS === 'ios');
+    setDate(currentDate);
+  };
+
+  const showMode = (currentMode: string) => {
+    setShow(true);
+    setMode(currentMode);
+  };
+
+  const showDatepicker = () => {
+    showMode('date');
+  };
+
+  const showTimepicker = () => {
+    showMode('time');
+  };
 
   const dispatch = useDispatch();
 
@@ -38,7 +68,7 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
 
       {/* Event title and location*/}
       <View style={styles.eventTitleView}>
-        <MaterialIcons name="event" size={24} color="black" />
+        {/* <MaterialIcons name="event" size={24} color="black" /> */}
         <View style={styles.inputView}>
           <TextInput
             placeholder="Title"
@@ -49,18 +79,51 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
           />
         </View>
       </View>
+
+      <TouchableOpacity activeOpacity={0.7} onPress={showDatepicker}>
+        <View style={styles.eventTitleView}>
+          <MaterialIcons name="event" size={24} color="black" />
+          <View style={styles.inputView}>
+            <Text>Date of event</Text>
+          </View>
+        </View>
+      </TouchableOpacity>
+
+      <TouchableOpacity activeOpacity={0.7} onPress={showTimepicker}>
+        <View style={styles.eventTitleView}>
+          <MaterialIcons name="event" size={24} color="black" />
+          <View style={styles.inputView}>
+            <Text>Time of event</Text>
+          </View>
+        </View>
+      </TouchableOpacity>
+
+      {/* Event date */}
+
+      {show && (
+        <DateTimePicker
+          testID="dateTimePicker"
+          value={date}
+          mode={mode}
+          is24Hour={true}
+          display="default"
+          onChange={onChange}
+        />
+      )}
+
       <View style={styles.eventTitleView}>
         <Ionicons name="location-sharp" size={24} color="black" />
         <GooglePlacesInput />
-        {/* <View style={styles.inputView}>
-          <TextInput
-            placeholder="Location"
-            value={inputValues.location}
-            onChangeText={(text) =>
-              setInputValues({ ...inputValues, location: text })
-            }
-          />
-        </View> */}
+      </View>
+
+      <View style={styles.isPrivate}>
+        <Text>Private event</Text>
+        <Switch
+          trackColor={{ false: '#767577', true: '#81b0ff' }}
+          thumbColor={isEnabled ? Colors.blue : '#f4f3f4'}
+          onValueChange={toggleSwitch}
+          value={isEnabled}
+        />
       </View>
 
       {/* Create button */}
@@ -118,5 +181,10 @@ const styles = StyleSheet.create({
   createBtnText: {
     color: Colors.white,
     fontWeight: 'bold',
+  },
+  isPrivate: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
