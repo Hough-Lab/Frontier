@@ -16,6 +16,7 @@ export const createEvent = (
   tags: string[],
   dateFrom: string,
   dateTo: string,
+  description: string,
   maxCapacity: number,
   isPrivate: boolean,
   navigation: Navigation,
@@ -44,6 +45,9 @@ export const createEvent = (
           maxCapacity: maxCapacity,
           isPrivate: isPrivate,
           tags: tags,
+          description: description,
+          maxCapacity: maxCapacity,
+          isPrivate: isPrivate
         },
         {
           headers: {

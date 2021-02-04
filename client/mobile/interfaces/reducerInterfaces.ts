@@ -29,8 +29,8 @@ export interface User {
 
 export interface Event {
   eventId: string;
-  dateFrom: string;
-  dateTo: string;
+  dateFrom: Date;
+  dateTo: Date;
   title: string;
   description: string;
   maxCapacity: number;
