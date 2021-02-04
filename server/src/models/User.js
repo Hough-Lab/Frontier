@@ -59,7 +59,7 @@ module.exports = (sequelize, DataTypes) => {
 
   User.associate = (models) => {
     User.hasMany(models.Event)
-    User.hasMany(models.Review);
+    User.hasMany(models.Review)
     User.hasMany(models.UserTag);
     User.hasMany(models.PointOfInterest);
     User.hasMany(models.Plan);
