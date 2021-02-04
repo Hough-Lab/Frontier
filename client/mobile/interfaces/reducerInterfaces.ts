@@ -29,14 +29,14 @@ export interface PointOfInterest {
 
 export interface Event {
   eventId: string;
-  dateFrom: Date;
-  dateTo: Date;
+  dateFrom: string;
+  dateTo: string;
   title: string;
   description: string;
   maxCapacity: number;
   isPrivate: boolean;
   picture: string;
-  pointOfInterest: PointOfInterest;
+  pointOfInterestId: string;
   tags: string[];
 }
 
