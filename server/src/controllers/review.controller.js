@@ -27,7 +27,6 @@ exports.PostReview = async (req, res) => {
     });
     const reviewId = uuid.v4();
     const user = req.user;
-    console.log(newPOI);
 
     const newReview = await models.Review.create({
       reviewId,
@@ -60,7 +59,6 @@ exports.GetReviewById = async (req, res) => {
     const review = await models.Review.findAll({
       where: { reviewId: reviewId },
     });
-    console.log('review', review);
     if (!review) throw new Error('Review not found');
     res.status(200).send(review);
   } catch (err) {
@@ -71,7 +69,6 @@ exports.GetReviewById = async (req, res) => {
 exports.GetAllReviews = async (req, res) => {
   try {
     const reviews = await models.Review.findAll();
-    console.log(reviews);
     if (!reviews) throw new Error('No reviews found');
     res.status(200).send(reviews);
   } catch (err) {

@@ -7,9 +7,16 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const REACT_APP_SERVER_URI = 'http://localhost:5000';
 
 export const createReview = (
-  // TODO: Change
   title: string,
   description: string,
+  rating: number,
+  budgetLevel: number,
+  safetyRating: number,
+  safetyComment: string,
+  formattedAddress: string,
+  picture: File,
+  latitude: string,
+  longitude: string,
   navigation: Navigation,
 ) => async (dispatch: AppDispatch) => {
   try {
@@ -17,10 +24,18 @@ export const createReview = (
 
     if (token) {
       const { data } = await axios.post(
-        `${REACT_APP_SERVER_URI}/api/review/create/`,
+        `${REACT_APP_SERVER_URI}/api/review/postReview/`,
         {
           title: title,
           description: description,
+          rating: rating,
+          budgetLevel: budgetLevel,
+          safetyRating: safetyRating,
+          safetyComment: safetyComment,
+          picture: picture,
+          formattedAddress: formattedAddress,
+          latitude: latitude,
+          longitude: longitude,
         },
         {
           headers: {
@@ -41,10 +56,9 @@ export const createReview = (
   }
 };
 
-export const getCurrentReview = (
-  reviewId: string,
-  // navigation: Navigation,
-) => async (dispatch: AppDispatch) => {
+export const getCurrentReview = (reviewId: string) => async (
+  dispatch: AppDispatch,
+) => {
   try {
     const token = await AsyncStorage.getItem('jwtToken');
 
@@ -61,13 +75,6 @@ export const getCurrentReview = (
         },
       );
       dispatch({ type: GET_CURRENT_REVIEW, payload: data });
-
-      // TODO clean, needed?
-      // if (data.title) {
-      //   navigation.navigate('TipNavigator', {
-      //     screen: 'DisplayTipScreen',
-      //   });
-      // }
     }
   } catch (e) {
     console.log(e);
