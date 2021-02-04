@@ -1,6 +1,5 @@
-import { Dispatch } from 'react';
 import axios from 'axios';
-import { History } from 'history';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { AppDispatch } from '../App';
 import { GET_CURRENT_USER, SET_ERROR } from './types';
@@ -21,7 +20,7 @@ export const loginUser = (
   navigation: Navigation,
 ) => async (dispatch: AppDispatch) => {
   try {
-    const { data, headers } = await axios.post(
+    const { data } = await axios.post(
       `${REACT_APP_SERVER_URI}/api/user/login/`,
       {
         email,
@@ -29,11 +28,15 @@ export const loginUser = (
       },
       { withCredentials: true },
     );
-    dispatch({ type: GET_CURRENT_USER, payload: data });
+    dispatch({ type: GET_CURRENT_USER, payload: data.user });
 
-    console.log(headers);
+    try {
+      await AsyncStorage.setItem('jwtToken', data.token);
+    } catch (e) {
+      console.log(e);
+    }
 
-    if (data.firstName) {
+    if (data.user.firstName) {
       navigation.navigate('MainStackNavigator', { screen: 'HomeScreen' });
     }
   } catch (e) {
@@ -44,9 +47,7 @@ export const loginUser = (
 export const logoutUser = (navigation: Navigation) => async (
   dispatch: AppDispatch,
 ) => {
-  await axios.get(`${REACT_APP_SERVER_URI}/api/user/logout`, {
-    withCredentials: true,
-  });
+  await AsyncStorage.removeItem('jwtToken');
   dispatch({ type: GET_CURRENT_USER, payload: null });
   navigation.navigate('LoginScreen');
 };
