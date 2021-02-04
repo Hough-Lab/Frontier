@@ -11,7 +11,7 @@ import { AirbnbRating } from 'react-native-ratings';
 import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 import { connect, useDispatch } from 'react-redux';
 
-import { createReview } from '../actions';
+import { createReview } from '../store/actions';
 import Colors from '../assets/colors';
 import { Navigation } from '../interfaces/interfaces';
 import UploadImageComponent from '../components/UploadImageComponent';

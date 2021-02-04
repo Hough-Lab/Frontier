@@ -24,6 +24,8 @@ exports.RegisterUser = async (req, res) => {
       userTags,
     } = req.body;
 
+    email = email.toLowerCase();
+
     const { valid, errors } = validateRegisterInput(
       email,
       username,
@@ -85,7 +87,8 @@ exports.RegisterUser = async (req, res) => {
 
 exports.LoginUser = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    let { email, password } = req.body;
+    email = email.toLowerCase();
     const user = await models.User.findOne({ where: { email } });
     if (!user) {
       throw new Error('Invalid email or password');
@@ -118,9 +121,4 @@ exports.LogoutUser = async (req, res) => {
   );
   res.clearCookie('authToken');
   res.sendStatus(204);
-};
-exports.test = async (req, res) => {
-  console.log('REQ.USER', req.user);
-  console.log('REQ.TOKEN', req.token);
-  res.send(JSON.stringify('user', req.user, 'req.token', req.token));
 };
