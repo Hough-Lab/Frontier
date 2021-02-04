@@ -1,17 +1,21 @@
-import React from "react";
-import LocationAutoCompleteInput from "../../components/LocationAutoCompleteInput/LocationAutoCompleteInput";
-import "./CreateEventScreen.css";
+import React, { useState, useCallback } from 'react';
+import { connect, useDispatch } from 'react-redux';
+import { createEvent } from '../../actions/eventActions';
+import { handleImageUpload } from '../../components/UploadImageComponent/UploadImageComponent';
+import LocationAutoCompleteInput from '../../components/LocationAutoCompleteInput/LocationAutoCompleteInput';
+import './CreateEventScreen.css';
 
-const handleImageUpload = () => {
-  console.log("Image Upload");
-  // const image = document.createElement("img");
-  // image.src = URL.createObjectURL(file);
-  // <div className="selectedPhotoOutput">{photo}</div>
-};
+const mockArrayTags = ['Food', 'Adventure', 'Nature'];
 
-const mockArrayTags = ["Food", "Adventure", "Nature"];
+export const CreateEventScreen = () => {
+  const [inputValues, setInputValues] = useState({ title: '', location: '' });
 
-export function CreateEventScreen() {
+  const dispatch = useDispatch();
+
+  const handleSubmit = useCallback(() => {
+    dispatch(createEvent(inputValues.title, inputValues.location));
+  }, [inputValues]);
+
   return (
     <div className="container">
       <div className="AddEvent">
@@ -22,7 +26,7 @@ export function CreateEventScreen() {
             <input
               type="file"
               accept="image/*"
-              onChange={handleImageUpload}
+              onClick={handleImageUpload}
               multiple={false}
             />
           </div>
@@ -33,6 +37,7 @@ export function CreateEventScreen() {
               type="text"
               name="EventName"
               placeholder="Type Event Name..."
+              onClick={(text) => setInputValues({ ...inputValues })}
             />
           </div>
           <div className="locationInputContainer">
@@ -83,9 +88,17 @@ export function CreateEventScreen() {
               <span>$</span>
             </div>
           </div>
-          <button type="button">Share</button>
+          <button type="button" onClick={handleSubmit}>
+            Share
+          </button>
         </form>
       </div>
     </div>
   );
-}
+};
+
+// const mapStateToProps = ({ event }: { event: Event }) => {
+//   return { event };
+// };
+
+// export default connect(mapStateToProps, { createEvent })(CreateEventScreen);

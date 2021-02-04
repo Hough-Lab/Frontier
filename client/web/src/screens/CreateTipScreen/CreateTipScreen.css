@@ -3,7 +3,7 @@
 }
 
 .container {
-  border: 2px solid red;
+  border: 2px solid blue;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -88,6 +88,6 @@ button {
 }
 .rating > span:hover:before,
 .rating > span:hover ~ span:before {
-  content: "\2605";
+  content: '\2605';
   position: absolute;
 }

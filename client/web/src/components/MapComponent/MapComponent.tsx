@@ -47,10 +47,10 @@ const MapComponent = ({ style }: IProps) => {
     });
   }, []);
 
-  useEffect(() => {
-    marker.setPosition(userCoordinates);
-    map.panTo(userCoordinates);
-  }, [userCoordinates]);
+  // useEffect(() => {
+  //   marker.setPosition(userCoordinates);
+  //   map.panTo(userCoordinates);
+  // }, [userCoordinates]);
 
   return (
     <div style={style} id="mapContainer">

@@ -1,0 +1,31 @@
+* {
+  padding: 5px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 20%;
+  min-width: 330px;
+}
+
+.POIInformationText {
+}
+
+.POITitleName {
+}
+
+.POILocationName {
+}
+
+.ratingInputContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+img {
+}

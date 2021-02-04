@@ -3,7 +3,6 @@ node_modules
 .DS_Store
 client/.DS_Store
 server/src/config.js
-<<<<<<< HEAD
 .prettierrc.js
 client/web/package-lock.json
 .eslintcache
@@ -13,6 +12,3 @@ config.js
 client/web/.eslintcache
 client/web/package-lock.json
 /client/web/src/googleConfig.js
-=======
-client/mobile/package-lock.json
->>>>>>> 95d7efb8ec6a5e16db00d44265c8505ee88c16e9

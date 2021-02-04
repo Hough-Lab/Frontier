@@ -10,7 +10,7 @@ import Colors from '../assets/colors';
 import { AntDesign, Entypo, Ionicons, FontAwesome } from '@expo/vector-icons';
 import MapView, { Marker } from 'react-native-maps';
 
-const DisplayEventScreen = () => {
+export const DisplayEventScreen = () => {
   return (
     <View style={styles.container}>
       <ScrollView>
