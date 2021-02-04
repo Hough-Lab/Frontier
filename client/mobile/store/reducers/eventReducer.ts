@@ -1,5 +1,5 @@
 import { GET_CURRENT_EVENT, CREATE_EVENT } from '../actions/types';
-import { FrontierAction, Event } from '../interfaces/reducerInterfaces';
+import { FrontierAction, Event } from '../../interfaces/reducerInterfaces';
 
 const initialState: Event = {
   eventId: '',
