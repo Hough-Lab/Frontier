@@ -8,6 +8,7 @@ const REACT_APP_SERVER_URI = 'http://localhost:5000';
 
 export const createEvent = (
   title: string,
+  description: string,
   formattedAddress: string,
   latitude: string,
   longitude: string,
@@ -33,6 +34,7 @@ export const createEvent = (
         `${REACT_APP_SERVER_URI}/api/event/postEvent/`,
         {
           title: title,
+          description: description,
           formattedAddress: formattedAddress,
           latitude: latitude,
           longitude: longitude,
