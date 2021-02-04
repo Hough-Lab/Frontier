@@ -57,7 +57,7 @@ const DisplayEventScreen = () => {
 
         <View style={styles.address}>
           <Ionicons name="location-sharp" size={24} color="black" />
-          <Text>here goes the address</Text>
+          <GooglePlacesInput />
         </View>
 
         <View style={styles.description}>
