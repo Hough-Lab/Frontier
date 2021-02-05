@@ -7,6 +7,7 @@ import {
   LayoutAnimation,
   Platform,
   UIManager,
+  LogBox,
   Dimensions,
 } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
@@ -18,10 +19,19 @@ import Colors from '../assets/colors';
 import { Navigation } from '../interfaces/interfaces';
 import SearchBtnComponent from '../components/SearchBtnComponent';
 
+LogBox.ignoreLogs([/MapView/g]);
+
 const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
-  const [location, setLocation]: any = useState();
   const [latitude, setLatitude]: any = useState(51.5167);
   const [longitude, setLongitude]: any = useState(0.0667);
+  const [location, setLocation]: any = useState({
+    latitude: 51.5167,
+    longitude: 0.0667,
+    latitudeDelta: 0.0122,
+    longitudeDelta:
+      (Dimensions.get('window').width / Dimensions.get('window').height) *
+      0.0122,
+  });
   const [errorMsg, setErrorMsg] = useState('');
   const [isLoading, setLoading] = useState<boolean>(true);
 
@@ -83,10 +93,37 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
             }}
             title={'Current location'}
             // description={'Descriptions go here'}
-            pinColor={Colors.blue}
             onPress={() =>
               navigation.navigate('MainStackNavigator', {
                 screen: 'DisplayPOIScreen',
+              })
+            }
+          />
+          <Marker
+            coordinate={{
+              latitude: latitude + 0.005,
+              longitude: longitude + 0.002,
+            }}
+            title={'Event'}
+            // description={'Descriptions go here'}
+            pinColor={Colors.blue}
+            onPress={() =>
+              navigation.navigate('EventNavigator', {
+                screen: 'DisplayEventScreen',
+              })
+            }
+          />
+          <Marker
+            coordinate={{
+              latitude: latitude - 0.003,
+              longitude: longitude - 0.002,
+            }}
+            title={'Tip'}
+            // description={'Descriptions go here'}
+            pinColor="wheat"
+            onPress={() =>
+              navigation.navigate('TipNavigator', {
+                screen: 'DisplayTipScreen',
               })
             }
           />
