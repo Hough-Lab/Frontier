@@ -1,14 +1,31 @@
-nav {
-  position: fixed;
-  top: 0;
-  left: 0;
+.nav {
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
   align-items: center;
-  justify-content: space-between;
-  width: 64px;
-  height: 100%;
-  background: linear-gradient(0deg, #5092bb, #4487b1);
+  background-color: #c2f5ff;
+}
+
+.logout {
+  display: flex;
+  justify-self: end;
+  margin-top: auto;
+}
+
+.navBarButton {
+  min-width: 110px;
+  min-height: 110px;
+  background-color: #c2f5ff;
+  border: none;
+  outline: none;
+}
+
+.selected {
+  background-color: #3685b5;
+}
+
+Link {
+  text-decoration: none;
 }
 
 .burger {
@@ -19,7 +36,6 @@ nav {
 .bar3 {
   width: 35px;
 
-  background-color: white;
   margin: 6px 0;
 }
 

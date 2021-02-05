@@ -1,5 +1,5 @@
 import React from 'react';
-import LocationAutoCompleteInput from '../../components/LocationAutoCompleteInput/LocationAutoCompleteInput';
+// import LocationAutoCompleteInput from '../../components/LocationAutoCompleteInput/LocationAutoCompleteInput';
 import './CreateTipScreen.css';
 
 const mockArrayTags = ['Food', 'Adventure', 'Nature'];
@@ -33,7 +33,7 @@ export function CreateTipScreen() {
           </div>
           <div className="locationInputContainer">
             <label>Location</label>
-            <LocationAutoCompleteInput placeholder="Location" />
+            {/* <LocationAutoCompleteInput placeholder="Location" /> */}
           </div>
           <div className="tagSelectionContainer">
             <label>Tags:</label>

@@ -7,9 +7,12 @@ import {
   Marker,
   InfoWindow,
 } from '@react-google-maps/api';
+import './MapComponent.css';
 
 interface Location {
   name?: string;
+  time?: string;
+  image?: string;
   location?: {
     lat: number;
     lng: number;
@@ -18,45 +21,43 @@ interface Location {
 
 const locations = [
   {
-    name: 'Location 1',
+    name: 'Lantern Festival',
+    time: '07/02/2021, 20:00pm',
+    image:
+      'https://afar-production.imgix.net/uploads/images/afar_post_headers/images/1YsKTV9Ksc/original_lantern-festival-floating.jpg?auto=compress,format&fit=crop&crop=top&lossless=true&w=1080',
+
     location: {
-      lat: 41.3954,
-      lng: 2.162,
+      lat: 51.4626,
+      lng: -0.2163,
     },
   },
   {
-    name: 'Location 2',
+    name: 'Free Cocktail Class',
+    time: '11/02/2021, 12:00pm',
+    image:
+      'https://afar-production.imgix.net/uploads/images/afar_post_headers/images/1YsKTV9Ksc/original_lantern-festival-floating.jpg?auto=compress,format&fit=crop&crop=top&lossless=true&w=1080',
     location: {
-      lat: 41.3917,
-      lng: 2.1649,
+      lat: 51.4628,
+      lng: -0.215,
     },
   },
   {
-    name: 'Location 3',
+    name: 'Park 5km',
+    time: '20/02/2021, 10:00am',
+    image:
+      'https://afar-production.imgix.net/uploads/images/afar_post_headers/images/1YsKTV9Ksc/original_lantern-festival-floating.jpg?auto=compress,format&fit=crop&crop=top&lossless=true&w=1080',
     location: {
-      lat: 41.3773,
-      lng: 2.1585,
-    },
-  },
-  {
-    name: 'Location 4',
-    location: {
-      lat: 41.3797,
-      lng: 2.1682,
-    },
-  },
-  {
-    name: 'Location 5',
-    location: {
-      lat: 41.4055,
-      lng: 2.1915,
+      lat: 51.4634,
+      lng: -0.2167,
     },
   },
 ];
 
 const MapComponent = () => {
-  const initialPosition = { lat: 0, lng: 0 };
+  const initialPosition = { lat: 51.46262, lng: -0.2143 };
+  let initialState: Location = {};
   const [currentPosition, setCurrentPosition] = useState(initialPosition);
+  const [selected, setSelected] = useState(initialState);
 
   const success = (position: GeolocationPosition) => {
     const currentPosition = {
@@ -66,54 +67,35 @@ const MapComponent = () => {
     setCurrentPosition(currentPosition);
   };
 
-  const onMarkerDragEnd = (e: google.maps.MapMouseEvent) => {
-    const lat = e.latLng.lat();
-    const lng = e.latLng.lng();
-    setCurrentPosition({ lat, lng });
+  // const onMarkerDragEnd = (e: google.maps.MapMouseEvent) => {
+  //   const lat = e.latLng.lat();
+  //   const lng = e.latLng.lng();
+  //   setCurrentPosition({ lat, lng });
+  // };
+
+  const onSelect = (item: Location) => {
+    setSelected(item);
+  };
+
+  const mapStyles = {
+    height: '100%',
+    width: '100%',
   };
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(success);
-  });
-  // let initialState: Location = {};
-  // const [selected, setSelected] = useState(initialState);
-
-  // const onSelect = (item: Location) => {
-  //   setSelected(item);
-  // };
-
-  const mapStyles = {
-    height: '100vh',
-    width: '100%',
-  };
-
-  const defaultCenter = {
-    lat: 41.3851,
-    lng: 2.1734,
-  };
+  }, []);
 
   return (
     <LoadScript googleMapsApiKey={GoogleKey}>
       <GoogleMap
         mapContainerStyle={mapStyles}
-        zoom={13}
+        zoom={15}
         center={currentPosition}
       >
-        {currentPosition.lat ? (
-          <Marker
-            position={currentPosition}
-            onDragEnd={(e) => onMarkerDragEnd(e)}
-            draggable={true}
-          />
-        ) : null}
-      </GoogleMap>
-    </LoadScript>
-  );
-};
-export default MapComponent;
-
-{
-  /* <Marker
+        {locations.map((item) => {
+          return (
+            <Marker
               key={item.name}
               position={item.location}
               onClick={() => onSelect(item)}
@@ -126,6 +108,30 @@ export default MapComponent;
             onCloseClick={() => setSelected({})}
             key={selected.name}
           >
-            <p>{selected.name}</p>
-          </InfoWindow> */
-}
+            <div className="infoWindowBody">
+              <img
+                src={selected.image}
+                // src="https://afar-production.imgix.net/uploads/images/afar_post_headers/images/1YsKTV9Ksc/original_lantern-festival-floating.jpg?auto=compress,format&fit=crop&crop=top&lossless=true&w=1080"
+                alt="lantern festival"
+                height={100}
+                width={150}
+              ></img>
+              <p>{selected.name}</p>
+              <p>{selected.time}</p>
+            </div>
+          </InfoWindow>
+        )}
+      </GoogleMap>
+    </LoadScript>
+  );
+};
+
+export default MapComponent;
+
+/* {currentPosition.lat ? (
+    <Marker
+      position={currentPosition}
+      onDragEnd={(e) => onMarkerDragEnd(e)}
+      draggable={true}
+    />
+  ) : null}  */

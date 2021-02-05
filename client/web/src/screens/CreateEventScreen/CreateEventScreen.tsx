@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { createEvent } from '../../actions/eventActions';
 import { handleImageUpload } from '../../components/UploadImageComponent/UploadImageComponent';
-import LocationAutoCompleteInput from '../../components/LocationAutoCompleteInput/LocationAutoCompleteInput';
+// import LocationAutoCompleteInput from '../../components/LocationAutoCompleteInput/LocationAutoCompleteInput';
 import './CreateEventScreen.css';
 
 const mockArrayTags = ['Food', 'Adventure', 'Nature'];
@@ -12,12 +12,14 @@ export const CreateEventScreen = () => {
 
   const dispatch = useDispatch();
 
-  const handleSubmit = useCallback(() => {
-    dispatch(createEvent(inputValues.title, inputValues.location));
-  }, [inputValues]);
+  const handleSubmit = () => {};
+
+  // const handleSubmit = useCallback(() => {
+  //   dispatch(createEvent(inputValues.title, inputValues.location));
+  // }, [inputValues]);
 
   return (
-    <div className="container">
+    <div className="createEventContainer">
       <div className="AddEvent">
         <h2> Create Event</h2>
         <form>
@@ -42,15 +44,25 @@ export const CreateEventScreen = () => {
           </div>
           <div className="locationInputContainer">
             <label>Location</label>
-            <LocationAutoCompleteInput placeholder="Location" />
+            <input
+              type="text"
+              name="LocationName"
+              placeholder="Location"
+            ></input>
           </div>
+          {/* <div className="locationInputContainer">
+            <label>Location</label>
+             <LocationAutoCompleteInput placeholder="Location" /> 
+          </div> */}
 
           <div className="tagSelectionContainer">
             <label>Tags:</label>
             <input type="text" name="Tags" placeholder="Input Tags" />
-            {mockArrayTags.map((tag) => (
-              <div>{tag}</div>
-            ))}
+            <div className="suggestedTagsContainer">
+              {mockArrayTags.map((tag) => (
+                <button className="suggestedTagButton">{tag}</button>
+              ))}
+            </div>
           </div>
           <div className="dateInputContainer">
             <label>From:</label>
@@ -88,9 +100,11 @@ export const CreateEventScreen = () => {
               <span>$</span>
             </div>
           </div>
-          <button type="button" onClick={handleSubmit}>
-            Share
-          </button>
+          <div className="shareButtonContainer">
+            <button className="shareButton" onClick={handleSubmit}>
+              Share
+            </button>
+          </div>
         </form>
       </div>
     </div>
