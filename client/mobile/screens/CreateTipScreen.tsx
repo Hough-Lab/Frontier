@@ -35,12 +35,16 @@ const CreateTipScreen = ({ navigation }: { navigation: Navigation }) => {
     budgetLevel: 10,
     safetyRating: 2,
     safetyComment: '',
-    picture: '',
+    formattedAddress: '',
+    picture: 'Placeholder Image',
+    latitude: 0,
+    longitude: 0,
   });
 
   const dispatch = useDispatch();
 
   const handleSubmit = useCallback(() => {
+    console.log(inputValues);
     dispatch(
       createReview(
         inputValues.title,
@@ -49,10 +53,27 @@ const CreateTipScreen = ({ navigation }: { navigation: Navigation }) => {
         inputValues.budgetLevel,
         inputValues.safetyRating,
         inputValues.safetyComment,
+        inputValues.formattedAddress,
+        inputValues.picture,
+        inputValues.latitude,
+        inputValues.longitude,
         navigation,
       ),
     );
   }, [inputValues]);
+
+  const getLocation = (
+    formattedAddress: string,
+    latitude: number,
+    longitude: number,
+  ) => {
+    setInputValues({
+      ...inputValues,
+      formattedAddress: formattedAddress,
+      latitude: latitude,
+      longitude: longitude,
+    });
+  };
 
   return (
     <ScrollView style={styles.container} keyboardShouldPersistTaps="always">
@@ -78,7 +99,7 @@ const CreateTipScreen = ({ navigation }: { navigation: Navigation }) => {
       </View>
       <View style={styles.tipTitleView}>
         <Ionicons name="location-sharp" size={24} color="black" />
-        <GooglePlacesInput />
+        <GooglePlacesInput getLocation={getLocation} />
       </View>
 
       {/* Star Rating section */}

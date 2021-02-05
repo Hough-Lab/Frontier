@@ -40,22 +40,17 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
     tags: [],
   });
 
-  const [selectedLoc, setSelectedLoc] = useState({
-    formattedAddress: '',
-    latitude: 0,
-    longitude: 0,
-  });
-
-  // function to toggle the switch button
-  const toggleSwitch = () => {
+  const getLocation = (
+    formattedAddress: string,
+    latitude: number,
+    longitude: number,
+  ) => {
     setInputValues({
       ...inputValues,
-      formattedAddress: selectedLoc.formattedAddress,
-      latitude: selectedLoc.latitude,
-      longitude: selectedLoc.longitude,
-      isPrivate: !inputValues.isPrivate,
+      formattedAddress: formattedAddress,
+      latitude: latitude,
+      longitude: longitude,
     });
-    console.log(inputValues);
   };
 
   const [date, setDate] = useState<Date>(new Date());
@@ -85,12 +80,7 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
   const dispatch = useDispatch();
 
   const handleSubmit = useCallback(() => {
-    setInputValues({
-      ...inputValues,
-      formattedAddress: selectedLoc.formattedAddress,
-      latitude: selectedLoc.latitude,
-      longitude: selectedLoc.longitude,
-    });
+    console.log(inputValues);
     dispatch(
       createEvent(
         inputValues.title,
@@ -161,7 +151,7 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
 
       <View style={styles.eventTitleView}>
         <Ionicons name="location-sharp" size={24} color="black" />
-        <GooglePlacesInput setSelectedLoc={setSelectedLoc} />
+        <GooglePlacesInput getLocation={getLocation} />
       </View>
 
       <View style={styles.isPrivate}>
@@ -169,8 +159,10 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
         <Switch
           trackColor={{ false: '#767577', true: '#81b0ff' }}
           thumbColor={inputValues.isPrivate ? Colors.blue : '#f4f3f4'}
-          onValueChange={toggleSwitch}
-          value={!inputValues.isPrivate}
+          value={inputValues.isPrivate}
+          onValueChange={(newValue) =>
+            setInputValues({ ...inputValues, isPrivate: newValue })
+          }
         />
       </View>
 

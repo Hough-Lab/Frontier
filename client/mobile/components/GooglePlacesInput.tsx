@@ -6,11 +6,7 @@ import { GoogleKey } from '../config';
 
 import Colors from '../assets/colors';
 
-const GooglePlacesInput = ({
-  setSelectedLoc,
-}: {
-  setSelectedLoc: React.Dispatch<React.SetStateAction<{}>>;
-}) => {
+const GooglePlacesInput = ({ getLocation }) => {
   return (
     <GooglePlacesAutocomplete
       placeholder="Search"
@@ -21,11 +17,11 @@ const GooglePlacesInput = ({
         // console.log('pressed');
         // console.log('DATA', data);
         // console.log('DETAILS', details);
-        setSelectedLoc({
-          formattedAddress: details?.formatted_address,
-          latitude: details?.geometry.location.lat,
-          longitude: details?.geometry.location.lng,
-        });
+        getLocation(
+          details?.formatted_address,
+          details?.geometry.location.lat,
+          details?.geometry.location.lng,
+        );
       }}
       enablePoweredByContainer={false}
       styles={{
