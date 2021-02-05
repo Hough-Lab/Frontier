@@ -3,8 +3,9 @@ import { AppDispatch } from '../../App';
 import { Navigation } from '../../interfaces/interfaces';
 import { CREATE_REVIEW, GET_CURRENT_REVIEW } from './types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ip_address } from '../../config';
 
-const REACT_APP_SERVER_URI = 'http://localhost:5000';
+const REACT_APP_SERVER_URI = `http://${ip_address}:5000`;
 
 export const createReview = (
   title: string,

@@ -6,15 +6,21 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
+import { useSelector } from 'react-redux';
+
 import Colors from '../assets/colors';
 import { AntDesign, Entypo, Ionicons, FontAwesome } from '@expo/vector-icons';
 import MapView, { Marker } from 'react-native-maps';
+import GooglePlacesInput from '../components/GooglePlacesInput';
+import { Event, SystemState } from '../interfaces/reducerInterfaces';
 
 const DisplayEventScreen = () => {
+  const event: Event = useSelector((state: SystemState) => state.event);
   return (
     <View style={styles.container}>
       <ScrollView>
-        <Text>date and time of the event</Text>
+        <Text style={styles.eventTitle}>{event.title}</Text>
+        <Text>{event.dateFrom}</Text>
         <View style={styles.tagsContainer}>
           <View style={styles.tag}>
             <Text style={styles.tagText}>tag 1</Text>
@@ -55,18 +61,8 @@ const DisplayEventScreen = () => {
           />
         </MapView>
 
-        <View style={styles.address}>
-          <Ionicons name="location-sharp" size={24} color="black" />
-          <GooglePlacesInput />
-        </View>
-
         <View style={styles.description}>
-          <Text style={styles.descriptionText}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure
-          </Text>
+          <Text style={styles.descriptionText}>{event.description}</Text>
         </View>
 
         <View>
@@ -92,6 +88,10 @@ const DisplayEventScreen = () => {
 export default DisplayEventScreen;
 
 const styles = StyleSheet.create({
+  eventTitle: {
+    fontWeight: 'bold',
+    paddingVertical: 5,
+  },
   container: {
     flex: 1,
     padding: 30,
