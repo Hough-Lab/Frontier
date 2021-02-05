@@ -91,7 +91,7 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
               latitude: latitude,
               longitude: longitude,
             }}
-            title={'Current location'}
+            title={'PostgreSQL Party'}
             // description={'Descriptions go here'}
             onPress={() =>
               navigation.navigate('MainStackNavigator', {

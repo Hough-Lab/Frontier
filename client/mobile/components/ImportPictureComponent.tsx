@@ -45,11 +45,22 @@ const ImportPictureComponent = () => {
   };
 
   return (
-    <View style={styles.inputContainer}>
-      <Entypo name="image" size={50} color="black" />
-      <TouchableOpacity style={styles.plusBtn} onPress={pickImage}>
-        <AntDesign name="pluscircle" size={24} color="black" />
-      </TouchableOpacity>
+    <View style={{ flexDirection: 'column' }}>
+      <View style={styles.inputContainer}>
+        <Entypo name="image" size={50} color="black" />
+        <TouchableOpacity style={styles.plusBtn} onPress={pickImage}>
+          <AntDesign name="pluscircle" size={24} color="black" />
+        </TouchableOpacity>
+      </View>
+
+      <View>
+        {image && (
+          <Image
+            source={{ uri: image }}
+            style={{ width: 150, height: 150, borderRadius: 75 }}
+          />
+        )}
+      </View>
     </View>
   );
 };

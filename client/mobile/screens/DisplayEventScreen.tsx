@@ -13,16 +13,22 @@ import { AntDesign, Entypo, Ionicons, FontAwesome } from '@expo/vector-icons';
 import MapView, { Marker } from 'react-native-maps';
 import GooglePlacesInput from '../components/GooglePlacesInput';
 import { Event, SystemState } from '../interfaces/reducerInterfaces';
+import dayjs from 'dayjs';
 
 const DisplayEventScreen = () => {
   const event: Event = useSelector((state: SystemState) => state.event);
+  console.log('event', event);
+  console.log('event.tags', event.tags);
   return (
     <View style={styles.container}>
       <ScrollView>
         <Text style={styles.eventTitle}>{event.title}</Text>
-        <Text>{event.dateFrom}</Text>
+        <Text>{dayjs(event.dateFrom).format('DD-MM-YYYY HH:mm')}</Text>
         <View style={styles.tagsContainer}>
           <View style={styles.tag}>
+            <Text style={styles.tagText}>tag</Text>
+          </View>
+          {/* <View style={styles.tag}>
             <Text style={styles.tagText}>tag 1</Text>
           </View>
           <View style={styles.tag}>
@@ -30,10 +36,7 @@ const DisplayEventScreen = () => {
           </View>
           <View style={styles.tag}>
             <Text style={styles.tagText}>tag 1</Text>
-          </View>
-          <View style={styles.tag}>
-            <Text style={styles.tagText}>tag 1</Text>
-          </View>
+          </View> */}
         </View>
 
         <View style={styles.uploadImageArea}>

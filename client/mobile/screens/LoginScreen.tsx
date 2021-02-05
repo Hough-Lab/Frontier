@@ -34,6 +34,8 @@ const LoginScreen = ({ navigation }: { navigation: Navigation }) => {
       <View style={styles.inputContainer}>
         <TextInput
           placeholder="Email"
+          autoCompleteType="email"
+          keyboardType="email-address"
           value={inputValues.email}
           onChangeText={(text) =>
             setInputValues({ ...inputValues, email: text })
@@ -45,6 +47,7 @@ const LoginScreen = ({ navigation }: { navigation: Navigation }) => {
         <TextInput
           placeholder="Password"
           value={inputValues.password}
+          autoCompleteType="password"
           secureTextEntry={true}
           onChangeText={(text) =>
             setInputValues({ ...inputValues, password: text })
