@@ -25,7 +25,7 @@ export const DisplayEventScreen = () => {
           <button onClick={() => {}}></button>
         </div>
 
-        <div>
+        {/* <div>
           coordinates=
           {{
             latitude: 37.78825,
@@ -33,7 +33,7 @@ export const DisplayEventScreen = () => {
           }}
           title={'A place'}
           description={'Descriptions go here'}
-        </div>
+        </div> */}
 
         <div className="addressOfEvent">
           <h4>here goes the address</h4>

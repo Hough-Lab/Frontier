@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { connect, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { createEvent } from '../../actions/eventActions';
 import { handleImageUpload } from '../../components/UploadImageComponent/UploadImageComponent';
 import LocationAutoCompleteInput from '../../components/LocationAutoCompleteInput/LocationAutoCompleteInput';

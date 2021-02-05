@@ -72,12 +72,6 @@ const MapComponent = () => {
     setCurrentPosition({ lat, lng });
   };
 
-<<<<<<< HEAD
-  // useEffect(() => {
-  //   marker.setPosition(userCoordinates);
-  //   map.panTo(userCoordinates);
-  // }, [userCoordinates]);
-=======
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(success);
   });
@@ -97,7 +91,6 @@ const MapComponent = () => {
     lat: 41.3851,
     lng: 2.1734,
   };
->>>>>>> 13ca5533b07703f0d42bc0e5cdb8aa57a3772add
 
   return (
     <LoadScript googleMapsApiKey={GoogleKey}>
