@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { AppDispatch } from '../../App';
 import { Navigation } from '../../interfaces/interfaces';
+
 import { GET_CURRENT_USER, REGISTER_USER, SET_ERROR } from './types';
 import { ip_address } from '../../config';
 
