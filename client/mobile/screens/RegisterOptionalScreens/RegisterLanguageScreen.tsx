@@ -39,12 +39,6 @@ const RegisterLanguageScreen = ({ navigation }: { navigation: Navigation }) => {
             <Picker.Item label={country} value={country} key={index} />
           ))}
         </Picker>
-        {/* <View style={styles.inputContainer}>
-          <TextInput placeholder="Language" />
-          <TouchableOpacity onPress={() => {}}>
-            <AntDesign name="pluscircleo" size={24} color="black" />
-          </TouchableOpacity>
-        </View> */}
 
         <View style={styles.label}>
           <Text style={styles.labelText}>What country are you from?</Text>

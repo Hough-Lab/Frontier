@@ -24,11 +24,6 @@ const TagsInsertComponent = ({
     setTags(() => [...tags, tag]);
   }
 
-  // const response = getTags(tags);
-  console.log('tags', tags);
-  console.log('getTags', getTags);
-  // console.log('response', response);
-
   return (
     <View>
       <View style={styles.tagsContainer}>
@@ -37,7 +32,7 @@ const TagsInsertComponent = ({
         </View>
         <View style={styles.inputView}>
           <TextInput
-            placeholder="Tag name"
+            placeholder="Create tag..."
             returnKeyType="done"
             value={input}
             onSubmitEditing={() => {

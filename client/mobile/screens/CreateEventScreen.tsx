@@ -12,6 +12,7 @@ import {
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { connect, useDispatch } from 'react-redux';
 import moment from 'moment';
+import { Picker } from '@react-native-picker/picker';
 
 import { createEvent } from '../store/actions';
 import { Navigation } from '../interfaces/interfaces';
@@ -21,6 +22,7 @@ import TagsInsertComponent from '../components/TagsInsertComponent';
 import GooglePlacesInput from '../components/GooglePlacesInput';
 import dayjs from 'dayjs';
 import DateTimePickerComponent from '../components/DateTimePickerComponent';
+import { numbers } from '../assets/numbers';
 
 const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
   const [inputValues, setInputValues] = useState({
@@ -56,6 +58,8 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
       tags: tags,
     });
   };
+
+  const [capacity, setCapacity] = useState<number>();
 
   const [isDatePickerShow, setIsDatePickerShow] = useState(false);
   const [date, setDate] = useState(new Date(Date.now()));
@@ -163,6 +167,40 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
         <GooglePlacesInput getLocation={getLocation} />
       </View>
 
+      {/* Description section */}
+      <View style={{ paddingTop: 20 }}>
+        <View style={styles.descriptionView}>
+          <TextInput
+            placeholder="Add a description for the event..."
+            defaultValue={''}
+            multiline={true}
+            value={inputValues.description}
+            onChangeText={(text) => {
+              setInputValues({ ...inputValues, description: text });
+            }}
+          />
+        </View>
+      </View>
+
+      {/* capacity of event */}
+
+      <View style={styles.eventCapacity}>
+        <Text style={{ paddingRight: 10 }}>Maximum capacity of event</Text>
+        <Picker
+          selectedValue={capacity}
+          style={{ height: 50, width: '40%' }}
+          onValueChange={(value: number, itemIndex: number) => {
+            setCapacity(value);
+            setInputValues({ ...inputValues, maxCapacity: value });
+          }}
+        >
+          {numbers.map((number: number, index: number) => (
+            <Picker.Item label={number.toString()} value={number} key={index} />
+          ))}
+        </Picker>
+      </View>
+
+      {/* privacy of event */}
       <View style={styles.isPrivate}>
         <Text>Private event</Text>
         <Switch
@@ -248,6 +286,20 @@ const styles = StyleSheet.create({
   isPrivate: {
     flexDirection: 'row',
     justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: 20,
+  },
+  descriptionView: {
+    borderWidth: 1,
+    height: 100,
+    padding: 10,
+    paddingHorizontal: 20,
+    borderRadius: 10,
+  },
+  eventCapacity: {
+    flexDirection: 'row',
+    paddingTop: 20,
+    width: '70%',
     alignItems: 'center',
   },
 });
