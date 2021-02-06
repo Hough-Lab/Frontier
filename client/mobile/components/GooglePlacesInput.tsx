@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { Text, StyleSheet, View } from 'react-native';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { getLocation, geocodeLocationByName } from '../utils/locationService';
-import { GoogleKey } from '../config';
+import { GoogleKey } from '../configExemple';
 
 import Colors from '../assets/colors';
 

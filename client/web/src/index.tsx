@@ -5,15 +5,25 @@ import { Provider } from 'react-redux';
 import reduxThunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
-import reducers from './reducers';
+import { rootReducer } from './reducers';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-const store = createStore(
-  reducers,
+import { checkLocationEnabled } from './utils/mapFunctions';
+
+export const store = createStore(
+  rootReducer,
   composeWithDevTools(applyMiddleware(reduxThunk)),
 );
+
+const initializeLocation = async () => {
+  await checkLocationEnabled();
+};
+
+initializeLocation();
+
+store.subscribe(() => console.log('State Obj:', store.getState()));
 
 ReactDOM.render(
   <React.StrictMode>

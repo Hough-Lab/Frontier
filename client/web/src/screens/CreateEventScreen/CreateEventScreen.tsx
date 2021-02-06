@@ -1,56 +1,73 @@
-import React from "react";
-import LocationAutoCompleteInput from "../../components/LocationAutoCompleteInput/LocationAutoCompleteInput";
-import "./CreateEventScreen.css";
+import React, { useState, useCallback } from 'react';
+import { useDispatch } from 'react-redux';
+import { createEvent } from '../../actions/eventActions';
+import { handleImageUpload } from '../../components/UploadImageComponent/UploadImageComponent';
+// import LocationAutoCompleteInput from '../../components/LocationAutoCompleteInput/LocationAutoCompleteInput';
+import './CreateEventScreen.css';
 
-const handleImageUpload = () => {
-  console.log("Image Upload");
-  // const image = document.createElement("img");
-  // image.src = URL.createObjectURL(file);
-  // <div className="selectedPhotoOutput">{photo}</div>
-};
+const mockArrayTags = ['Food', 'Adventure', 'Nature'];
 
-const mockArrayTags = ["Food", "Adventure", "Nature"];
+export const CreateEventScreen = () => {
+  const [inputValues, setInputValues] = useState({ title: '', location: '' });
 
-export function CreateEventScreen() {
+  const dispatch = useDispatch();
+
+  const handleSubmit = () => {};
+
+  // const handleSubmit = useCallback(() => {
+  //   dispatch(createEvent(inputValues.title, inputValues.location));
+  // }, [inputValues]);
+
   return (
-    <div className="container">
+    <div className="eventContainer">
       <div className="AddEvent">
         <h2> Create Event</h2>
         <form>
           <div className="photoUploadContainer">
-            <label>Upload Photo</label>
+            <label className="eventScreenLabel">Upload Photo</label>
             <input
               type="file"
               accept="image/*"
-              onChange={handleImageUpload}
+              onClick={handleImageUpload}
               multiple={false}
             />
           </div>
 
           <div className="titleInputContainer">
-            <label>Event Name</label>
+            <label className="eventScreenLabel">Event Name</label>
             <input
               type="text"
               name="EventName"
               placeholder="Type Event Name..."
+              onClick={(text) => setInputValues({ ...inputValues })}
             />
           </div>
           <div className="locationInputContainer">
-            <label>Location</label>
-            <LocationAutoCompleteInput placeholder="Location" />
+            <label className="eventScreenLabel">Location</label>
+            <input
+              type="text"
+              name="LocationName"
+              placeholder="Location"
+            ></input>
           </div>
+          {/* <div className="locationInputContainer">
+            <label>Location</label>
+             <LocationAutoCompleteInput placeholder="Location" /> 
+          </div> */}
 
           <div className="tagSelectionContainer">
-            <label>Tags:</label>
+            <label className="eventScreenLabel">Tags:</label>
             <input type="text" name="Tags" placeholder="Input Tags" />
-            {mockArrayTags.map((tag) => (
-              <div>{tag}</div>
-            ))}
+            <div className="suggestedTagsContainer">
+              {mockArrayTags.map((tag) => (
+                <button className="suggestedTagButton">{tag}</button>
+              ))}
+            </div>
           </div>
           <div className="dateInputContainer">
-            <label>From:</label>
+            <label className="eventScreenLabel">From:</label>
             <input type="datetime-local" name="EventDate" />
-            <label>To:</label>
+            <label className="eventScreenLabel">To:</label>
             <input type="datetime-local" name="EventDate" />
           </div>
 
@@ -61,10 +78,12 @@ export function CreateEventScreen() {
               name="isEventPrivate"
               value="private"
             />
-            <label htmlFor="event">Private Event</label>
+            <label className="eventScreenLabel" htmlFor="event">
+              Private Event
+            </label>
           </div>
           <div className="descriptionInputContainer">
-            <label>Description</label>
+            <label className="eventScreenLabel">Description</label>
             <textarea name="description" cols={40} rows={5} />
           </div>
           <div className="ratingInputContainer">
@@ -83,9 +102,19 @@ export function CreateEventScreen() {
               <span>$</span>
             </div>
           </div>
-          <button type="button">Share</button>
+          <div className="shareButtonContainer">
+            <button className="shareButton" onClick={handleSubmit}>
+              Share
+            </button>
+          </div>
         </form>
       </div>
     </div>
   );
-}
+};
+
+// const mapStateToProps = ({ event }: { event: Event }) => {
+//   return { event };
+// };
+
+// export default connect(mapStateToProps, { createEvent })(CreateEventScreen);

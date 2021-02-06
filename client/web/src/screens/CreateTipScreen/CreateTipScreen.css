@@ -1,9 +1,4 @@
-* {
-  padding: 5px;
-}
-
 .container {
-  border: 2px solid red;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -18,13 +13,6 @@ input {
 
 textarea {
   max-width: 250px;
-}
-
-button {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }
 
 .descriptionInputContainer {
@@ -88,6 +76,6 @@ button {
 }
 .rating > span:hover:before,
 .rating > span:hover ~ span:before {
-  content: "\2605";
+  content: '\2605';
   position: absolute;
 }

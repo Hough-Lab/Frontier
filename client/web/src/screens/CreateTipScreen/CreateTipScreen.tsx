@@ -1,21 +1,11 @@
-// import React from "react";
+import React from 'react';
+// import LocationAutoCompleteInput from '../../components/LocationAutoCompleteInput/LocationAutoCompleteInput';
+import './CreateTipScreen.css';
 
-// export function CreateTipScreen() {
-//   return (
-//     <div>
-//       <h1>hey</h1>
-//     </div>
-//   );
-// }
-
-import React from "react";
-import LocationAutoCompleteInput from "../../components/LocationAutoCompleteInput/LocationAutoCompleteInput";
-import "./CreateTipScreen.css";
-
-const mockArrayTags = ["Food", "Adventure", "Nature"];
+const mockArrayTags = ['Food', 'Adventure', 'Nature'];
 
 const handleImageUpload = () => {
-  console.log("Image Upload");
+  console.log('Image Upload');
   // const image = document.createElement("img");
   //image.src = URL.createObjectURL();
   // <div className="selectedPhotoOutput">{photo}</div>
@@ -43,7 +33,7 @@ export function CreateTipScreen() {
           </div>
           <div className="locationInputContainer">
             <label>Location</label>
-            <LocationAutoCompleteInput placeholder="Location" />
+            {/* <LocationAutoCompleteInput placeholder="Location" /> */}
           </div>
           <div className="tagSelectionContainer">
             <label>Tags:</label>

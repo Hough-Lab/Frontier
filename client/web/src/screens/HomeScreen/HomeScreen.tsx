@@ -1,21 +1,17 @@
-import React from "react";
-import MapComponent from "../../components/MapComponent/MapComponent";
+import React from 'react';
+import MapComponent from '../../components/MapComponent/MapComponent';
+// import { CreateEventScreen } from '../CreateEventScreen/CreateEventScreen';
+import './HomeScreen.css';
 
-interface IProps {
-  userCoordinates: {
-    lat: number;
-    lng: number;
-  };
-}
-
-function HomeScreen({ userCoordinates }: IProps) {
-  console.log("userCoordinates in HomeScreen:>> ", userCoordinates);
+function HomeScreen() {
   return (
-    <div>
-      <MapComponent
-        userCoordinates={userCoordinates}
-        style={{ minWidth: "340px", minHeight: "400px" }}
-      />
+    <div className="homeContainer">
+      {/* <div className="eventContainer">
+        <CreateEventScreen />
+      </div> */}
+      <div className="mapContainer">
+        <MapComponent />
+      </div>
     </div>
   );
 }

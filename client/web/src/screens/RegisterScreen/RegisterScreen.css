@@ -1,27 +1,40 @@
-* {
-  padding: 5px;
+.formInput {
+  border-radius: 6px;
+  border: none;
+  margin-bottom: 12px;
+  min-width: 150px;
 }
 
-.container {
-  border: 2px solid red;
+.registerContainer {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 20%;
-  min-width: 330px;
+  height: 100vh;
+  width: 100vw;
 }
 
-input {
-  max-width: 250px;
+.registerBox {
+  background-color: #3685b5;
+
+  padding: 30px;
+  border-radius: 20px;
 }
 
-textarea {
-  max-width: 250px;
-}
-
-button {
+.registerForm {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.registerButton {
+  border: none;
+  border-radius: 6px;
+  background-color: white;
+  color: #102736;
+  font-weight: bold;
+  height: 24px;
+  min-width: 160px;
+  padding: 5px;
+  margin-bottom: 5px;
 }

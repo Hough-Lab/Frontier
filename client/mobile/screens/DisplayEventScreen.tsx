@@ -20,6 +20,7 @@ const DisplayEventScreen = () => {
   const event: Event = useSelector((state: SystemState) => state.event);
   console.log('event', event);
   console.log('event.tags', event.tags);
+
   return (
     <View style={styles.container}>
       <ScrollView>

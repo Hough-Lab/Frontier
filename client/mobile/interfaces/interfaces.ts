@@ -1,4 +1,5 @@
 export interface Navigation {
+
   addListener: Function,
   canGoBack: Function,
   dangerouslyGetParent: Function,

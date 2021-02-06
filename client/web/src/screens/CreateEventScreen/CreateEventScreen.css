@@ -1,42 +1,82 @@
-* {
+input {
+  max-width: 250px;
   padding: 5px;
 }
 
-.container {
-  border: 2px solid red;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 20%;
-  min-width: 330px;
-}
-
-input {
-  max-width: 250px;
+.eventScreenLabel {
+  padding: 5px;
 }
 
 textarea {
   max-width: 250px;
 }
 
-button {
+.shareButton {
+  padding: 10px;
+  font-weight: bold;
+  border-radius: 3px;
+  border: none;
+  font-size: 14px;
+  min-width: 150px;
+}
+
+.shareButtonContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  margin-top: 20px;
+}
+
+.eventContainer {
+  background-color: #fd9b9b;
+  /* background-color: #3685b5; */
+  opacity: 0.7;
+  z-index: 10;
+  border-radius: 20px 20px 20px 20px;
+  margin-top: 60px;
+  width: 20%;
+  min-width: 330px;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  align-items: center;
+}
+
+.suggestedTagsContainer {
+  padding: 5px;
+  padding-left: 0px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.suggestedTagButton {
+  padding: 6px;
+  border-radius: 5px;
+  border: none;
+  margin: 0px 5px;
+}
+
+.locationInputContainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
 }
 
 .descriptionInputContainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  padding: 5px;
 }
 
 .photoUploadContainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  padding: 5px;
 }
 
 .titleInputContainer {
@@ -62,6 +102,7 @@ button {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin: 10px;
 }
 
 .priceLevelInputContainer {
@@ -69,6 +110,7 @@ button {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin: 10px;
 }
 
 .dateInputContainer {
@@ -102,7 +144,7 @@ button {
 }
 .rating > span:hover:before,
 .rating > span:hover ~ span:before {
-  content: "\2605";
+  content: '\2605';
   position: absolute;
 }
 
@@ -117,7 +159,7 @@ button {
 }
 .rating > span:hover:before,
 .rating > span:hover ~ span:before {
-  content: "\2605";
+  content: '\2605';
   position: absolute;
   color: gold;
 }
