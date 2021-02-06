@@ -2,7 +2,18 @@ import React from 'react';
 // import LocationAutoCompleteInput from '../../components/LocationAutoCompleteInput/LocationAutoCompleteInput';
 import './CreateTipScreen.css';
 
-const mockArrayTags = ['Food', 'Adventure', 'Nature'];
+interface Tag {
+  reviewTagId: number;
+  tagName: string;
+}
+
+const mockArrayTags: Tag[] = [
+  { reviewTagId: 1, tagName: 'Food' },
+  { reviewTagId: 2, tagName: 'Adventure' },
+  { reviewTagId: 3, tagName: 'Nature' },
+];
+
+const selectedTags: Object[] = [];
 
 const handleImageUpload = () => {
   console.log('Image Upload');
@@ -13,6 +24,19 @@ const handleImageUpload = () => {
 
 export function CreateTipScreen() {
   const handleSubmit = () => {};
+
+  const handleTagClick = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    tag: Tag,
+  ) => {
+    e.preventDefault();
+    addTagtoSelected(tag);
+  };
+
+  const addTagtoSelected = (tag: Tag) => {
+    selectedTags.push(tag);
+    console.log('selectedTags :>> ', selectedTags);
+  };
   return (
     <div className="eventContainer">
       <div className="AddEvent">
@@ -44,15 +68,17 @@ export function CreateTipScreen() {
           </div>
           <div className="tagSelectionContainer">
             <label className="eventScreenLabel">Tags:</label>
-            <input
-              className="textInput"
-              type="text"
-              name="Tags"
-              placeholder="Input Tags"
-            />
-            {mockArrayTags.map((tag) => (
-              <button className="suggestedTagButton">{tag}</button>
-            ))}
+            <input type="text" name="Tags" placeholder="Input Tags" />
+            <div className="suggestedTagsContainer">
+              {mockArrayTags.map((tag) => (
+                <button
+                  onClick={(e) => handleTagClick(e, tag)}
+                  className="suggestedTagButton"
+                >
+                  {tag.tagName}
+                </button>
+              ))}
+            </div>
           </div>
           <div className="descriptionInputContainer">
             <label className="eventScreenLabel">Description</label>

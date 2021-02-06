@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { createEvent } from '../../actions/eventActions';
 import { handleImageUpload } from '../../components/UploadImageComponent/UploadImageComponent';
