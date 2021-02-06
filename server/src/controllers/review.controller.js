@@ -15,22 +15,23 @@ exports.PostReview = async (req, res) => {
       safetyRating,
       safetyComment,
       picture,
+      user
     } = req.body;
 
-    // const await createPOI(formattedAddress, latitude, longitude);
-    const POIId = uuid.v4();
-    const newPOI = await models.PointOfInterest.create({
-      pointOfInterestId: POIId,
-      formattedAddress,
-      latitude,
-      longitude,
-    });
+    const newPOI = await createPOI(formattedAddress, latitude, longitude, user);
     const reviewId = uuid.v4();
-    const user = req.user;
+
+    let pointOfInterestId;
+
+    if (newPOI.length >= 1) {
+      pointOfInterestId = newPOI[0].pointOfInterestId;
+    } else {
+      pointOfInterestId = newPOI.pointOfInterestId;
+    };
 
     const newReview = await models.Review.create({
       reviewId,
-      pointOfInterestId: POIId,
+      pointOfInterestId,
       title,
       description,
       rating,
@@ -39,7 +40,7 @@ exports.PostReview = async (req, res) => {
       safetyComment,
       picture,
       createdBy: user.userId,
-      UserId: user.id,
+      PointOfInterestPointOfInterestId: newPOI.pointOfInterestId
     });
 
     if (!newReview) {
@@ -56,9 +57,7 @@ exports.PostReview = async (req, res) => {
 exports.GetReviewById = async (req, res) => {
   try {
     const { reviewId } = req.params;
-    const review = await models.Review.findAll({
-      where: { reviewId: reviewId },
-    });
+    const review = await models.Review.findByPk(reviewId);
     if (!review) throw new Error('Review not found');
     res.status(200).send(review);
   } catch (err) {
@@ -68,13 +67,23 @@ exports.GetReviewById = async (req, res) => {
 
 exports.GetAllReviews = async (req, res) => {
   try {
-    const reviews = await models.Review.findAll();
-    if (!reviews) throw new Error('No reviews found');
-    res.status(200).send(reviews);
+    const review = await models.Review.findAll();
+    if (!review) throw new Error('No review found');
+    res.status(200).send(review);
   } catch (err) {
     res.status(500).send(err);
   }
 };
+
+
+
+
+
+
+
+
+
+
 
 //!below not working yet
 exports.DeleteReview = async (req, res) => {
@@ -85,6 +94,22 @@ exports.DeleteReview = async (req, res) => {
     res.sendStatus(204);
   } catch (err) {
     console.log(err);
+    res.status(500).send(err);
+  }
+};
+
+
+
+exports.GetEventById = async (req, res) => {
+  try {
+    const { eventId } = req.params;
+    const event = await models.Event.findAll({
+      where: { eventId: eventId },
+    });
+    console.log('event', event);
+    if (!event) throw new Error('event not found');
+    res.status(200).send(event);
+  } catch (err) {
     res.status(500).send(err);
   }
 };

@@ -3,6 +3,7 @@ module.exports = (sequelize, DataTypes) => {
     planId: {
       type: DataTypes.UUID,
       allowNull: false,
+      primaryKey: true,
     },
     from: {
       type: DataTypes.STRING,
