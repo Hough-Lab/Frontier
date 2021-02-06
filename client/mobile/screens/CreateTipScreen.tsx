@@ -16,7 +16,7 @@ import {
 } from '@expo/vector-icons';
 import { connect, useDispatch } from 'react-redux';
 
-import { createReview } from '../store/actions';
+import { createReview, getAllPOI } from '../store/actions';
 import Colors from '../assets/colors';
 import { Navigation } from '../interfaces/interfaces';
 import UploadImageComponent from '../components/UploadImageComponent';
@@ -52,9 +52,8 @@ const CreateTipScreen = ({ navigation }: { navigation: Navigation }) => {
 
   const dispatch = useDispatch();
 
-  const handleSubmit = useCallback(() => {
-    console.log(inputValues);
-    dispatch(
+  const handleSubmit = useCallback(async () => {
+    await dispatch(
       createReview(
         inputValues.title,
         inputValues.description,
@@ -70,6 +69,7 @@ const CreateTipScreen = ({ navigation }: { navigation: Navigation }) => {
         navigation,
       ),
     );
+    dispatch(getAllPOI());
   }, [inputValues]);
 
   const getLocation = (
