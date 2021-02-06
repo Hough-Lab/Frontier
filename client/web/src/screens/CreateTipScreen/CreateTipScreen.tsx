@@ -12,14 +12,16 @@ const handleImageUpload = () => {
 };
 
 export function CreateTipScreen() {
+  const handleSubmit = () => {};
   return (
-    <div className="container">
-      <div className="AddTip">
+    <div className="eventContainer">
+      <div className="AddEvent">
         <h2>Create Travel Tip</h2>
         <form>
           <div className="photoUploadContainer">
-            <label>Upload Photo</label>
+            <label className="eventScreenLabel">Upload Photo</label>
             <input
+              className="textInput"
               type="file"
               accept="image/*"
               onChange={handleImageUpload}
@@ -28,23 +30,38 @@ export function CreateTipScreen() {
           </div>
 
           <div className="titleInputContainer">
-            <label>Tip Name</label>
-            <input type="text" name="TipName" placeholder="Type Tip Name..." />
+            <label className="eventScreenLabel">Tip Name</label>
+            <input
+              className="textInput"
+              type="text"
+              name="TipName"
+              placeholder="Type Tip Name..."
+            />
           </div>
           <div className="locationInputContainer">
-            <label>Location</label>
+            <label className="eventScreenLabel">Location</label>
             {/* <LocationAutoCompleteInput placeholder="Location" /> */}
           </div>
           <div className="tagSelectionContainer">
-            <label>Tags:</label>
-            <input type="text" name="Tags" placeholder="Input Tags" />
+            <label className="eventScreenLabel">Tags:</label>
+            <input
+              className="textInput"
+              type="text"
+              name="Tags"
+              placeholder="Input Tags"
+            />
             {mockArrayTags.map((tag) => (
-              <div className="tagOutput">{tag}</div>
+              <button className="suggestedTagButton">{tag}</button>
             ))}
           </div>
           <div className="descriptionInputContainer">
-            <label>Description</label>
-            <textarea name="description" cols={40} rows={5} />
+            <label className="eventScreenLabel">Description</label>
+            <textarea
+              className="createTipTextArea"
+              name="description"
+              cols={40}
+              rows={5}
+            />
           </div>
           <div className="ratingInputContainer">
             <div className="rating">
@@ -62,7 +79,11 @@ export function CreateTipScreen() {
               <span>$</span>
             </div>
           </div>
-          <button type="button">Share</button>
+          <div className="shareButtonContainer">
+            <button className="shareButton" onClick={handleSubmit}>
+              Share
+            </button>
+          </div>
         </form>
       </div>
     </div>
