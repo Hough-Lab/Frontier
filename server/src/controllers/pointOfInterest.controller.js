@@ -61,15 +61,21 @@ exports.GetPOIById = async (req, res) => {
   }
 }
 
-// exports.GetEventsAndReviewsByPOI = async (req, res) => {
-//   try {
-//     const { pointOfInterestId } = req.params;
-//     const POI = await models.PointOfInterest.findByPk(pointOfInterestId);
-
-//   } catch (err) {
-//     res.status(500).send(err);
-//   }
-// }
+exports.GetEventsAndReviewsByPOI = async (req, res) => {
+  try {
+    const { pointOfInterestId } = req.params;
+    const reviews = await models.Review.findAll({ where: { pointOfInterestId } });
+    const events = await models.Event.findAll({ where: { pointOfInterestId } });
+    const returnObject = {
+      events,
+      reviews
+    }
+    res.status(201).send(returnObject)
+    } catch (err) {
+      console.log(err)
+    res.status(500).send(err);
+  }
+}
 
 // exports.GetEventsByPOI = async (req, res) => {
 //   try {
