@@ -11,9 +11,10 @@ import { AntDesign, Entypo } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 
 import Colors from '../assets/colors';
+import { Iimage } from '../interfaces/interfaces';
 
 const ImportPictureComponent = () => {
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState<string>();
 
   useEffect(() => {
     (async () => {
@@ -44,11 +45,22 @@ const ImportPictureComponent = () => {
   };
 
   return (
-    <View style={styles.inputContainer}>
-      <Entypo name="image" size={50} color="black" />
-      <TouchableOpacity style={styles.plusBtn} onPress={pickImage}>
-        <AntDesign name="pluscircle" size={24} color="black" />
-      </TouchableOpacity>
+    <View style={{ flexDirection: 'column' }}>
+      <View style={styles.inputContainer}>
+        <Entypo name="image" size={50} color="black" />
+        <TouchableOpacity style={styles.plusBtn} onPress={pickImage}>
+          <AntDesign name="pluscircle" size={24} color="black" />
+        </TouchableOpacity>
+      </View>
+
+      <View>
+        {image && (
+          <Image
+            source={{ uri: image }}
+            style={{ width: 150, height: 150, borderRadius: 75 }}
+          />
+        )}
+      </View>
     </View>
   );
 };

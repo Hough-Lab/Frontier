@@ -6,7 +6,7 @@ import { GoogleKey } from '../config';
 
 import Colors from '../assets/colors';
 
-const GooglePlacesInput = ({ getLocation }) => {
+const GooglePlacesInput = ({ getLocation }: { getLocation: Function }) => {
   return (
     <GooglePlacesAutocomplete
       placeholder="Search"

@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   ScrollView,
   TextInput,
-  LogBox,
   Switch,
   Platform,
 } from 'react-native';
@@ -20,10 +19,7 @@ import Colors from '../assets/colors';
 import UploadImageComponent from '../components/UploadImageComponent';
 import TagsInsertComponent from '../components/TagsInsertComponent';
 import GooglePlacesInput from '../components/GooglePlacesInput';
-
-LogBox.ignoreLogs([
-  'VirtualizedLists should never be nested', // TODO: Remove when fixed
-]);
+import dayjs from 'dayjs';
 
 const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
   const [inputValues, setInputValues] = useState({
@@ -37,7 +33,7 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
     maxCapacity: 10,
     isPrivate: false,
     picture: "new File(['foo'], 'foo.jpg')",
-    tags: [],
+    tags: [''],
   });
 
   const getLocation = (
@@ -53,28 +49,45 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
     });
   };
 
-  const [date, setDate] = useState<Date>(new Date());
-  const [mode, setMode] = useState<string>('date');
-  const [show, setShow] = useState<boolean>(false);
+  const getTags = (tags: string[]) => {
+    setInputValues({
+      ...inputValues,
+      tags: tags,
+    });
+  };
 
-  const onChange = (selectedDate: Date) => {
-    console.log(date);
+  const [isDatePickerShow, setIsDatePickerShow] = useState(false);
+  const [date, setDate] = useState(new Date(Date.now()));
+  const [isDateSelected, setIsDateSelected] = useState(false);
+
+  const [time, setTime] = useState(new Date(Date.now()));
+  const [isTimeSelected, setIsTimeSelected] = useState(false);
+  const [isTimePickerShow, setIsTimePickerShow] = useState(false);
+
+  const showDatePicker = () => {
+    setIsDatePickerShow(true);
+  };
+
+  const showTimePicker = () => {
+    setIsTimePickerShow(true);
+  };
+
+  const onChangeDate = (selectedDate: Date) => {
     const currentDate = selectedDate || date;
-    setShow(Platform.OS === 'ios');
     setDate(currentDate);
+    if (Platform.OS === 'android') {
+      setIsDatePickerShow(false);
+    }
+    setIsDateSelected(true);
   };
 
-  const showMode = (currentMode: string) => {
-    setShow(true);
-    setMode(currentMode);
-  };
-
-  const showDatepicker = () => {
-    showMode('date');
-  };
-
-  const showTimepicker = () => {
-    showMode('time');
+  const onChangeTime = (selectedTime: any) => {
+    const currentTime = selectedTime || time;
+    setTime(currentTime);
+    if (Platform.OS === 'android') {
+      setIsTimePickerShow(false);
+    }
+    setIsTimeSelected(true);
   };
 
   const dispatch = useDispatch();
@@ -102,7 +115,7 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
   return (
     <ScrollView style={styles.container} keyboardShouldPersistTaps="always">
       <UploadImageComponent />
-      <TagsInsertComponent />
+      <TagsInsertComponent getTags={getTags} />
 
       {/* Event title and location*/}
       <View style={styles.eventTitleView}>
@@ -118,34 +131,59 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
         </View>
       </View>
 
-      <TouchableOpacity activeOpacity={0.7} onPress={showDatepicker}>
+      <TouchableOpacity activeOpacity={0.7}>
         <View style={styles.eventTitleView}>
-          <MaterialIcons name="event" size={24} color="black" />
+          <MaterialIcons
+            name="event"
+            size={24}
+            color="black"
+            onPress={showDatePicker}
+          />
           <View style={styles.inputView}>
-            <Text>Date of event</Text>
+            {!isDateSelected ? (
+              <Text>Date of event</Text>
+            ) : (
+              <Text>{dayjs(date).format('ddd, DD MMM YYYY')}</Text>
+            )}
           </View>
         </View>
       </TouchableOpacity>
 
-      <TouchableOpacity activeOpacity={0.7} onPress={showTimepicker}>
+      <TouchableOpacity activeOpacity={0.7}>
         <View style={styles.eventTitleView}>
-          <MaterialIcons name="event" size={24} color="black" />
+          <MaterialIcons
+            name="event"
+            size={24}
+            color="black"
+            onPress={showTimePicker}
+          />
           <View style={styles.inputView}>
-            <Text>Time of event</Text>
+            {!isTimeSelected ? (
+              <Text>Event starting at</Text>
+            ) : (
+              <Text>{dayjs(time).format('HH:mm')}</Text>
+            )}
           </View>
         </View>
       </TouchableOpacity>
 
       {/* Event date */}
-
-      {show && (
+      {isDatePickerShow && (
         <DateTimePicker
-          testID="dateTimePicker"
           value={date}
-          mode={mode}
+          mode={'date'}
           is24Hour={true}
-          display="default"
-          onChange={onChange}
+          onChange={onChangeDate}
+        />
+      )}
+
+      {/* Event date */}
+      {isTimePickerShow && (
+        <DateTimePicker
+          value={time}
+          mode={'time'}
+          is24Hour={true}
+          onChange={onChangeTime}
         />
       )}
 
