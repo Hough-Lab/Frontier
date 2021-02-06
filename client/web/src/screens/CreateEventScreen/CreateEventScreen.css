@@ -18,6 +18,7 @@
   border: none;
   font-size: 14px;
   min-width: 150px;
+  opacity: 1;
 }
 
 .shareButtonContainer {
@@ -27,23 +28,25 @@
   margin-top: 20px;
 }
 
+.AddEvent {
+  opacity: 1;
+}
+
 .eventContainer {
-  background-color: #fd9b9b;
-  /* background-color: #3685b5; */
-  opacity: 0.7;
+  background-color: #fd9b9be3;
   z-index: 10;
-  border-radius: 20px 20px 20px 20px;
+  border-radius: 0px 20px 20px 0px;
   margin-top: 100px;
   width: 20%;
   min-width: 330px;
   justify-content: flex-start;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
   align-items: center;
+  color: white;
 }
 
-.suggestedTagsContainer {
+.tagsContainer {
   padding: 5px;
   padding-left: 0px;
   display: flex;
@@ -52,11 +55,15 @@
   align-items: center;
 }
 
-.suggestedTagButton {
+.tagButton {
   padding: 6px;
   border-radius: 5px;
   border: none;
   margin: 0px 5px;
+}
+
+.selectedTag {
+  background-color: #fd9b9b;
 }
 
 .locationInputContainer {
@@ -142,21 +149,7 @@
   position: relative;
   width: 1.1em;
 }
-.rating > span:hover:before,
-.rating > span:hover ~ span:before {
-  content: '\2605';
-  position: absolute;
-}
 
-.rating {
-  unicode-bidi: bidi-override;
-  direction: rtl;
-}
-.rating > span {
-  display: inline-block;
-  position: relative;
-  width: 2em;
-}
 .rating > span:hover:before,
 .rating > span:hover ~ span:before {
   content: '\2605';
