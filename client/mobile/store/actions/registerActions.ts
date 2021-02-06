@@ -1,9 +1,11 @@
 import axios from 'axios';
 import { AppDispatch } from '../../App';
 import { Navigation } from '../../interfaces/interfaces';
-import { GET_CURRENT_USER, REGISTER_USER, SET_ERROR } from './types';
 
-const REACT_APP_SERVER_URI = 'http://localhost:5000';
+import { GET_CURRENT_USER, REGISTER_USER, SET_ERROR } from './types';
+import { ip_address } from '../../config';
+
+const REACT_APP_SERVER_URI = `http://${ip_address}:5000`;
 
 export const registerUser = (
   email: string,

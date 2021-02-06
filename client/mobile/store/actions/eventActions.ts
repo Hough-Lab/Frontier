@@ -3,12 +3,22 @@ import { AppDispatch } from '../../App';
 import { Navigation } from '../../interfaces/interfaces';
 import { CREATE_EVENT, GET_CURRENT_EVENT } from './types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ip_address } from '../../config';
 
-const REACT_APP_SERVER_URI = 'http://localhost:5000';
+const REACT_APP_SERVER_URI = `http://${ip_address}:5000`;
 
 export const createEvent = (
   title: string,
-  location: string,
+  formattedAddress: string,
+  latitude: number,
+  longitude: number,
+  dateFrom: string,
+  dateTo: string,
+  description: string,
+  maxCapacity: number,
+  isPrivate: boolean,
+  picture: File,
+  tags: string[],
   navigation: Navigation,
 ) => async (dispatch: AppDispatch) => {
   try {
@@ -25,7 +35,16 @@ export const createEvent = (
         `${REACT_APP_SERVER_URI}/api/event/postEvent/`,
         {
           title: title,
-          location: location,
+          description: description,
+          formattedAddress: formattedAddress,
+          latitude: latitude,
+          longitude: longitude,
+          picture: picture,
+          dateFrom: dateFrom,
+          dateTo: dateTo,
+          maxCapacity: maxCapacity,
+          isPrivate: isPrivate,
+          tags: tags,
         },
         {
           headers: {

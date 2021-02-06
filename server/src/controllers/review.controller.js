@@ -49,6 +49,7 @@ exports.PostReview = async (req, res) => {
       res.status(201).send(newReview);
     }
   } catch (err) {
+    console.log(err);
     res.status(500).send(err);
   }
 };

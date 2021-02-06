@@ -1,8 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import {
+  createStackNavigator,
+  HeaderBackButton,
+} from '@react-navigation/stack';
 import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 import reduxThunk from 'redux-thunk';
@@ -29,6 +32,7 @@ import DisplayPOIScreen from './screens/DisplayPOIScreen';
 import BottomTabBar from './components/BottomTabBar';
 import UserProfileScreen from './screens/UserProfileScreen';
 import { Navigation } from './interfaces/interfaces';
+import { AntDesign } from '@expo/vector-icons';
 
 const store = createStore(
   reducers,
@@ -83,10 +87,18 @@ const TipNavigator = () => {
       <Stack.Screen
         name="CreateTipScreen"
         component={CreateTipScreen}
-        options={{
-          title: 'Create Travel Tip',
+        options={({ navigation }) => ({
+          title: 'Create a Travel Tip',
           headerTitleAlign: 'center',
-        }}
+          headerLeft: () => (
+            <AntDesign
+              name="arrowleft"
+              size={24}
+              color="black"
+              onPress={() => navigation.navigate('HomeScreen')}
+            />
+          ),
+        })}
       />
       <Stack.Screen
         name="DisplayTipScreen"
@@ -106,10 +118,18 @@ const EventNavigator = () => {
       <Stack.Screen
         name="CreateEventScreen"
         component={CreateEventScreen}
-        options={{
+        options={({ navigation }) => ({
           title: 'Create an Event',
           headerTitleAlign: 'center',
-        }}
+          headerLeft: () => (
+            <AntDesign
+              name="arrowleft"
+              size={24}
+              color="black"
+              onPress={() => navigation.navigate('HomeScreen')}
+            />
+          ),
+        })}
       />
       <Stack.Screen
         name="DisplayEventScreen"
@@ -151,7 +171,7 @@ function App() {
             options={{ headerShown: false }}
           />
         </Stack.Navigator>
-        <StatusBar style="auto" />
+        <StatusBar style="dark" backgroundColor="white" />
       </NavigationContainer>
     </Provider>
   );

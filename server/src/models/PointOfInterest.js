@@ -26,7 +26,6 @@ module.exports = (sequelize, DataTypes) => {
     PointOfInterest.belongsToMany(models.Review, {
       through: 'PointOfInterest_Reviews',
     });
-    // PointOfInterest.belongsTo(models.Review) //! test
     PointOfInterest.belongsToMany(models.Event, {
       through: 'PointOfInterest_Events',
     });

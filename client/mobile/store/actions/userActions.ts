@@ -4,8 +4,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AppDispatch } from '../../App';
 import { GET_CURRENT_USER, SET_ERROR } from './types';
 import { Navigation } from '../../interfaces/interfaces';
+import { ip_address } from '../../config';
 
-const REACT_APP_SERVER_URI = 'http://localhost:5000';
+const REACT_APP_SERVER_URI = `http://${ip_address}:5000`;
 
 export const getCurrentUser = () => async (dispatch: AppDispatch) => {
   const { data } = await axios.get(`${REACT_APP_SERVER_URI}/api/user`, {

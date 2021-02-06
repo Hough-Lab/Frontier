@@ -5,29 +5,41 @@ import {
   View,
   ScrollView,
   TouchableOpacity,
+  FlatList,
 } from 'react-native';
+import { useSelector } from 'react-redux';
+
 import Colors from '../assets/colors';
 import { AntDesign, Entypo, Ionicons, FontAwesome } from '@expo/vector-icons';
 import MapView, { Marker } from 'react-native-maps';
+import GooglePlacesInput from '../components/GooglePlacesInput';
+import { Event, SystemState } from '../interfaces/reducerInterfaces';
+import dayjs from 'dayjs';
 
 const DisplayEventScreen = () => {
+  const event: Event = useSelector((state: SystemState) => state.event);
+  console.log('event', event);
+  console.log('event.tags', event.tags);
   return (
     <View style={styles.container}>
       <ScrollView>
-        <Text>date and time of the event</Text>
+        <Text style={styles.eventTitle}>{event.title}</Text>
+        <Text>{dayjs(event.dateFrom).format('DD-MM-YYYY HH:mm')}</Text>
         <View style={styles.tagsContainer}>
-          <View style={styles.tag}>
-            <Text style={styles.tagText}>tag 1</Text>
-          </View>
-          <View style={styles.tag}>
-            <Text style={styles.tagText}>tag 1</Text>
-          </View>
-          <View style={styles.tag}>
-            <Text style={styles.tagText}>tag 1</Text>
-          </View>
-          <View style={styles.tag}>
-            <Text style={styles.tagText}>tag 1</Text>
-          </View>
+          <Text>tag</Text>
+          {/* to be replaced by the below once the tags are part of the event */}
+          {/* <View style={styles.tagContainer}>
+        <FlatList
+          horizontal={true}
+          data={event.tags}
+          renderItem={({ item }) => (
+            <View style={styles.tag}>
+              <Text style={styles.tagText}>{item}</Text>
+            </View>
+          )}
+          keyExtractor={(item) => item.key}
+        />
+      </View> */}
         </View>
 
         <View style={styles.uploadImageArea}>
@@ -55,18 +67,8 @@ const DisplayEventScreen = () => {
           />
         </MapView>
 
-        <View style={styles.address}>
-          <Ionicons name="location-sharp" size={24} color="black" />
-          <Text>here goes the address</Text>
-        </View>
-
         <View style={styles.description}>
-          <Text style={styles.descriptionText}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure
-          </Text>
+          <Text style={styles.descriptionText}>{event.description}</Text>
         </View>
 
         <View>
@@ -92,10 +94,17 @@ const DisplayEventScreen = () => {
 export default DisplayEventScreen;
 
 const styles = StyleSheet.create({
+  eventTitle: {
+    fontWeight: 'bold',
+    paddingVertical: 5,
+  },
   container: {
     flex: 1,
     padding: 30,
     backgroundColor: Colors.white,
+  },
+  tagContainer: {
+    paddingVertical: 10,
   },
   tag: {
     justifyContent: 'center',
