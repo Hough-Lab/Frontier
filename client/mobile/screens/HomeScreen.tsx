@@ -21,12 +21,21 @@ import SearchBtnComponent from '../components/SearchBtnComponent';
 
 LogBox.ignoreLogs([/MapView/g]);
 
+export interface ISeenOnMap {
+  latitude: number;
+  longitude: number;
+  latitudeDelta: number;
+  longitudeDelta: number;
+}
+
 const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
-  const [latitude, setLatitude]: any = useState(51.5167);
-  const [longitude, setLongitude]: any = useState(0.0667);
-  const [location, setLocation]: any = useState({
-    latitude: 51.5167,
-    longitude: 0.0667,
+  const [userLocation, setUserLocation] = useState({
+    latitude: 0,
+    longitude: 0,
+  });
+  const [seenOnMap, setSeenOnMap] = useState<ISeenOnMap>({
+    latitude: 0,
+    longitude: 0,
     latitudeDelta: 0.0122,
     longitudeDelta:
       (Dimensions.get('window').width / Dimensions.get('window').height) *
@@ -36,9 +45,9 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
   const [isLoading, setLoading] = useState<boolean>(true);
 
   const recenter = () => {
-    setLocation({
-      latitude: latitude,
-      longitude: longitude,
+    setSeenOnMap({
+      latitude: userLocation.latitude,
+      longitude: userLocation.longitude,
       latitudeDelta: 0.0122,
       longitudeDelta:
         (Dimensions.get('window').width / Dimensions.get('window').height) *
@@ -56,9 +65,20 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
 
       Location.getCurrentPositionAsync({})
         .then((location) => {
-          setLocation(location);
-          setLatitude(location?.coords.latitude);
-          setLongitude(location?.coords.longitude);
+          setSeenOnMap((seenOnMap: ISeenOnMap) => {
+            return {
+              ...seenOnMap,
+              latitude: location?.coords.latitude,
+              longitude: location?.coords.longitude,
+            };
+          });
+          setUserLocation((userLocation) => {
+            return {
+              ...userLocation,
+              latitude: location?.coords.latitude,
+              longitude: location?.coords.longitude,
+            };
+          });
         })
         .catch((error) => console.error(error))
         .finally(() => setLoading(false));
@@ -77,20 +97,20 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
           showsMyLocationButton={false}
           showsUserLocation={true}
           initialRegion={{
-            latitude: latitude,
-            longitude: longitude,
+            latitude: userLocation.latitude,
+            longitude: userLocation.longitude,
             latitudeDelta: 0.0122,
             longitudeDelta:
               (Dimensions.get('window').width /
                 Dimensions.get('window').height) *
               0.0122,
           }}
-          region={location}
+          region={seenOnMap}
         >
           <Marker
             coordinate={{
-              latitude: latitude,
-              longitude: longitude,
+              latitude: userLocation.latitude,
+              longitude: userLocation.longitude,
             }}
             title={'PostgreSQL Party'}
             // description={'Descriptions go here'}
@@ -102,8 +122,8 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
           />
           <Marker
             coordinate={{
-              latitude: latitude + 0.005,
-              longitude: longitude + 0.002,
+              latitude: userLocation.latitude + 0.005,
+              longitude: userLocation.longitude + 0.002,
             }}
             title={'Event'}
             // description={'Descriptions go here'}
@@ -116,8 +136,8 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
           />
           <Marker
             coordinate={{
-              latitude: latitude - 0.003,
-              longitude: longitude - 0.002,
+              latitude: userLocation.latitude - 0.003,
+              longitude: userLocation.longitude - 0.002,
             }}
             title={'Tip'}
             // description={'Descriptions go here'}
@@ -137,7 +157,7 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
         </TouchableOpacity>
       </View>
 
-      <SearchBtnComponent />
+      <SearchBtnComponent setSeenOnMap={setSeenOnMap} />
     </View>
   );
 };
