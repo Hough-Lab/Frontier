@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Dispatch, SetStateAction, useEffect } from 'react';
 import {
   StyleSheet,
   TextInput,
@@ -12,9 +12,25 @@ import { Ionicons, Entypo } from '@expo/vector-icons';
 import Colors from '../assets/colors';
 import { applyAnimation } from '../utils/generalFunctions';
 import GooglePlacesInput from './GooglePlacesInput';
+import { ISeenOnMap } from '../screens/HomeScreen';
 
-const SearchBtnComponent = () => {
+interface IProps {
+  setSeenOnMap: Dispatch<SetStateAction<ISeenOnMap>>;
+}
+
+const SearchBtnComponent = ({ setSeenOnMap }: IProps) => {
   const [searchBar, setSearchBar] = useState(false);
+
+  const getLocation = (_: string, latitude: number, longitude: number) => {
+    setSeenOnMap((seenOnMap) => {
+      return {
+        ...seenOnMap,
+        latitude: latitude,
+        longitude: longitude,
+      };
+    });
+  };
+
   if (Platform.OS === 'android') {
     if (UIManager.setLayoutAnimationEnabledExperimental) {
       UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -35,7 +51,7 @@ const SearchBtnComponent = () => {
       ) : (
         <>
           {/* <TextInput placeholder="Search..." /> */}
-          <GooglePlacesInput />
+          <GooglePlacesInput getLocation={getLocation} />
           <TouchableOpacity
             onPress={() => {
               setSearchBar(false);
