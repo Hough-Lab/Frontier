@@ -4,6 +4,8 @@ const reviewRouter = require('./review.router');
 const planRouter = require('./plan.router');
 const POIRouter = require('./POI.router');
 const chatRouter = require('./chat.router');
+const locationRouter = require('./location.router');
+
 
 module.exports = {
   userRouter,
@@ -12,4 +14,5 @@ module.exports = {
   planRouter,
   POIRouter,
   chatRouter,
+  locationRouter,
 };

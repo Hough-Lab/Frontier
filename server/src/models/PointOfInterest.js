@@ -3,6 +3,7 @@ module.exports = (sequelize, DataTypes) => {
     pointOfInterestId: {
       type: DataTypes.UUID,
       allowNull: false,
+      primaryKey: true,
     },
     formattedAddress: {
       type: DataTypes.STRING,
@@ -19,16 +20,16 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   PointOfInterest.associate = (models) => {
-    // PointOfInterest.belongsToMany(models.User, {
-    //   through: 'PointOfInterest_FavoritedBy',
-    // });
-    // PointOfInterest.belongsToMany(models.Review, {
-    //   through: 'PointOfInterest_Reviews',
-    // });
-    // PointOfInterest.belongsToMany(models.Event, {
-    //   through: 'PointOfInterest_Events',
-    // });
-    // PointOfInterest.hasOne(models.Location); //? location of the POI
+    PointOfInterest.belongsToMany(models.User, {
+      through: 'PointOfInterest_FavoritedBy',
+    });
+    PointOfInterest.belongsToMany(models.Review, {
+      through: 'PointOfInterest_Reviews',
+    });
+    PointOfInterest.belongsToMany(models.Event, {
+      through: 'PointOfInterest_Events',
+    });
+    PointOfInterest.hasOne(models.Location); //? location of the POI
   };
   return PointOfInterest;
 };
