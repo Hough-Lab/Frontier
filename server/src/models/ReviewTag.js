@@ -3,6 +3,7 @@ module.exports = (sequelize, DataTypes) => {
     reviewTagId: {
       type: DataTypes.UUID,
       allowNull: false,
+      primaryKey: true,
     },
     tagName: {
       type: DataTypes.STRING,

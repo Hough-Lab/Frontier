@@ -3,6 +3,7 @@ module.exports = (sequelize, DataTypes) => {
     chatId: {
       type: DataTypes.UUID,
       allowNull: false,
+      primaryKey: true,
     }
   });
 

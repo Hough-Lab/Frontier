@@ -7,6 +7,8 @@ import {
   LayoutAnimation,
   Platform,
   UIManager,
+  LogBox,
+  Dimensions,
 } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import Constants from 'expo-constants';
@@ -17,21 +19,35 @@ import Colors from '../assets/colors';
 import { Navigation } from '../interfaces/interfaces';
 import SearchBtnComponent from '../components/SearchBtnComponent';
 
+LogBox.ignoreLogs([/MapView/g]);
+
 const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
-  const [location, setLocation]: any = useState();
   const [latitude, setLatitude]: any = useState(51.5167);
   const [longitude, setLongitude]: any = useState(0.0667);
+  const [location, setLocation]: any = useState({
+    latitude: 51.5167,
+    longitude: 0.0667,
+    latitudeDelta: 0.0122,
+    longitudeDelta:
+      (Dimensions.get('window').width / Dimensions.get('window').height) *
+      0.0122,
+  });
   const [errorMsg, setErrorMsg] = useState('');
   const [isLoading, setLoading] = useState<boolean>(true);
 
+  const recenter = () => {
+    setLocation({
+      latitude: latitude,
+      longitude: longitude,
+      latitudeDelta: 0.0122,
+      longitudeDelta:
+        (Dimensions.get('window').width / Dimensions.get('window').height) *
+        0.0122,
+    });
+  };
+
   useEffect(() => {
     (async () => {
-      if (Platform.OS === 'android' && !Constants.isDevice) {
-        setErrorMsg(
-          'Oops, this will not work on Snack in an Android emulator. Try it on your device!',
-        );
-        return;
-      }
       let { status } = await Location.requestPermissionsAsync();
       if (status !== 'granted') {
         setErrorMsg('Permission to access location was denied');
@@ -49,16 +65,6 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
     })();
   }, []);
 
-  console.log('location', location);
-  console.log('latitude', latitude);
-
-  let text = 'Waiting..';
-  if (errorMsg) {
-    text = errorMsg;
-  } else if (location) {
-    text = JSON.stringify(location);
-  }
-
   return (
     <View style={styles.container}>
       {isLoading ? (
@@ -68,23 +74,56 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
       ) : (
         <MapView
           style={{ flex: 1 }}
+          showsUserLocation={true}
           initialRegion={{
             latitude: latitude,
             longitude: longitude,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
+            latitudeDelta: 0.0122,
+            longitudeDelta:
+              (Dimensions.get('window').width /
+                Dimensions.get('window').height) *
+              0.0122,
           }}
+          region={location}
         >
           <Marker
             coordinate={{
               latitude: latitude,
               longitude: longitude,
             }}
-            title={'A place'}
-            description={'Descriptions go here'}
+            title={'PostgreSQL Party'}
+            // description={'Descriptions go here'}
             onPress={() =>
               navigation.navigate('MainStackNavigator', {
                 screen: 'DisplayPOIScreen',
+              })
+            }
+          />
+          <Marker
+            coordinate={{
+              latitude: latitude + 0.005,
+              longitude: longitude + 0.002,
+            }}
+            title={'Event'}
+            // description={'Descriptions go here'}
+            pinColor={Colors.blue}
+            onPress={() =>
+              navigation.navigate('EventNavigator', {
+                screen: 'DisplayEventScreen',
+              })
+            }
+          />
+          <Marker
+            coordinate={{
+              latitude: latitude - 0.003,
+              longitude: longitude - 0.002,
+            }}
+            title={'Tip'}
+            // description={'Descriptions go here'}
+            pinColor="wheat"
+            onPress={() =>
+              navigation.navigate('TipNavigator', {
+                screen: 'DisplayTipScreen',
               })
             }
           />
@@ -92,7 +131,7 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
       )}
 
       <View style={styles.recenterBtn}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={recenter}>
           <FontAwesome5 name="location-arrow" size={24} color={Colors.blue} />
         </TouchableOpacity>
       </View>

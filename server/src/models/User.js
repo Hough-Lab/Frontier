@@ -3,6 +3,7 @@ module.exports = (sequelize, DataTypes) => {
     userId: {
       type: DataTypes.UUID,
       allowNull: false,
+      primaryKey: true,
     },
     isBusiness: {
       type: DataTypes.BOOLEAN,
@@ -58,12 +59,12 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   User.associate = (models) => {
-    User.hasMany(models.Event)
-    User.hasMany(models.Review)
-    User.hasMany(models.UserTag);
-    User.hasMany(models.PointOfInterest);
-    User.hasMany(models.Plan);
-    User.hasMany(models.Chat);
+    // User.hasMany(models.Event);
+    // User.hasMany(models.Review);
+    // User.hasMany(models.UserTag);
+    // User.hasMany(models.PointOfInterest);
+    // User.hasMany(models.Plan);
+    // User.hasMany(models.Chat);
     // User.belongsTo(models.Event);
     // User.belongsToMany(models.Event, { through: 'User_Events_Attending'});
     // User.belongsTo(models.Review);

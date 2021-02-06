@@ -3,6 +3,11 @@ module.exports = (sequelize, DataTypes) => {
     eventId: {
       type: DataTypes.UUID,
       allowNull: false,
+      primaryKey: true
+    },
+    pointOfInterestId: {
+      type: DataTypes.STRING,
+      allowNull: false,
     },
     dateFrom: {
       type: DataTypes.STRING,
@@ -19,7 +24,11 @@ module.exports = (sequelize, DataTypes) => {
     description: {
       type: DataTypes.STRING,
       allowNull: false,
-      defaultValue: 'no description given',
+      defaultValue: 'No description given.',
+    },
+    createdBy: {
+      type: DataTypes.UUID,
+      allowNull: false,
     },
     maxCapacity: {
       type: DataTypes.INTEGER,
@@ -27,7 +36,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     isPrivate: {
       type: DataTypes.BOOLEAN,
-      allowNull: true,
+      allowNull: false,
     },
     picture: {
       type: DataTypes.STRING,
@@ -37,14 +46,8 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Event.associate = (models) => {
-    Event.belongsToMany(models.User, { through: 'Event_Users' });
-    Event.hasOne(models.PointOfInterest); //! the location of the review - if it's close enough to an existing POI, will automatically be assigned to the exisitng POI
-    Event.hasMany(models.EventTag); //?
-    // Event.belongsToMany(models.EventTag, { through: 'EventTag_Events' });
-    // Event.belongsToMany(models.Plan, { through: 'Event_Plans' });
-    // Event.hasOne(models.PointOfInterest); //? the point of interest the event is for
-    // Event.hasMany(models.User); //? user who posts the event __________ Users[] interested in the event __________ Users[] going to the event
+    Event.belongsTo(models.User);
+    Event.hasMany(models.EventTag);
   };
-
   return Event;
 };

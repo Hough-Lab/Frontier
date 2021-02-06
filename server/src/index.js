@@ -24,6 +24,7 @@ app.use('/api/review', routers.reviewRouter);
 app.use('/api/plan', routers.planRouter);
 app.use('/api/POI', routers.POIRouter);
 app.use('/api/chat', routers.chatRouter);
+app.use('/api/location', routers.locationRouter)
 
 const server = require('http').createServer(app);
 

@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
   searchBtn: {
     position: 'absolute',
     right: 10,
-    top: 30,
+    top: 40,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 50,
@@ -73,9 +73,10 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     paddingRight: 10,
     right: 40,
-    top: 30,
+    top: 40,
     borderRadius: 30,
     backgroundColor: Colors.white,
     width: '80%',
+    elevation: 5,
   },
 });
