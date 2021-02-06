@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { createEvent } from '../../actions/eventActions';
 import { handleImageUpload } from '../../components/UploadImageComponent/UploadImageComponent';
@@ -18,15 +18,54 @@ let mockArrayTags: Tag[] = [
 
 const emptyTagsArray: Tag[] = [];
 
+const emptyEventObject = {
+  title: '',
+  eventId: 'fakeEventId',
+  pointOfInterestId: 'fakePointId',
+  dateFrom: '',
+  dateTo: '',
+  description: '',
+  createdBy: 'fakeUserId',
+  maxCapacity: 10,
+  isPrivate: false,
+  picture: '',
+  location: '',
+  tags: emptyTagsArray,
+};
+
 export const CreateEventScreen = () => {
   const [inputValues, setInputValues] = useState({ title: '', location: '' });
   const [tagInputValue, setTagInputValue] = useState('');
   const [selectedTags, setSelectedTags] = useState(emptyTagsArray);
   const [recommendedTags, setRecommendedTags] = useState(mockArrayTags);
+  const [eventObject, setEventObject] = useState(emptyEventObject);
+
+  const handleInputChange = (
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLTextAreaElement>,
+  ) => {
+    const { name, value } = e.target;
+    setEventObject({ ...eventObject, [name]: value });
+  };
+
+  useEffect(() => {
+    setEventObject({ ...eventObject, tags: selectedTags });
+  }, [selectedTags]);
 
   const dispatch = useDispatch();
 
-  const handleSubmit = () => {};
+  const handleSubmit = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent> | any,
+  ) => {
+    e.preventDefault();
+    console.log('selectedTags :>> ', selectedTags);
+    console.log('eventObject :>> ', eventObject);
+  };
+
+  const handleIsPrivateClick = () => {
+    setEventObject({ ...eventObject, isPrivate: !eventObject.isPrivate });
+  };
 
   const handleRecommendedTagClick = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
@@ -59,15 +98,11 @@ export const CreateEventScreen = () => {
   const addTagtoSelected = (tag: Tag) => {
     setSelectedTags((prevTags) => [...prevTags, tag]);
     setRecommendedTags((prevTags) => prevTags.filter((el) => el !== tag));
-    console.log('selectedTags :>> ', selectedTags);
-    console.log('recommendedTags :>> ', recommendedTags);
   };
 
   const removeTagFromSelected = (tag: Tag) => {
     setRecommendedTags((prevTags) => [...prevTags, tag]);
     setSelectedTags((prevTags) => prevTags.filter((el) => el !== tag));
-    console.log('selectedTags :>> ', selectedTags);
-    console.log('recommendedTags :>> ', recommendedTags);
   };
 
   const handleTagInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -83,39 +118,45 @@ export const CreateEventScreen = () => {
       <div className="eventBlock">
         <div className="AddEvent">
           <h2> Create Event</h2>
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className="photoUploadContainer">
               <label className="eventScreenLabel">Upload Photo</label>
               <input
+                name="picture"
                 type="file"
                 accept="image/*"
                 onClick={handleImageUpload}
                 multiple={false}
+                onChange={handleInputChange}
               />
             </div>
 
             <div className="titleInputContainer">
               <label className="eventScreenLabel">Event Name</label>
               <input
+                name="title"
                 className="textInput"
                 type="text"
-                name="EventName"
                 placeholder="Type Event Name..."
                 onClick={(text) => setInputValues({ ...inputValues })}
+                onChange={handleInputChange}
+                value={eventObject.title}
               />
             </div>
             <div className="locationInputContainer">
               <label className="eventScreenLabel">Location</label>
               <input
+                onChange={handleInputChange}
+                name="location"
                 className="textInput"
                 type="text"
-                name="LocationName"
                 placeholder="Location"
+                value={eventObject.location}
               ></input>
             </div>
             {/* <div className="locationInputContainer">
             <label>Location</label>
-             <LocationAutoCompleteInput placeholder="Location" /> 
+            <LocationAutoCompleteInput placeholder="Location" /> 
           </div> */}
 
             <div className="tagSelectionContainer">
@@ -154,57 +195,48 @@ export const CreateEventScreen = () => {
             <div className="dateInputContainer">
               <label className="eventScreenLabel">From:</label>
               <input
+                onChange={handleInputChange}
+                name="dateFrom"
                 className="textInput"
                 type="datetime-local"
-                name="EventDate"
+                value={eventObject.dateFrom}
               />
               <label className="eventScreenLabel">To:</label>
               <input
+                onChange={handleInputChange}
+                name="dateTo"
                 className="textInput"
                 type="datetime-local"
-                name="EventDate"
+                value={eventObject.dateTo}
               />
             </div>
 
+            <div className="descriptionInputContainer">
+              <label className="eventScreenLabel">Description</label>
+              <textarea
+                onChange={handleInputChange}
+                className="createEventTextArea"
+                name="description"
+                cols={40}
+                rows={5}
+                value={eventObject.description}
+              />
+            </div>
             <div className="selectPrivateEventContainer">
               <input
+                onClick={() => handleIsPrivateClick()}
                 className="textInput"
                 type="checkbox"
                 id="event"
-                name="isEventPrivate"
+                name="isPrivate"
                 value="private"
               />
               <label className="eventScreenLabel" htmlFor="event">
                 Private Event
               </label>
             </div>
-            <div className="descriptionInputContainer">
-              <label className="eventScreenLabel">Description</label>
-              <textarea
-                className="createEventTextArea"
-                name="description"
-                cols={40}
-                rows={5}
-              />
-            </div>
-            <div className="ratingInputContainer">
-              <div className="rating">
-                <span>☆</span>
-                <span>☆</span>
-                <span>☆</span>
-                <span>☆</span>
-                <span>☆</span>
-              </div>
-            </div>
-            <div className="priceLevelInputContainer">
-              <div className="rating">
-                <span>$</span>
-                <span>$</span>
-                <span>$</span>
-              </div>
-            </div>
             <div className="shareButtonContainer">
-              <button className="shareButton" onClick={handleSubmit}>
+              <button type="submit" className="shareButton">
                 Share
               </button>
             </div>
