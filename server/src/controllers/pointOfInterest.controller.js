@@ -1,14 +1,45 @@
 const uuid = require('uuid');
 const models = require('../models').sequelize.models;
 
-exports.createPOI = async (formattedAddress, latitude, longitude) => {
-  const POIId = uuid.v4();
-  const newPOI = await models.PointOfInterest.create({
-    pointOfInterestId: POIId,
-    formattedAddress,
-    latitude,
-    longitude,
+exports.createPOI = async (formattedAddress, latitude, longitude, user) => {
+
+  const pointOfInterestId = uuid.v4();
+  const locationId = uuid.v4();
+  const UserUserId = user.UserUserId
+  const searchPOI = await models.PointOfInterest.findAll({
+    include: [
+      {
+        model: models.Location,
+        where: {
+            latitude: latitude,
+            longitude: longitude,
+        }
+      }
+    ]
   });
+
+
+  if (searchPOI.length === 0) {
+    const newPOI = await models.PointOfInterest.create({
+      pointOfInterestId,
+      formattedAddress,
+      latitude,
+      longitude,
+      UserUserId
+    });
+
+    const newLocation = await models.Location.create({
+      locationId,
+      formattedAddress,
+      latitude,
+      longitude,
+      PointOfInterestPointOfInterestId: newPOI.pointOfInterestId //
+    });
+
+    return newPOI
+  } else {
+    return searchPOI
+  }
 };
 
 // Place id will be the Review ID or the Event ID. This function checks if there
@@ -27,7 +58,7 @@ exports.CreatePOI = async (req, res) => {
   try {
     const {
       //? for poi
-      pointOfInterestId = uuid.v4(),
+      pointOfInterestId,
       formattedAddress,
       //? for location
       locationId = uuid.v4(),

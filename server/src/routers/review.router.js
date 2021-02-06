@@ -9,7 +9,7 @@ const {
 
 router.post('/postReview', PostReview);
 router.delete('/deleteReview', DeleteReview);
-router.get('/:reviewId', GetReviewById);
 router.get('/getAllReviews', GetAllReviews);
+router.get('/:reviewId', GetReviewById);
 
 module.exports = router;
