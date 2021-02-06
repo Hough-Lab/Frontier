@@ -5,6 +5,12 @@ export interface FrontierAction<T> extends Action {
   payload: T;
 }
 
+export interface SystemState {
+  user: User;
+  event: Event;
+  review: Review;
+}
+
 export interface User {
   userId: string;
   isBusiness: boolean;
@@ -21,12 +27,6 @@ export interface User {
   certified: boolean;
 }
 
-export interface PointOfInterest {
-  formattedAddress: string;
-  latitude: string;
-  longitude: string;
-}
-
 export interface Event {
   eventId: string;
   dateFrom: string;
@@ -36,7 +36,7 @@ export interface Event {
   maxCapacity: number;
   isPrivate: boolean;
   picture: string;
-  pointOfInterest: PointOfInterest;
+  pointOfInterestId: string;
   tags: string[];
 }
 
@@ -50,8 +50,20 @@ export interface Review {
   safetyRating: number;
   safetyComment: string;
   picture: string;
-  pointOfInterest: PointOfInterest;
+  pointOfInterestId: string;
   tags: string[];
+}
+
+export interface POIArray {
+  [key: string]: POI;
+}
+
+export interface POI {
+  formattedAddress: string;
+  latitude: number;
+  longitude: number;
+  events: Event[];
+  reviews: Review[];
 }
 
 //TODO set up rest of interfaces

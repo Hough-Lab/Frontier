@@ -5,7 +5,18 @@ import { handleImageUpload } from '../../components/UploadImageComponent/UploadI
 // import LocationAutoCompleteInput from '../../components/LocationAutoCompleteInput/LocationAutoCompleteInput';
 import './CreateEventScreen.css';
 
-const mockArrayTags = ['Food', 'Adventure', 'Nature'];
+interface Tag {
+  reviewTagId: number;
+  tagName: string;
+}
+
+const mockArrayTags: Tag[] = [
+  { reviewTagId: 1, tagName: 'Food' },
+  { reviewTagId: 2, tagName: 'Adventure' },
+  { reviewTagId: 3, tagName: 'Nature' },
+];
+
+const selectedTags: Object[] = [];
 
 export const CreateEventScreen = () => {
   const [inputValues, setInputValues] = useState({ title: '', location: '' });
@@ -14,13 +25,25 @@ export const CreateEventScreen = () => {
 
   const handleSubmit = () => {};
 
+  const handleTagClick = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    tag: Tag,
+  ) => {
+    e.preventDefault();
+    addTagtoSelected(tag);
+  };
+
+  const addTagtoSelected = (tag: Tag) => {
+    selectedTags.push(tag);
+    console.log('selectedTags :>> ', selectedTags);
+  };
+
   // const handleSubmit = useCallback(() => {
   //   dispatch(createEvent(inputValues.title, inputValues.location));
   // }, [inputValues]);
 
   return (
     <div className="block">
-      <div className="eventContainer"></div>
       <div className="AddEvent">
         <h2> Create Event</h2>
         <form>
@@ -37,6 +60,7 @@ export const CreateEventScreen = () => {
           <div className="titleInputContainer">
             <label className="eventScreenLabel">Event Name</label>
             <input
+              className="textInput"
               type="text"
               name="EventName"
               placeholder="Type Event Name..."
@@ -46,6 +70,7 @@ export const CreateEventScreen = () => {
           <div className="locationInputContainer">
             <label className="eventScreenLabel">Location</label>
             <input
+              className="textInput"
               type="text"
               name="LocationName"
               placeholder="Location"
@@ -61,19 +86,33 @@ export const CreateEventScreen = () => {
             <input type="text" name="Tags" placeholder="Input Tags" />
             <div className="suggestedTagsContainer">
               {mockArrayTags.map((tag) => (
-                <button className="suggestedTagButton">{tag}</button>
+                <button
+                  onClick={(e) => handleTagClick(e, tag)}
+                  className="suggestedTagButton"
+                >
+                  {tag.tagName}
+                </button>
               ))}
             </div>
           </div>
           <div className="dateInputContainer">
             <label className="eventScreenLabel">From:</label>
-            <input type="datetime-local" name="EventDate" />
+            <input
+              className="textInput"
+              type="datetime-local"
+              name="EventDate"
+            />
             <label className="eventScreenLabel">To:</label>
-            <input type="datetime-local" name="EventDate" />
+            <input
+              className="textInput"
+              type="datetime-local"
+              name="EventDate"
+            />
           </div>
 
           <div className="selectPrivateEventContainer">
             <input
+              className="textInput"
               type="checkbox"
               id="event"
               name="isEventPrivate"
@@ -85,7 +124,12 @@ export const CreateEventScreen = () => {
           </div>
           <div className="descriptionInputContainer">
             <label className="eventScreenLabel">Description</label>
-            <textarea name="description" cols={40} rows={5} />
+            <textarea
+              className="createEventTextArea"
+              name="description"
+              cols={40}
+              rows={5}
+            />
           </div>
           <div className="ratingInputContainer">
             <div className="rating">

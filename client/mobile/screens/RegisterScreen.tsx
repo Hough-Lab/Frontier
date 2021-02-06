@@ -47,6 +47,7 @@ const RegisterScreen = ({ navigation }: { navigation: Navigation }) => {
       <View style={styles.inputContainer}>
         <TextInput
           placeholder="Username"
+          autoCompleteType="username"
           value={inputValues.username}
           onChangeText={(text) =>
             setInputValues({ ...inputValues, username: text })
@@ -58,6 +59,7 @@ const RegisterScreen = ({ navigation }: { navigation: Navigation }) => {
         <TextInput
           placeholder="First Name"
           value={inputValues.firstName}
+          autoCompleteType="name"
           onChangeText={(text) =>
             setInputValues({ ...inputValues, firstName: text })
           }
@@ -67,6 +69,7 @@ const RegisterScreen = ({ navigation }: { navigation: Navigation }) => {
       <View style={styles.inputContainer}>
         <TextInput
           placeholder="Last Name"
+          autoCompleteType="name"
           value={inputValues.lastName}
           onChangeText={(text) =>
             setInputValues({ ...inputValues, lastName: text })
@@ -77,6 +80,8 @@ const RegisterScreen = ({ navigation }: { navigation: Navigation }) => {
       <View style={styles.inputContainer}>
         <TextInput
           placeholder="Email"
+          autoCompleteType="email"
+          keyboardType="email-address"
           value={inputValues.email}
           onChangeText={(text) =>
             setInputValues({ ...inputValues, email: text })

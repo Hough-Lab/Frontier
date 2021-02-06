@@ -7,14 +7,10 @@ const initialState: Event = {
   dateTo: '',
   title: '',
   description: '',
-  maxCapacity: 0,
+  maxCapacity: 10,
   isPrivate: true,
   picture: '',
-  pointOfInterest: {
-    formattedAddress: '',
-    latitude: '',
-    longitude: '',
-  },
+  pointOfInterestId: '',
   tags: [],
 };
 

@@ -3,6 +3,7 @@ module.exports = (sequelize, DataTypes) => {
     messageId: {
       type: DataTypes.UUID,
       allowNull: false,
+      primaryKey: true,
     },
     sentAt: {
       type: DataTypes.STRING,

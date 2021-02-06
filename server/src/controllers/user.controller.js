@@ -24,8 +24,6 @@ exports.RegisterUser = async (req, res) => {
       userTags,
     } = req.body;
 
-    email = email.toLowerCase();
-
     const { valid, errors } = validateRegisterInput(
       email,
       username,
@@ -77,7 +75,7 @@ exports.RegisterUser = async (req, res) => {
       password: hashedPw,
       lastSeen: createdDate.toISOString(),
     });
-    const token = await generateAuthToken(userId);
+    const token = await generateAuthToken(newUser.userId);
     res.status(201).send({ user: newUser, token });
   } catch (e) {
     res.status(500);

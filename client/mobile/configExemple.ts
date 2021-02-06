@@ -1,1 +1,4 @@
-export const GoogleKey = 'AIzaSyAZHymJjVq7dopYiXa4HW0WBUPwIbFOAu4';
+
+export const GoogleKey = 'YOUR GOOGLE API KEY';
+export const ip_address = 'YOUR IP ADDRESS';
+
