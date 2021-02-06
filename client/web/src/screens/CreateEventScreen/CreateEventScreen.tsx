@@ -19,7 +19,8 @@ export const CreateEventScreen = () => {
   // }, [inputValues]);
 
   return (
-    <div className="eventContainer">
+    <div className="block">
+      <div className="eventContainer"></div>
       <div className="AddEvent">
         <h2> Create Event</h2>
         <form>

@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import './NavBar.css';
 import { RiCalendarEventFill } from 'react-icons/ri';
 import { BiSelectMultiple } from 'react-icons/bi';
+import { FiLogOut } from 'react-icons/fi';
+import { MdStars } from 'react-icons/md';
+import { TiHome } from 'react-icons/ti';
 
 export const NavBar = () => {
   // const [showCreateEvent, setShowCreateEvent] = useState(false);
@@ -20,9 +23,11 @@ export const NavBar = () => {
         </button> */}
 
       <button className="navBarButton">
+        <TiHome className="myReact-icons" size={50} />
         <div>Home</div>
       </button>
       <button className="navBarButton">
+        <MdStars className="myReact-icons" size={50} />
         <div>Point of Interest</div>
       </button>
       <button className="navBarButton selected">
@@ -48,6 +53,7 @@ export const NavBar = () => {
           <div to="/viewTip">View Travel Tip</div>
         </button> */}
       <button className="navBarButton logout">
+        <FiLogOut className="myReact-icons" size={50} />
         <div>Logout</div>
       </button>
     </div>
