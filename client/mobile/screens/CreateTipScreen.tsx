@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   TextInput,
   ScrollView,
+  LogBox,
 } from 'react-native';
 import { AirbnbRating, Rating } from 'react-native-ratings';
 import {
@@ -23,11 +24,18 @@ import TagsInsertComponent from '../components/TagsInsertComponent';
 import GooglePlacesInput from '../components/GooglePlacesInput';
 import { Review } from '../interfaces/reducerInterfaces';
 
-// LogBox.ignoreLogs([
-//   'VirtualizedLists should never be nested', // TODO: Remove when fixed
-// ]);
+LogBox.ignoreLogs([
+  'VirtualizedLists should never be nested', // TODO: Remove when fixed
+]);
 
 const CreateTipScreen = ({ navigation }: { navigation: Navigation }) => {
+  const getTags = (tags: string[]) => {
+    setInputValues({
+      ...inputValues,
+      tags: tags,
+    });
+  };
+
   const [inputValues, setInputValues] = useState({
     title: '',
     description: '',
@@ -39,6 +47,7 @@ const CreateTipScreen = ({ navigation }: { navigation: Navigation }) => {
     picture: 'Placeholder Image',
     latitude: 0,
     longitude: 0,
+    tags: [''],
   });
 
   const dispatch = useDispatch();
@@ -57,6 +66,7 @@ const CreateTipScreen = ({ navigation }: { navigation: Navigation }) => {
         inputValues.picture,
         inputValues.latitude,
         inputValues.longitude,
+        inputValues.tags,
         navigation,
       ),
     );
@@ -78,7 +88,7 @@ const CreateTipScreen = ({ navigation }: { navigation: Navigation }) => {
   return (
     <ScrollView style={styles.container} keyboardShouldPersistTaps="always">
       <UploadImageComponent />
-      <TagsInsertComponent />
+      <TagsInsertComponent getTags={getTags} />
 
       {/* Tip title and location*/}
       <View style={styles.tipTitleView}>
