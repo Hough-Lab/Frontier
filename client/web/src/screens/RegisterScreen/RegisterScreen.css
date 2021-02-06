@@ -1,10 +1,11 @@
 .formInput {
   border-radius: 6px;
   border: none;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
   min-width: 150px;
   max-width: 250px;
   padding: 5px;
+  height: 25px;
 }
 
 .registerContainer {

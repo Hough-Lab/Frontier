@@ -80,3 +80,7 @@
   content: '\2605';
   position: absolute;
 }
+
+.uploadedImagePreview {
+  max-width: 180px;
+}

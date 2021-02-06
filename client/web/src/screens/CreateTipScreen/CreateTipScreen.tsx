@@ -1,6 +1,7 @@
 import React from 'react';
 // import LocationAutoCompleteInput from '../../components/LocationAutoCompleteInput/LocationAutoCompleteInput';
 import './CreateTipScreen.css';
+// import { handleTagClick } from '../CreateEventScreen/CreateEventScreen';
 
 const mockArrayTags = ['Food', 'Adventure', 'Nature'];
 
@@ -49,9 +50,14 @@ export function CreateTipScreen() {
             name="Tags"
             placeholder="Input Tags"
           />
-          {mockArrayTags.map((tag) => (
-            <button className="suggestedTagButton">{tag}</button>
-          ))}
+          <div className="suggestedTagsContainer">
+            {mockArrayTags.map((tag) => (
+              <button
+                // onClick={(e) => handleTagClick(e, tag)}
+                className="suggestedTagButton"
+              ></button>
+            ))}
+          </div>
         </div>
         <div className="descriptionInputContainer">
           <label className="eventScreenLabel">Description</label>
