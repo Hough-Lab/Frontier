@@ -2,7 +2,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { AppDispatch } from '../../App';
-import { GET_CURRENT_USER, SET_ERROR } from './types';
+import { LOGOUT_USER, GET_CURRENT_USER, SET_ERROR } from './types';
 import { Navigation } from '../../interfaces/interfaces';
 import { ip_address } from '../../config';
 
@@ -49,6 +49,8 @@ export const logoutUser = (navigation: Navigation) => async (
   dispatch: AppDispatch,
 ) => {
   await AsyncStorage.removeItem('jwtToken');
-  dispatch({ type: GET_CURRENT_USER, payload: null });
-  navigation.navigate('LoginScreen');
+  dispatch({ type: LOGOUT_USER, payload: null });
+  navigation.navigate('LoginStackNavigator', {
+    screen: 'LoginScreen',
+  });
 };

@@ -4,20 +4,18 @@ import {
   View,
   ActivityIndicator,
   TouchableOpacity,
-  LayoutAnimation,
-  Platform,
-  UIManager,
   LogBox,
   Dimensions,
 } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
-import Constants from 'expo-constants';
 import * as Location from 'expo-location';
-
 import { FontAwesome5 } from '@expo/vector-icons';
+import { useSelector, useDispatch } from 'react-redux';
+
 import Colors from '../assets/colors';
 import { Navigation } from '../interfaces/interfaces';
 import SearchBtnComponent from '../components/SearchBtnComponent';
+import { POI, SystemState } from '../interfaces/reducerInterfaces';
 
 LogBox.ignoreLogs([/MapView/g]);
 
@@ -29,6 +27,8 @@ export interface ISeenOnMap {
 }
 
 const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
+  const allPOI: any = useSelector((state: SystemState) => state.allPOI);
+
   const [userLocation, setUserLocation] = useState({
     latitude: 0,
     longitude: 0,
@@ -92,63 +92,43 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
           <ActivityIndicator color={Colors.pink} size="large" />
         </View>
       ) : (
-        <MapView
-          style={{ flex: 1 }}
-          showsMyLocationButton={false}
-          showsUserLocation={true}
-          initialRegion={{
-            latitude: userLocation.latitude,
-            longitude: userLocation.longitude,
-            latitudeDelta: 0.0122,
-            longitudeDelta:
-              (Dimensions.get('window').width /
-                Dimensions.get('window').height) *
-              0.0122,
-          }}
-          region={seenOnMap}
-        >
-          <Marker
-            coordinate={{
+        <>
+          <MapView
+            style={{ flex: 1 }}
+            showsMyLocationButton={false}
+            showsUserLocation={true}
+            initialRegion={{
               latitude: userLocation.latitude,
               longitude: userLocation.longitude,
+              latitudeDelta: 0.0122,
+              longitudeDelta:
+                (Dimensions.get('window').width /
+                  Dimensions.get('window').height) *
+                0.0122,
             }}
-            title={'PostgreSQL Party'}
-            // description={'Descriptions go here'}
-            onPress={() =>
-              navigation.navigate('MainStackNavigator', {
-                screen: 'DisplayPOIScreen',
-              })
-            }
-          />
-          <Marker
-            coordinate={{
-              latitude: userLocation.latitude + 0.005,
-              longitude: userLocation.longitude + 0.002,
-            }}
-            title={'Event'}
-            // description={'Descriptions go here'}
-            pinColor={Colors.blue}
-            onPress={() =>
-              navigation.navigate('EventNavigator', {
-                screen: 'DisplayEventScreen',
-              })
-            }
-          />
-          <Marker
-            coordinate={{
-              latitude: userLocation.latitude - 0.003,
-              longitude: userLocation.longitude - 0.002,
-            }}
-            title={'Tip'}
-            // description={'Descriptions go here'}
-            pinColor="wheat"
-            onPress={() =>
-              navigation.navigate('TipNavigator', {
-                screen: 'DisplayTipScreen',
-              })
-            }
-          />
-        </MapView>
+            region={seenOnMap}
+          >
+            {Object.keys(allPOI)[0] !== 'POI' &&
+              allPOI?.map((POI: POI, index: number) => {
+                return (
+                  <Marker
+                    key={POI.pointOfInterestId}
+                    coordinate={{
+                      latitude: +POI.latitude,
+                      longitude: +POI.longitude,
+                    }}
+                    title={'PostgreSQL Party'}
+                    // description={'Descriptions go here'}
+                    onPress={() =>
+                      navigation.navigate('MainStackNavigator', {
+                        screen: 'DisplayPOIScreen',
+                      })
+                    }
+                  />
+                );
+              })}
+          </MapView>
+        </>
       )}
 
       <View style={styles.recenterBtn}>
