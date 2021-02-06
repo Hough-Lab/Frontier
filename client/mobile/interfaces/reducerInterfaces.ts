@@ -50,10 +50,20 @@ export interface Review {
   safetyRating: number;
   safetyComment: string;
   picture: string;
-  formattedAddress: string;
-  latitude: string;
-  longitude: string;
+  pointOfInterestId: string;
   tags: string[];
+}
+
+export interface POIArray {
+  [key: string]: POI;
+}
+
+export interface POI {
+  formattedAddress: string;
+  latitude: number;
+  longitude: number;
+  events: Event[];
+  reviews: Review[];
 }
 
 //TODO set up rest of interfaces
