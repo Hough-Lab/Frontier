@@ -5,6 +5,7 @@ import {
   View,
   ScrollView,
   TouchableOpacity,
+  FlatList,
 } from 'react-native';
 import { useSelector } from 'react-redux';
 
@@ -25,18 +26,20 @@ const DisplayEventScreen = () => {
         <Text style={styles.eventTitle}>{event.title}</Text>
         <Text>{dayjs(event.dateFrom).format('DD-MM-YYYY HH:mm')}</Text>
         <View style={styles.tagsContainer}>
-          <View style={styles.tag}>
-            <Text style={styles.tagText}>tag</Text>
-          </View>
-          {/* <View style={styles.tag}>
-            <Text style={styles.tagText}>tag 1</Text>
-          </View>
-          <View style={styles.tag}>
-            <Text style={styles.tagText}>tag 1</Text>
-          </View>
-          <View style={styles.tag}>
-            <Text style={styles.tagText}>tag 1</Text>
-          </View> */}
+          <Text>tag</Text>
+          {/* to be replaced by the below once the tags are part of the event */}
+          {/* <View style={styles.tagContainer}>
+        <FlatList
+          horizontal={true}
+          data={event.tags}
+          renderItem={({ item }) => (
+            <View style={styles.tag}>
+              <Text style={styles.tagText}>{item}</Text>
+            </View>
+          )}
+          keyExtractor={(item) => item.key}
+        />
+      </View> */}
         </View>
 
         <View style={styles.uploadImageArea}>
@@ -99,6 +102,9 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 30,
     backgroundColor: Colors.white,
+  },
+  tagContainer: {
+    paddingVertical: 10,
   },
   tag: {
     justifyContent: 'center',
