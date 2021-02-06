@@ -1,10 +1,10 @@
 import { LayoutAnimation } from 'react-native';
 
-export const applyAnimation = () => {
+export const applyAnimation = (property = 'scaleXY') => {
   LayoutAnimation.configureNext({
     duration: 700,
-    create: { duration: 300, type: 'easeOut', property: 'scaleXY' },
+    create: { duration: 300, type: 'easeOut', property: property },
     update: { type: 'spring', springDamping: 10 },
-    delete: { duration: 300, type: 'easeOut', property: 'scaleXY' },
+    delete: { duration: 300, type: 'easeOut', property: property },
   });
 };
