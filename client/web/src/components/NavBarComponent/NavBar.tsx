@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './NavBar.css';
-import { Link } from 'react-router-dom';
+import { RiCalendarEventFill } from 'react-icons/ri';
+import { BiSelectMultiple } from 'react-icons/bi';
 
 export const NavBar = () => {
   // const [showCreateEvent, setShowCreateEvent] = useState(false);
@@ -25,7 +26,9 @@ export const NavBar = () => {
         <div>Point of Interest</div>
       </button>
       <button className="navBarButton selected">
+        <RiCalendarEventFill className="myReact-icons" size={50} />
         <div>Create Event</div>
+
         {/* <button
             className="navButton"
             type="button"
@@ -38,6 +41,7 @@ export const NavBar = () => {
           <div to="/viewEvent">View Event</div>
         </button> */}
       <button className="navBarButton">
+        <BiSelectMultiple className="myReact-icons" size={50} />
         <div>Create Travel Tip</div>
       </button>
       {/* <button className="navBarButton">

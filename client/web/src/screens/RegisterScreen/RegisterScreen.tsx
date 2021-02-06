@@ -1,21 +1,23 @@
-import React from "react";
-import "./RegisterScreen.css";
+import React from 'react';
+import './RegisterScreen.css';
 
 export function RegisterScreen() {
   return (
-    <div className="container">
-      <div className="Login">
-        <div>
-          <img
-            src="img_frontier_logo.jpg"
-            alt="Frontier Logo"
-            width="500"
-            height="600"
+    <div className="registerContainer">
+      <div className="registerBox">
+        <form className="registerForm">
+          <input className="formInput" type="text" placeholder="Username" />
+          <input className="formInput" type="text" placeholder="First Name" />
+          <input className="formInput" type="text" placeholder="Last Name" />
+          <input className="formInput" type="password" placeholder="Email" />
+          <input className="formInput" type="password" placeholder="Password" />
+          <input
+            className="formInput"
+            type="text"
+            placeholder="Confirm Password"
           />
-        </div>
-        <h4>Enter Username and Password</h4>
-        <input type="text" placeholder="username" />
-        <input type="password" placeholder="password" />
+          <button className="registerButton">Register</button>
+        </form>
       </div>
     </div>
   );

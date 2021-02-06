@@ -16,7 +16,6 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <NavBar />
         <Switch>
           <Route path="/pointOfInterest">
             <DisplayPOIScreen />
@@ -27,13 +26,14 @@ function App() {
           <Route path="/register">
             <RegisterScreen />
           </Route>
-          <Route path="/create">
+          <Route path="/createEvent">
             <CreateEventScreen />
           </Route>
           <Route path="/createTip">
             <CreateTipScreen />
           </Route>
-          <Route path="/createEvent">
+          <Route path="/">
+            <NavBar />
             <HomeScreen />
           </Route>
         </Switch>

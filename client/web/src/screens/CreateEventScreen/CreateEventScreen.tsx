@@ -19,12 +19,12 @@ export const CreateEventScreen = () => {
   // }, [inputValues]);
 
   return (
-    <div className="createEventContainer">
+    <div className="eventContainer">
       <div className="AddEvent">
         <h2> Create Event</h2>
         <form>
           <div className="photoUploadContainer">
-            <label>Upload Photo</label>
+            <label className="eventScreenLabel">Upload Photo</label>
             <input
               type="file"
               accept="image/*"
@@ -34,7 +34,7 @@ export const CreateEventScreen = () => {
           </div>
 
           <div className="titleInputContainer">
-            <label>Event Name</label>
+            <label className="eventScreenLabel">Event Name</label>
             <input
               type="text"
               name="EventName"
@@ -43,7 +43,7 @@ export const CreateEventScreen = () => {
             />
           </div>
           <div className="locationInputContainer">
-            <label>Location</label>
+            <label className="eventScreenLabel">Location</label>
             <input
               type="text"
               name="LocationName"
@@ -56,7 +56,7 @@ export const CreateEventScreen = () => {
           </div> */}
 
           <div className="tagSelectionContainer">
-            <label>Tags:</label>
+            <label className="eventScreenLabel">Tags:</label>
             <input type="text" name="Tags" placeholder="Input Tags" />
             <div className="suggestedTagsContainer">
               {mockArrayTags.map((tag) => (
@@ -65,9 +65,9 @@ export const CreateEventScreen = () => {
             </div>
           </div>
           <div className="dateInputContainer">
-            <label>From:</label>
+            <label className="eventScreenLabel">From:</label>
             <input type="datetime-local" name="EventDate" />
-            <label>To:</label>
+            <label className="eventScreenLabel">To:</label>
             <input type="datetime-local" name="EventDate" />
           </div>
 
@@ -78,10 +78,12 @@ export const CreateEventScreen = () => {
               name="isEventPrivate"
               value="private"
             />
-            <label htmlFor="event">Private Event</label>
+            <label className="eventScreenLabel" htmlFor="event">
+              Private Event
+            </label>
           </div>
           <div className="descriptionInputContainer">
-            <label>Description</label>
+            <label className="eventScreenLabel">Description</label>
             <textarea name="description" cols={40} rows={5} />
           </div>
           <div className="ratingInputContainer">
