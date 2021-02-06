@@ -11,11 +11,7 @@ const initialState: Review = {
   safetyRating: 0,
   safetyComment: '',
   picture: '',
-  pointOfInterest: {
-    formattedAddress: '',
-    latitude: '',
-    longitude: '',
-  },
+  pointOfInterestId: '',
   tags: [],
 };
 
