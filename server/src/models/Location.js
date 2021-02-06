@@ -3,6 +3,7 @@ module.exports = (sequelize, DataTypes) => {
     locationId: {
       type: DataTypes.UUID,
       allowNull: false,
+      primaryKey: true,
     },
     formattedAddress: {
       type: DataTypes.STRING,
@@ -23,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Location.associate = (models) => {
-    Location.belongsToMany(models.PointOfInterest, { through: 'Location_PointsOfInterest' }) //! NOTE the 'S' in Point's'OfInterest
+    Location.belongsTo(models.PointOfInterest)
   };
   return Location;
 };
