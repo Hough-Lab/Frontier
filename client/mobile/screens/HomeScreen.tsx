@@ -94,6 +94,7 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
       ) : (
         <MapView
           style={{ flex: 1 }}
+          showsMyLocationButton={false}
           showsUserLocation={true}
           initialRegion={{
             latitude: userLocation.latitude,

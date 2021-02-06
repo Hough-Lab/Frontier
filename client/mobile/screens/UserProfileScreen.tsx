@@ -11,7 +11,6 @@ import {
   UIManager,
 } from 'react-native';
 import { useSelector } from 'react-redux';
-import Moment from 'react-moment';
 import moment from 'moment';
 import {
   AntDesign,
@@ -25,6 +24,7 @@ import { Navigation } from '../interfaces/interfaces';
 import { applyAnimation } from '../utils/generalFunctions';
 import Colors from '../assets/colors';
 import { countriesList, languagesList } from '../assets/countries';
+import DateTimePickerComponent from '../components/DateTimePickerComponent';
 
 const UserProfileScreen = ({ navigation }: { navigation: Navigation }) => {
   if (Platform.OS === 'android') {
@@ -37,6 +37,21 @@ const UserProfileScreen = ({ navigation }: { navigation: Navigation }) => {
   const user: User = useSelector((state: SystemState) => state.user);
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
   const [country, setCountry] = useState<string>(user.from);
+  const [inputValues, setInputValues] = useState({
+    userId: user.userId,
+    isBusiness: user.isBusiness,
+    username: user.username,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    dateOfBirth: user.dateOfBirth,
+    language: user.language,
+    from: user.from,
+    lastSeen: user.lastSeen,
+    profilePicture: user.profilePicture,
+    email: user.email,
+    verifications: user.verifications,
+    certified: user.certified,
+  });
 
   return (
     <View style={styles.container}>
@@ -96,15 +111,13 @@ const UserProfileScreen = ({ navigation }: { navigation: Navigation }) => {
               DOB:{' '}
             </Text>
             <Text style={{ ...styles.textInput, borderBottomWidth: 0 }}>
-              {moment(user.dateOfBirth).format('DD.MM.YYYY ')}
+              {moment(inputValues.dateOfBirth).format('DD.MM.YYYY ')}
             </Text>
-            <TouchableOpacity onPress={() => {}} activeOpacity={0.7}>
-              <MaterialCommunityIcons
-                name="calendar-month"
-                size={24}
-                color={Colors.blue}
-              />
-            </TouchableOpacity>
+            <DateTimePickerComponent
+              setDate={(selectedDate: string) =>
+                setInputValues({ ...inputValues, dateOfBirth: selectedDate })
+              }
+            />
           </View>
           <Picker
             selectedValue={user.from}
@@ -186,5 +199,19 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: Colors.blue,
     marginBottom: 10,
+  },
+  datePicker: {
+    flexDirection: 'row',
+    paddingTop: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  datePickerLabel: {
+    color: Colors.blue,
+    fontWeight: 'bold',
+  },
+  datePickerText: {
+    color: 'black',
+    paddingHorizontal: 5,
   },
 });

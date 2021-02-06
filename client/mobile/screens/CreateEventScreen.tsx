@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { connect, useDispatch } from 'react-redux';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import moment from 'moment';
 
 import { createEvent } from '../store/actions';
 import { Navigation } from '../interfaces/interfaces';
@@ -20,6 +20,7 @@ import UploadImageComponent from '../components/UploadImageComponent';
 import TagsInsertComponent from '../components/TagsInsertComponent';
 import GooglePlacesInput from '../components/GooglePlacesInput';
 import dayjs from 'dayjs';
+import DateTimePickerComponent from '../components/DateTimePickerComponent';
 
 const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
   const [inputValues, setInputValues] = useState({
@@ -131,61 +132,31 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
         </View>
       </View>
 
-      <TouchableOpacity activeOpacity={0.7}>
-        <View style={styles.eventTitleView}>
-          <MaterialIcons
-            name="event"
-            size={24}
-            color="black"
-            onPress={showDatePicker}
-          />
-          <View style={styles.inputView}>
-            {!isDateSelected ? (
-              <Text>Date of event</Text>
-            ) : (
-              <Text>{dayjs(date).format('ddd, DD MMM YYYY')}</Text>
-            )}
-          </View>
-        </View>
-      </TouchableOpacity>
-
-      <TouchableOpacity activeOpacity={0.7}>
-        <View style={styles.eventTitleView}>
-          <MaterialIcons
-            name="event"
-            size={24}
-            color="black"
-            onPress={showTimePicker}
-          />
-          <View style={styles.inputView}>
-            {!isTimeSelected ? (
-              <Text>Event starting at</Text>
-            ) : (
-              <Text>{dayjs(time).format('HH:mm')}</Text>
-            )}
-          </View>
-        </View>
-      </TouchableOpacity>
-
-      {/* Event date */}
-      {isDatePickerShow && (
-        <DateTimePicker
-          value={date}
-          mode={'date'}
-          is24Hour={true}
-          onChange={onChangeDate}
+      {/* Date From section */}
+      <View style={styles.datePicker}>
+        <Text style={styles.datePickerLabel}>FROM: </Text>
+        <Text style={styles.datePickerText}>
+          {moment(inputValues.dateFrom).format('Do MMMM, YYYY [at] HH:mm')}
+        </Text>
+        <DateTimePickerComponent
+          setDate={(selectedDate: string) =>
+            setInputValues({ ...inputValues, dateFrom: selectedDate })
+          }
         />
-      )}
+      </View>
 
-      {/* Event date */}
-      {isTimePickerShow && (
-        <DateTimePicker
-          value={time}
-          mode={'time'}
-          is24Hour={true}
-          onChange={onChangeTime}
+      {/* Date To section */}
+      <View style={styles.datePicker}>
+        <Text style={styles.datePickerLabel}>TO: </Text>
+        <Text style={styles.datePickerText}>
+          {moment(inputValues.dateTo).format('Do MMMM, YYYY [at] HH:mm')}
+        </Text>
+        <DateTimePickerComponent
+          setDate={(selectedDate: string) =>
+            setInputValues({ ...inputValues, dateTo: selectedDate })
+          }
         />
-      )}
+      </View>
 
       <View style={styles.eventTitleView}>
         <Ionicons name="location-sharp" size={24} color="black" />
@@ -243,6 +214,20 @@ const styles = StyleSheet.create({
     paddingTop: 30,
     flexDirection: 'row',
     justifyContent: 'center',
+  },
+  datePicker: {
+    flexDirection: 'row',
+    paddingTop: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  datePickerLabel: {
+    color: Colors.blue,
+    fontWeight: 'bold',
+  },
+  datePickerText: {
+    color: 'black',
+    paddingHorizontal: 5,
   },
   createBtn: {
     width: 150,
