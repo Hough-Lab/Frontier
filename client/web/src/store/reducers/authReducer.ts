@@ -1,18 +1,18 @@
-import { GET_CURRENT_USER, REGISTER_USER } from "../actions/types";
-import { FrontierAction, User } from "../interfaces/reducerInterfaces";
+import { GET_CURRENT_USER, REGISTER_USER } from '../actions/types';
+import { FrontierAction, User } from '../../interfaces/reducerInterfaces';
 
 const initialState: User = {
-  userId: "",
+  userId: '',
   isBusiness: false,
-  username: "",
-  firstName: "",
-  lastName: "",
-  dateOfBirth: "",
-  language: "",
-  from: "",
-  lastSeen: "",
-  profilePicture: "",
-  email: "",
+  username: '',
+  firstName: '',
+  lastName: '',
+  dateOfBirth: '',
+  language: '',
+  from: '',
+  lastSeen: '',
+  profilePicture: '',
+  email: '',
   verifications: 0,
   certified: false,
 };

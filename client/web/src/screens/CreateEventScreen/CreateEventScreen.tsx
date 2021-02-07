@@ -1,35 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { createEvent } from '../../actions/eventActions';
+import { createEvent, getAllPOI } from '../../store/actions';
 import { handleImageUpload } from '../../components/UploadImageComponent/UploadImageComponent';
 // import LocationAutoCompleteInput from '../../components/LocationAutoCompleteInput/LocationAutoCompleteInput';
 import './CreateEventScreen.css';
 
-interface Tag {
-  reviewTagId: number;
-  tagName: string;
-}
+let mockArrayTags: string[] = ['Food', 'Adventure', 'Nature'];
 
-let mockArrayTags: Tag[] = [
-  { reviewTagId: 1, tagName: 'Food' },
-  { reviewTagId: 2, tagName: 'Adventure' },
-  { reviewTagId: 3, tagName: 'Nature' },
-];
-
-const emptyTagsArray: Tag[] = [];
+const emptyTagsArray: string[] = [];
 
 const emptyEventObject = {
   title: '',
-  eventId: 'fakeEventId',
-  pointOfInterestId: 'fakePointId',
+  formattedAddress: '',
+  latitude: 0,
+  longitude: 0,
   dateFrom: '',
   dateTo: '',
   description: '',
-  createdBy: 'fakeUserId',
   maxCapacity: 10,
   isPrivate: false,
-  picture: '',
-  location: '',
+  picture: new File([''], 'filename'),
   tags: emptyTagsArray,
 };
 
@@ -39,6 +29,8 @@ export const CreateEventScreen = () => {
   const [selectedTags, setSelectedTags] = useState(emptyTagsArray);
   const [recommendedTags, setRecommendedTags] = useState(mockArrayTags);
   const [eventObject, setEventObject] = useState(emptyEventObject);
+
+  const dispatch = useDispatch();
 
   const handleInputChange = (
     e:
@@ -53,14 +45,28 @@ export const CreateEventScreen = () => {
     setEventObject({ ...eventObject, tags: selectedTags });
   }, [selectedTags]);
 
-  const dispatch = useDispatch();
-
-  const handleSubmit = (
+  const handleSubmit = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent> | any,
   ) => {
     e.preventDefault();
     console.log('selectedTags :>> ', selectedTags);
     console.log('eventObject :>> ', eventObject);
+    await dispatch(
+      createEvent(
+        eventObject.title,
+        eventObject.formattedAddress,
+        eventObject.latitude,
+        eventObject.longitude,
+        eventObject.dateFrom,
+        eventObject.dateTo,
+        eventObject.description,
+        eventObject.maxCapacity,
+        eventObject.isPrivate,
+        eventObject.picture,
+        eventObject.tags,
+      ),
+    );
+    dispatch(getAllPOI());
   };
 
   const handleIsPrivateClick = () => {
@@ -69,7 +75,7 @@ export const CreateEventScreen = () => {
 
   const handleRecommendedTagClick = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    tag: Tag,
+    tag: string,
   ) => {
     e.preventDefault();
     addTagtoSelected(tag);
@@ -77,7 +83,7 @@ export const CreateEventScreen = () => {
 
   const handleSelectedTagClick = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    tag: Tag,
+    tag: string,
   ) => {
     e.preventDefault();
     removeTagFromSelected(tag);
@@ -87,20 +93,15 @@ export const CreateEventScreen = () => {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.preventDefault();
-    const newTag = {
-      reviewTagId: 4,
-      tagName: tagInputValue,
-    };
+    const newTag = tagInputValue;
     addTagtoSelected(newTag);
     setTagInputValue('');
   };
-
-  const addTagtoSelected = (tag: Tag) => {
+  const addTagtoSelected = (tag: string) => {
     setSelectedTags((prevTags) => [...prevTags, tag]);
     setRecommendedTags((prevTags) => prevTags.filter((el) => el !== tag));
   };
-
-  const removeTagFromSelected = (tag: Tag) => {
+  const removeTagFromSelected = (tag: string) => {
     setRecommendedTags((prevTags) => [...prevTags, tag]);
     setSelectedTags((prevTags) => prevTags.filter((el) => el !== tag));
   };
@@ -147,11 +148,11 @@ export const CreateEventScreen = () => {
               <label className="eventScreenLabel">Location</label>
               <input
                 onChange={handleInputChange}
-                name="location"
+                name="formattedAddress"
                 className="textInput"
                 type="text"
                 placeholder="Location"
-                value={eventObject.location}
+                value={eventObject.formattedAddress}
               ></input>
             </div>
             {/* <div className="locationInputContainer">
@@ -176,7 +177,7 @@ export const CreateEventScreen = () => {
                     onClick={(e) => handleSelectedTagClick(e, tag)}
                     className="tagButton selectedTag"
                   >
-                    {tag.tagName}
+                    {tag}
                   </button>
                 ))}
               </div>
@@ -187,7 +188,7 @@ export const CreateEventScreen = () => {
                     onClick={(e) => handleRecommendedTagClick(e, tag)}
                     className="tagButton"
                   >
-                    {tag.tagName}
+                    {tag}
                   </button>
                 ))}
               </div>
