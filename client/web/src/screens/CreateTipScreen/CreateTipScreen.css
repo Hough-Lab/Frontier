@@ -7,45 +7,6 @@
   min-width: 330px;
 }
 
-.textInput {
-  max-width: 250px;
-  padding: 5px;
-}
-
-.createTipTextArea {
-  max-width: 250px;
-}
-
-.descriptionInputContainer {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.photoUploadContainer {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.titleInputContainer {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.locationInputContainer {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.tagSelectionContainer {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
 .ratingInputContainer {
   display: flex;
   flex-direction: column;
@@ -59,12 +20,6 @@
   justify-content: center;
   align-items: center;
 }
-/* 
-.tagOutput {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-} */
 
 .rating {
   unicode-bidi: bidi-override;

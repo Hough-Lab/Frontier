@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { createEvent } from '../../actions/eventActions';
+
 import { handleImageUpload } from '../../components/UploadImageComponent/UploadImageComponent';
 // import LocationAutoCompleteInput from '../../components/LocationAutoCompleteInput/LocationAutoCompleteInput';
 import './CreateEventScreen.css';
@@ -133,7 +133,7 @@ export const CreateEventScreen = () => {
           <label className="eventScreenLabel">Event Name</label>
           <input
             name="title"
-            className="textInput"
+            className="formInput"
             type="text"
             placeholder="Type Event Name..."
             onClick={(text) => setInputValues({ ...inputValues })}
@@ -141,12 +141,14 @@ export const CreateEventScreen = () => {
             value={eventObject.title}
           />
         </div>
+
         <div className="locationInputContainer">
           <label className="eventScreenLabel">Location</label>
+          {/* //TODO: need to add auto complete api google */}
           <input
             onChange={handleInputChange}
             name="location"
-            className="textInput"
+            className="formInput"
             type="text"
             placeholder="Location"
             value={eventObject.location}
@@ -160,13 +162,19 @@ export const CreateEventScreen = () => {
         <div className="tagSelectionContainer">
           <label className="eventScreenLabel">Tags:</label>
           <input
+            className="formInput"
             onChange={handleTagInputChange}
             value={tagInputValue}
             type="text"
             name="Tags"
             placeholder="Input Tags"
           />
-          <button onClick={(e) => handleAddUserTag(e)}>+</button>
+          <button
+            className="tagsAddButton"
+            onClick={(e) => handleAddUserTag(e)}
+          >
+            +
+          </button>
 
           <div className="tagsContainer">
             {selectedTags.map((tag) => (
@@ -195,7 +203,7 @@ export const CreateEventScreen = () => {
           <input
             onChange={handleInputChange}
             name="dateFrom"
-            className="textInput"
+            className="formInput"
             type="datetime-local"
             value={eventObject.dateFrom}
           />
@@ -203,7 +211,7 @@ export const CreateEventScreen = () => {
           <input
             onChange={handleInputChange}
             name="dateTo"
-            className="textInput"
+            className="formInput"
             type="datetime-local"
             value={eventObject.dateTo}
           />
@@ -213,17 +221,16 @@ export const CreateEventScreen = () => {
           <label className="eventScreenLabel">Description</label>
           <textarea
             onChange={handleInputChange}
-            className="createEventTextArea"
+            className="descriptionInputContainer"
             name="description"
             cols={40}
-            rows={5}
+            rows={6}
             value={eventObject.description}
           />
         </div>
         <div className="selectPrivateEventContainer">
           <input
             onClick={() => handleIsPrivateClick()}
-            className="textInput"
             type="checkbox"
             id="event"
             name="isPrivate"
