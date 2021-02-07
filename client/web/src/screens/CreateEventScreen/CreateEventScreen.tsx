@@ -1,31 +1,31 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { createEvent, getAllPOI } from '../../store/actions';
-import { handleImageUpload } from '../../components/UploadImageComponent/UploadImageComponent';
+import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { createEvent, getAllPOI } from "../../store/actions";
+import { handleImageUpload } from "../../components/UploadImageComponent/UploadImageComponent";
 // import LocationAutoCompleteInput from '../../components/LocationAutoCompleteInput/LocationAutoCompleteInput';
-import './CreateEventScreen.css';
+import "./CreateEventScreen.css";
 
-let mockArrayTags: string[] = ['Food', 'Adventure', 'Nature'];
+let mockArrayTags: string[] = ["Food", "Adventure", "Nature"];
 
 const emptyTagsArray: string[] = [];
 
 const emptyEventObject = {
-  title: '',
-  formattedAddress: '',
+  title: "",
+  formattedAddress: "",
   latitude: 0,
   longitude: 0,
-  dateFrom: '',
-  dateTo: '',
-  description: '',
+  dateFrom: "",
+  dateTo: "",
+  description: "",
   maxCapacity: 10,
   isPrivate: false,
-  picture: new File([''], 'filename'),
+  picture: "",
   tags: emptyTagsArray,
 };
 
 export const CreateEventScreen = () => {
-  const [inputValues, setInputValues] = useState({ title: '', location: '' });
-  const [tagInputValue, setTagInputValue] = useState('');
+  const [inputValues, setInputValues] = useState({ title: "", location: "" });
+  const [tagInputValue, setTagInputValue] = useState("");
   const [selectedTags, setSelectedTags] = useState(emptyTagsArray);
   const [recommendedTags, setRecommendedTags] = useState(mockArrayTags);
   const [eventObject, setEventObject] = useState(emptyEventObject);
@@ -35,7 +35,7 @@ export const CreateEventScreen = () => {
   const handleInputChange = (
     e:
       | React.ChangeEvent<HTMLInputElement>
-      | React.ChangeEvent<HTMLTextAreaElement>,
+      | React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
     setEventObject({ ...eventObject, [name]: value });
@@ -46,11 +46,11 @@ export const CreateEventScreen = () => {
   }, [selectedTags]);
 
   const handleSubmit = async (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent> | any,
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent> | any
   ) => {
     e.preventDefault();
-    console.log('selectedTags :>> ', selectedTags);
-    console.log('eventObject :>> ', eventObject);
+    console.log("selectedTags :>> ", selectedTags);
+    console.log("eventObject :>> ", eventObject);
     await dispatch(
       createEvent(
         eventObject.title,
@@ -63,8 +63,8 @@ export const CreateEventScreen = () => {
         eventObject.maxCapacity,
         eventObject.isPrivate,
         eventObject.picture,
-        eventObject.tags,
-      ),
+        eventObject.tags
+      )
     );
     dispatch(getAllPOI());
   };
@@ -75,7 +75,7 @@ export const CreateEventScreen = () => {
 
   const handleRecommendedTagClick = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    tag: string,
+    tag: string
   ) => {
     e.preventDefault();
     addTagtoSelected(tag);
@@ -83,19 +83,19 @@ export const CreateEventScreen = () => {
 
   const handleSelectedTagClick = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    tag: string,
+    tag: string
   ) => {
     e.preventDefault();
     removeTagFromSelected(tag);
   };
 
   const handleAddUserTag = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
     const newTag = tagInputValue;
     addTagtoSelected(newTag);
-    setTagInputValue('');
+    setTagInputValue("");
   };
   const addTagtoSelected = (tag: string) => {
     setSelectedTags((prevTags) => [...prevTags, tag]);

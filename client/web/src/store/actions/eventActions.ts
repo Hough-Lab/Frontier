@@ -1,7 +1,7 @@
-import axios from 'axios';
-import { AppDispatch } from '../../App';
-import { CREATE_EVENT, GET_ALL_POI, GET_CURRENT_EVENT } from './types';
-const ip_address = 'localhost';
+import axios from "axios";
+import { AppDispatch } from "../../App";
+import { CREATE_EVENT, GET_ALL_POI, GET_CURRENT_EVENT } from "./types";
+const ip_address = "localhost";
 
 const REACT_APP_SERVER_URI = `http://${ip_address}:5000`;
 
@@ -15,14 +15,14 @@ export const createEvent = (
   description: string,
   maxCapacity: number,
   isPrivate: boolean,
-  picture: File,
-  tags: string[],
+  picture: string,
+  tags: string[]
 ) => async (dispatch: AppDispatch) => {
   try {
-    const token = await localStorage.getItem('jwtToken');
+    const token = await localStorage.getItem("jwtToken");
 
     if (true) {
-      console.log('sexyTimes'); // Get the token from the localStorage
+      console.log("sexyTimes"); // Get the token from the localStorage
       // The token must be sent to the server in the following format
       // Bearer ${token}
       // Because it is convention. The server will use the token to create the event including data about the user. If the token is in
@@ -47,7 +47,7 @@ export const createEvent = (
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        },
+        }
       );
       dispatch({ type: CREATE_EVENT, payload: data });
 
@@ -67,10 +67,10 @@ export const createEvent = (
 };
 
 export const getCurrentEvent = (eventId: string) => async (
-  dispatch: AppDispatch,
+  dispatch: AppDispatch
 ) => {
   try {
-    const token = await localStorage.getItem('jwtToken');
+    const token = await localStorage.getItem("jwtToken");
 
     if (token) {
       const { data } = await axios.post(
@@ -82,7 +82,7 @@ export const getCurrentEvent = (eventId: string) => async (
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        },
+        }
       );
       dispatch({ type: GET_CURRENT_EVENT, payload: data });
 
