@@ -2,7 +2,6 @@ const uuid = require('uuid');
 const models = require('../models').sequelize.models;
 const { createPOI } = require('./pointOfInterest.controller');
 
-
 exports.PostEvent = async (req, res) => {
   try {
     const {
@@ -16,10 +15,13 @@ exports.PostEvent = async (req, res) => {
       maxCapacity,
       isPrivate,
       picture,
-      user
+      tags,
     } = req.body;
 
-    const newPOI = await createPOI(formattedAddress, latitude, longitude, user);
+    const user = req.user;
+
+    const newPOI = await createPOI(formattedAddress, latitude, longitude);
+
     const eventId = uuid.v4();
 
     let pointOfInterestId;
@@ -28,7 +30,7 @@ exports.PostEvent = async (req, res) => {
       pointOfInterestId = newPOI[0].pointOfInterestId;
     } else {
       pointOfInterestId = newPOI.pointOfInterestId;
-    };
+    }
 
     const newEvent = await models.Event.create({
       eventId,
@@ -41,7 +43,7 @@ exports.PostEvent = async (req, res) => {
       isPrivate,
       picture,
       createdBy: user.userId,
-      PointOfInterestPointOfInterestId: newPOI.pointOfInterestId
+      tags,
     });
 
     if (!newEvent) {
@@ -50,7 +52,7 @@ exports.PostEvent = async (req, res) => {
       res.status(201).send(newEvent);
     }
   } catch (err) {
-    console.error('THIS IS THE ERROR', err);
+    console.error(err);
     res.status(500).send(err);
   }
 };

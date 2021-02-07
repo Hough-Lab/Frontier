@@ -14,7 +14,7 @@ const appReducer = combineReducers({
   error: errorReducer,
 });
 
-const rootReducer = (state: undefined, action: FrontierAction<any>) => {
+const rootReducer = (state: any, action: FrontierAction<any>) => {
   if (action.type === 'LOGOUT_USER') {
     state = undefined;
   }
