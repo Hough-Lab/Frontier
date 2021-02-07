@@ -3,7 +3,18 @@ import React from 'react';
 import './CreateTipScreen.css';
 // import { handleTagClick } from '../CreateEventScreen/CreateEventScreen';
 
-const mockArrayTags = ['Food', 'Adventure', 'Nature'];
+interface Tag {
+  reviewTagId: number;
+  tagName: string;
+}
+
+const mockArrayTags: Tag[] = [
+  { reviewTagId: 1, tagName: 'Food' },
+  { reviewTagId: 2, tagName: 'Adventure' },
+  { reviewTagId: 3, tagName: 'Nature' },
+];
+
+const selectedTags: Object[] = [];
 
 const handleImageUpload = () => {
   console.log('Image Upload');
@@ -14,6 +25,19 @@ const handleImageUpload = () => {
 
 export function CreateTipScreen() {
   const handleSubmit = () => {};
+
+  const handleTagClick = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    tag: Tag,
+  ) => {
+    e.preventDefault();
+    addTagtoSelected(tag);
+  };
+
+  const addTagtoSelected = (tag: Tag) => {
+    selectedTags.push(tag);
+    console.log('selectedTags :>> ', selectedTags);
+  };
   return (
     <div className="AddEvent">
       <h2>Create Travel Tip</h2>
@@ -44,18 +68,15 @@ export function CreateTipScreen() {
         </div>
         <div className="tagSelectionContainer">
           <label className="eventScreenLabel">Tags:</label>
-          <input
-            className="textInput"
-            type="text"
-            name="Tags"
-            placeholder="Input Tags"
-          />
+          <input type="text" name="Tags" placeholder="Input Tags" />
           <div className="suggestedTagsContainer">
             {mockArrayTags.map((tag) => (
               <button
-                // onClick={(e) => handleTagClick(e, tag)}
+                onClick={(e) => handleTagClick(e, tag)}
                 className="suggestedTagButton"
-              ></button>
+              >
+                {tag.tagName}
+              </button>
             ))}
           </div>
         </div>
@@ -84,6 +105,7 @@ export function CreateTipScreen() {
             <span>$</span>
           </div>
         </div>
+
         <div className="shareButtonContainer">
           <button className="shareButton" onClick={handleSubmit}>
             Share

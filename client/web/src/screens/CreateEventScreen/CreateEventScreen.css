@@ -31,8 +31,7 @@
 }
 
 .eventContainer {
-  background-color: #fd9b9bb3;
-
+  background-color: #fd9b9be3;
   z-index: 10;
   border-radius: 0px 20px 20px 0px;
   margin-top: 100px;
@@ -41,12 +40,16 @@
   justify-content: flex-start;
   display: flex;
   flex-direction: column;
-
   align-items: center;
+  color: white;
 }
 
 .suggestedTagsContainer {
   padding-bottom: 10px;
+}
+
+.tagsContainer {
+  padding: 5px;
   padding-left: 0px;
   display: flex;
   flex-direction: row;
@@ -54,13 +57,17 @@
   align-items: center;
 }
 
-.suggestedTagButton {
+.tagButton {
   padding: 6px;
   border-radius: 20px;
   border: none;
   margin: 0px 5px;
   background-color: #d0d8dc;
   box-shadow: white;
+}
+
+.selectedTag {
+  background-color: #fd9b9b;
 }
 
 .locationInputContainer {
