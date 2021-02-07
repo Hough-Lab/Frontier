@@ -9,6 +9,7 @@ export interface SystemState {
   user: User;
   event: Event;
   review: Review;
+  allPOI: POIArray;
 }
 
 export interface User {
@@ -59,11 +60,12 @@ export interface POIArray {
 }
 
 export interface POI {
+  pointOfInterestId: string;
   formattedAddress: string;
   latitude: number;
   longitude: number;
-  events: Event[];
-  reviews: Review[];
+  createdAt: string;
+  updatedAt: string;
 }
 
 //TODO set up rest of interfaces
