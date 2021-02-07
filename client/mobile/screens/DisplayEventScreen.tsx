@@ -26,10 +26,11 @@ const DisplayEventScreen = () => {
       <ScrollView>
         <Text style={styles.eventTitle}>{event.title}</Text>
         <Text>{dayjs(event.dateFrom).format('DD-MM-YYYY HH:mm')}</Text>
-        <View style={styles.tagsContainer}>
-          <Text>tag</Text>
-          {/* to be replaced by the below once the tags are part of the event */}
-          {/* <View style={styles.tagContainer}>
+        {event.tags && (
+          <View style={styles.tagsContainer}>
+            <Text>tag</Text>
+            {/* to be replaced by the below once the tags are part of the event */}
+            {/* <View style={styles.tagContainer}>
         <FlatList
           horizontal={true}
           data={event.tags}
@@ -41,7 +42,8 @@ const DisplayEventScreen = () => {
           keyExtractor={(item) => item.key}
         />
       </View> */}
-        </View>
+          </View>
+        )}
 
         <View style={styles.uploadImageArea}>
           <TouchableOpacity style={styles.uploadImageBtn} onPress={() => {}}>
@@ -70,6 +72,11 @@ const DisplayEventScreen = () => {
 
         <View style={styles.description}>
           <Text style={styles.descriptionText}>{event.description}</Text>
+        </View>
+
+        <View style={styles.capacity}>
+          <Text style={styles.capacityText}>maximum capacity of event</Text>
+          <Text style={styles.capacityText}>{event.maxCapacity}</Text>
         </View>
 
         <View>
@@ -130,6 +137,20 @@ const styles = StyleSheet.create({
   },
   descriptionText: {
     color: Colors.white,
+    padding: 15,
+    textAlign: 'justify',
+  },
+  capacity: {
+    flexDirection: 'row',
+    // justifyContent: 'center',
+    alignItems: 'center',
+    // borderRadius: 8,
+    // backgroundColor: Colors.pink,
+    height: 'auto',
+    width: '100%',
+  },
+  capacityText: {
+    // color: Colors.white,
     padding: 15,
     textAlign: 'justify',
   },
