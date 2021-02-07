@@ -7,7 +7,7 @@ const initialState: Event = {
   dateTo: '',
   title: '',
   description: '',
-  maxCapacity: 10,
+  maxCapacity: 0,
   isPrivate: true,
   picture: '',
   pointOfInterestId: '',

@@ -20,6 +20,7 @@ export const getAllPOI = () => async (dispatch: AppDispatch) => {
           },
         },
       );
+
       if (data.length > 0) {
         dispatch({ type: GET_ALL_POI, payload: data });
       }
