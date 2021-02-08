@@ -2,6 +2,7 @@ import axios from "axios";
 import { AppDispatch } from "../../App";
 
 import { GET_CURRENT_USER, REGISTER_USER, SET_ERROR } from "./types";
+
 const ip_address = "localhost";
 
 const REACT_APP_SERVER_URI = `http://${ip_address}:5000`;
