@@ -7,7 +7,6 @@ const {
   GetEventsAndReviewsByPOI,
 } = require('../controllers/pointOfInterest.controller.js');
 
-// router.post('/newPOI', CreatePOI);
 router.get(
   '/getReviewsAndEventsByPOIId/:pointOfInterestId',
   GetEventsAndReviewsByPOI,

@@ -1,13 +1,14 @@
 import { GET_POI_BY_ID } from '../actions/types';
-import { FrontierAction, POI } from '../../interfaces/reducerInterfaces';
+import { FrontierAction, POIData } from '../../interfaces/reducerInterfaces';
 
-const initialState: POI = {
+const initialState: POIData = {
   formattedAddress: '',
-  latitude: 0,
-  longitude: 0,
+  pointOfInterestId: '',
+  events: [],
+  reviews: [],
 };
 
-const reducer = (state = initialState, action: FrontierAction<POI>) => {
+const reducer = (state = initialState, action: FrontierAction<POIData>) => {
   switch (action.type) {
     case GET_POI_BY_ID:
       return action.payload || initialState;
