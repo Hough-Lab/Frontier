@@ -9,22 +9,29 @@ import {
 } from 'react-native';
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useDispatch } from 'react-redux';
-import DateTimePicker from '@react-native-community/datetimepicker';
 
 import Colors from '../../assets/colors';
 import { Navigation } from '../../interfaces/interfaces';
 import { editUserProfile, getAllPOI } from '../../store/actions';
+import DateTimePickerComponent from '../../components/DateTimePickerComponent';
+import dayjs from 'dayjs';
+
+var relativeTime = require('dayjs/plugin/relativeTime');
+dayjs.extend(relativeTime);
 
 const RegisterDOBScreen = ({ navigation }: { navigation: Navigation }) => {
+  const [date, setDate] = useState();
   const dispatch = useDispatch();
 
-  const DOB = '';
+  console.log(date);
 
   const handleSubmit = useCallback(async () => {
-    // await dispatch(editUserProfile({ dateOfBirth: DOB }));
-    // dispatch(getAllPOI());
-    navigation.navigate('RegisterLanguageScreen');
-  }, [DOB]);
+    if (typeof date !== 'undefined') {
+      await dispatch(editUserProfile({ dateOfBirth: date }));
+      dispatch(getAllPOI());
+      navigation.navigate('RegisterLanguageScreen');
+    }
+  }, [date]);
 
   return (
     <View style={styles.container}>
@@ -38,21 +45,12 @@ const RegisterDOBScreen = ({ navigation }: { navigation: Navigation }) => {
         </View>
 
         <View style={styles.inputContainer}>
-          <TextInput placeholder="Date" />
-          <TouchableOpacity onPress={() => {}} activeOpacity={0.7}>
-            <MaterialCommunityIcons
-              name="calendar-month"
-              size={24}
-              color={Colors.blue}
-            />
-          </TouchableOpacity>
-          {/* <DateTimePicker
-            testID="dateTimePicker"
-            value={date}
-            mode='date'
-            display='default'
-            onChange={() => {}}
-          /> */}
+          <Text>
+            {' '}
+            {date && dayjs().from(dayjs(date), true)}{' '}
+            {date ? 'old' : 'Please enter your date of birth'}
+          </Text>
+          <DateTimePickerComponent setDate={setDate} mode="date" />
         </View>
       </View>
 

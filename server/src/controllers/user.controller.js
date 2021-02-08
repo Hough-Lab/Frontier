@@ -130,14 +130,14 @@ exports.EditProfile = async (req, res) => {
 
     const user = req.user;
 
-    const { valid, errors } = validateRegisterInput(
+    const { valid, errors } = validateRegisterInput({
       email,
       username,
       password,
       confirmPassword,
       firstName,
       lastName,
-    );
+    });
 
     if (!valid) {
       res.status(500);
