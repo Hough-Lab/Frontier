@@ -3,8 +3,8 @@ import { FrontierAction, POI } from "../../interfaces/reducerInterfaces";
 
 const initialState: POI = {
   formattedAddress: "",
-  latitude: 0,
-  longitude: 0,
+  latitude: "",
+  longitude: "",
   pointOfInterestId: "",
   createdAt: "",
   updatedAt: "",

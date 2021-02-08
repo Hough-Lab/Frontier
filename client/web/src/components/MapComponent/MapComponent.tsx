@@ -15,19 +15,20 @@ import { getAllPOI } from "../../store/actions";
 interface MarkerInfo {
   pointOfInterestId: string;
   formattedAddress: string;
-  latitude: number;
-  longitude: number;
+  latitude: string;
+  longitude: string;
   createdAt: string;
   updatedAt: string;
 }
 const initialState: MarkerInfo = {
   pointOfInterestId: "",
   formattedAddress: "",
-  latitude: 0,
-  longitude: 0,
+  latitude: "",
+  longitude: "",
   createdAt: "",
   updatedAt: "",
 };
+
 interface position {
   lat: number;
   lng: number;
@@ -101,17 +102,16 @@ const MapComponent = () => {
             );
           })}
 
-        {true && (
+        {selected.pointOfInterestId !== "" && (
           <InfoWindow
             position={{
-              lat: selected.latitude,
-              lng: selected.longitude,
+              lat: +selected.latitude,
+              lng: +selected.longitude,
             }}
             onCloseClick={() => setSelected(initialState)}
             key={selected.pointOfInterestId}
           >
             <div className="infoWindowBody">
-              <p>{selected.pointOfInterestId}</p>
               <p>{selected.formattedAddress}</p>
             </div>
           </InfoWindow>
