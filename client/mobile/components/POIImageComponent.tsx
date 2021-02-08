@@ -17,7 +17,7 @@ const POIImageComponent = ({ formattedAddress }: IProps) => {
       />
       <View style={styles.titleView}>
         <Text style={styles.title}>{formattedAddress}</Text>
-        <Text style={styles.titleLocation}>23 Long Road, London, AB12 3CD</Text>
+        {/* <Text style={styles.titleLocation}>23 Long Road, London, AB12 3CD</Text> */}
       </View>
       <View style={styles.starsView}>
         <AirbnbRating

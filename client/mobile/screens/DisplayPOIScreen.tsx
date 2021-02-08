@@ -15,15 +15,20 @@ import Colors from '../assets/colors';
 import POIImageComponent from '../components/POIImageComponent';
 import { getPOIById } from '../store/actions';
 import { SystemState } from '../interfaces/reducerInterfaces';
+import moment from 'moment';
+import { AntDesign, MaterialIcons } from '@expo/vector-icons';
 
 type RootStackParamList = {
   DisplayPOIScreen: { POIId: string };
 };
 
-type ProfileScreenRouteProp = RouteProp<RootStackParamList, 'DisplayPOIScreen'>;
+type DisplayPOIScreenRouteProp = RouteProp<
+  RootStackParamList,
+  'DisplayPOIScreen'
+>;
 
 interface IProps {
-  route: ProfileScreenRouteProp;
+  route: DisplayPOIScreenRouteProp;
   navigation: Navigation;
 }
 
@@ -33,7 +38,10 @@ const DisplayPOIScreen = ({ route, navigation }: IProps) => {
 
   const dispatch = useDispatch();
 
-  dispatch(getPOIById(POIId));
+  useEffect(() => {
+    dispatch(getPOIById(POIId));
+  }, [POIId]);
+
   const POIInfo = useSelector((state: SystemState) => state.POI);
 
   return (
@@ -64,18 +72,63 @@ const DisplayPOIScreen = ({ route, navigation }: IProps) => {
           eventsTab ? styles.eventsListContainer : styles.tipsListContainer
         }
       >
-        {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((item, index) => (
-          <View key={index} style={styles.listItemView}>
-            <Image
-              style={styles.imageListItem}
-              source={require('../assets/images/placeholder.jpg')}
-            />
-            <Text style={styles.listItemText}>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy...
-            </Text>
-          </View>
-        ))}
+        {eventsTab
+          ? POIInfo.events.map((item, index) => (
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate('DisplayEventScreen', {
+                    eventId: POIInfo.events[index].eventId,
+                  })
+                }
+              >
+                <View key={index} style={styles.listItemView}>
+                  <Image
+                    style={styles.imageListItem}
+                    source={require('../assets/images/placeholder.jpg')}
+                  />
+                  <View>
+                    <Text style={styles.eventTitle}>{item.title}</Text>
+                    <View style={styles.eventTime}>
+                      <MaterialIcons
+                        name="date-range"
+                        size={20}
+                        color="black"
+                      />
+                      <Text style={{ paddingLeft: 10 }}>
+                        {moment(item.dateTo).format('Do MMMM, YYYY')}{' '}
+                      </Text>
+                    </View>
+                    <View style={styles.eventTime}>
+                      <AntDesign name="clockcircleo" size={20} color="black" />
+                      <Text style={{ paddingLeft: 10 }}>
+                        {moment(item.dateTo).format('HH:mm')}{' '}
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+              </TouchableOpacity>
+            ))
+          : POIInfo.reviews.map((item, index) => (
+              <TouchableOpacity
+                key={index}
+                style={styles.listItemView}
+                onPress={() =>
+                  navigation.navigate('DisplayTipScreen', {
+                    eventId: POIInfo.reviews[index].reviewId,
+                  })
+                }
+              >
+                <Image
+                  style={styles.imageListItem}
+                  source={require('../assets/images/placeholder.jpg')}
+                />
+                <View>
+                  <Text>{item.title}</Text>
+                  <Text>{item.safetyRating}</Text>
+                  <Text>{item.tags}</Text>
+                </View>
+              </TouchableOpacity>
+            ))}
       </ScrollView>
     </View>
   );
@@ -148,5 +201,14 @@ const styles = StyleSheet.create({
   imageListItem: {
     height: 75,
     width: 75,
+  },
+  eventTime: {
+    flexDirection: 'row',
+    paddingHorizontal: 10,
+    paddingTop: 5,
+    alignItems: 'center',
+  },
+  eventTitle: {
+    paddingHorizontal: 10,
   },
 });

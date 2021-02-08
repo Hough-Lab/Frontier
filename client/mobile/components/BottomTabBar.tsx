@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   UIManager,
   Platform,
+  TouchableWithoutFeedback,
 } from 'react-native';
 
 import { AntDesign, MaterialIcons, Ionicons, Entypo } from '@expo/vector-icons';
@@ -38,7 +39,8 @@ const BottomTabBar = ({ navigation }: { navigation: Navigation }) => {
 
       <View>
         <TouchableOpacity
-          style={styles.plusBtn}
+          style={[styles.plusBtn, plusPressed && styles.plusBtnPressed]}
+          activeOpacity={0.7}
           onPress={() => {
             setPlusPressed(!plusPressed);
             applyAnimation();
@@ -48,8 +50,29 @@ const BottomTabBar = ({ navigation }: { navigation: Navigation }) => {
         </TouchableOpacity>
       </View>
 
+      <View>
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate('MainStackNavigator', {
+              screen: 'UserProfileScreen',
+            })
+          }
+        >
+          <Ionicons name="person-circle" size={35} color="black" />
+        </TouchableOpacity>
+      </View>
+
       {plusPressed && (
         <>
+          <TouchableWithoutFeedback
+            style={styles.dismissArea}
+            onPress={() => {
+              setPlusPressed(!plusPressed);
+              applyAnimation();
+            }}
+          >
+            <View style={styles.dismissArea}></View>
+          </TouchableWithoutFeedback>
           <View
             style={[
               styles.animatedBtnView,
@@ -88,18 +111,6 @@ const BottomTabBar = ({ navigation }: { navigation: Navigation }) => {
           </View>
         </>
       )}
-
-      <View>
-        <TouchableOpacity
-          onPress={() =>
-            navigation.navigate('MainStackNavigator', {
-              screen: 'UserProfileScreen',
-            })
-          }
-        >
-          <Ionicons name="person-circle" size={35} color="black" />
-        </TouchableOpacity>
-      </View>
     </View>
   );
 };
@@ -121,6 +132,9 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     elevation: 5,
   },
+  plusBtnPressed: {
+    transform: [{ rotate: '45deg' }],
+  },
   animatedBtnView: {
     position: 'absolute',
     justifyContent: 'center',
@@ -134,6 +148,13 @@ const styles = StyleSheet.create({
     top: -20,
     opacity: 0,
     transform: [{ scale: 0 }],
+  },
+  dismissArea: {
+    position: 'absolute',
+    width: 600,
+    height: 1000,
+    bottom: 0,
+    left: 0,
   },
   eventExpanded: {
     transform: [{ translateX: -100 }, { translateY: -100 }, { scale: 1 }],

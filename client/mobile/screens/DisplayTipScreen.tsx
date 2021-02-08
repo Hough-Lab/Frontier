@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -8,11 +8,40 @@ import {
 } from 'react-native';
 import ViewMoreText from 'react-native-view-more-text';
 import { AirbnbRating } from 'react-native-ratings';
+import { RouteProp } from '@react-navigation/native';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { AntDesign, Entypo, Ionicons } from '@expo/vector-icons';
 import Colors from '../assets/colors';
+import { Navigation } from '../interfaces/interfaces';
+import { getReviewById } from '../store/actions';
+import { Review, SystemState } from '../interfaces/reducerInterfaces';
 
-const DisplayTipScreen = () => {
+type RootStackParamList = {
+  DisplayTipScreen: { reviewId: string };
+};
+
+type DisplayTipScreenRouteProp = RouteProp<
+  RootStackParamList,
+  'DisplayTipScreen'
+>;
+
+interface IProps {
+  route: DisplayTipScreenRouteProp;
+  navigation: Navigation;
+}
+
+const DisplayTipScreen = ({ route, navigation }: IProps) => {
+  const { reviewId } = route.params;
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getReviewById(reviewId));
+  }, [reviewId]);
+
+  const review: Review = useSelector((state: SystemState) => state.review);
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.uploadImageArea}>
@@ -23,7 +52,7 @@ const DisplayTipScreen = () => {
 
       <View style={styles.tipIntro}>
         <Ionicons name="location-sharp" size={24} color="black" />
-        <Text>here goes the address</Text>
+        <Text>{review.reviewId}</Text>
       </View>
       <View style={styles.starsView}>
         <AirbnbRating
