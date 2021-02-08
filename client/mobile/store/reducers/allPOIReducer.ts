@@ -3,11 +3,12 @@ import { FrontierAction, POIArray } from '../../interfaces/reducerInterfaces';
 
 const initialState: POIArray = {
   POI: {
+    pointOfInterestId: '',
     formattedAddress: '',
     latitude: 0,
     longitude: 0,
-    events: [],
-    reviews: [],
+    createdAt: '',
+    updatedAt: '',
   },
 };
 

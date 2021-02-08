@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { AppDispatch } from '../../App';
 import { Navigation } from '../../interfaces/interfaces';
-import { CREATE_EVENT, GET_CURRENT_EVENT } from './types';
+import { CREATE_EVENT, GET_ALL_POI, GET_CURRENT_EVENT } from './types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ip_address } from '../../config';
 
