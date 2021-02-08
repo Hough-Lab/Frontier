@@ -152,6 +152,8 @@ const MainStackNavigator = () => {
       <Tab.Screen name="TipNavigator" component={TipNavigator} />
       <Tab.Screen name="EventNavigator" component={EventNavigator} />
       <Tab.Screen name="DisplayPOIScreen" component={DisplayPOIScreen} />
+      <Tab.Screen name="DisplayEventScreen" component={DisplayEventScreen} />
+      <Tab.Screen name="DisplayTipScreen" component={DisplayTipScreen} />
       <Tab.Screen name="UserProfileScreen" component={UserProfileScreen} />
     </Tab.Navigator>
   );

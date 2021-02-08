@@ -9,7 +9,7 @@ export interface SystemState {
   user: User;
   event: Event;
   review: Review;
-  POI: POI;
+  POI: POIData;
   allPOI: POIArray;
 }
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,19 +7,41 @@ import {
   TouchableOpacity,
   FlatList,
 } from 'react-native';
-import { useSelector } from 'react-redux';
-
-import Colors from '../assets/colors';
+import { useSelector, useDispatch } from 'react-redux';
+import { RouteProp } from '@react-navigation/native';
 import { AntDesign, Entypo, Ionicons, FontAwesome } from '@expo/vector-icons';
 import MapView, { Marker } from 'react-native-maps';
-import GooglePlacesInput from '../components/GooglePlacesInput';
-import { Event, SystemState } from '../interfaces/reducerInterfaces';
 import dayjs from 'dayjs';
 
-const DisplayEventScreen = () => {
+import Colors from '../assets/colors';
+import { Event, SystemState } from '../interfaces/reducerInterfaces';
+import { Navigation } from '../interfaces/interfaces';
+import { getEventById } from '../store/actions';
+
+type RootStackParamList = {
+  DisplayEventScreen: { eventId: string };
+};
+
+type DisplayEventScreenRouteProp = RouteProp<
+  RootStackParamList,
+  'DisplayEventScreen'
+>;
+
+interface IProps {
+  route: DisplayEventScreenRouteProp;
+  navigation: Navigation;
+}
+
+const DisplayEventScreen = ({ route, navigation }: IProps) => {
+  const { eventId } = route.params;
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getEventById(eventId));
+  }, [eventId]);
+
   const event: Event = useSelector((state: SystemState) => state.event);
-  console.log('event', event);
-  console.log('event.tags', event.tags);
 
   return (
     <View style={styles.container}>
@@ -75,7 +97,7 @@ const DisplayEventScreen = () => {
         </View>
 
         <View style={styles.capacity}>
-          <Text style={styles.capacityText}>maximum capacity of event</Text>
+          <Text style={styles.capacityText}>{event.eventId}</Text>
           <Text style={styles.capacityText}>{event.maxCapacity}</Text>
         </View>
 

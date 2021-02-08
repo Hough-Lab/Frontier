@@ -6,7 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
-import { connect, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { getAllPOI, loginUser } from '../store/actions';
 import Colors from '../assets/colors';
@@ -72,13 +72,7 @@ const LoginScreen = ({ navigation }: { navigation: Navigation }) => {
   );
 };
 
-const mapStateToProps = ({ user }: { user: User }) => {
-  return { user };
-};
-
-const mapDispatchToProps = { loginUser };
-
-export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
+export default LoginScreen;
 
 const styles = StyleSheet.create({
   container: {
