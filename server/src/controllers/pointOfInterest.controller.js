@@ -5,7 +5,6 @@ exports.createPOI = async (formattedAddress, latitude, longitude, user) => {
 
   const pointOfInterestId = uuid.v4();
   const locationId = uuid.v4();
-  const UserUserId = user.UserUserId
   const searchPOI = await models.PointOfInterest.findAll({
     include: [
       {
@@ -24,7 +23,6 @@ exports.createPOI = async (formattedAddress, latitude, longitude, user) => {
       formattedAddress,
       latitude,
       longitude,
-      UserUserId
     });
 
     const newLocation = await models.Location.create({

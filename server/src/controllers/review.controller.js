@@ -15,9 +15,9 @@ exports.PostReview = async (req, res) => {
       safetyRating,
       safetyComment,
       picture,
-      user
     } = req.body;
 
+    const user = req.user;
     const newPOI = await createPOI(formattedAddress, latitude, longitude, user);
     const reviewId = uuid.v4();
 

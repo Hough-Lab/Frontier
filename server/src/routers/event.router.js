@@ -9,6 +9,6 @@ const {
 
 router.get('/getAllEvents', GetAllEvents);
 router.get('/:eventId', GetEventById)
-router.post('/postEvent', PostEvent);
+router.post('/postEvent', authMiddleware, PostEvent);
 
 module.exports = router;

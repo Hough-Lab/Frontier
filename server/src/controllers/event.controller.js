@@ -16,8 +16,10 @@ exports.PostEvent = async (req, res) => {
       maxCapacity,
       isPrivate,
       picture,
-      user
     } = req.body;
+
+    const user = req.user
+    console.log('user', user)
 
     const newPOI = await createPOI(formattedAddress, latitude, longitude, user);
     const eventId = uuid.v4();
