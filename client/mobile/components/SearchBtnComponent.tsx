@@ -50,7 +50,6 @@ const SearchBtnComponent = ({ setSeenOnMap }: IProps) => {
         </TouchableOpacity>
       ) : (
         <>
-          {/* <TextInput placeholder="Search..." /> */}
           <GooglePlacesInput getLocation={getLocation} />
           <TouchableOpacity
             onPress={() => {
@@ -72,7 +71,7 @@ const styles = StyleSheet.create({
   searchBtn: {
     position: 'absolute',
     right: 10,
-    top: 40,
+    top: 45,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 50,
@@ -89,7 +88,7 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     paddingRight: 10,
     right: 40,
-    top: 40,
+    top: 45,
     borderRadius: 30,
     backgroundColor: Colors.white,
     width: '80%',

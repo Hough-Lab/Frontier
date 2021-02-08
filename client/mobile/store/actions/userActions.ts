@@ -42,6 +42,7 @@ export const loginUser = (
     }
   } catch (e) {
     dispatch({ type: SET_ERROR, payload: 'Incorrect username or password.' });
+    return 'Incorrect username or password.';
   }
 };
 
