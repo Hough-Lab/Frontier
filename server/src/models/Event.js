@@ -43,6 +43,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       defaultValue: '', //TODO insert stock 'no image' src/url here
     },
+    tags: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      allowNull: true,
+    },
   });
 
   Event.associate = (models) => {

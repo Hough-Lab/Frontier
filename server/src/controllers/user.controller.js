@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 const uuid = require('uuid');
 
 const models = require('../models').sequelize.models;
+const { CreateUserTag } = require ('./eventTag.controller')
 const { generateAuthToken } = require('../utils/authHelpers.js');
 const {
   validateRegisterInput,
@@ -54,6 +55,7 @@ exports.RegisterUser = async (req, res) => {
       });
     }
 
+    // CreateUserTag(userTags);
     const hashedPw = await bcrypt.hash(password, 10);
     const userId = uuid.v4();
     const createdDate = new Date();

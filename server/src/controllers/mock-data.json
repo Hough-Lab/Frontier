@@ -1,0 +1,45 @@
+{
+  "title": "test review 1",
+  "rating": 5,
+  "safetyRating": 3,
+  "safetyComment": "super scary!",
+  "longitude": 1.123456,
+  "latitude": 1.123456,
+  "formattedAddress": "this is a formattedAddress"
+}
+
+exports.GetUserById = async (req, res) => {
+  try {
+    const { id
+    } = req.params
+    const user = await models.Review.findByPk(id)
+    console.log('user:', user)
+    if (!user) throw new Error("user not found");
+    res.status(200).send(user);
+  } catch (err) {
+    res.status(500).send(err)
+  }
+}
+
+exports.GetAllUsers = async (req, res) => {
+  try {
+    const { id
+    } = req.params
+    const user = await models.Review.findByPk(id)
+    console.log('user:', user)
+    if (!user) throw new Error("user not found");
+    res.status(200).send(user);
+  } catch (err) {
+    res.status(500).send(err)
+  }
+}
+
+{
+  "email": "sooddddedesassaddddo@gmail.comaaa",
+  "username": "aaaaaaaaaaaoaaa",
+  "password": "aaaaaa1aaaaa",
+  "confirmPassword": "aaaaaa1aaaaa",
+  "firstName": "a",
+  "lastName": "a",
+  "dateOfBirth": "2011-10-05T14:48:00.000Z"
+}
