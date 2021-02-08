@@ -17,17 +17,16 @@ exports.RegisterUser = async (req, res) => {
       username,
       firstName,
       lastName,
-      dateOfBirth,
     } = req.body;
 
-    const { valid, errors } = validateRegisterInput(
+    const { valid, errors } = validateRegisterInput({
       email,
       username,
       password,
       confirmPassword,
       firstName,
       lastName,
-    );
+    });
 
     if (!valid) {
       res.status(500);
@@ -119,71 +118,72 @@ exports.EditProfile = async (req, res) => {
       firstName,
       lastName,
       email,
-      password,
-      confirmPassword,
       dateOfBirth,
       from,
       language,
       profilePicture,
       userTags,
-    } = req.body;
+    } = req.body.editProfileObject;
 
     const user = req.user;
 
-    const { valid, errors } = validateRegisterInput({
-      email,
-      username,
-      password,
-      confirmPassword,
-      firstName,
-      lastName,
-    });
-
-    if (!valid) {
-      res.status(500);
-      return res.send({ errors });
-    }
-    const existingUser = await models.User.findOne({
-      where: { username: username },
-    });
-    if (existingUser) {
-      res.status(500);
-      return res.send({
-        errors: { usernameAlreadyExists: 'Username not available' },
+    if (username) {
+      const existingUser = await models.User.findOne({
+        where: { username: username },
       });
+      if (existingUser || username.trim() === '') {
+        res.status(500);
+        return res.send({
+          errors: { usernameAlreadyExists: 'Username invalid' },
+        });
+      }
     }
-    const existingEmail = await models.User.findOne({
-      where: { email: email },
-    });
-    if (existingEmail) {
-      res.status(500);
+
+    if (email) {
+      const existingEmail = await models.User.findOne({
+        where: { email: email },
+      });
+      if (existingEmail || email.trim() === '') {
+        res.status(500);
+        return res.send({
+          errors: {
+            emailAlreadyExists: 'Invalid email',
+          },
+        });
+      }
+    }
+
+    if (firstName && firstName.trim() === '') {
       return res.send({
         errors: {
-          emailAlreadyExists: 'This email is already linked to an account',
+          emailAlreadyExists: 'Invalid first name',
         },
       });
     }
 
-    const hashedPw = await bcrypt.hash(password, 10);
+    if (lastName && lastName.trim() === '') {
+      return res.send({
+        errors: {
+          emailAlreadyExists: 'Invalid first name',
+        },
+      });
+    }
 
-    const createdDate = new Date();
     const newUser = await models.User.update(
       {
         username,
         firstName,
         lastName,
         email,
-        password: hashedPw,
         dateOfBirth,
         from,
         language,
         userTags,
         profilePicture,
-        lastSeen: createdDate.toISOString(),
       },
-      { where: user.userId },
+      { where: { userId: user.userId }, returning: true, plain: true },
     );
-    res.status(201).send({ user: newUser });
+    res.status(201).send({ user: newUser[1].dataValues });
   } catch (e) {
     res.status(500);
     res.send(e.message);

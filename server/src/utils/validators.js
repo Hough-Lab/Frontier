@@ -7,7 +7,7 @@ module.exports.validateRegisterInput = ({
   lastName,
 }) => {
   const errors = {};
-  if (firstName && firstName.trim() === '') {
+  if (firstName.trim() === '') {
     errors.firstName = 'First name field must not be empty';
   }
   if (lastName.trim() === '') {

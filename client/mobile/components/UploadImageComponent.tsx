@@ -1,13 +1,19 @@
-import React from 'react';
+import React, { useEffect, useState, Dispatch, SetStateAction } from 'react';
+
 import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { AntDesign, Entypo } from '@expo/vector-icons';
 import Colors from '../assets/colors';
 import ImportPictureComponent from './ImportPictureComponent';
 
-const UploadImageComponent = () => {
+interface IProps {
+  setImage: Dispatch<SetStateAction<string>>;
+  image: string;
+}
+
+const UploadImageComponent = ({ setImage, image }: IProps) => {
   return (
     <View style={styles.uploadImageArea}>
-      <ImportPictureComponent />
+      <ImportPictureComponent setImage={setImage} />
     </View>
   );
 };

@@ -26,6 +26,7 @@ import DateTimePickerComponent from '../components/DateTimePickerComponent';
 import { numbers } from '../assets/numbers';
 
 const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
+  const [image, setImage] = useState('');
   const [inputValues, setInputValues] = useState({
     title: '',
     formattedAddress: '',
@@ -120,7 +121,7 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
 
   return (
     <ScrollView style={styles.container} keyboardShouldPersistTaps="always">
-      <UploadImageComponent />
+      <UploadImageComponent setImage={setImage} image={image} />
       <TagsInsertComponent getTags={getTags} />
 
       {/* Event title and location*/}

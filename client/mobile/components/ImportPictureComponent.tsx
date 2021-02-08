@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Dispatch, SetStateAction } from 'react';
 import {
   StyleSheet,
-  Text,
   View,
   Image,
   Platform,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import { AntDesign, Entypo } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
@@ -13,8 +13,13 @@ import * as ImagePicker from 'expo-image-picker';
 import Colors from '../assets/colors';
 import { Iimage } from '../interfaces/interfaces';
 
-const ImportPictureComponent = () => {
-  const [image, setImage] = useState<string>();
+interface IProps {
+  setImage: Dispatch<SetStateAction<string>>;
+}
+
+const ImportPictureComponent = ({ setImage }: IProps) => {
+  const [preUploaded, setPreUploaded] = useState<string>();
+  const [requestSuccessful, setRequestSuccessful] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -35,12 +40,32 @@ const ImportPictureComponent = () => {
       allowsEditing: true,
       aspect: [3, 3],
       quality: 1,
+      base64: true,
     });
 
-    console.log(result);
+    if (!result.cancelled && typeof result.type !== 'undefined') {
+      setPreUploaded(result.uri);
+      let base64Img = `data:image/jpg;base64,${result.base64}`;
+      let data = {
+        file: base64Img,
+        upload_preset: 'frontier',
+      };
 
-    if (!result.cancelled) {
-      setImage(result.uri);
+      fetch('https://api.cloudinary.com/v1_1/dcbacnafu/upload', {
+        body: JSON.stringify(data),
+        headers: {
+          'content-type': 'application/json',
+        },
+        method: 'POST',
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          setImage(data.secure_url);
+          setRequestSuccessful(true);
+        })
+        .catch((err) => {
+          Alert.alert('An error ocurred while uploading.');
+        });
     }
   };
 
@@ -51,16 +76,12 @@ const ImportPictureComponent = () => {
         <TouchableOpacity style={styles.plusBtn} onPress={pickImage}>
           <AntDesign name="pluscircle" size={24} color="black" />
         </TouchableOpacity>
-      </View>
-
-      <View>
-        {image && (
-          <Image
-            source={{ uri: image }}
-            style={{ width: 150, height: 150, borderRadius: 75 }}
-          />
+        {requestSuccessful && (
+          <Image source={{ uri: preUploaded }} style={styles.image} />
         )}
       </View>
+
+      <View></View>
     </View>
   );
 };
