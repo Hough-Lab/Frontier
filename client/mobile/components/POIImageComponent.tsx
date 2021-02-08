@@ -4,7 +4,11 @@ import { AirbnbRating } from 'react-native-ratings';
 
 import Colors from '../assets/colors';
 
-const POIImageComponent = () => {
+interface IProps {
+  formattedAddress: String;
+}
+
+const POIImageComponent = ({ formattedAddress }: IProps) => {
   return (
     <View style={styles.imageArea}>
       <Image
@@ -12,7 +16,7 @@ const POIImageComponent = () => {
         source={require('../assets/images/placeholder.jpg')}
       />
       <View style={styles.titleView}>
-        <Text style={styles.title}>PostgreSQL Party</Text>
+        <Text style={styles.title}>{formattedAddress}</Text>
         <Text style={styles.titleLocation}>23 Long Road, London, AB12 3CD</Text>
       </View>
       <View style={styles.starsView}>

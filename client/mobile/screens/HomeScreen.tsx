@@ -120,7 +120,6 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
                     }}
                     title={'PostgreSQL Party'}
                     // description={'Descriptions go here'}
-                    onPress={() => {}}
                   >
                     <Callout
                       tooltip={true}
