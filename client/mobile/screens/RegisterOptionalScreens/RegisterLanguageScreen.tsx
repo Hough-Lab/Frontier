@@ -5,18 +5,32 @@ import {
   View,
   TouchableOpacity,
   TextInput,
-  Touchable,
+  FlatList,
 } from 'react-native';
-import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
+import { AntDesign, Entypo } from '@expo/vector-icons';
 import { Picker } from '@react-native-picker/picker';
 import { countriesList, languagesList } from '../../assets/countries';
 
 import Colors from '../../assets/colors';
+import { colors, randomColor } from '../../assets/colorFunction';
 import { Navigation } from '../../interfaces/interfaces';
 
 const RegisterLanguageScreen = ({ navigation }: { navigation: Navigation }) => {
   const [country, setCountry] = useState<string>();
   const [language, setLanguage] = useState<string>();
+  const [languageSpoken, setLanguageSpoken] = useState('');
+  const [languagesSpoken, setLanguagesSpoken]: any = useState([]);
+  const [input, setInput] = useState('');
+
+  function addLanguageSpoken(languageSpoken: string) {
+    setLanguagesSpoken(() => [...languagesSpoken, languageSpoken]);
+  }
+  console.log('tags', languagesSpoken);
+
+  function deleteLanguageSpoken(languageSpoken: string) {
+    languagesSpoken.splice(languagesSpoken.indexOf(languageSpoken), 1);
+    setLanguagesSpoken(() => [...languagesSpoken]);
+  }
 
   return (
     <View style={styles.container}>
@@ -25,27 +39,7 @@ const RegisterLanguageScreen = ({ navigation }: { navigation: Navigation }) => {
       </View>
 
       <View style={styles.midContent}>
-        <View style={styles.label}>
-          <Text style={styles.labelText}>What languages do you speak?</Text>
-        </View>
-        <Picker
-          selectedValue={language}
-          style={{ height: 50, width: '70%' }}
-          onValueChange={(itemValue: string, itemIndex: number) =>
-            setLanguage(itemValue)
-          }
-        >
-          {languagesList.map((country: string, index: number) => (
-            <Picker.Item label={country} value={country} key={index} />
-          ))}
-        </Picker>
-        {/* <View style={styles.inputContainer}>
-          <TextInput placeholder="Language" />
-          <TouchableOpacity onPress={() => {}}>
-            <AntDesign name="pluscircleo" size={24} color="black" />
-          </TouchableOpacity>
-        </View> */}
-
+        {/* <View> */}
         <View style={styles.label}>
           <Text style={styles.labelText}>What country are you from?</Text>
         </View>
@@ -60,13 +54,50 @@ const RegisterLanguageScreen = ({ navigation }: { navigation: Navigation }) => {
             <Picker.Item label={country} value={country} key={index} />
           ))}
         </Picker>
-        {/* <View style={styles.inputContainer}>
-          <TextInput placeholder="Country" />
-          <TouchableOpacity onPress={() => {}}>
-            <AntDesign name="pluscircleo" size={24} color="black" />
-          </TouchableOpacity>
-        </View> */}
+        {/* </View> */}
+
+        {/* <View> */}
+        <View style={styles.label}>
+          <Text style={styles.labelText}>What language(s) do you speak?</Text>
+        </View>
+        <Picker
+          selectedValue={language}
+          style={{ height: 50, width: '70%' }}
+          onValueChange={(itemValue: string, itemIndex: number) => {
+            setLanguage(itemValue);
+            addLanguageSpoken(itemValue);
+          }}
+        >
+          {languagesList.map((country: string, index: number) => (
+            <Picker.Item label={country} value={country} key={index} />
+          ))}
+        </Picker>
+        {languagesSpoken && (
+          <View style={styles.tagContainer}>
+            <FlatList
+              horizontal={true}
+              data={languagesSpoken}
+              renderItem={({ item }) => (
+                <View style={styles.tag}>
+                  <Text style={styles.tagText}>{item}</Text>
+                  <Text style={styles.tagLine}>|</Text>
+                  <TouchableOpacity>
+                    <Entypo
+                      style={{ paddingRight: 4 }}
+                      name="cross"
+                      size={15}
+                      color={Colors.white}
+                      onPress={() => deleteLanguageSpoken(item)}
+                    />
+                  </TouchableOpacity>
+                </View>
+              )}
+              keyExtractor={(item) => item.key}
+            />
+          </View>
+        )}
       </View>
+      {/* </View> */}
 
       <View style={styles.bottomBtnsContainer}>
         <TouchableOpacity
@@ -114,7 +145,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   midContent: {
-    alignItems: 'center',
+    // alignItems: 'center',
     width: '100%',
   },
   label: {
@@ -122,6 +153,7 @@ const styles = StyleSheet.create({
   },
   labelText: {
     fontSize: 25,
+    paddingTop: 20,
   },
   inputContainer: {
     flexDirection: 'row',
@@ -139,5 +171,27 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     width: '100%',
     alignItems: 'center',
+  },
+  tagContainer: {
+    paddingVertical: 10,
+  },
+  tag: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 5,
+    flexDirection: 'row',
+    backgroundColor: randomColor(colors),
+    height: 20,
+    width: 'auto',
+    marginRight: 5,
+  },
+  tagText: {
+    color: Colors.white,
+    padding: 10,
+    fontSize: 10,
+  },
+  tagLine: {
+    color: Colors.white,
+    fontSize: 10,
   },
 });
