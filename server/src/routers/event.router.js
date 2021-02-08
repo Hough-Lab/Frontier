@@ -8,7 +8,7 @@ const {
 } = require('../controllers/event.controller.js');
 
 router.get('/getAllEvents', GetAllEvents);
-router.get('/:eventId', GetEventById)
+router.get('/:eventId', GetEventById);
 router.post('/postEvent', authMiddleware, PostEvent);
 
 module.exports = router;

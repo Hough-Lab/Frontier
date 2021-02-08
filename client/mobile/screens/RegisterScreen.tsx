@@ -6,9 +6,9 @@ import {
   TouchableOpacity,
   TextInput,
 } from 'react-native';
-import { connect, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-import { registerUser } from '../store/actions/registerActions';
+import { registerUser, getAllPOI } from '../store/actions';
 import { User } from '../interfaces/reducerInterfaces';
 import Colors from '../assets/colors';
 import { Navigation } from '../interfaces/interfaces';
@@ -24,8 +24,8 @@ const RegisterScreen = ({ navigation }: { navigation: Navigation }) => {
   });
   const dispatch = useDispatch();
 
-  const handleSubmit = useCallback(() => {
-    dispatch(
+  const handleSubmit = useCallback(async () => {
+    await dispatch(
       registerUser(
         inputValues.email,
         inputValues.password,
@@ -36,6 +36,7 @@ const RegisterScreen = ({ navigation }: { navigation: Navigation }) => {
         navigation,
       ),
     );
+    dispatch(getAllPOI());
   }, [inputValues]);
 
   return (
@@ -125,13 +126,7 @@ const RegisterScreen = ({ navigation }: { navigation: Navigation }) => {
   );
 };
 
-const mapStateToProps = ({ user }: { user: User }) => {
-  return { user };
-};
-
-const mapDispatchToProps = { registerUser };
-
-export default connect(mapStateToProps, mapDispatchToProps)(RegisterScreen);
+export default RegisterScreen;
 
 const styles = StyleSheet.create({
   container: {

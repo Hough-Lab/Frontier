@@ -18,7 +18,8 @@ exports.PostReview = async (req, res) => {
     } = req.body;
 
     const user = req.user;
-    const newPOI = await createPOI(formattedAddress, latitude, longitude, user);
+
+    const newPOI = await createPOI(formattedAddress, latitude, longitude);
     const reviewId = uuid.v4();
 
     let pointOfInterestId;
@@ -27,7 +28,7 @@ exports.PostReview = async (req, res) => {
       pointOfInterestId = newPOI[0].pointOfInterestId;
     } else {
       pointOfInterestId = newPOI.pointOfInterestId;
-    };
+    }
 
     const newReview = await models.Review.create({
       reviewId,
@@ -40,7 +41,7 @@ exports.PostReview = async (req, res) => {
       safetyComment,
       picture,
       createdBy: user.userId,
-      PointOfInterestPointOfInterestId: newPOI.pointOfInterestId
+      PointOfInterestPointOfInterestId: newPOI.pointOfInterestId,
     });
 
     if (!newReview) {
@@ -75,16 +76,6 @@ exports.GetAllReviews = async (req, res) => {
   }
 };
 
-
-
-
-
-
-
-
-
-
-
 //!below not working yet
 exports.DeleteReview = async (req, res) => {
   try {
@@ -98,15 +89,12 @@ exports.DeleteReview = async (req, res) => {
   }
 };
 
-
-
 exports.GetEventById = async (req, res) => {
   try {
     const { eventId } = req.params;
     const event = await models.Event.findAll({
       where: { eventId: eventId },
     });
-    console.log('event', event);
     if (!event) throw new Error('event not found');
     res.status(200).send(event);
   } catch (err) {

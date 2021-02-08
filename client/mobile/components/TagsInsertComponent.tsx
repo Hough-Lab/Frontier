@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 
 import Colors from '../assets/colors';
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign, Entypo } from '@expo/vector-icons';
 
 const TagsInsertComponent = ({
   getTags,
@@ -23,11 +23,12 @@ const TagsInsertComponent = ({
   function addTag(tag: string) {
     setTags(() => [...tags, tag]);
   }
-
-  // const response = getTags(tags);
   console.log('tags', tags);
-  console.log('getTags', getTags);
-  // console.log('response', response);
+
+  function deleteTag(tag: string) {
+    tags.splice(tags.indexOf(tag), 1);
+    setTags(() => [...tags]);
+  }
 
   return (
     <View>
@@ -37,7 +38,7 @@ const TagsInsertComponent = ({
         </View>
         <View style={styles.inputView}>
           <TextInput
-            placeholder="Tag name"
+            placeholder="Create tag..."
             returnKeyType="done"
             value={input}
             onSubmitEditing={() => {
@@ -71,6 +72,16 @@ const TagsInsertComponent = ({
           renderItem={({ item }) => (
             <View style={styles.tag}>
               <Text style={styles.tagText}>{item}</Text>
+              <Text style={styles.tagLine}>|</Text>
+              <TouchableOpacity>
+                <Entypo
+                  style={{ paddingRight: 4 }}
+                  name="cross"
+                  size={15}
+                  color={Colors.white}
+                  onPress={() => deleteTag(item)}
+                />
+              </TouchableOpacity>
             </View>
           )}
           keyExtractor={(item) => item.key}
@@ -101,7 +112,8 @@ const styles = StyleSheet.create({
   tag: {
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 20,
+    borderRadius: 5,
+    flexDirection: 'row',
     backgroundColor: Colors.pink,
     height: 20,
     width: 'auto',
@@ -110,6 +122,10 @@ const styles = StyleSheet.create({
   tagText: {
     color: Colors.white,
     padding: 10,
+    fontSize: 10,
+  },
+  tagLine: {
+    color: Colors.white,
     fontSize: 10,
   },
 });

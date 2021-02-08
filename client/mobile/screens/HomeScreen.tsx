@@ -4,29 +4,39 @@ import {
   View,
   ActivityIndicator,
   TouchableOpacity,
-  LayoutAnimation,
-  Platform,
-  UIManager,
   LogBox,
   Dimensions,
 } from 'react-native';
-import MapView, { Marker } from 'react-native-maps';
-import Constants from 'expo-constants';
+import MapView, { Marker, Callout } from 'react-native-maps';
 import * as Location from 'expo-location';
-
 import { FontAwesome5 } from '@expo/vector-icons';
+import { useSelector, useDispatch } from 'react-redux';
+
 import Colors from '../assets/colors';
 import { Navigation } from '../interfaces/interfaces';
 import SearchBtnComponent from '../components/SearchBtnComponent';
+import EventPopupComponent from '../components/EventPopupComponent';
+import { POI, SystemState } from '../interfaces/reducerInterfaces';
 
 LogBox.ignoreLogs([/MapView/g]);
 
+export interface ISeenOnMap {
+  latitude: number;
+  longitude: number;
+  latitudeDelta: number;
+  longitudeDelta: number;
+}
+
 const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
-  const [latitude, setLatitude]: any = useState(51.5167);
-  const [longitude, setLongitude]: any = useState(0.0667);
-  const [location, setLocation]: any = useState({
-    latitude: 51.5167,
-    longitude: 0.0667,
+  const allPOI: any = useSelector((state: SystemState) => state.allPOI);
+
+  const [userLocation, setUserLocation] = useState({
+    latitude: 0,
+    longitude: 0,
+  });
+  const [seenOnMap, setSeenOnMap] = useState<ISeenOnMap>({
+    latitude: 0,
+    longitude: 0,
     latitudeDelta: 0.0122,
     longitudeDelta:
       (Dimensions.get('window').width / Dimensions.get('window').height) *
@@ -36,9 +46,9 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
   const [isLoading, setLoading] = useState<boolean>(true);
 
   const recenter = () => {
-    setLocation({
-      latitude: latitude,
-      longitude: longitude,
+    setSeenOnMap({
+      latitude: userLocation.latitude,
+      longitude: userLocation.longitude,
       latitudeDelta: 0.0122,
       longitudeDelta:
         (Dimensions.get('window').width / Dimensions.get('window').height) *
@@ -56,9 +66,20 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
 
       Location.getCurrentPositionAsync({})
         .then((location) => {
-          setLocation(location);
-          setLatitude(location?.coords.latitude);
-          setLongitude(location?.coords.longitude);
+          setSeenOnMap((seenOnMap: ISeenOnMap) => {
+            return {
+              ...seenOnMap,
+              latitude: location?.coords.latitude,
+              longitude: location?.coords.longitude,
+            };
+          });
+          setUserLocation((userLocation) => {
+            return {
+              ...userLocation,
+              latitude: location?.coords.latitude,
+              longitude: location?.coords.longitude,
+            };
+          });
         })
         .catch((error) => console.error(error))
         .finally(() => setLoading(false));
@@ -72,62 +93,49 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
           <ActivityIndicator color={Colors.pink} size="large" />
         </View>
       ) : (
-        <MapView
-          style={{ flex: 1 }}
-          showsUserLocation={true}
-          initialRegion={{
-            latitude: latitude,
-            longitude: longitude,
-            latitudeDelta: 0.0122,
-            longitudeDelta:
-              (Dimensions.get('window').width /
-                Dimensions.get('window').height) *
-              0.0122,
-          }}
-          region={location}
-        >
-          <Marker
-            coordinate={{
-              latitude: latitude,
-              longitude: longitude,
+        <>
+          <MapView
+            style={{ flex: 1 }}
+            showsMyLocationButton={false}
+            showsUserLocation={true}
+            initialRegion={{
+              latitude: userLocation.latitude,
+              longitude: userLocation.longitude,
+              latitudeDelta: 0.0122,
+              longitudeDelta:
+                (Dimensions.get('window').width /
+                  Dimensions.get('window').height) *
+                0.0122,
             }}
-            title={'PostgreSQL Party'}
-            // description={'Descriptions go here'}
-            onPress={() =>
-              navigation.navigate('MainStackNavigator', {
-                screen: 'DisplayPOIScreen',
-              })
-            }
-          />
-          <Marker
-            coordinate={{
-              latitude: latitude + 0.005,
-              longitude: longitude + 0.002,
-            }}
-            title={'Event'}
-            // description={'Descriptions go here'}
-            pinColor={Colors.blue}
-            onPress={() =>
-              navigation.navigate('EventNavigator', {
-                screen: 'DisplayEventScreen',
-              })
-            }
-          />
-          <Marker
-            coordinate={{
-              latitude: latitude - 0.003,
-              longitude: longitude - 0.002,
-            }}
-            title={'Tip'}
-            // description={'Descriptions go here'}
-            pinColor="wheat"
-            onPress={() =>
-              navigation.navigate('TipNavigator', {
-                screen: 'DisplayTipScreen',
-              })
-            }
-          />
-        </MapView>
+            region={seenOnMap}
+          >
+            {Object.keys(allPOI)[0] !== 'POI' &&
+              allPOI?.map((POI: POI, index: number) => {
+                return (
+                  <Marker
+                    key={POI.pointOfInterestId}
+                    coordinate={{
+                      latitude: +POI.latitude,
+                      longitude: +POI.longitude,
+                    }}
+                    title={'PostgreSQL Party'}
+                    // description={'Descriptions go here'}
+                  >
+                    <Callout
+                      tooltip={true}
+                      onPress={() =>
+                        navigation.navigate('DisplayPOIScreen', {
+                          POIId: POI.pointOfInterestId,
+                        })
+                      }
+                    >
+                      <EventPopupComponent />
+                    </Callout>
+                  </Marker>
+                );
+              })}
+          </MapView>
+        </>
       )}
 
       <View style={styles.recenterBtn}>
@@ -136,7 +144,7 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
         </TouchableOpacity>
       </View>
 
-      <SearchBtnComponent />
+      <SearchBtnComponent setSeenOnMap={setSeenOnMap} />
     </View>
   );
 };

@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const Location = sequelize.define("Location", {
+  const Location = sequelize.define('Location', {
     locationId: {
       type: DataTypes.UUID,
       allowNull: false,
@@ -10,23 +10,21 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
     latitude: {
-      type: DataTypes.DECIMAL(10, 6),
+      type: DataTypes.DECIMAL,
       allowNull: false,
     },
     longitude: {
-      type: DataTypes.DECIMAL(10, 6),
+      type: DataTypes.DECIMAL,
       allowNull: false,
     },
     threeWords: {
       type: DataTypes.STRING,
-      allowNull: true
-    }
+      allowNull: true,
+    },
   });
 
   Location.associate = (models) => {
-    Location.belongsTo(models.PointOfInterest)
+    Location.belongsTo(models.PointOfInterest);
   };
   return Location;
 };
-
-

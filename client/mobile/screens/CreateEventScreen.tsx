@@ -11,15 +11,20 @@ import {
 } from 'react-native';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { connect, useDispatch } from 'react-redux';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import moment from 'moment';
+import { Picker } from '@react-native-picker/picker';
 
-import { createEvent } from '../store/actions';
+import { createEvent, getAllPOI } from '../store/actions';
 import { Navigation } from '../interfaces/interfaces';
 import Colors from '../assets/colors';
 import UploadImageComponent from '../components/UploadImageComponent';
 import TagsInsertComponent from '../components/TagsInsertComponent';
 import GooglePlacesInput from '../components/GooglePlacesInput';
 import dayjs from 'dayjs';
+import DateTimePickerComponent from '../components/DateTimePickerComponent';
+
+import { numbers } from '../assets/numbers';
+
 
 const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
   const [inputValues, setInputValues] = useState({
@@ -55,6 +60,8 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
       tags: tags,
     });
   };
+
+  const [capacity, setCapacity] = useState<number>();
 
   const [isDatePickerShow, setIsDatePickerShow] = useState(false);
   const [date, setDate] = useState(new Date(Date.now()));
@@ -92,9 +99,8 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
 
   const dispatch = useDispatch();
 
-  const handleSubmit = useCallback(() => {
-    console.log(inputValues);
-    dispatch(
+  const handleSubmit = useCallback(async () => {
+    await dispatch(
       createEvent(
         inputValues.title,
         inputValues.formattedAddress,
@@ -110,6 +116,7 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
         navigation,
       ),
     );
+    dispatch(getAllPOI());
   }, [inputValues]);
 
   return (
@@ -131,67 +138,71 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
         </View>
       </View>
 
-      <TouchableOpacity activeOpacity={0.7}>
-        <View style={styles.eventTitleView}>
-          <MaterialIcons
-            name="event"
-            size={24}
-            color="black"
-            onPress={showDatePicker}
-          />
-          <View style={styles.inputView}>
-            {!isDateSelected ? (
-              <Text>Date of event</Text>
-            ) : (
-              <Text>{dayjs(date).format('ddd, DD MMM YYYY')}</Text>
-            )}
-          </View>
-        </View>
-      </TouchableOpacity>
-
-      <TouchableOpacity activeOpacity={0.7}>
-        <View style={styles.eventTitleView}>
-          <MaterialIcons
-            name="event"
-            size={24}
-            color="black"
-            onPress={showTimePicker}
-          />
-          <View style={styles.inputView}>
-            {!isTimeSelected ? (
-              <Text>Event starting at</Text>
-            ) : (
-              <Text>{dayjs(time).format('HH:mm')}</Text>
-            )}
-          </View>
-        </View>
-      </TouchableOpacity>
-
-      {/* Event date */}
-      {isDatePickerShow && (
-        <DateTimePicker
-          value={date}
-          mode={'date'}
-          is24Hour={true}
-          onChange={onChangeDate}
+      {/* Date From section */}
+      <View style={styles.datePicker}>
+        <Text style={styles.datePickerLabel}>FROM: </Text>
+        <Text style={styles.datePickerText}>
+          {moment(inputValues.dateFrom).format('Do MMMM, YYYY [at] HH:mm')}
+        </Text>
+        <DateTimePickerComponent
+          setDate={(selectedDate: string) =>
+            setInputValues({ ...inputValues, dateFrom: selectedDate })
+          }
         />
-      )}
+      </View>
 
-      {/* Event date */}
-      {isTimePickerShow && (
-        <DateTimePicker
-          value={time}
-          mode={'time'}
-          is24Hour={true}
-          onChange={onChangeTime}
+      {/* Date To section */}
+      <View style={styles.datePicker}>
+        <Text style={styles.datePickerLabel}>TO: </Text>
+        <Text style={styles.datePickerText}>
+          {moment(inputValues.dateTo).format('Do MMMM, YYYY [at] HH:mm')}
+        </Text>
+        <DateTimePickerComponent
+          setDate={(selectedDate: string) =>
+            setInputValues({ ...inputValues, dateTo: selectedDate })
+          }
         />
-      )}
+      </View>
 
       <View style={styles.eventTitleView}>
         <Ionicons name="location-sharp" size={24} color="black" />
         <GooglePlacesInput getLocation={getLocation} />
       </View>
 
+      {/* Description section */}
+      <View style={{ paddingTop: 20 }}>
+        <View style={styles.descriptionView}>
+          <TextInput
+            placeholder="Add a description for the event..."
+            defaultValue={''}
+            multiline={true}
+            value={inputValues.description}
+            onChangeText={(text) => {
+              setInputValues({ ...inputValues, description: text });
+            }}
+          />
+        </View>
+      </View>
+
+      {/* capacity of event */}
+
+      <View style={styles.eventCapacity}>
+        <Text style={{ paddingRight: 10 }}>Maximum capacity of event</Text>
+        <Picker
+          selectedValue={capacity}
+          style={{ height: 50, width: '40%' }}
+          onValueChange={(value: number, itemIndex: number) => {
+            setCapacity(value);
+            setInputValues({ ...inputValues, maxCapacity: value });
+          }}
+        >
+          {numbers.map((number: number, index: number) => (
+            <Picker.Item label={number.toString()} value={number} key={index} />
+          ))}
+        </Picker>
+      </View>
+
+      {/* privacy of event */}
       <View style={styles.isPrivate}>
         <Text>Private event</Text>
         <Switch
@@ -244,6 +255,20 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
   },
+  datePicker: {
+    flexDirection: 'row',
+    paddingTop: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  datePickerLabel: {
+    color: Colors.blue,
+    fontWeight: 'bold',
+  },
+  datePickerText: {
+    color: 'black',
+    paddingHorizontal: 5,
+  },
   createBtn: {
     width: 150,
     height: 40,
@@ -263,6 +288,20 @@ const styles = StyleSheet.create({
   isPrivate: {
     flexDirection: 'row',
     justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: 20,
+  },
+  descriptionView: {
+    borderWidth: 1,
+    height: 100,
+    padding: 10,
+    paddingHorizontal: 20,
+    borderRadius: 10,
+  },
+  eventCapacity: {
+    flexDirection: 'row',
+    paddingTop: 20,
+    width: '70%',
     alignItems: 'center',
   },
 });
