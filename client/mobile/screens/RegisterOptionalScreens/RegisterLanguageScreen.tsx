@@ -99,8 +99,8 @@ const RegisterLanguageScreen = ({ navigation }: { navigation: Navigation }) => {
             <FlatList
               horizontal={true}
               data={languagesSpoken}
-              renderItem={({ item }) => (
-                <View style={styles.tag}>
+              renderItem={({ item, index }) => (
+                <View key={index} style={styles.tag}>
                   <Text style={styles.tagText}>{item}</Text>
                   <Text style={styles.tagLine}>|</Text>
                   <TouchableOpacity>

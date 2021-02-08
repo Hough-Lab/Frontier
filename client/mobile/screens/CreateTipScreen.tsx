@@ -30,6 +30,7 @@ LogBox.ignoreLogs([
 ]);
 
 const CreateTipScreen = ({ navigation }: { navigation: Navigation }) => {
+  const [image, setImage] = useState('');
   const [inputValues, setInputValues] = useState({
     title: '',
     description: '',
@@ -63,7 +64,7 @@ const CreateTipScreen = ({ navigation }: { navigation: Navigation }) => {
         inputValues.safetyRating,
         inputValues.safetyComment,
         inputValues.formattedAddress,
-        inputValues.picture,
+        image,
         inputValues.latitude,
         inputValues.longitude,
         inputValues.tags,
@@ -90,7 +91,7 @@ const CreateTipScreen = ({ navigation }: { navigation: Navigation }) => {
 
   return (
     <ScrollView style={styles.container} keyboardShouldPersistTaps="always">
-      <UploadImageComponent />
+      <UploadImageComponent setImage={setImage} image={image} />
       <TagsInsertComponent getTags={getTags} />
 
       {/* Tip title and location*/}

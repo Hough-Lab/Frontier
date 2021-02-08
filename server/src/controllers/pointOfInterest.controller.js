@@ -69,6 +69,8 @@ exports.GetEventsAndReviewsByPOI = async (req, res) => {
     const returnObject = {
       pointOfInterestId: POI.pointOfInterestId,
       formattedAddress: POI.formattedAddress,
+      latitude: POI.latitude,
+      longitude: POI.longitude,
       events,
       reviews,
     };

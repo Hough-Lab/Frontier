@@ -1,7 +1,7 @@
 const uuid = require('uuid');
 const models = require('../models').sequelize.models;
 const { createPOI } = require('./pointOfInterest.controller');
-const { CreateEventTag } = require('./eventTag.controller')
+const { CreateEventTag } = require('./eventTag.controller');
 
 exports.PostEvent = async (req, res) => {
   try {
@@ -21,7 +21,7 @@ exports.PostEvent = async (req, res) => {
 
     const user = req.user;
 
-    CreateEventTag(tags)
+    CreateEventTag(tags);
     const newPOI = await createPOI(formattedAddress, latitude, longitude);
     const eventId = uuid.v4();
 
@@ -45,7 +45,6 @@ exports.PostEvent = async (req, res) => {
       picture,
       createdBy: user.userId,
       tags,
-
     });
 
     if (!newEvent) {

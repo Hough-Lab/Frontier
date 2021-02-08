@@ -34,10 +34,9 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
     longitude: 0,
     dateFrom: new Date(Date.now()).toString(),
     dateTo: new Date(Date.now()).toString(),
-    description: 'This is a temporary description.',
-    maxCapacity: 10,
+    description: '',
+    maxCapacity: 1,
     isPrivate: false,
-    picture: "new File(['foo'], 'foo.jpg')",
     tags: [''],
   });
 
@@ -111,7 +110,7 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
         inputValues.description,
         inputValues.maxCapacity,
         inputValues.isPrivate,
-        inputValues.picture,
+        image,
         inputValues.tags,
         navigation,
       ),

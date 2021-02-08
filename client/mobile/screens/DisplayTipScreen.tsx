@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   ScrollView,
   ActivityIndicator,
+  Image,
 } from 'react-native';
 import ViewMoreText from 'react-native-view-more-text';
 import { AirbnbRating } from 'react-native-ratings';
@@ -34,30 +35,33 @@ interface IProps {
 }
 
 const DisplayTipScreen = ({ route, navigation }: IProps) => {
-  const { reviewId, pointOfInterestId } = route.params;
+  const { reviewId } = route.params;
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getReviewById(reviewId));
+    const getReview = async () => {
+      await dispatch(getReviewById(reviewId));
+      dispatch(getPOIById(review.pointOfInterestId));
+    };
+    getReview();
   }, [reviewId]);
-
-  useEffect(() => {
-    dispatch(getPOIById(pointOfInterestId));
-  }, [pointOfInterestId]);
 
   const review: Review = useSelector((state: SystemState) => state.review);
   const POI: POI = useSelector((state: SystemState) => state.POI);
-
-  console.log('pointOfInterestId', pointOfInterestId);
-  console.log('review', review);
-  console.log('POI', POI);
 
   return (
     <View style={{ flex: 1 }}>
       {review.title !== '' ? (
         <ScrollView style={styles.container}>
           <View style={styles.uploadImageArea}>
+            {review?.picture.length > 0 && (
+              <Image
+                source={{ uri: `${review.picture}` }}
+                style={{ width: 400, height: 400 }}
+              />
+            )}
+
             <TouchableOpacity style={styles.uploadImageBtn} onPress={() => {}}>
               <Entypo name="image" size={50} color="black" />
             </TouchableOpacity>
