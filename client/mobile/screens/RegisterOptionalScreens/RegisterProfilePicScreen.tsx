@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   StyleSheet,
   Image,
@@ -9,7 +9,9 @@ import {
 } from 'react-native';
 import { AntDesign, Entypo } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
+import { useDispatch } from 'react-redux';
 
+import { editUserProfile, getAllPOI } from '../../store/actions';
 import Colors from '../../assets/colors';
 import { Navigation } from '../../interfaces/interfaces';
 import ImportPictureComponent from '../../components/ImportPictureComponent';
@@ -21,6 +23,16 @@ const RegisterProfilePicScreen = ({
   navigation: Navigation;
   image: string;
 }) => {
+  const imageLink = '';
+
+  const dispatch = useDispatch();
+
+  const handleSubmit = useCallback(async () => {
+    await dispatch(editUserProfile({ profilePicture: imageLink }));
+    dispatch(getAllPOI());
+    navigation.navigate('MainStackNavigator', { screen: 'HomeScreen' });
+  }, [imageLink]);
+
   return (
     <View style={styles.container}>
       <View style={styles.title}>
@@ -54,12 +66,7 @@ const RegisterProfilePicScreen = ({
         >
           <Text>SKIP</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() =>
-            navigation.navigate('MainStackNavigator', { screen: 'HomeScreen' })
-          }
-          activeOpacity={0.7}
-        >
+        <TouchableOpacity onPress={handleSubmit} activeOpacity={0.7}>
           <AntDesign name="rightcircle" size={40} color={Colors.pink} />
         </TouchableOpacity>
       </View>

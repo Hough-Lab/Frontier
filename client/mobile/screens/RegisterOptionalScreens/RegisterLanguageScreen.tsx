@@ -12,6 +12,7 @@ import { Picker } from '@react-native-picker/picker';
 import { countriesList, languagesList } from '../../assets/countries';
 import { useDispatch } from 'react-redux';
 
+import { editUserProfile, getAllPOI } from '../../store/actions';
 import Colors from '../../assets/colors';
 import { colors, randomColor } from '../../assets/colorFunction';
 import { Navigation } from '../../interfaces/interfaces';
@@ -24,7 +25,10 @@ const RegisterLanguageScreen = ({ navigation }: { navigation: Navigation }) => {
   const [input, setInput] = useState('');
 
   function addLanguageSpoken(languageSpoken: string) {
-    if (languagesSpoken.indexOf(languageSpoken) === -1) {
+    if (
+      languagesSpoken.indexOf(languageSpoken) === -1 &&
+      languageSpoken.trim() !== ''
+    ) {
       setLanguagesSpoken(() => [...languagesSpoken, languageSpoken]);
     }
   }
@@ -35,13 +39,16 @@ const RegisterLanguageScreen = ({ navigation }: { navigation: Navigation }) => {
   }
 
   const dispatch = useDispatch();
-  console.log(country, languagesSpoken);
 
   const handleSubmit = useCallback(async () => {
-    // await dispatch(editUserProfile({ dateOfBirth: DOB }));
-    // dispatch(getAllPOI());
-    navigation.navigate('RegisterTagsScreen');
-  }, [languagesSpoken]);
+    if (country?.trim() !== '' && languagesSpoken !== []) {
+      await dispatch(
+        editUserProfile({ language: languagesSpoken, from: country }),
+      );
+      dispatch(getAllPOI());
+      navigation.navigate('RegisterTagsScreen');
+    }
+  }, [languagesSpoken, country]);
 
   return (
     <View style={styles.container}>
@@ -54,6 +61,7 @@ const RegisterLanguageScreen = ({ navigation }: { navigation: Navigation }) => {
         <View style={styles.label}>
           <Text style={styles.labelText}>What country are you from?</Text>
         </View>
+
         <Picker
           selectedValue={country}
           style={{ height: 50, width: '70%' }}
@@ -61,6 +69,7 @@ const RegisterLanguageScreen = ({ navigation }: { navigation: Navigation }) => {
             setCountry(itemValue)
           }
         >
+          <Picker.Item value="" label="Please select a country" />
           {countriesList.map((country: string, index: number) => (
             <Picker.Item label={country} value={country} key={index} />
           ))}
@@ -79,6 +88,8 @@ const RegisterLanguageScreen = ({ navigation }: { navigation: Navigation }) => {
             addLanguageSpoken(itemValue);
           }}
         >
+          <Picker.Item value="" label="Please select a language" />
+
           {languagesList.map((country: string, index: number) => (
             <Picker.Item label={country} value={country} key={index} />
           ))}

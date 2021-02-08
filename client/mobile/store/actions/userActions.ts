@@ -19,7 +19,7 @@ interface EditProfileObject {
   from?: string;
   language?: string[];
   userTags?: string[];
-  picture?: File;
+  profilePicture?: string;
 }
 
 export const getCurrentUser = () => async (dispatch: AppDispatch) => {
@@ -35,7 +35,7 @@ export const editUserProfile = (editProfileObject: EditProfileObject) => async (
   const token = await AsyncStorage.getItem('jwtToken');
 
   if (token) {
-    if (editProfileObject.picture) {
+    if (editProfileObject.profilePicture) {
       let pic = new FormData();
       // pic.append('file', infoObject.picture, infoObject.picture.fileName);
 
