@@ -38,7 +38,7 @@ const DisplayPOIScreen = ({ route, navigation }: IProps) => {
 
   return (
     <View style={styles.container}>
-      <POIImageComponent />
+      <POIImageComponent formattedAddress={POIInfo.formattedAddress} />
 
       {/* Events and Tips buttons */}
       <View style={styles.eventsTipsBtnsContainer}>
