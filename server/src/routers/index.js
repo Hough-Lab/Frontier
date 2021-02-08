@@ -5,6 +5,8 @@ const planRouter = require('./plan.router');
 const POIRouter = require('./POI.router');
 const chatRouter = require('./chat.router');
 const locationRouter = require('./location.router');
+const reviewTagRouter = require('./reviewTag.router');
+const eventTagRouter = require('./eventTag.router');
 
 
 module.exports = {
@@ -15,4 +17,6 @@ module.exports = {
   POIRouter,
   chatRouter,
   locationRouter,
+  reviewTagRouter,
+  eventTagRouter,
 };

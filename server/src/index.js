@@ -25,6 +25,8 @@ app.use('/api/plan', routers.planRouter);
 app.use('/api/POI', routers.POIRouter);
 app.use('/api/chat', routers.chatRouter);
 app.use('/api/location', routers.locationRouter);
+app.use('/api/reviewTag', routers.reviewTagRouter);
+app.use('/api/eventTag', routers.eventTagRouter);
 
 const server = require('http').createServer(app);
 

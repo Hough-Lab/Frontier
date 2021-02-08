@@ -1,6 +1,7 @@
 const uuid = require('uuid');
 const models = require('../models').sequelize.models;
 const { createPOI } = require('./pointOfInterest.controller');
+const { CreateReviewTag } = require('./reviewTag.controller')
 
 exports.PostReview = async (req, res) => {
   try {
@@ -15,10 +16,12 @@ exports.PostReview = async (req, res) => {
       safetyRating,
       safetyComment,
       picture,
+      tags,
     } = req.body;
 
     const user = req.user;
 
+    CreateReviewTag(tags);
     const newPOI = await createPOI(formattedAddress, latitude, longitude);
     const reviewId = uuid.v4();
 
@@ -42,6 +45,7 @@ exports.PostReview = async (req, res) => {
       picture,
       createdBy: user.userId,
       PointOfInterestPointOfInterestId: newPOI.pointOfInterestId,
+      tags,
     });
 
     if (!newReview) {
