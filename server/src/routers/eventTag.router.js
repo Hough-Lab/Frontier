@@ -6,6 +6,6 @@ const {
 } = require('../controllers/eventTag.controller.js');
 
 router.get('/getAllEventTags', GetAllEventTags);
-router.get('/:eventTag', GetEventsByTagId); //!not working yet
+router.get('/:eventTag', GetEventsByTagId);
 
 module.exports = router;

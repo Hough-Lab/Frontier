@@ -1,5 +1,6 @@
 const uuid = require('uuid');
 const models = require('../models').sequelize.models;
+const { Op } = require('sequelize');
 
 exports.CreateEventTag = async (tags) => {
   console.log(tags)
@@ -20,7 +21,6 @@ exports.CreateEventTag = async (tags) => {
   return;
 }
 
-//! not working yet
 exports.GetEventsByTagId = async (req, res) => {
   console.log('testing')
   try {
@@ -28,7 +28,7 @@ exports.GetEventsByTagId = async (req, res) => {
     const events = await models.Event.findAll({
       where: {
         tags: {
-          $contains: eventTag
+          [Op.contains]: [eventTag]
         }
       }
     });

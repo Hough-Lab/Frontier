@@ -1,5 +1,6 @@
 const uuid = require('uuid');
 const models = require('../models').sequelize.models;
+const { Op } = require('sequelize');
 
 exports.CreateReviewTag = async (tags) => {
   console.log(tags)
@@ -20,13 +21,16 @@ exports.CreateReviewTag = async (tags) => {
   return;
 }
 
-//! not working yet
+
 exports.GetReviewsByTagId = async (req, res) => {
+  console.log('testing review')
   try {
     const { reviewTag } = req.params;
     const reviews = await models.Review.findAll({
       where: {
-        tagName: [reviewTag]
+        tags: {
+          [Op.contains]: [reviewTag]
+        }
       }
     });
     res.status(200).send(reviews);

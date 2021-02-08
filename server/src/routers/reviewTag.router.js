@@ -6,6 +6,6 @@ const {
 } = require('../controllers/reviewTag.controller.js');
 
 router.get('/getAllReviewTags', GetAllReviewTags);
-router.get('/:tag', GetReviewsByTagId); //!not working yet
+router.get('/:reviewTag', GetReviewsByTagId);
 
 module.exports = router;
