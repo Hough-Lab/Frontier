@@ -24,20 +24,20 @@ const DisplayTipScreen = () => {
       <View style={styles.tipIntro}>
         <Ionicons name="location-sharp" size={24} color="black" />
         <Text>here goes the address</Text>
-        <View style={styles.starsView}>
-          <AirbnbRating
-            count={5}
-            defaultRating={5}
-            size={20}
-            isDisabled={true}
-            showRating={false}
-          />
-        </View>
+      </View>
+      <View style={styles.starsView}>
+        <AirbnbRating
+          count={5}
+          defaultRating={5}
+          size={20}
+          isDisabled={true}
+          showRating={false}
+        />
       </View>
 
       <View>
         <Text style={styles.tipTitle}>Tip Title</Text>
-        <ViewMoreText numberOfLines={3} style={{ width: '100%' }}>
+        <ViewMoreText numberOfLines={3} textStyle={styles.tipText}>
           <Text>
             Lorem Ipsum is simply dummy text of the printing and typesetting
             industry. Lorem Ipsum has been the industry's standard dummy text
@@ -48,7 +48,9 @@ const DisplayTipScreen = () => {
           </Text>
         </ViewMoreText>
 
-        <Text>xx other travellers found this tip helpful</Text>
+        <Text style={{ paddingTop: 10 }}>
+          xx other travellers found this tip helpful
+        </Text>
         <View style={styles.helpfulTip}>
           <TouchableOpacity onPress={() => {}} style={styles.icon}>
             <AntDesign name="like2" size={30} color={Colors.blue} />
@@ -80,16 +82,6 @@ const styles = StyleSheet.create({
     marginVertical: 20,
     borderRadius: 8,
   },
-  uploadImageBtn: {
-    flex: 1,
-  },
-  helpfulTip: {
-    flexDirection: 'row',
-  },
-  starsView: {
-    paddingVertical: 20,
-    paddingLeft: 5,
-  },
   tipIntro: {
     flexDirection: 'row',
     justifyContent: 'center',
@@ -97,6 +89,17 @@ const styles = StyleSheet.create({
   },
   tipTitle: {
     fontWeight: 'bold',
+  },
+  uploadImageBtn: {
+    flex: 1,
+  },
+  helpfulTip: {
+    flexDirection: 'row',
+    paddingTop: 10,
+  },
+  starsView: {
+    paddingVertical: 20,
+    paddingLeft: 5,
   },
   moreTipsBtn: {
     justifyContent: 'center',
@@ -109,5 +112,10 @@ const styles = StyleSheet.create({
   icon: {
     paddingHorizontal: 15,
     paddingVertical: 5,
+  },
+  tipText: {
+    padding: 10,
+    textAlign: 'justify',
+    // width: '100%',
   },
 });

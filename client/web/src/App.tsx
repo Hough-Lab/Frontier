@@ -33,7 +33,6 @@ function App() {
             <CreateTipScreen />
           </Route>
           <Route path="/">
-            <NavBar />
             <HomeScreen />
           </Route>
         </Switch>

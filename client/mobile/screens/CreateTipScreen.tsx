@@ -12,9 +12,10 @@ import { AirbnbRating, Rating } from 'react-native-ratings';
 import {
   MaterialCommunityIcons,
   Ionicons,
-  FontAwesome5,
+  FontAwesome,
 } from '@expo/vector-icons';
 import { connect, useDispatch } from 'react-redux';
+import StarRating from 'react-native-star-rating';
 
 import { createReview, getAllPOI } from '../store/actions';
 import Colors from '../assets/colors';
@@ -29,13 +30,6 @@ LogBox.ignoreLogs([
 ]);
 
 const CreateTipScreen = ({ navigation }: { navigation: Navigation }) => {
-  const getTags = (tags: string[]) => {
-    setInputValues({
-      ...inputValues,
-      tags: tags,
-    });
-  };
-
   const [inputValues, setInputValues] = useState({
     title: '',
     description: '',
@@ -49,6 +43,13 @@ const CreateTipScreen = ({ navigation }: { navigation: Navigation }) => {
     longitude: 0,
     tags: [''],
   });
+
+  const getTags = (tags: string[]) => {
+    setInputValues({
+      ...inputValues,
+      tags: tags,
+    });
+  };
 
   const dispatch = useDispatch();
 
@@ -84,6 +85,8 @@ const CreateTipScreen = ({ navigation }: { navigation: Navigation }) => {
       longitude: longitude,
     });
   };
+
+  const [budgetCount, setBudgetCount] = useState<number>(1);
 
   return (
     <ScrollView style={styles.container} keyboardShouldPersistTaps="always">
@@ -167,18 +170,24 @@ const CreateTipScreen = ({ navigation }: { navigation: Navigation }) => {
         />
       </View>
 
-      {/* Budget Level section */}
-      <View style={styles.budgetView}>
-        <FontAwesome5 name="money-bill-wave" size={24} color="black" />
-        <View style={styles.inputView}>
-          <TextInput
-            placeholder="Budget"
-            keyboardType="numeric"
-            onChangeText={(text) => {
-              setInputValues({ ...inputValues, budgetLevel: parseInt(text) });
-            }}
-          />
-        </View>
+      <View style={styles.dollarView}>
+        <Text style={{ paddingRight: 50 }}>Budget Level</Text>
+
+        <StarRating
+          disabled={false}
+          starSize={35}
+          starStyle={{ paddingHorizontal: 5 }}
+          emptyStar={'dollar'}
+          fullStar={'dollar'}
+          iconSet={'FontAwesome'}
+          maxStars={3}
+          rating={budgetCount}
+          selectedStar={(rating: number) => {
+            setBudgetCount(rating);
+            setInputValues({ ...inputValues, budgetLevel: rating });
+          }}
+          fullStarColor={Colors.green}
+        />
       </View>
 
       {/* SHARE button */}
@@ -205,6 +214,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 30,
+    // backgroundColor: Colors.white,
   },
   inputView: {
     width: 200,
@@ -217,6 +227,11 @@ const styles = StyleSheet.create({
   },
   starsView: {
     paddingVertical: 20,
+  },
+  dollarView: {
+    paddingVertical: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   descriptionView: {
     borderWidth: 1,
