@@ -1,14 +1,12 @@
-import axios from 'axios';
-import { AppDispatch } from '../../App';
-import { Navigation } from '../../interfaces/interfaces';
+import axios from "axios";
+import { AppDispatch } from "../../App";
 import {
   CREATE_REVIEW,
   GET_CURRENT_REVIEW,
   EDIT_REVIEW,
   DELETE_REVIEW,
-} from './types';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { ip_address } from '../../config';
+} from "./types";
+const ip_address = "localhost";
 
 const REACT_APP_SERVER_URI = `http://${ip_address}:5000`;
 
@@ -23,11 +21,10 @@ export const createReview = (
   picture: File,
   latitude: string,
   longitude: string,
-  tags: string[],
-  navigation: Navigation,
+  tags: string[]
 ) => async (dispatch: AppDispatch) => {
   try {
-    const token = await AsyncStorage.getItem('jwtToken');
+    const token = await localStorage.getItem("jwtToken");
 
     if (token) {
       const { data } = await axios.post(
@@ -49,15 +46,17 @@ export const createReview = (
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        },
+        }
       );
       dispatch({ type: CREATE_REVIEW, payload: data });
 
-      if (data.title) {
-        navigation.navigate('TipNavigator', {
-          screen: 'DisplayTipScreen',
-        });
-      }
+      //TODO:
+
+      // if (data.title) {
+      //   navigation.navigate('TipNavigator', {
+      //     screen: 'DisplayTipScreen',
+      //   });
+      // }
     }
   } catch (e) {
     console.log(e);
@@ -81,7 +80,7 @@ export const createReview = (
 //   navigation: Navigation,
 // ) => async (dispatch: AppDispatch) => {
 //   try {
-//     const token = await AsyncStorage.getItem('jwtToken');
+//     const token = await localStorage.getItem('jwtToken');
 
 //     if (token) {
 //       const { data } = await axios.put(
@@ -119,10 +118,10 @@ export const createReview = (
 // };
 
 export const getCurrentReview = (reviewId: string) => async (
-  dispatch: AppDispatch,
+  dispatch: AppDispatch
 ) => {
   try {
-    const token = await AsyncStorage.getItem('jwtToken');
+    const token = await localStorage.getItem("jwtToken");
 
     if (token) {
       const { data } = await axios.get(
@@ -131,7 +130,7 @@ export const getCurrentReview = (reviewId: string) => async (
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        },
+        }
       );
       dispatch({ type: GET_CURRENT_REVIEW, payload: data });
     }
@@ -145,7 +144,7 @@ export const getCurrentReview = (reviewId: string) => async (
 //   dispatch: AppDispatch,
 // ) => {
 //   try {
-//     const token = await AsyncStorage.getItem('jwtToken');
+//     const token = await localStorage.getItem('jwtToken');
 
 //     if (token) {
 //       const { data } = await axios.post(
