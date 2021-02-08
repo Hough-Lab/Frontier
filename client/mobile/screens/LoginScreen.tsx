@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { connect, useDispatch } from 'react-redux';
 
-import { loginUser } from '../store/actions';
+import { getAllPOI, loginUser } from '../store/actions';
 import Colors from '../assets/colors';
 import { Navigation } from '../interfaces/interfaces';
 import { User } from '../interfaces/reducerInterfaces';
@@ -21,8 +21,11 @@ const LoginScreen = ({ navigation }: { navigation: Navigation }) => {
 
   const dispatch = useDispatch();
 
-  const handleSubmit = useCallback(() => {
-    dispatch(loginUser(inputValues.email, inputValues.password, navigation));
+  const handleSubmit = useCallback(async () => {
+    await dispatch(
+      loginUser(inputValues.email, inputValues.password, navigation),
+    );
+    dispatch(getAllPOI());
   }, [inputValues]);
 
   return (

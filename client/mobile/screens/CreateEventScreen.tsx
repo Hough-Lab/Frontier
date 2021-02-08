@@ -14,7 +14,7 @@ import { connect, useDispatch } from 'react-redux';
 import moment from 'moment';
 import { Picker } from '@react-native-picker/picker';
 
-import { createEvent } from '../store/actions';
+import { createEvent, getAllPOI } from '../store/actions';
 import { Navigation } from '../interfaces/interfaces';
 import Colors from '../assets/colors';
 import UploadImageComponent from '../components/UploadImageComponent';
@@ -22,7 +22,9 @@ import TagsInsertComponent from '../components/TagsInsertComponent';
 import GooglePlacesInput from '../components/GooglePlacesInput';
 import dayjs from 'dayjs';
 import DateTimePickerComponent from '../components/DateTimePickerComponent';
+
 import { numbers } from '../assets/numbers';
+
 
 const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
   const [inputValues, setInputValues] = useState({
@@ -97,9 +99,8 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
 
   const dispatch = useDispatch();
 
-  const handleSubmit = useCallback(() => {
-    console.log(inputValues);
-    dispatch(
+  const handleSubmit = useCallback(async () => {
+    await dispatch(
       createEvent(
         inputValues.title,
         inputValues.formattedAddress,
@@ -115,6 +116,7 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
         navigation,
       ),
     );
+    dispatch(getAllPOI());
   }, [inputValues]);
 
   return (

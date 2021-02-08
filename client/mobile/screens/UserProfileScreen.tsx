@@ -18,6 +18,7 @@ import {
   MaterialCommunityIcons,
 } from '@expo/vector-icons';
 import { Picker } from '@react-native-picker/picker';
+import { useDispatch } from 'react-redux';
 
 import { User, SystemState } from '../interfaces/reducerInterfaces';
 import { Navigation } from '../interfaces/interfaces';
@@ -25,6 +26,7 @@ import { applyAnimation } from '../utils/generalFunctions';
 import Colors from '../assets/colors';
 import { countriesList, languagesList } from '../assets/countries';
 import DateTimePickerComponent from '../components/DateTimePickerComponent';
+import { logoutUser } from '../store/actions';
 
 const UserProfileScreen = ({ navigation }: { navigation: Navigation }) => {
   if (Platform.OS === 'android') {
@@ -52,6 +54,7 @@ const UserProfileScreen = ({ navigation }: { navigation: Navigation }) => {
     verifications: user.verifications,
     certified: user.certified,
   });
+  const dispatch = useDispatch();
 
   return (
     <View style={styles.container}>
@@ -142,11 +145,9 @@ const UserProfileScreen = ({ navigation }: { navigation: Navigation }) => {
       <Button
         title="Log out"
         color={Colors.pink}
-        onPress={() =>
-          navigation.navigate('LoginStackNavigator', {
-            screen: 'LoginScreen',
-          })
-        }
+        onPress={() => {
+          dispatch(logoutUser(navigation));
+        }}
       />
     </View>
   );
