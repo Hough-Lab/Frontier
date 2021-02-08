@@ -196,6 +196,28 @@ export function CreateTipScreen() {
             value={eventObject.description}
           />
         </div>
+
+        <div className="descriptionInputContainer">
+          <label className="eventScreenLabel">Saftey Comment</label>
+          <textarea
+            onChange={handleInputChange}
+            className="descriptionInputContainer"
+            name="description"
+            cols={40}
+            rows={5}
+            value={eventObject.safetyComment}
+          />
+        </div>
+
+        <div className="priceLevelInputContainer">
+          <div className="rating">
+            <p>saftey rating</p>
+            <span>$</span>
+            <span>$</span>
+            <span>$</span>
+          </div>
+        </div>
+
         <div className="ratingInputContainer">
           <div className="rating">
             <span>☆</span>
