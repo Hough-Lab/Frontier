@@ -26,10 +26,6 @@
   "lint": "eslint .",
   "dependencies": {
     "bcrypt": "^5.0.0",
-<<<<<<< HEAD
-    "body-parser": "^1.19.0",
-=======
->>>>>>> 228997ee0cc56e795438abaa498a380c05c4e9eb
     "commitizen": "^4.2.3",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",

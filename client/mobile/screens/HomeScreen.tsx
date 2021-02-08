@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
@@ -121,24 +120,23 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
                     }}
                     title={'PostgreSQL Party'}
                     // description={'Descriptions go here'}
-                    onPress={() =>
-                      navigation.navigate('DisplayPOIScreen', {
-                        POIId: POI.pointOfInterestId,
-                      })
-                    } />
-<!--                   >
-                      <Callout
-              tooltip={true}
-              onPress={() =>
-                navigation.navigate('MainStackNavigator', {
-                  screen: 'DisplayPOIScreen',
-                })
-              }
-            > -->
-                       
-<!--               <EventPopupComponent />
-            </Callout>
-                    </Callout> -->
+                    // onPress={() =>
+                    //   navigation.navigate('DisplayPOIScreen', {
+                    //     POIId: POI.pointOfInterestId,
+                    //   })
+                    // }
+                  >
+                    <Callout
+                      tooltip={true}
+                      onPress={() =>
+                        navigation.navigate('DisplayPOIScreen', {
+                          POIId: POI.pointOfInterestId,
+                        })
+                      }
+                    >
+                      <EventPopupComponent />
+                    </Callout>
+                  </Marker>
                 );
               })}
           </MapView>
@@ -181,4 +179,3 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
 });
-
