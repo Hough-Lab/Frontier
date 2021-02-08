@@ -67,6 +67,8 @@ export interface POI {
   longitude: number;
   createdAt: string;
   updatedAt: string;
+  events: Event[];
+  reviews: Review[];
 }
 
 export interface POIData {
