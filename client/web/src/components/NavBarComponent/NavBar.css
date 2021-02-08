@@ -21,13 +21,15 @@
   /* background-color: #c2f5ff; */
   border: none;
   outline: none;
+  margin: 0 0 10px 10px;
 }
 
 .selected {
+  display: flex;
+  align-items: center;
   background-color: #fd9b9b;
-  /* background-color: #3685b5; */
+  box-shadow: -2px 2px 2px 1px #fd7b8f;
   border-radius: 20px 0 0 20px;
-  margin-left: 10px;
 }
 
 Link {
