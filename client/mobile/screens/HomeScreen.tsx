@@ -11,6 +11,7 @@ import MapView, { Marker, Callout } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { useSelector, useDispatch } from 'react-redux';
+import LottieView from 'lottie-react-native';
 
 import Colors from '../assets/colors';
 import { Navigation } from '../interfaces/interfaces';
@@ -31,8 +32,8 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
   const allPOI: any = useSelector((state: SystemState) => state.allPOI);
 
   const [userLocation, setUserLocation] = useState({
-    latitude: 0,
-    longitude: 0,
+    latitude: 51.507351,
+    longitude: -0.127758,
   });
   const [seenOnMap, setSeenOnMap] = useState<ISeenOnMap>({
     latitude: 0,
@@ -90,7 +91,13 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
     <View style={styles.container}>
       {isLoading ? (
         <View style={styles.loading}>
-          <ActivityIndicator color={Colors.pink} size="large" />
+          <LottieView
+            style={{ width: '100%' }}
+            source={require('../assets/JSON/spinner.json')}
+            autoPlay
+            loop
+          />
+          {/* <ActivityIndicator color={Colors.pink} size="large" /> */}
         </View>
       ) : (
         <>
@@ -160,6 +167,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: Colors.white,
   },
   recenterBtn: {
     position: 'absolute',
