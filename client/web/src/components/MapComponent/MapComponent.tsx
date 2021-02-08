@@ -1,63 +1,50 @@
-import { GoogleKey } from '../../googleConfig';
-
-import React, { useState, useEffect } from 'react';
+import { GoogleKey } from "../../googleConfig";
+import { useSelector, useDispatch } from "react-redux";
+import React, { useState, useEffect } from "react";
 import {
   GoogleMap,
   LoadScript,
   Marker,
   InfoWindow,
-} from '@react-google-maps/api';
-import './MapComponent.css';
+} from "@react-google-maps/api";
+import "./MapComponent.css";
+import { SearchPopOut } from "../../components/SearchPopOut/SearchPopOut";
+import { POI, SystemState } from "../../interfaces/reducerInterfaces";
+import { getAllPOI } from "../../store/actions";
 
-interface Location {
-  name?: string;
-  time?: string;
-  image?: string;
-  location?: {
-    lat: number;
-    lng: number;
-  };
+interface MarkerInfo {
+  pointOfInterestId: string;
+  formattedAddress: string;
+  latitude: number;
+  longitude: number;
+  createdAt: string;
+  updatedAt: string;
 }
-
-const locations = [
-  {
-    name: 'Lantern Festival',
-    time: '07/02/2021, 20:00pm',
-    image:
-      'https://afar-production.imgix.net/uploads/images/afar_post_headers/images/1YsKTV9Ksc/original_lantern-festival-floating.jpg?auto=compress,format&fit=crop&crop=top&lossless=true&w=1080',
-
-    location: {
-      lat: 51.4626,
-      lng: -0.2163,
-    },
-  },
-  {
-    name: 'Free Cocktail Class',
-    time: '11/02/2021, 12:00pm',
-    image:
-      'https://afar-production.imgix.net/uploads/images/afar_post_headers/images/1YsKTV9Ksc/original_lantern-festival-floating.jpg?auto=compress,format&fit=crop&crop=top&lossless=true&w=1080',
-    location: {
-      lat: 51.4628,
-      lng: -0.215,
-    },
-  },
-  {
-    name: 'Park 5km',
-    time: '20/02/2021, 10:00am',
-    image:
-      'https://afar-production.imgix.net/uploads/images/afar_post_headers/images/1YsKTV9Ksc/original_lantern-festival-floating.jpg?auto=compress,format&fit=crop&crop=top&lossless=true&w=1080',
-    location: {
-      lat: 51.4634,
-      lng: -0.2167,
-    },
-  },
-];
+const initialState: MarkerInfo = {
+  pointOfInterestId: "",
+  formattedAddress: "",
+  latitude: 0,
+  longitude: 0,
+  createdAt: "",
+  updatedAt: "",
+};
+interface position {
+  lat: number;
+  lng: number;
+}
 
 const MapComponent = () => {
   const initialPosition = { lat: 51.46262, lng: -0.2143 };
-  let initialState: Location = {};
+
   const [currentPosition, setCurrentPosition] = useState(initialPosition);
   const [selected, setSelected] = useState(initialState);
+
+  const allPOI = useSelector((state: SystemState) => state.allPOI);
+  console.log("allPOI: ", allPOI);
+
+  const handleUpdateMapCenter = (coordinates: position) => {
+    setCurrentPosition(coordinates);
+  };
 
   const success = (position: GeolocationPosition) => {
     const currentPosition = {
@@ -73,51 +60,59 @@ const MapComponent = () => {
   //   setCurrentPosition({ lat, lng });
   // };
 
-  const onSelect = (item: Location) => {
+  const onSelect = (item: MarkerInfo) => {
     setSelected(item);
   };
 
   const mapStyles = {
-    height: '100%',
-    width: '100%',
+    height: "100%",
+    width: "100%",
   };
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(success);
+    dispatch(getAllPOI());
   }, []);
 
   return (
-    <LoadScript googleMapsApiKey={GoogleKey}>
+    <LoadScript googleMapsApiKey={GoogleKey} libraries={["places"]}>
+      <SearchPopOut handleUpdateMapCenter={handleUpdateMapCenter} />
+
       <GoogleMap
         mapContainerStyle={mapStyles}
         zoom={15}
         center={currentPosition}
       >
-        {locations.map((item) => {
-          return (
-            <Marker
-              key={item.name}
-              position={item.location}
-              onClick={() => onSelect(item)}
-            />
-          );
-        })}
-        {selected.location && (
+        {Object.keys(allPOI)[0] !== "POI" &&
+          Object.values(allPOI).map((POI) => {
+            return (
+              <Marker
+                onClick={() => onSelect(POI)}
+                key={POI.pointOfInterestId}
+                position={{
+                  lat: +POI.latitude,
+                  lng: +POI.longitude,
+                }}
+                title={"PostgreSQL Party"}
+                // description={'Descriptions go here'}
+              />
+            );
+          })}
+
+        {true && (
           <InfoWindow
-            position={selected.location}
-            onCloseClick={() => setSelected({})}
-            key={selected.name}
+            position={{
+              lat: selected.latitude,
+              lng: selected.longitude,
+            }}
+            onCloseClick={() => setSelected(initialState)}
+            key={selected.pointOfInterestId}
           >
             <div className="infoWindowBody">
-              <img
-                src={selected.image}
-                // src="https://afar-production.imgix.net/uploads/images/afar_post_headers/images/1YsKTV9Ksc/original_lantern-festival-floating.jpg?auto=compress,format&fit=crop&crop=top&lossless=true&w=1080"
-                alt="lantern festival"
-                height={100}
-                width={150}
-              ></img>
-              <p>{selected.name}</p>
-              <p>{selected.time}</p>
+              <p>{selected.pointOfInterestId}</p>
+              <p>{selected.formattedAddress}</p>
             </div>
           </InfoWindow>
         )}

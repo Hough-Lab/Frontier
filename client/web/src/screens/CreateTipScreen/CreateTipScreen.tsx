@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import './CreateTipScreen.css';
-import { handleImageUpload } from '../../components/UploadImageComponent/UploadImageComponent';
+import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import "./CreateTipScreen.css";
+import { handleImageUpload } from "../../components/UploadImageComponent/UploadImageComponent";
+import { StarRating } from "../../components/StarComponent/StarComponent";
 
 interface Tag {
   reviewTagId: number;
@@ -9,30 +10,30 @@ interface Tag {
 }
 
 const mockArrayTags: Tag[] = [
-  { reviewTagId: 1, tagName: 'Food' },
-  { reviewTagId: 2, tagName: 'Adventure' },
-  { reviewTagId: 3, tagName: 'Nature' },
+  { reviewTagId: 1, tagName: "Food" },
+  { reviewTagId: 2, tagName: "Adventure" },
+  { reviewTagId: 3, tagName: "Nature" },
 ];
 
 const emptyTagsArray: Tag[] = [];
 
 const emptyEventObject = {
-  reviewId: 'fakeEventId',
-  createdAt: 'fakeTime',
+  reviewId: "fakeEventId",
+  createdAt: "fakeTime",
   budgetLevel: 5,
-  title: '',
-  description: '',
+  title: "",
+  description: "",
   rating: 5,
   safetyRating: 3,
-  safetyComment: '',
-  picture: '',
-  pointOfInterestId: 'fakePointId',
+  safetyComment: "",
+  picture: "",
+  pointOfInterestId: "fakePointId",
   tags: emptyTagsArray,
 };
 
 export function CreateTipScreen() {
-  const [inputValues, setInputValues] = useState({ title: '', location: '' });
-  const [tagInputValue, setTagInputValue] = useState('');
+  const [inputValues, setInputValues] = useState({ title: "", location: "" });
+  const [tagInputValue, setTagInputValue] = useState("");
   const [selectedTags, setSelectedTags] = useState(emptyTagsArray);
   const [recommendedTags, setRecommendedTags] = useState(mockArrayTags);
   const [eventObject, setEventObject] = useState(emptyEventObject);
@@ -40,7 +41,7 @@ export function CreateTipScreen() {
   const handleInputChange = (
     e:
       | React.ChangeEvent<HTMLInputElement>
-      | React.ChangeEvent<HTMLTextAreaElement>,
+      | React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
     setEventObject({ ...eventObject, [name]: value });
@@ -53,16 +54,16 @@ export function CreateTipScreen() {
   const dispatch = useDispatch();
 
   const handleSubmit = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent> | any,
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent> | any
   ) => {
     e.preventDefault();
-    console.log('selectedTags :>> ', selectedTags);
-    console.log('eventObject :>> ', eventObject);
+    console.log("selectedTags :>> ", selectedTags);
+    console.log("eventObject :>> ", eventObject);
   };
 
   const handleRecommendedTagClick = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    tag: Tag,
+    tag: Tag
   ) => {
     e.preventDefault();
     addTagtoSelected(tag);
@@ -70,14 +71,14 @@ export function CreateTipScreen() {
 
   const handleSelectedTagClick = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    tag: Tag,
+    tag: Tag
   ) => {
     e.preventDefault();
     removeTagFromSelected(tag);
   };
 
   const handleAddUserTag = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
     const newTag = {
@@ -85,7 +86,7 @@ export function CreateTipScreen() {
       tagName: tagInputValue,
     };
     addTagtoSelected(newTag);
-    setTagInputValue('');
+    setTagInputValue("");
   };
 
   const addTagtoSelected = (tag: Tag) => {
@@ -220,11 +221,7 @@ export function CreateTipScreen() {
 
         <div className="ratingInputContainer">
           <div className="rating">
-            <span>☆</span>
-            <span>☆</span>
-            <span>☆</span>
-            <span>☆</span>
-            <span>☆</span>
+            <StarRating totalStars={5} />
           </div>
         </div>
         <div className="priceLevelInputContainer">

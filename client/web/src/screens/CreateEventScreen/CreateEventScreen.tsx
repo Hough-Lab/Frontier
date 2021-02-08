@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { createEvent, getAllPOI } from "../../store/actions";
 import { handleImageUpload } from "../../components/UploadImageComponent/UploadImageComponent";
-// import LocationAutoCompleteInput from '../../components/LocationAutoCompleteInput/LocationAutoCompleteInput';
+import { StandaloneSearchBox } from "@react-google-maps/api";
+
 import "./CreateEventScreen.css";
 
 let mockArrayTags: string[] = ["Food", "Adventure", "Nature"];
@@ -22,13 +23,14 @@ const emptyEventObject = {
   picture: "",
   tags: emptyTagsArray,
 };
-
+const initalSearchBox: any = {};
 export const CreateEventScreen = () => {
   const [inputValues, setInputValues] = useState({ title: "", location: "" });
   const [tagInputValue, setTagInputValue] = useState("");
   const [selectedTags, setSelectedTags] = useState(emptyTagsArray);
   const [recommendedTags, setRecommendedTags] = useState(mockArrayTags);
   const [eventObject, setEventObject] = useState(emptyEventObject);
+  const [searchBox, setSearchBox] = useState(initalSearchBox);
 
   const dispatch = useDispatch();
 
@@ -49,7 +51,6 @@ export const CreateEventScreen = () => {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent> | any
   ) => {
     e.preventDefault();
-    console.log("selectedTags :>> ", selectedTags);
     console.log("eventObject :>> ", eventObject);
     await dispatch(
       createEvent(
@@ -110,6 +111,27 @@ export const CreateEventScreen = () => {
     setTagInputValue(e.target.value);
   };
 
+  const onLoad = (ref: any) => {
+    if (ref) {
+      setSearchBox(ref);
+    }
+  };
+
+  const onPlacesChanged = () => {
+    const item = searchBox.getPlaces()[0];
+
+    const newFormattedAddress = item.formatted_address;
+    const newLat = item.geometry.location.lat();
+    const newLng = item.geometry.location.lng();
+
+    setEventObject({
+      ...eventObject,
+      formattedAddress: newFormattedAddress,
+      latitude: newLat,
+      longitude: newLng,
+    });
+  };
+
   // const handleSubmit = useCallback(() => {
   //   dispatch(createEvent(inputValues.title, inputValues.location));
   // }, [inputValues]);
@@ -146,19 +168,17 @@ export const CreateEventScreen = () => {
             </div>
             <div className="locationInputContainer">
               <label className="eventScreenLabel">Location</label>
-              <input
-                onChange={handleInputChange}
-                name="formattedAddress"
-                className="textInput"
-                type="text"
-                placeholder="Location"
-                value={eventObject.formattedAddress}
-              ></input>
+              <StandaloneSearchBox
+                onLoad={onLoad}
+                onPlacesChanged={onPlacesChanged}
+              >
+                <input
+                  className="textInput"
+                  type="text"
+                  placeholder="Location"
+                ></input>
+              </StandaloneSearchBox>
             </div>
-            {/* <div className="locationInputContainer">
-            <label>Location</label>
-            <LocationAutoCompleteInput placeholder="Location" /> 
-          </div> */}
 
             <div className="tagSelectionContainer">
               <label className="eventScreenLabel">Tags:</label>
@@ -247,3 +267,9 @@ export const CreateEventScreen = () => {
     </div>
   );
 };
+
+// const mapStateToProps = ({ event }: { event: Event }) => {
+//   return { event };
+// };
+
+// export default connect(mapStateToProps, { createEvent })(CreateEventScreen);
