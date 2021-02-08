@@ -1,7 +1,12 @@
-import { getCurrentUser, loginUser, logoutUser } from './userActions';
+import {
+  getCurrentUser,
+  loginUser,
+  logoutUser,
+  editUserProfile,
+} from './userActions';
 import { registerUser } from './registerActions';
-import { createEvent, getCurrentEvent } from './eventActions';
-import { createReview, getCurrentReview } from './reviewActions';
+import { createEvent, getEventById } from './eventActions';
+import { createReview, getReviewById } from './reviewActions';
 import { getAllPOI, getPOIById } from './POIActions';
 
 export {
@@ -9,10 +14,11 @@ export {
   loginUser,
   logoutUser,
   registerUser,
+  editUserProfile,
   createEvent,
-  getCurrentEvent,
+  getEventById,
   createReview,
-  getCurrentReview,
+  getReviewById,
   getAllPOI,
   getPOIById,
 };

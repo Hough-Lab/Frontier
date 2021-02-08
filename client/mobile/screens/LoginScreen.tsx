@@ -6,22 +6,26 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
-import { connect, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import LottieView from 'lottie-react-native';
 
 import { getAllPOI, loginUser } from '../store/actions';
 import Colors from '../assets/colors';
 import { Navigation } from '../interfaces/interfaces';
 import { User } from '../interfaces/reducerInterfaces';
+import { validateLogin } from '../utils/generalFunctions';
 
 const LoginScreen = ({ navigation }: { navigation: Navigation }) => {
   const [inputValues, setInputValues] = useState({
     email: '',
     password: '',
   });
+  const [errMsg, setErrMsg] = useState('');
 
   const dispatch = useDispatch();
 
   const handleSubmit = useCallback(async () => {
+    setErrMsg(validateLogin(inputValues));
     await dispatch(
       loginUser(inputValues.email, inputValues.password, navigation),
     );
@@ -30,9 +34,20 @@ const LoginScreen = ({ navigation }: { navigation: Navigation }) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.title}>
-        <Text style={styles.titleText}>Frontier</Text>
-      </View>
+      <LottieView
+        style={{ width: '100%' }}
+        source={require('../assets/JSON/logo.json')}
+        autoPlay
+        loop
+      />
+
+      {errMsg ? (
+        <View style={styles.errMsgView}>
+          <Text style={styles.errMsgText}>{errMsg}</Text>
+        </View>
+      ) : (
+        <></>
+      )}
 
       <View style={styles.inputContainer}>
         <TextInput
@@ -72,13 +87,7 @@ const LoginScreen = ({ navigation }: { navigation: Navigation }) => {
   );
 };
 
-const mapStateToProps = ({ user }: { user: User }) => {
-  return { user };
-};
-
-const mapDispatchToProps = { loginUser };
-
-export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
+export default LoginScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -88,11 +97,11 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     width: '100%',
   },
-  title: {
+  errMsgView: {
     paddingBottom: 20,
   },
-  titleText: {
-    fontSize: 25,
+  errMsgText: {
+    color: 'red',
   },
   inputContainer: {
     justifyContent: 'center',

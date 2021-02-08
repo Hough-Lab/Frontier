@@ -7,7 +7,12 @@ import Colors from '../assets/colors';
 
 LogBox.ignoreAllLogs();
 
-const DateTimePickerComponent = ({ setDate }) => {
+interface IProps {
+  setDate: Function;
+  mode: string;
+}
+
+const DateTimePickerComponent = ({ setDate, mode }: IProps) => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -34,7 +39,7 @@ const DateTimePickerComponent = ({ setDate }) => {
 
       <DateTimePickerModal
         isVisible={isDatePickerVisible}
-        mode="datetime"
+        mode={mode ? mode : 'datetime'}
         onConfirm={handleConfirm}
         onCancel={hideDatePicker}
       />

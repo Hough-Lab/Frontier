@@ -145,6 +145,37 @@ const EventNavigator = () => {
   );
 };
 
+// const POINavigator = () => {
+//   return (
+//     <Stack.Navigator>
+//       <Stack.Screen
+//         name="DisplayPOIScreen"
+//         component={DisplayPOIScreen}
+//         options={{
+//           title: 'Travel Tip',
+//           headerTitleAlign: 'center',
+//         }}
+//       />
+//       <Stack.Screen
+//         name="DisplayEventScreen"
+//         component={DisplayEventScreen}
+//         options={{
+//           title: 'Travel Tip',
+//           headerTitleAlign: 'center',
+//         }}
+//       />
+//       <Stack.Screen
+//         name="DisplayTipScreen"
+//         component={DisplayTipScreen}
+//         options={{
+//           title: 'Travel Tip',
+//           headerTitleAlign: 'center',
+//         }}
+//       />
+//     </Stack.Navigator>
+//   );
+// };
+
 const MainStackNavigator = () => {
   return (
     <Tab.Navigator tabBar={(props) => <BottomTabBar {...props} />}>
@@ -152,6 +183,8 @@ const MainStackNavigator = () => {
       <Tab.Screen name="TipNavigator" component={TipNavigator} />
       <Tab.Screen name="EventNavigator" component={EventNavigator} />
       <Tab.Screen name="DisplayPOIScreen" component={DisplayPOIScreen} />
+      <Tab.Screen name="DisplayEventScreen" component={DisplayEventScreen} />
+      <Tab.Screen name="DisplayTipScreen" component={DisplayTipScreen} />
       <Tab.Screen name="UserProfileScreen" component={UserProfileScreen} />
     </Tab.Navigator>
   );

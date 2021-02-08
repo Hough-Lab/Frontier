@@ -19,10 +19,6 @@ exports.RegisterUser = async (req, res) => {
       firstName,
       lastName,
       dateOfBirth,
-      language,
-      from,
-      profilePicture,
-      userTags,
     } = req.body;
 
     const { valid, errors } = validateRegisterInput(
@@ -69,11 +65,6 @@ exports.RegisterUser = async (req, res) => {
       email,
       firstName,
       lastName,
-      dateOfBirth,
-      language,
-      from,
-      profilePicture,
-      userTags,
       password: hashedPw,
       lastSeen: createdDate.toISOString(),
     });
@@ -121,4 +112,82 @@ exports.LogoutUser = async (req, res) => {
   );
   res.clearCookie('authToken');
   res.sendStatus(204);
+};
+
+exports.EditProfile = async (req, res) => {
+  try {
+    const {
+      username,
+      firstName,
+      lastName,
+      email,
+      password,
+      confirmPassword,
+      dateOfBirth,
+      from,
+      language,
+      profilePicture,
+      userTags,
+    } = req.body;
+
+    const user = req.user;
+
+    const { valid, errors } = validateRegisterInput({
+      email,
+      username,
+      password,
+      confirmPassword,
+      firstName,
+      lastName,
+    });
+
+    if (!valid) {
+      res.status(500);
+      return res.send({ errors });
+    }
+    const existingUser = await models.User.findOne({
+      where: { username: username },
+    });
+    if (existingUser) {
+      res.status(500);
+      return res.send({
+        errors: { usernameAlreadyExists: 'Username not available' },
+      });
+    }
+    const existingEmail = await models.User.findOne({
+      where: { email: email },
+    });
+    if (existingEmail) {
+      res.status(500);
+      return res.send({
+        errors: {
+          emailAlreadyExists: 'This email is already linked to an account',
+        },
+      });
+    }
+
+    const hashedPw = await bcrypt.hash(password, 10);
+
+    const createdDate = new Date();
+    const newUser = await models.User.update(
+      {
+        username,
+        firstName,
+        lastName,
+        email,
+        password: hashedPw,
+        dateOfBirth,
+        from,
+        language,
+        userTags,
+        profilePicture,
+        lastSeen: createdDate.toISOString(),
+      },
+      { where: user.userId },
+    );
+    res.status(201).send({ user: newUser });
+  } catch (e) {
+    res.status(500);
+    res.send(e.message);
+  }
 };

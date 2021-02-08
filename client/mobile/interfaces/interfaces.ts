@@ -26,3 +26,8 @@ export interface Iimage {
     width: number;
   };
 }
+
+export interface LoginInputValues {
+  email: string;
+  password: string;
+}

@@ -7,6 +7,7 @@ import {
   TextInput,
 } from 'react-native';
 import { useDispatch } from 'react-redux';
+import LottieView from 'lottie-react-native';
 
 import { registerUser, getAllPOI } from '../store/actions';
 import { User } from '../interfaces/reducerInterfaces';
@@ -41,9 +42,12 @@ const RegisterScreen = ({ navigation }: { navigation: Navigation }) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.title}>
-        <Text style={styles.titleText}>Frontier</Text>
-      </View>
+      <LottieView
+        style={{ width: '100%' }}
+        source={require('../assets/JSON/logo.json')}
+        autoPlay
+        loop
+      />
 
       <View style={styles.inputContainer}>
         <TextInput
