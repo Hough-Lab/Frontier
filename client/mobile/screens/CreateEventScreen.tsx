@@ -10,7 +10,7 @@ import {
   Platform,
 } from 'react-native';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
-import { connect, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import moment from 'moment';
 import { Picker } from '@react-native-picker/picker';
 
@@ -24,7 +24,6 @@ import dayjs from 'dayjs';
 import DateTimePickerComponent from '../components/DateTimePickerComponent';
 
 import { numbers } from '../assets/numbers';
-
 
 const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
   const [inputValues, setInputValues] = useState({
@@ -227,11 +226,7 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
   );
 };
 
-const mapStateToProps = ({ event }: { event: Event }) => {
-  return { event };
-};
-
-export default connect(mapStateToProps, { createEvent })(CreateEventScreen);
+export default CreateEventScreen;
 
 const styles = StyleSheet.create({
   container: {

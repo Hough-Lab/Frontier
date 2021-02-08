@@ -11,6 +11,6 @@ const { authMiddleware } = require('../middlewares/auth.js');
 router.post('/postReview', authMiddleware, PostReview);
 router.delete('/deleteReview', authMiddleware, DeleteReview);
 router.get('/getAllReviews', GetAllReviews);
-router.get('/:reviewId', GetReviewById);
+router.get('/getReviewById/:reviewId', GetReviewById);
 
 module.exports = router;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import {
   StyleSheet,
   Text,
@@ -8,12 +8,24 @@ import {
   Touchable,
 } from 'react-native';
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
+import { useDispatch } from 'react-redux';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 import Colors from '../../assets/colors';
 import { Navigation } from '../../interfaces/interfaces';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import { editUserProfile, getAllPOI } from '../../store/actions';
 
 const RegisterDOBScreen = ({ navigation }: { navigation: Navigation }) => {
+  const dispatch = useDispatch();
+
+  const DOB = '';
+
+  const handleSubmit = useCallback(async () => {
+    // await dispatch(editUserProfile({ dateOfBirth: DOB }));
+    // dispatch(getAllPOI());
+    navigation.navigate('RegisterLanguageScreen');
+  }, [DOB]);
+
   return (
     <View style={styles.container}>
       <View style={styles.title}>
@@ -59,10 +71,7 @@ const RegisterDOBScreen = ({ navigation }: { navigation: Navigation }) => {
         >
           <Text>SKIP</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('RegisterLanguageScreen')}
-          activeOpacity={0.7}
-        >
+        <TouchableOpacity onPress={handleSubmit} activeOpacity={0.7}>
           <AntDesign name="rightcircle" size={40} color={Colors.pink} />
         </TouchableOpacity>
       </View>

@@ -8,11 +8,68 @@ import { ip_address } from '../../config';
 
 const REACT_APP_SERVER_URI = `http://${ip_address}:5000`;
 
+interface EditProfileObject {
+  username?: string;
+  fistName?: string;
+  lastName?: string;
+  email?: string;
+  password?: string;
+  confirmPassword?: string;
+  dateOfBirth?: string;
+  from?: string;
+  language?: string[];
+  userTags?: string[];
+  picture?: File;
+}
+
 export const getCurrentUser = () => async (dispatch: AppDispatch) => {
   const { data } = await axios.get(`${REACT_APP_SERVER_URI}/api/user`, {
     withCredentials: true,
   });
   dispatch({ type: GET_CURRENT_USER, payload: data.user });
+};
+
+export const editUserProfile = (editProfileObject: EditProfileObject) => async (
+  dispatch: AppDispatch,
+) => {
+  const token = await AsyncStorage.getItem('jwtToken');
+
+  if (token) {
+    if (editProfileObject.picture) {
+      let pic = new FormData();
+      // pic.append('file', infoObject.picture, infoObject.picture.fileName);
+
+      // const { data } = await axios.post(
+      //   `${REACT_APP_SERVER_URI}/api/user/editProfile/`,
+      //   {
+      //     infoObject,
+      //   },
+      //   {
+      //     headers: {
+      //       accept: 'application/json',
+      //       'Accept-Language': 'en-US,en;q=0.8',
+      //       'Content-Type': `multipart/form-data; boundary=${pic._boundary}`,
+
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //   },
+      // );
+      // dispatch({ type: GET_CURRENT_USER, payload: data.user });
+    } else {
+      const { data } = await axios.post(
+        `${REACT_APP_SERVER_URI}/api/user/editProfile/`,
+        {
+          editProfileObject,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      dispatch({ type: GET_CURRENT_USER, payload: data.user });
+    }
+  }
 };
 
 export const loginUser = (

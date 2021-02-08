@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import {
   StyleSheet,
   Text,
@@ -10,6 +10,7 @@ import {
 import { AntDesign, Entypo } from '@expo/vector-icons';
 import { Picker } from '@react-native-picker/picker';
 import { countriesList, languagesList } from '../../assets/countries';
+import { useDispatch } from 'react-redux';
 
 import Colors from '../../assets/colors';
 import { colors, randomColor } from '../../assets/colorFunction';
@@ -23,14 +24,24 @@ const RegisterLanguageScreen = ({ navigation }: { navigation: Navigation }) => {
   const [input, setInput] = useState('');
 
   function addLanguageSpoken(languageSpoken: string) {
-    setLanguagesSpoken(() => [...languagesSpoken, languageSpoken]);
+    if (languagesSpoken.indexOf(languageSpoken) === -1) {
+      setLanguagesSpoken(() => [...languagesSpoken, languageSpoken]);
+    }
   }
-  console.log('tags', languagesSpoken);
 
   function deleteLanguageSpoken(languageSpoken: string) {
     languagesSpoken.splice(languagesSpoken.indexOf(languageSpoken), 1);
     setLanguagesSpoken(() => [...languagesSpoken]);
   }
+
+  const dispatch = useDispatch();
+  console.log(country, languagesSpoken);
+
+  const handleSubmit = useCallback(async () => {
+    // await dispatch(editUserProfile({ dateOfBirth: DOB }));
+    // dispatch(getAllPOI());
+    navigation.navigate('RegisterTagsScreen');
+  }, [languagesSpoken]);
 
   return (
     <View style={styles.container}>
@@ -114,10 +125,7 @@ const RegisterLanguageScreen = ({ navigation }: { navigation: Navigation }) => {
         >
           <Text>SKIP</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('RegisterTagsScreen')}
-          activeOpacity={0.7}
-        >
+        <TouchableOpacity onPress={handleSubmit} activeOpacity={0.7}>
           <AntDesign name="rightcircle" size={40} color={Colors.pink} />
         </TouchableOpacity>
       </View>
