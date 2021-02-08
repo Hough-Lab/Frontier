@@ -92,6 +92,7 @@ const TipNavigator = () => {
           headerTitleAlign: 'center',
           headerLeft: () => (
             <AntDesign
+              style={{ paddingLeft: 15 }}
               name="arrowleft"
               size={24}
               color="black"
@@ -123,6 +124,7 @@ const EventNavigator = () => {
           headerTitleAlign: 'center',
           headerLeft: () => (
             <AntDesign
+              style={{ paddingLeft: 15 }}
               name="arrowleft"
               size={24}
               color="black"

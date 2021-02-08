@@ -7,7 +7,7 @@ import {
   LogBox,
   Dimensions,
 } from 'react-native';
-import MapView, { Marker } from 'react-native-maps';
+import MapView, { Marker, Callout } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { useSelector, useDispatch } from 'react-redux';
@@ -15,6 +15,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import Colors from '../assets/colors';
 import { Navigation } from '../interfaces/interfaces';
 import SearchBtnComponent from '../components/SearchBtnComponent';
+import EventPopupComponent from '../components/EventPopupComponent';
 import { POI, SystemState } from '../interfaces/reducerInterfaces';
 
 LogBox.ignoreLogs([/MapView/g]);
@@ -119,12 +120,18 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
                     }}
                     title={'PostgreSQL Party'}
                     // description={'Descriptions go here'}
-                    onPress={() =>
-                      navigation.navigate('MainStackNavigator', {
-                        screen: 'DisplayPOIScreen',
-                      })
-                    }
-                  />
+                  >
+                    <Callout
+                      tooltip={true}
+                      onPress={() =>
+                        navigation.navigate('DisplayPOIScreen', {
+                          POIId: POI.pointOfInterestId,
+                        })
+                      }
+                    >
+                      <EventPopupComponent />
+                    </Callout>
+                  </Marker>
                 );
               })}
           </MapView>

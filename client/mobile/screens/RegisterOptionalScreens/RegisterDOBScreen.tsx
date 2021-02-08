@@ -1,13 +1,19 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, TextInput, Touchable } from 'react-native';
-import { AntDesign, MaterialCommunityIcons  } from '@expo/vector-icons';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  TextInput,
+  Touchable,
+} from 'react-native';
+import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 
 import Colors from '../../assets/colors';
 import { Navigation } from '../../interfaces/interfaces';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-const RegisterDOBScreen = ({ navigation }:{ navigation : Navigation }) => {
-
+const RegisterDOBScreen = ({ navigation }: { navigation: Navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.title}>
@@ -21,8 +27,12 @@ const RegisterDOBScreen = ({ navigation }:{ navigation : Navigation }) => {
 
         <View style={styles.inputContainer}>
           <TextInput placeholder="Date" />
-          <TouchableOpacity onPress={()=>{}} activeOpacity={0.7}>
-            <MaterialCommunityIcons name="calendar-month" size={24} color={Colors.blue} />
+          <TouchableOpacity onPress={() => {}} activeOpacity={0.7}>
+            <MaterialCommunityIcons
+              name="calendar-month"
+              size={24}
+              color={Colors.blue}
+            />
           </TouchableOpacity>
           {/* <DateTimePicker
             testID="dateTimePicker"
@@ -35,19 +45,30 @@ const RegisterDOBScreen = ({ navigation }:{ navigation : Navigation }) => {
       </View>
 
       <View style={styles.bottomBtnsContainer}>
-        <TouchableOpacity onPress={() => navigation.goBack()} activeOpacity={0.7}>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          activeOpacity={0.7}
+        >
           <AntDesign name="leftcircle" size={40} color={Colors.pink} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('MainStackNavigator', { screen: 'HomeScreen'})} activeOpacity={0.7}>
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate('MainStackNavigator', { screen: 'HomeScreen' })
+          }
+          activeOpacity={0.7}
+        >
           <Text>SKIP</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('RegisterLanguageScreen')} activeOpacity={0.7}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('RegisterLanguageScreen')}
+          activeOpacity={0.7}
+        >
           <AntDesign name="rightcircle" size={40} color={Colors.pink} />
         </TouchableOpacity>
       </View>
     </View>
-  )
-}
+  );
+};
 
 export default RegisterDOBScreen;
 
@@ -70,7 +91,7 @@ const styles = StyleSheet.create({
   },
   midContent: {
     alignItems: 'center',
-    width: '100%'
+    width: '100%',
   },
   label: {
     paddingBottom: 20,
@@ -93,6 +114,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',
-    alignItems: 'center'
-  }
-})
+    alignItems: 'center',
+  },
+});
