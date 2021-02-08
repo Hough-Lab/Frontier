@@ -33,9 +33,9 @@ const CreateTipScreen = ({ navigation }: { navigation: Navigation }) => {
   const [inputValues, setInputValues] = useState({
     title: '',
     description: '',
-    rating: 3,
-    budgetLevel: 10,
-    safetyRating: 2,
+    rating: 1,
+    budgetLevel: 1,
+    safetyRating: 1,
     safetyComment: '',
     formattedAddress: '',
     picture: 'Placeholder Image',
