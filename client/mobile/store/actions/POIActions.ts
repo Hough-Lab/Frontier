@@ -30,15 +30,13 @@ export const getAllPOI = () => async (dispatch: AppDispatch) => {
   }
 };
 
-export const getPOIById = (POIId: string, navigation: Navigation) => async (
-  dispatch: AppDispatch,
-) => {
+export const getPOIById = (POIId: string) => async (dispatch: AppDispatch) => {
   try {
     const token = await AsyncStorage.getItem('jwtToken');
 
     if (token) {
-      const { data } = await axios.post(
-        `${REACT_APP_SERVER_URI}/api/POI/getPOIById/${POIId}`,
+      const { data } = await axios.get(
+        `${REACT_APP_SERVER_URI}/api/POI/getReviewsAndEventsByPOIId/${POIId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -48,10 +46,6 @@ export const getPOIById = (POIId: string, navigation: Navigation) => async (
 
       if (data.formattedAddress) {
         dispatch({ type: GET_POI_BY_ID, payload: data });
-        // TODO navigate to that POI
-        // navigation.navigate('EventNavigator', {
-        //   screen: 'DisplayEventScreen',
-        // });
       }
     }
   } catch (e) {

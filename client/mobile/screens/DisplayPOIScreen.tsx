@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,13 +7,34 @@ import {
   Image,
   ScrollView,
 } from 'react-native';
+import { RouteProp } from '@react-navigation/native';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { Navigation } from '../interfaces/interfaces';
 import Colors from '../assets/colors';
 import POIImageComponent from '../components/POIImageComponent';
+import { getPOIById } from '../store/actions';
+import { SystemState } from '../interfaces/reducerInterfaces';
 
-const DisplayPOIScreen = ({ navigation }: { navigation: Navigation }) => {
+type RootStackParamList = {
+  DisplayPOIScreen: { POIId: string };
+};
+
+type ProfileScreenRouteProp = RouteProp<RootStackParamList, 'DisplayPOIScreen'>;
+
+interface IProps {
+  route: ProfileScreenRouteProp;
+  navigation: Navigation;
+}
+
+const DisplayPOIScreen = ({ route, navigation }: IProps) => {
   const [eventsTab, setEventsTab] = useState(true);
+  const { POIId } = route.params;
+
+  const dispatch = useDispatch();
+
+  dispatch(getPOIById(POIId));
+  const POIInfo = useSelector((state: SystemState) => state.POI);
 
   return (
     <View style={styles.container}>
