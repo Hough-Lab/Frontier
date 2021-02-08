@@ -75,11 +75,11 @@ const DisplayPOIScreen = ({ route, navigation }: IProps) => {
         {eventsTab
           ? POIInfo.events.map((item, index) => (
               <TouchableOpacity
-                onPress={() =>
+                onPress={() => {
                   navigation.navigate('DisplayEventScreen', {
                     eventId: POIInfo.events[index].eventId,
-                  })
-                }
+                  });
+                }}
               >
                 <View key={index} style={styles.listItemView}>
                   <Image
@@ -114,7 +114,8 @@ const DisplayPOIScreen = ({ route, navigation }: IProps) => {
                 style={styles.listItemView}
                 onPress={() =>
                   navigation.navigate('DisplayTipScreen', {
-                    eventId: POIInfo.reviews[index].reviewId,
+                    reviewId: POIInfo.reviews[index].reviewId,
+                    pointOfInterestId: POIInfo.pointOfInterestId,
                   })
                 }
               >
