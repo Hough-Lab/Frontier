@@ -1,12 +1,19 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, TextInput, Touchable } from 'react-native';
-import { AntDesign, MaterialCommunityIcons  } from '@expo/vector-icons';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  TextInput,
+  Touchable,
+} from 'react-native';
+import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 
 import Colors from '../../assets/colors';
 import { Navigation } from '../../interfaces/interfaces';
+import TagsInsertComponent from '../../components/TagsInsertComponent';
 
-const RegisterTagsScreen = ({ navigation }:{ navigation : Navigation }) => {
-
+const RegisterTagsScreen = ({ navigation }: { navigation: Navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.title}>
@@ -19,26 +26,37 @@ const RegisterTagsScreen = ({ navigation }:{ navigation : Navigation }) => {
         </View>
         <View style={styles.inputContainer}>
           <TextInput placeholder="Tag name" />
-          <TouchableOpacity onPress={()=>{}}>
+          <TouchableOpacity onPress={() => {}}>
             <AntDesign name="pluscircleo" size={24} color="black" />
           </TouchableOpacity>
         </View>
+
+        {/* add the below once  have the action "edit user" */}
+        {/* <TagsInsertComponent getTags={getTags} /> */}
       </View>
 
       <View style={styles.bottomBtnsContainer}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <AntDesign name="leftcircle" size={40} color={Colors.pink} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('MainStackNavigator', { screen: 'HomeScreen'})} activeOpacity={0.7}>
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate('MainStackNavigator', { screen: 'HomeScreen' })
+          }
+          activeOpacity={0.7}
+        >
           <Text>SKIP</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('RegisterProfilePicScreen')} activeOpacity={0.7}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('RegisterProfilePicScreen')}
+          activeOpacity={0.7}
+        >
           <AntDesign name="rightcircle" size={40} color={Colors.pink} />
         </TouchableOpacity>
       </View>
     </View>
-  )
-}
+  );
+};
 
 export default RegisterTagsScreen;
 
@@ -61,7 +79,7 @@ const styles = StyleSheet.create({
   },
   midContent: {
     alignItems: 'center',
-    width: '100%'
+    width: '100%',
   },
   label: {
     paddingBottom: 20,
@@ -84,6 +102,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',
-    alignItems: 'center'
-  }
-})
+    alignItems: 'center',
+  },
+});

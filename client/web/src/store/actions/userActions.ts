@@ -1,10 +1,9 @@
 import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { AppDispatch } from '../../App';
 import { LOGOUT_USER, GET_CURRENT_USER, SET_ERROR } from './types';
 import { Navigation } from '../../interfaces/interfaces';
-import { ip_address } from '../../config';
+const ip_address = 'localhost';
 
 const REACT_APP_SERVER_URI = `http://${ip_address}:5000`;
 
@@ -32,7 +31,7 @@ export const loginUser = (
     dispatch({ type: GET_CURRENT_USER, payload: data.user });
 
     try {
-      await AsyncStorage.setItem('jwtToken', data.token);
+      await localStorage.setItem('jwtToken', data.token);
     } catch (e) {
       console.log(e);
     }
@@ -48,7 +47,7 @@ export const loginUser = (
 export const logoutUser = (navigation: Navigation) => async (
   dispatch: AppDispatch,
 ) => {
-  await AsyncStorage.removeItem('jwtToken');
+  await localStorage.removeItem('jwtToken');
   dispatch({ type: LOGOUT_USER, payload: null });
   navigation.navigate('LoginStackNavigator', {
     screen: 'LoginScreen',

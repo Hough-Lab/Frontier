@@ -1,21 +1,20 @@
 const uuid = require('uuid');
 const models = require('../models').sequelize.models;
 
-exports.createPOI = async (formattedAddress, latitude, longitude, user) => {
-
+exports.createPOI = async (formattedAddress, latitude, longitude) => {
   const pointOfInterestId = uuid.v4();
   const locationId = uuid.v4();
-  const UserUserId = user.UserUserId
   const searchPOI = await models.PointOfInterest.findAll({
     include: [
       {
         model: models.Location,
         where: {
-            latitude: latitude,
-            longitude: longitude,
-        }
-      }
-    ]
+          formattedAddress: formattedAddress,
+          latitude: latitude,
+          longitude: longitude,
+        },
+      },
+    ],
   });
 
   if (searchPOI.length === 0) {
@@ -24,7 +23,6 @@ exports.createPOI = async (formattedAddress, latitude, longitude, user) => {
       formattedAddress,
       latitude,
       longitude,
-      UserUserId
     });
 
     const newLocation = await models.Location.create({
@@ -32,12 +30,12 @@ exports.createPOI = async (formattedAddress, latitude, longitude, user) => {
       formattedAddress,
       latitude,
       longitude,
-      PointOfInterestPointOfInterestId: newPOI.pointOfInterestId //
+      PointOfInterestPointOfInterestId: newPOI.pointOfInterestId, //
     });
 
-    return newPOI
+    return newPOI;
   } else {
-    return searchPOI
+    return searchPOI;
   }
 };
 
@@ -54,28 +52,30 @@ exports.GetPOIById = async (req, res) => {
   try {
     const { pointOfInterestId } = req.params;
     const poi = await models.PointOfInterest.findByPk(pointOfInterestId);
-    console.log(poi)
+    console.log(poi);
     res.status(200).send(poi);
   } catch (err) {
     res.status(500).send(err);
   }
-}
+};
 
 exports.GetEventsAndReviewsByPOI = async (req, res) => {
   try {
     const { pointOfInterestId } = req.params;
-    const reviews = await models.Review.findAll({ where: { pointOfInterestId } });
+    const reviews = await models.Review.findAll({
+      where: { pointOfInterestId },
+    });
     const events = await models.Event.findAll({ where: { pointOfInterestId } });
     const returnObject = {
       events,
-      reviews
-    }
-    res.status(201).send(returnObject)
-    } catch (err) {
-      console.log(err)
+      reviews,
+    };
+    res.status(201).send(returnObject);
+  } catch (err) {
+    console.log(err);
     res.status(500).send(err);
   }
-}
+};
 
 // exports.GetEventsByPOI = async (req, res) => {
 //   try {
@@ -87,7 +87,6 @@ exports.GetEventsAndReviewsByPOI = async (req, res) => {
 //   }
 // }
 
-
 // exports.GetReviewsByPOI = async (req, res) => {
 //   try {
 //     const { pointOfInterestId } = req.params;
@@ -97,6 +96,3 @@ exports.GetEventsAndReviewsByPOI = async (req, res) => {
 //     res.status(500).send(err);
 //   }
 // }
-
-
-
