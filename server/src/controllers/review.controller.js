@@ -48,6 +48,15 @@ exports.PostReview = async (req, res) => {
       tags,
     });
 
+    const poiToUpdate = await models.PointOfInterest.findByPk( pointOfInterestId );
+    if (!poiToUpdate.reviews) {
+      poiToUpdate.reviews = [newReview]
+    } else {
+      console.log(poiToUpdate.reviews);
+      poiToUpdate.reviews.push('hello!')
+    }
+    await poiToUpdate.save();
+
     if (!newReview) {
       throw new Error('could not add review');
     } else {
