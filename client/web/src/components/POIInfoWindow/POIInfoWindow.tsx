@@ -30,11 +30,12 @@ function POIInfoWindow({
   const selectedPOIInfo: individualPOI = useSelector(
     (state: SystemState) => state.POI
   );
+  console.log("selectedPOIInfo in info window:>> ", selectedPOIInfo);
   const dispatch = useDispatch();
 
   //If error try useCallback as in create event dispatch
-  const getPOIInfo = async () => {
-    await dispatch(getPOIById(pointOfInterestId));
+  const getPOIInfo = () => {
+    dispatch(getPOIById(pointOfInterestId));
   };
 
   const eventsArray = selectedPOIInfo?.events;

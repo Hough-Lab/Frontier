@@ -78,6 +78,8 @@ export interface POI {
   longitude: string;
   createdAt: string;
   updatedAt: string;
+  events?: Event[];
+  reviews?: Review[];
 }
 
 //TODO set up rest of interfaces
