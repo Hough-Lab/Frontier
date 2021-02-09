@@ -45,6 +45,7 @@ exports.PostEvent = async (req, res) => {
       picture,
       createdBy: user.userId,
       tags,
+      attendees: [user.userId.toString()],
     });
 
     if (!newEvent) {
@@ -75,6 +76,124 @@ exports.GetEventById = async (req, res) => {
     if (!event) throw new Error('Event not found');
     res.status(200).send(event);
   } catch (err) {
+    res.status(500).send(err);
+  }
+};
+
+exports.AttendEvent = async (req, res) => {
+  try {
+    const { eventId } = req.params;
+    const user = req.user;
+
+    const event = await models.Event.findByPk(eventId);
+    const currentAttendees = event.dataValues.attendees;
+
+    if (currentAttendees.indexOf(user.userId) === -1) {
+      const emptyValue = currentAttendees.indexOf('');
+      emptyValue && currentAttendees.splice(emptyValue, 1);
+      currentAttendees.push(user.userId);
+      const editedEvent = await models.Event.update(
+        {
+          attendees: currentAttendees,
+        },
+        { where: { eventId: eventId }, returning: true, plain: true },
+      );
+      res.status(200).send(editedEvent[1].dataValues);
+    } else {
+      res.status(200).send(event.dataValues);
+    }
+
+    if (!event) throw new Error('Event not found');
+  } catch (err) {
+    console.log(err);
+    res.status(500).send(err);
+  }
+};
+
+exports.UndoAttendEvent = async (req, res) => {
+  try {
+    const { eventId } = req.params;
+    const user = req.user;
+
+    const event = await models.Event.findByPk(eventId);
+    const currentAttendees = event.dataValues.attendees;
+
+    if (currentAttendees.indexOf(user.userId) !== -1) {
+      const userIndex = currentAttendees.indexOf(user.userId);
+      currentAttendees.splice(userIndex, 1);
+      const editedEvent = await models.Event.update(
+        {
+          attendees: currentAttendees,
+        },
+        { where: { eventId: eventId }, returning: true, plain: true },
+      );
+      res.status(200).send(editedEvent[1].dataValues);
+    } else {
+      res.status(200).send(event.dataValues);
+    }
+
+    if (!event) throw new Error('Event not found');
+  } catch (err) {
+    console.log(err);
+    res.status(500).send(err);
+  }
+};
+
+exports.MarkEventAsInterested = async (req, res) => {
+  try {
+    const { eventId } = req.params;
+    const user = req.user;
+
+    const event = await models.Event.findByPk(eventId);
+    const currentPossibleAttendees = event.dataValues.possibleAttendees;
+
+    if (currentPossibleAttendees.indexOf(user.userId) === -1) {
+      const emptyValue = currentPossibleAttendees.indexOf('');
+      emptyValue && currentPossibleAttendees.splice(emptyValue, 1);
+      currentPossibleAttendees.push(user.userId);
+      const editedEvent = await models.Event.update(
+        {
+          possibleAttendees: currentPossibleAttendees,
+        },
+        { where: { eventId: eventId }, returning: true, plain: true },
+      );
+      res.status(200).send(editedEvent[1].dataValues);
+    } else {
+      res.status(200).send(event.dataValues);
+    }
+
+    if (!event) throw new Error('Event not found');
+  } catch (err) {
+    console.log(err);
+    res.status(500).send(err);
+  }
+};
+
+exports.UndoMarkEventAsInterested = async (req, res) => {
+  try {
+    const { eventId } = req.params;
+    const user = req.user;
+
+    const event = await models.Event.findByPk(eventId);
+    const currentPossibleAttendees = event.dataValues.possibleAttendees;
+
+    if (currentPossibleAttendees.indexOf(user.userId) !== -1) {
+      const userIndex = currentPossibleAttendees.indexOf(user.userId);
+      currentPossibleAttendees.splice(userIndex, 1);
+      const editedEvent = await models.Event.update(
+        {
+          possibleAttendees: currentPossibleAttendees,
+        },
+        { where: { eventId: eventId }, returning: true, plain: true },
+      );
+      res.status(200).send(editedEvent[1].dataValues);
+    } else {
+      res.status(200).send(event.dataValues);
+    }
+
+    if (!event) throw new Error('Event not found');
+  } catch (err) {
+    console.log(err);
     res.status(500).send(err);
   }
 };

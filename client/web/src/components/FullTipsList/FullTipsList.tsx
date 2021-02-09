@@ -1,5 +1,14 @@
 import React from "react";
+import { Review } from "../../interfaces/reducerInterfaces";
 
-export default function FullTipsList() {
-  return <div>This is a full tips list</div>;
+interface IProps {
+  reviewsArray: Review[] | undefined;
+}
+
+export default function FullTipsList({ reviewsArray }: IProps) {
+  return (
+    <div>
+      {reviewsArray && reviewsArray.map((review) => <div>{review.title}</div>)}
+    </div>
+  );
 }
