@@ -1,6 +1,6 @@
 import axios from "axios";
 import { AppDispatch } from "../../App";
-import { CREATE_EVENT, GET_ALL_POI, GET_CURRENT_EVENT } from "./types";
+import { CREATE_EVENT, GET_CURRENT_EVENT } from "./types";
 const ip_address = "localhost";
 
 const REACT_APP_SERVER_URI = `http://${ip_address}:5000`;

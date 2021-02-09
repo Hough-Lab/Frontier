@@ -1,4 +1,4 @@
-import { Action } from 'redux';
+import { Action } from "redux";
 
 export interface FrontierAction<T> extends Action {
   type: string;
@@ -62,8 +62,8 @@ export interface POIArray {
 export interface POI {
   pointOfInterestId: string;
   formattedAddress: string;
-  latitude: number;
-  longitude: number;
+  latitude: string;
+  longitude: string;
   createdAt: string;
   updatedAt: string;
 }
