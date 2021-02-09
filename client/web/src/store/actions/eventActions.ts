@@ -22,7 +22,7 @@ export const createEvent = (
     const token = await localStorage.getItem("jwtToken");
 
     if (true) {
-      console.log("sexyTimes"); // Get the token from the localStorage
+      console.log("User has token"); // Get the token from the localStorage
       // The token must be sent to the server in the following format
       // Bearer ${token}
       // Because it is convention. The server will use the token to create the event including data about the user. If the token is in
@@ -85,13 +85,6 @@ export const getCurrentEvent = (eventId: string) => async (
         }
       );
       dispatch({ type: GET_CURRENT_EVENT, payload: data });
-
-      // TODO clean, needed?
-      // if (data.title) {
-      //   navigation.navigate('EventNavigator', {
-      //     screen: 'DisplayEventScreen',
-      //   });
-      // }
     }
   } catch (e) {
     console.log(e);

@@ -1,13 +1,13 @@
-import React from 'react';
+import React from "react";
 
-import './POIImageComponent.css';
+import "./POIImageComponent.css";
 
 function POIImageComponent() {
   return (
     <div className="POIImageContainer">
       <img
         alt="point of interest"
-        src={require('../../assets/images/placeholder.jpg')}
+        src={require("../../assets/images/placeholder.jpg")}
       />
       <div className="POIInformationText">
         <h3 className="POITitleName">PostgreSQL Party</h3>

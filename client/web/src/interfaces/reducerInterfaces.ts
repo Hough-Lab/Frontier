@@ -9,7 +9,19 @@ export interface SystemState {
   user: User;
   event: Event;
   review: Review;
+  POI: individualPOI;
   allPOI: POIArray;
+}
+
+interface individualPOI {
+  pointOfInterestId: string;
+  formattedAddress: string;
+  latitude: number;
+  longitude: number;
+  createdAt: string;
+  updatedAt: string;
+  events?: Event[];
+  reviews?: Review[];
 }
 
 export interface User {
