@@ -22,6 +22,7 @@ import TagsInsertComponent from '../components/TagsInsertComponent';
 import GooglePlacesInput from '../components/GooglePlacesInput';
 import dayjs from 'dayjs';
 import DateTimePickerComponent from '../components/DateTimePickerComponent';
+import { applyAnimation } from '../utils/generalFunctions';
 
 import { numbers } from '../assets/numbers';
 
@@ -61,40 +62,6 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
   };
 
   const [capacity, setCapacity] = useState<number>();
-
-  const [isDatePickerShow, setIsDatePickerShow] = useState(false);
-  const [date, setDate] = useState(new Date(Date.now()));
-  const [isDateSelected, setIsDateSelected] = useState(false);
-
-  const [time, setTime] = useState(new Date(Date.now()));
-  const [isTimeSelected, setIsTimeSelected] = useState(false);
-  const [isTimePickerShow, setIsTimePickerShow] = useState(false);
-
-  const showDatePicker = () => {
-    setIsDatePickerShow(true);
-  };
-
-  const showTimePicker = () => {
-    setIsTimePickerShow(true);
-  };
-
-  const onChangeDate = (selectedDate: Date) => {
-    const currentDate = selectedDate || date;
-    setDate(currentDate);
-    if (Platform.OS === 'android') {
-      setIsDatePickerShow(false);
-    }
-    setIsDateSelected(true);
-  };
-
-  const onChangeTime = (selectedTime: any) => {
-    const currentTime = selectedTime || time;
-    setTime(currentTime);
-    if (Platform.OS === 'android') {
-      setIsTimePickerShow(false);
-    }
-    setIsTimeSelected(true);
-  };
 
   const dispatch = useDispatch();
 
@@ -144,6 +111,7 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
           {moment(inputValues.dateFrom).format('Do MMMM, YYYY [at] HH:mm')}
         </Text>
         <DateTimePickerComponent
+          mode="datetime"
           setDate={(selectedDate: string) =>
             setInputValues({ ...inputValues, dateFrom: selectedDate })
           }
@@ -157,6 +125,7 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
           {moment(inputValues.dateTo).format('Do MMMM, YYYY [at] HH:mm')}
         </Text>
         <DateTimePickerComponent
+          mode="datetime"
           setDate={(selectedDate: string) =>
             setInputValues({ ...inputValues, dateTo: selectedDate })
           }
