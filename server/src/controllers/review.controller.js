@@ -115,8 +115,6 @@ exports.LikeReview = async (req, res) => {
     const currentLikers = review.dataValues.likedBy;
 
     if (currentLikers.indexOf(user.userId) === -1) {
-      const emptyValue = currentLikers.indexOf('');
-      emptyValue && currentLikers.splice(emptyValue, 1);
       currentLikers.push(user.userId);
       const editedReview = await models.Review.update(
         {
@@ -174,8 +172,6 @@ exports.DislikeReview = async (req, res) => {
     const currentDislikers = review.dataValues.dislikedBy;
 
     if (currentDislikers.indexOf(user.userId) === -1) {
-      const emptyValue = currentDislikers.indexOf('');
-      emptyValue && currentDislikers.splice(emptyValue, 1);
       currentDislikers.push(user.userId);
       const editedReview = await models.Review.update(
         {

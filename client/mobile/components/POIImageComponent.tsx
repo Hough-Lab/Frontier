@@ -18,8 +18,6 @@ const POIImageComponent = ({
   averageSafetyRating,
   POIImage,
 }: IProps) => {
-  console.log(POIImage);
-
   return (
     <View style={styles.imageArea}>
       {typeof POIImage !== 'undefined' ? (
