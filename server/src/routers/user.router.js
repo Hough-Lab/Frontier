@@ -9,6 +9,6 @@ const {
 
 router.post('/register', RegisterUser);
 router.post('/login', LoginUser);
-router.post('/editProfile', authMiddleware, EditProfile);
+router.put('/editProfile', authMiddleware, EditProfile);
 
 module.exports = router;

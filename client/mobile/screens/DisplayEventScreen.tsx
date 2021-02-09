@@ -23,9 +23,9 @@ var calendar = require('dayjs/plugin/calendar');
 dayjs.extend(calendar);
 
 import Colors from '../assets/colors';
-import { Event, SystemState } from '../interfaces/reducerInterfaces';
+import { Event, POI, SystemState } from '../interfaces/reducerInterfaces';
 import { Navigation } from '../interfaces/interfaces';
-import { getEventById } from '../store/actions';
+import { getEventById, getPOIById } from '../store/actions';
 
 type RootStackParamList = {
   DisplayEventScreen: { eventId: string };
@@ -46,12 +46,18 @@ const DisplayEventScreen = ({ route, navigation }: IProps) => {
 
   const dispatch = useDispatch();
 
+  useEffect(() => {}, [eventId]);
+
   useEffect(() => {
-    dispatch(getEventById(eventId));
+    const getReview = async () => {
+      await dispatch(getEventById(eventId));
+      dispatch(getPOIById(event.pointOfInterestId));
+    };
+    getReview();
   }, [eventId]);
 
   const event: Event = useSelector((state: SystemState) => state.event);
-  console.log('event', event);
+  const POI: POI = useSelector((state: SystemState) => state.POI);
 
   return (
     <View style={styles.container}>
@@ -103,16 +109,16 @@ const DisplayEventScreen = ({ route, navigation }: IProps) => {
             <MapView
               style={styles.uploadImageArea}
               initialRegion={{
-                latitude: 37.78825,
-                longitude: -122.4324,
+                latitude: +POI.latitude,
+                longitude: +POI.longitude,
                 latitudeDelta: 0.0922,
                 longitudeDelta: 0.0421,
               }}
             >
               <Marker
                 coordinate={{
-                  latitude: 37.78825,
-                  longitude: -122.4324,
+                  latitude: +POI.latitude,
+                  longitude: +POI.longitude,
                 }}
                 title={'A place'}
                 description={'Descriptions go here'}

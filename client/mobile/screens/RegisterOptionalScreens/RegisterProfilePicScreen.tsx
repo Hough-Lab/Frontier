@@ -14,24 +14,24 @@ import { useDispatch } from 'react-redux';
 import { editUserProfile, getAllPOI } from '../../store/actions';
 import Colors from '../../assets/colors';
 import { Navigation } from '../../interfaces/interfaces';
-import ImportPictureComponent from '../../components/ImportPictureComponent';
+import UploadImageComponent from '../../components/UploadImageComponent';
 
-const RegisterProfilePicScreen = ({
-  navigation,
-  image,
-}: {
+interface IProps {
   navigation: Navigation;
-  image: string;
-}) => {
-  const imageLink = '';
+}
+
+const RegisterProfilePicScreen = ({ navigation }: IProps) => {
+  const [image, setImage] = useState('');
 
   const dispatch = useDispatch();
 
   const handleSubmit = useCallback(async () => {
-    await dispatch(editUserProfile({ profilePicture: imageLink }));
-    dispatch(getAllPOI());
-    navigation.navigate('MainStackNavigator', { screen: 'HomeScreen' });
-  }, [imageLink]);
+    if (image !== '') {
+      await dispatch(editUserProfile({ profilePicture: image }));
+      dispatch(getAllPOI());
+      navigation.navigate('MainStackNavigator', { screen: 'HomeScreen' });
+    }
+  }, [image]);
 
   return (
     <View style={styles.container}>
@@ -43,7 +43,7 @@ const RegisterProfilePicScreen = ({
         <View style={styles.label}>
           <Text style={styles.labelText}>Upload your profile picture</Text>
         </View>
-        <ImportPictureComponent />
+        <UploadImageComponent setImage={setImage} image={image} />
       </View>
       <View>
         {image && (

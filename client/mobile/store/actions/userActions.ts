@@ -35,40 +35,18 @@ export const editUserProfile = (editProfileObject: EditProfileObject) => async (
   const token = await AsyncStorage.getItem('jwtToken');
 
   if (token) {
-    if (editProfileObject.profilePicture) {
-      let pic = new FormData();
-      // pic.append('file', infoObject.picture, infoObject.picture.fileName);
-
-      // const { data } = await axios.post(
-      //   `${REACT_APP_SERVER_URI}/api/user/editProfile/`,
-      //   {
-      //     infoObject,
-      //   },
-      //   {
-      //     headers: {
-      //       accept: 'application/json',
-      //       'Accept-Language': 'en-US,en;q=0.8',
-      //       'Content-Type': `multipart/form-data; boundary=${pic._boundary}`,
-
-      //       Authorization: `Bearer ${token}`,
-      //     },
-      //   },
-      // );
-      // dispatch({ type: GET_CURRENT_USER, payload: data.user });
-    } else {
-      const { data } = await axios.post(
-        `${REACT_APP_SERVER_URI}/api/user/editProfile/`,
-        {
-          editProfileObject,
+    const { data } = await axios.put(
+      `${REACT_APP_SERVER_URI}/api/user/editProfile/`,
+      {
+        editProfileObject,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-      dispatch({ type: GET_CURRENT_USER, payload: data.user });
-    }
+      },
+    );
+    dispatch({ type: GET_CURRENT_USER, payload: data.user });
   }
 };
 
@@ -92,6 +70,7 @@ export const loginUser = (
       await AsyncStorage.setItem('jwtToken', data.token);
     } catch (e) {
       console.log(e);
+      throw new Error();
     }
 
     if (data.user.firstName) {
@@ -99,7 +78,7 @@ export const loginUser = (
     }
   } catch (e) {
     dispatch({ type: SET_ERROR, payload: 'Incorrect username or password.' });
-    return 'Incorrect username or password.';
+    throw new Error();
   }
 };
 

@@ -20,9 +20,9 @@ export const createReview = (
   safetyRating: number,
   safetyComment: string,
   formattedAddress: string,
-  picture: File,
-  latitude: string,
-  longitude: string,
+  picture: string,
+  latitude: number,
+  longitude: number,
   tags: string[],
   navigation: Navigation,
 ) => async (dispatch: AppDispatch) => {
