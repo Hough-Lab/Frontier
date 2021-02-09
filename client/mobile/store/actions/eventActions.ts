@@ -88,3 +88,75 @@ export const getEventById = (eventId: string) => async (
     console.log(e);
   }
 };
+
+export const markAsInterested = (eventId: string) => async (
+  dispatch: AppDispatch,
+) => {
+  try {
+    const token = await AsyncStorage.getItem('jwtToken');
+
+    if (token) {
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      const { data } = await axios.put(
+        `${REACT_APP_SERVER_URI}/api/event/markEventAsInterested/${eventId}`,
+      );
+      dispatch({ type: GET_CURRENT_EVENT, payload: data });
+    }
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const undoMarkAsInterested = (eventId: string) => async (
+  dispatch: AppDispatch,
+) => {
+  try {
+    const token = await AsyncStorage.getItem('jwtToken');
+
+    if (token) {
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      const { data } = await axios.put(
+        `${REACT_APP_SERVER_URI}/api/event/undo/markEventAsInterested/${eventId}`,
+      );
+      dispatch({ type: GET_CURRENT_EVENT, payload: data });
+    }
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const markAsGoing = (eventId: string) => async (
+  dispatch: AppDispatch,
+) => {
+  try {
+    const token = await AsyncStorage.getItem('jwtToken');
+
+    if (token) {
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      const { data } = await axios.put(
+        `${REACT_APP_SERVER_URI}/api/event/attendEvent/${eventId}`,
+      );
+      dispatch({ type: GET_CURRENT_EVENT, payload: data });
+    }
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const undoMarkAsGoing = (eventId: string) => async (
+  dispatch: AppDispatch,
+) => {
+  try {
+    const token = await AsyncStorage.getItem('jwtToken');
+
+    if (token) {
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      const { data } = await axios.put(
+        `${REACT_APP_SERVER_URI}/api/event/undo/attendEvent/${eventId}`,
+      );
+      dispatch({ type: GET_CURRENT_EVENT, payload: data });
+    }
+  } catch (e) {
+    console.log(e);
+  }
+};
