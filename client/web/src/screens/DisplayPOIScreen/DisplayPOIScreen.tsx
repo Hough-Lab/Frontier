@@ -1,29 +1,28 @@
-import React from 'react';
-import POIImageComponent from '../../components/POIImageComponent/POIImageComponent';
-import './DisplayPOIScreen.css';
+import React, { useState } from "react";
+import POIImageComponent from "../../components/POIImageComponent/POIImageComponent";
+import FullEventsList from "../../components/FullEventsList/FullEventsList";
+import FullTipsList from "../..//components/FullTipsList/FullTipsList";
+import "./DisplayPOIScreen.css";
 
 export const DisplayPOIScreen = () => {
-  // const [eventsTab, setEventsTab] = useState(true);
+  const [showEventsTab, setShowEventsTab] = useState(true);
+
   return (
     <div className="AddEvent">
       <POIImageComponent />
-
       {/*Events and Tips buttons*/}
       <div className="eventTipsBtnsContainer">
-        <button className="shareButton">
-          {/* onClick={() => setEventsTab(true)} */}
+        <button onClick={() => setShowEventsTab(true)} className="shareButton">
           Events
         </button>
-        <button className="shareButton">
-          {/* onClick={() => setEventsTab(false)} */}
+        <button onClick={() => setShowEventsTab(false)} className="shareButton">
           Travel Tips
         </button>
       </div>
-
-      {/* Event or Tips LIST section */}
-      {/* <div className="eventOrTipsViewContainer">
-        {eventsTab ? eventsListContainer : tipsListContainer}
-      </div> */}
+      Event or Tips LIST section
+      <div className="eventOrTipsViewContainer">
+        {showEventsTab ? <FullEventsList /> : <FullTipsList />}
+      </div>
     </div>
   );
 };

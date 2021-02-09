@@ -29,9 +29,7 @@ export const getAllPOI = () => async (dispatch: AppDispatch) => {
   }
 };
 
-export const getPOIById = (POIId: string, navigation: Navigation) => async (
-  dispatch: AppDispatch
-) => {
+export const getPOIById = (POIId: string) => async (dispatch: AppDispatch) => {
   try {
     const token = await localStorage.getItem("jwtToken");
 

@@ -9,7 +9,8 @@ import {
 } from "@react-google-maps/api";
 import "./MapComponent.css";
 import { SearchPopOut } from "../../components/SearchPopOut/SearchPopOut";
-import { POI, SystemState } from "../../interfaces/reducerInterfaces";
+import POIInfoWindow from "../POIInfoWindow/POIInfoWindow";
+import { SystemState } from "../../interfaces/reducerInterfaces";
 import { getAllPOI } from "../../store/actions";
 
 interface MarkerInfo {
@@ -34,7 +35,11 @@ interface position {
   lng: number;
 }
 
-const MapComponent = () => {
+interface IProps {
+  toggleShowPointOfInterest: Function;
+}
+
+const MapComponent = ({ toggleShowPointOfInterest }: IProps) => {
   const initialPosition = { lat: 51.46262, lng: -0.2143 };
 
   const [currentPosition, setCurrentPosition] = useState(initialPosition);
@@ -54,12 +59,6 @@ const MapComponent = () => {
     };
     setCurrentPosition(currentPosition);
   };
-
-  // const onMarkerDragEnd = (e: google.maps.MapMouseEvent) => {
-  //   const lat = e.latLng.lat();
-  //   const lng = e.latLng.lng();
-  //   setCurrentPosition({ lat, lng });
-  // };
 
   const onSelect = (item: MarkerInfo) => {
     setSelected(item);
@@ -96,8 +95,6 @@ const MapComponent = () => {
                   lat: +POI.latitude,
                   lng: +POI.longitude,
                 }}
-                title={"PostgreSQL Party"}
-                // description={'Descriptions go here'}
               />
             );
           })}
@@ -112,7 +109,11 @@ const MapComponent = () => {
             key={selected.pointOfInterestId}
           >
             <div className="infoWindowBody">
-              <p>{selected.formattedAddress}</p>
+              <POIInfoWindow
+                formattedAddress={selected.formattedAddress}
+                pointOfInterestId={selected.pointOfInterestId}
+                toggleShowPointOfInterest={toggleShowPointOfInterest}
+              />
             </div>
           </InfoWindow>
         )}

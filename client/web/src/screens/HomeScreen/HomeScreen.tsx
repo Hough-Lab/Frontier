@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import MapComponent from '../../components/MapComponent/MapComponent';
-import { CreateEventScreen } from '../CreateEventScreen/CreateEventScreen';
-import { CreateTipScreen } from '../CreateTipScreen/CreateTipScreen';
-import { DisplayPOIScreen } from '../DisplayPOIScreen/DisplayPOIScreen';
-import { NavBar } from '../../components/NavBarComponent/NavBar';
-import './HomeScreen.css';
+import React, { useState } from "react";
+import MapComponent from "../../components/MapComponent/MapComponent";
+import { CreateEventScreen } from "../CreateEventScreen/CreateEventScreen";
+import { CreateTipScreen } from "../CreateTipScreen/CreateTipScreen";
+import { DisplayPOIScreen } from "../DisplayPOIScreen/DisplayPOIScreen";
+import { NavBar } from "../../components/NavBarComponent/NavBar";
+import "./HomeScreen.css";
 
 function HomeScreen() {
   const [showCreateEvent, setShowCreateEvent] = useState(false);
@@ -61,7 +61,7 @@ function HomeScreen() {
           </div>
         )}
         <div className="mapContainer">
-          <MapComponent />
+          <MapComponent toggleShowPointOfInterest={toggleShowPointOfInterest} />
         </div>
       </div>
     </div>
