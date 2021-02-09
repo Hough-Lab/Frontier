@@ -40,6 +40,8 @@ export interface Event {
   picture: string;
   pointOfInterestId: string;
   tags: string[];
+  attendees: string[];
+  possibleAttendees: string[];
 }
 
 export interface Review {
@@ -54,6 +56,8 @@ export interface Review {
   picture: string;
   pointOfInterestId: string;
   tags: string[];
+  likedBy: string[];
+  dislikedBy: string[];
 }
 
 export interface POIArray {

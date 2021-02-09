@@ -9,21 +9,16 @@ import {
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { RouteProp } from '@react-navigation/native';
-import {
-  AntDesign,
-  Entypo,
-  Ionicons,
-  FontAwesome,
-  MaterialIcons,
-} from '@expo/vector-icons';
+import { Entypo, MaterialIcons } from '@expo/vector-icons';
 import MapView, { Marker } from 'react-native-maps';
 import dayjs from 'dayjs';
 
 var calendar = require('dayjs/plugin/calendar');
 dayjs.extend(calendar);
 
+import EventAttendance from '../components/EventAttendanceComponent';
 import Colors from '../assets/colors';
-import { Event, POI, SystemState } from '../interfaces/reducerInterfaces';
+import { Event, POI, SystemState, User } from '../interfaces/reducerInterfaces';
 import { Navigation } from '../interfaces/interfaces';
 import { getEventById, getPOIById } from '../store/actions';
 
@@ -58,6 +53,7 @@ const DisplayEventScreen = ({ route, navigation }: IProps) => {
 
   const event: Event = useSelector((state: SystemState) => state.event);
   const POI: POI = useSelector((state: SystemState) => state.POI);
+  const user: User = useSelector((state: SystemState) => state.user);
 
   return (
     <View style={styles.container}>
@@ -132,26 +128,13 @@ const DisplayEventScreen = ({ route, navigation }: IProps) => {
             {event.maxCapacity && (
               <View style={styles.capacity}>
                 <Text style={styles.capacityText}>
-                  maximum capacity of event: {event.maxCapacity} people
+                  Maximum capacity of event: {event.maxCapacity} people
                 </Text>
               </View>
             )}
 
-            <View>
-              <Text>Going</Text>
-              <Text>Interested</Text>
-            </View>
+            <EventAttendance event={event} user={user} />
           </ScrollView>
-          <View style={styles.userStatusContainer}>
-            <TouchableOpacity style={styles.userStatus} activeOpacity={0.7}>
-              <AntDesign name="check" size={24} color={Colors.pink} />
-              <Text>I'm going!</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.userStatus} activeOpacity={0.7}>
-              <FontAwesome name="star-o" size={24} color={Colors.grey} />
-              <Text>I'm interested</Text>
-            </TouchableOpacity>
-          </View>
         </View>
       ) : (
         <View style={styles.loader}>
