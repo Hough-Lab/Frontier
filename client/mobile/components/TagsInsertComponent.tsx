@@ -23,7 +23,6 @@ const TagsInsertComponent = ({
   function addTag(tag: string) {
     setTags(() => [...tags, tag]);
   }
-  console.log('tags', tags);
 
   function deleteTag(tag: string) {
     tags.splice(tags.indexOf(tag), 1);

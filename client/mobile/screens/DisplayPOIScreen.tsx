@@ -14,7 +14,11 @@ import { Navigation } from '../interfaces/interfaces';
 import Colors from '../assets/colors';
 import POIImageComponent from '../components/POIImageComponent';
 import { getPOIById } from '../store/actions';
-import { SystemState } from '../interfaces/reducerInterfaces';
+import { SystemState, Review } from '../interfaces/reducerInterfaces';
+import {
+  getAverageRating,
+  getAverageSafetyRating,
+} from '../utils/generalFunctions';
 import moment from 'moment';
 import { AntDesign, MaterialIcons } from '@expo/vector-icons';
 
@@ -44,9 +48,18 @@ const DisplayPOIScreen = ({ route, navigation }: IProps) => {
 
   const POIInfo = useSelector((state: SystemState) => state.POI);
 
+  const averageRating = getAverageRating(POIInfo?.reviews);
+  const averageSafetyRating = getAverageSafetyRating(POIInfo?.reviews);
+
+  console.log('averageRating', averageRating);
+
   return (
     <View style={styles.container}>
-      <POIImageComponent formattedAddress={POIInfo.formattedAddress} />
+      <POIImageComponent
+        formattedAddress={POIInfo.formattedAddress}
+        averageRating={averageRating && averageRating}
+        averageSafetyRating={averageSafetyRating && averageSafetyRating}
+      />
 
       {/* Events and Tips buttons */}
       <View style={styles.eventsTipsBtnsContainer}>

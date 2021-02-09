@@ -70,7 +70,7 @@ const DisplayTipScreen = ({ route, navigation }: IProps) => {
           <View style={styles.starsView}>
             <AirbnbRating
               count={5}
-              defaultRating={review && review.rating}
+              defaultRating={review.rating}
               size={20}
               isDisabled={true}
               showRating={false}
@@ -89,12 +89,16 @@ const DisplayTipScreen = ({ route, navigation }: IProps) => {
             <View style={styles.dollarView}>
               <Text style={{ paddingRight: 90 }}>Safety:</Text>
               <View style={styles.starsView}>
-                <AirbnbRating
-                  count={3}
-                  defaultRating={review.safetyRating}
-                  size={20}
-                  isDisabled={true}
-                  showRating={false}
+                <StarRating
+                  disabled={false}
+                  starSize={35}
+                  starStyle={{ paddingHorizontal: 5 }}
+                  emptyStar={'shield-checkmark-outline'}
+                  fullStar={'shield-checkmark-sharp'}
+                  iconSet={'Ionicons'}
+                  maxStars={3}
+                  rating={review.safetyRating}
+                  fullStarColor={Colors.blue}
                 />
               </View>
             </View>
