@@ -50,10 +50,9 @@ exports.PostReview = async (req, res) => {
 
     const poiToUpdate = await models.PointOfInterest.findByPk( pointOfInterestId );
     if (!poiToUpdate.reviews) {
-      poiToUpdate.reviews = [newReview]
+      poiToUpdate.reviews = [newReview];
     } else {
-      console.log(poiToUpdate.reviews);
-      poiToUpdate.reviews.push('hello!')
+      poiToUpdate.reviews = [poiToUpdate.reviews, newReview];
     }
     await poiToUpdate.save();
 
