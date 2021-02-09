@@ -106,30 +106,120 @@ exports.GetEventById = async (req, res) => {
   }
 };
 
-// exports.LikeReview = async (req, res) => {
-//   try {
-//     const { reviewId } = req.params;
-//     const editedReview = await models.Review.update(
-//       { likes: sequelize.literal('field + 1') },
-//       { where: { reviewId: reviewId }, returning: true, plain: true },
-//     );
-//     if (!editedReview) throw new Error('No review found');
-//     res.status(200).send(editedReview[1].dataValues);
-//   } catch (err) {
-//     res.status(500).send(err);
-//   }
-// };
+exports.LikeReview = async (req, res) => {
+  try {
+    const { reviewId } = req.params;
+    const user = req.user;
 
-// exports.DislikeReview = async (req, res) => {
-//   try {
-//     const { reviewId } = req.params;
-//     const editedReview = await models.Review.update(
-//       { likes: sequelize.literal('field - 1'), sequelize.fn('array_append', sequelize.col('job_ids'), new_jobId) },
-//       { where: { reviewId: reviewId }, returning: true, plain: true },
-//     );
-//     if (!editedReview) throw new Error('No review found');
-//     res.status(200).send(editedReview[1].dataValues);
-//   } catch (err) {
-//     res.status(500).send(err);
-//   }
-// };
+    const review = await models.Review.findByPk(reviewId);
+    const currentLikers = review.dataValues.likedBy;
+
+    if (currentLikers.indexOf(user.userId) === -1) {
+      const emptyValue = currentLikers.indexOf('');
+      emptyValue && currentLikers.splice(emptyValue, 1);
+      currentLikers.push(user.userId);
+      const editedReview = await models.Review.update(
+        {
+          likedBy: currentLikers,
+        },
+        { where: { reviewId: reviewId }, returning: true, plain: true },
+      );
+      res.status(200).send(editedReview[1].dataValues);
+    } else {
+      res.status(200).send(review.dataValues);
+    }
+
+    if (!review) throw new Error('Event not found');
+  } catch (err) {
+    console.log(err);
+    res.status(500).send(err);
+  }
+};
+
+exports.UndoLikeReview = async (req, res) => {
+  try {
+    const { reviewId } = req.params;
+    const user = req.user;
+
+    const review = await models.Review.findByPk(reviewId);
+    const currentLikers = review.dataValues.likedBy;
+
+    if (currentLikers.indexOf(user.userId) !== -1) {
+      const userIndex = currentLikers.indexOf(user.userId);
+      currentLikers.splice(userIndex, 1);
+      const editedReview = await models.Review.update(
+        {
+          likedBy: currentLikers,
+        },
+        { where: { reviewId: reviewId }, returning: true, plain: true },
+      );
+      res.status(200).send(editedReview[1].dataValues);
+    } else {
+      res.status(200).send(review.dataValues);
+    }
+
+    if (!review) throw new Error('Event not found');
+  } catch (err) {
+    console.log(err);
+    res.status(500).send(err);
+  }
+};
+
+exports.DislikeReview = async (req, res) => {
+  try {
+    const { reviewId } = req.params;
+    const user = req.user;
+
+    const review = await models.Review.findByPk(reviewId);
+    const currentDislikers = review.dataValues.dislikedBy;
+
+    if (currentDislikers.indexOf(user.userId) === -1) {
+      const emptyValue = currentDislikers.indexOf('');
+      emptyValue && currentDislikers.splice(emptyValue, 1);
+      currentDislikers.push(user.userId);
+      const editedReview = await models.Review.update(
+        {
+          dislikedBy: currentDislikers,
+        },
+        { where: { reviewId: reviewId }, returning: true, plain: true },
+      );
+      res.status(200).send(editedReview[1].dataValues);
+    } else {
+      res.status(200).send(review.dataValues);
+    }
+
+    if (!review) throw new Error('Event not found');
+  } catch (err) {
+    console.log(err);
+    res.status(500).send(err);
+  }
+};
+
+exports.UndoDislikeReview = async (req, res) => {
+  try {
+    const { reviewId } = req.params;
+    const user = req.user;
+
+    const review = await models.Review.findByPk(reviewId);
+    const currentDislikers = review.dataValues.dislikedBy;
+
+    if (currentDislikers.indexOf(user.userId) !== -1) {
+      const userIndex = currentDislikers.indexOf(user.userId);
+      currentDislikers.splice(userIndex, 1);
+      const editedReview = await models.Review.update(
+        {
+          dislikedBy: currentDislikers,
+        },
+        { where: { reviewId: reviewId }, returning: true, plain: true },
+      );
+      res.status(200).send(editedReview[1].dataValues);
+    } else {
+      res.status(200).send(review.dataValues);
+    }
+
+    if (!review) throw new Error('Event not found');
+  } catch (err) {
+    console.log(err);
+    res.status(500).send(err);
+  }
+};

@@ -3,7 +3,7 @@ module.exports = (sequelize, DataTypes) => {
     eventId: {
       type: DataTypes.UUID,
       allowNull: false,
-      primaryKey: true
+      primaryKey: true,
     },
     pointOfInterestId: {
       type: DataTypes.STRING,
@@ -45,7 +45,15 @@ module.exports = (sequelize, DataTypes) => {
     },
     tags: {
       type: DataTypes.ARRAY(DataTypes.STRING),
-      allowNull: true,
+      defaultValue: [],
+    },
+    attendees: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      defaultValue: [],
+    },
+    possibleAttendees: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      defaultValue: [],
     },
   });
 

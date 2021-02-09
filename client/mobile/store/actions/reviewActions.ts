@@ -162,3 +162,63 @@ export const getReviewById = (reviewId: string) => async (
 //     console.log(e);
 //   }
 // };
+
+export const likeReview = async (reviewId: string) => {
+  try {
+    const token = await AsyncStorage.getItem('jwtToken');
+
+    if (token) {
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      const { data } = await axios.put(
+        `${REACT_APP_SERVER_URI}/api/review/likeReview/${reviewId}`,
+      );
+    }
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const undoLikeReview = async (reviewId: string) => {
+  try {
+    const token = await AsyncStorage.getItem('jwtToken');
+
+    if (token) {
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      const { data } = await axios.put(
+        `${REACT_APP_SERVER_URI}/api/review/undo/likeReview/${reviewId}`,
+      );
+    }
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const dislikeReview = async (reviewId: string) => {
+  try {
+    const token = await AsyncStorage.getItem('jwtToken');
+
+    if (token) {
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      const { data } = await axios.put(
+        `${REACT_APP_SERVER_URI}/api/review/dislikeReview/${reviewId}`,
+      );
+    }
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const undoDislikeReview = async (reviewId: string) => {
+  try {
+    const token = await AsyncStorage.getItem('jwtToken');
+
+    if (token) {
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      const { data } = await axios.put(
+        `${REACT_APP_SERVER_URI}/api/review/undo/dislikeReview/${reviewId}`,
+      );
+    }
+  } catch (e) {
+    console.log(e);
+  }
+};
