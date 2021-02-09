@@ -5,8 +5,24 @@ import {
   editUserProfile,
 } from './userActions';
 import { registerUser } from './registerActions';
-import { createEvent, getEventById } from './eventActions';
-import { createReview, getReviewById } from './reviewActions';
+import {
+  createEvent,
+  getEventById,
+  markAsInterested,
+  undoMarkAsInterested,
+  markAsGoing,
+  undoMarkAsGoing,
+} from './eventActions';
+import {
+  createReview,
+  getReviewById,
+  likeReview,
+  undoLikeReview,
+  dislikeReview,
+  undoDislikeReview,
+} from './reviewActions';
+import { getEventsAttending } from './attendingEventsActions';
+import { getEventsInterested } from './interestedEventsActions';
 import { getAllPOI, getPOIById } from './POIActions';
 
 export {
@@ -17,8 +33,18 @@ export {
   editUserProfile,
   createEvent,
   getEventById,
+  markAsInterested,
+  undoMarkAsInterested,
+  markAsGoing,
+  undoMarkAsGoing,
   createReview,
+  likeReview,
+  undoLikeReview,
+  dislikeReview,
+  undoDislikeReview,
   getReviewById,
   getAllPOI,
   getPOIById,
+  getEventsAttending,
+  getEventsInterested,
 };

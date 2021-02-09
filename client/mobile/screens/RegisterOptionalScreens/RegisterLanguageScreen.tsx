@@ -45,9 +45,9 @@ const RegisterLanguageScreen = ({ navigation }: { navigation: Navigation }) => {
       await dispatch(
         editUserProfile({ language: languagesSpoken, from: country }),
       );
-      dispatch(getAllPOI());
-      navigation.navigate('RegisterTagsScreen');
     }
+    dispatch(getAllPOI());
+    navigation.navigate('RegisterTagsScreen');
   }, [languagesSpoken, country]);
 
   return (

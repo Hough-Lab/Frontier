@@ -1,20 +1,18 @@
 import { LayoutAnimation } from 'react-native';
+import { useSelector } from 'react-redux';
 
 import {
   LoginInputValues,
   RegisterInputValues,
 } from '../interfaces/interfaces';
-
-import { Review } from '../interfaces/reducerInterfaces';
+import { Review, POI } from '../interfaces/reducerInterfaces';
 
 export const applyAnimation = (property = 'scaleXY') => {
   LayoutAnimation.configureNext({
     duration: 700,
-    // create: { duration: 300, type: 'easeOut', property: property },
-    create: { type: 'spring', springDamping: 10, property: property },
+    create: { duration: 300, type: 'easeOut', property: property },
     update: { type: 'spring', springDamping: 10 },
-    delete: { type: 'spring', springDamping: 10, property: property },
-    // delete: { duration: 300, type: 'easeOut', property: property },
+    delete: { duration: 300, type: 'easeOut', property: property },
   });
 };
 
@@ -29,7 +27,6 @@ export const validateLogin = (inputValues: LoginInputValues) => {
 export const validateRegister = (inputValues: RegisterInputValues) => {
   const allInputs = Object.values(inputValues);
   let error = '';
-  console.log('allInputs', allInputs);
   allInputs.forEach((input) => {
     if (input === '') error = 'You must not leave any field blank.';
   });
@@ -48,8 +45,14 @@ export const getAverageRating = (reviews: Review[]) => {
 
 export const getAverageSafetyRating = (reviews: Review[]) => {
   const ratings = reviews.map((review) => review.safetyRating);
-  console.log('ratings', ratings.length);
   const reducer = (accumulator: number, currentValue: number) =>
     accumulator + currentValue;
   return ratings.reduce(reducer, 0) / ratings.length;
+};
+
+export const getFirstPicture = (POI: POI) => {
+  // console.log('POI.reviews[0].picture', POI.reviews[0].picture.toString());
+  if (POI?.reviews[0]?.picture && POI?.reviews[0]?.picture !== null) {
+    return POI.reviews[0].picture;
+  }
 };

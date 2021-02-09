@@ -29,8 +29,11 @@ const RegisterProfilePicScreen = ({ navigation }: IProps) => {
     if (image !== '') {
       await dispatch(editUserProfile({ profilePicture: image }));
       dispatch(getAllPOI());
+      navigation.navigate('MainStackNavigator', { screen: 'HomeScreen' });
+    } else {
+      dispatch(getAllPOI());
+      navigation.navigate('MainStackNavigator', { screen: 'HomeScreen' });
     }
-    navigation.navigate('MainStackNavigator', { screen: 'HomeScreen' });
   }, [image]);
 
   return (
@@ -46,14 +49,14 @@ const RegisterProfilePicScreen = ({ navigation }: IProps) => {
         <UploadImageComponent setImage={setImage} image={image} />
       </View>
 
-      <Text>
+      <View>
         {image && (
           <Image
             source={{ uri: image }}
             style={{ width: 150, height: 150, borderRadius: 75 }}
           />
         )}
-      </Text>
+      </View>
 
       <View style={styles.bottomBtnsContainer}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -103,6 +106,7 @@ const styles = StyleSheet.create({
   },
   labelText: {
     fontSize: 25,
+    paddingBottom: 30,
   },
   inputContainer: {
     flexDirection: 'row',

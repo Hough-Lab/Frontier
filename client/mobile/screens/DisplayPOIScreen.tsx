@@ -18,9 +18,14 @@ import { SystemState, Review } from '../interfaces/reducerInterfaces';
 import {
   getAverageRating,
   getAverageSafetyRating,
+  getFirstPicture,
 } from '../utils/generalFunctions';
 import moment from 'moment';
 import { AntDesign, MaterialIcons } from '@expo/vector-icons';
+import { AirbnbRating } from 'react-native-elements';
+import StarRating from 'react-native-star-rating';
+
+const placeHolder = require('../assets/images/camera_icon.jpg');
 
 type RootStackParamList = {
   DisplayPOIScreen: { POIId: string };
@@ -48,10 +53,12 @@ const DisplayPOIScreen = ({ route, navigation }: IProps) => {
 
   const POIInfo = useSelector((state: SystemState) => state.POI);
 
+  let POIImage = '';
+  if (POIInfo !== undefined) {
+    POIImage = getFirstPicture(POIInfo);
+  }
   const averageRating = getAverageRating(POIInfo?.reviews);
   const averageSafetyRating = getAverageSafetyRating(POIInfo?.reviews);
-
-  console.log('averageRating', averageRating);
 
   return (
     <View style={styles.container}>
@@ -59,6 +66,8 @@ const DisplayPOIScreen = ({ route, navigation }: IProps) => {
         formattedAddress={POIInfo.formattedAddress}
         averageRating={averageRating && averageRating}
         averageSafetyRating={averageSafetyRating && averageSafetyRating}
+        // POIImage={POIImage ? POIImage : placeHolder}
+        POIImage={POIImage}
       />
 
       {/* Events and Tips buttons */}
@@ -91,31 +100,44 @@ const DisplayPOIScreen = ({ route, navigation }: IProps) => {
                 onPress={() => {
                   navigation.navigate('DisplayEventScreen', {
                     eventId: POIInfo.events[index].eventId,
+                    pointOfInterestId: POIInfo.pointOfInterestId,
                   });
                 }}
               >
                 <View key={index} style={styles.listItemView}>
-                  <Image
-                    style={styles.imageListItem}
-                    source={require('../assets/images/placeholder.jpg')}
-                  />
-                  <View>
+                  {POIInfo.events[index].picture !== '' ? (
+                    <Image
+                      style={styles.imageListItem}
+                      source={{ uri: POIInfo.events[index].picture }}
+                    />
+                  ) : (
+                    <Image
+                      style={styles.imageListItem}
+                      source={require('../assets/images/camera_icon.jpg')}
+                    />
+                  )}
+
+                  <View style={{ paddingLeft: 10 }}>
                     <Text style={styles.eventTitle}>{item.title}</Text>
                     <View style={styles.eventTime}>
                       <MaterialIcons
                         name="date-range"
                         size={20}
                         color="black"
+                        style={{ paddingRight: 10 }}
                       />
-                      <Text style={{ paddingLeft: 10 }}>
+                      <Text>
                         {moment(item.dateTo).format('Do MMMM, YYYY')}{' '}
                       </Text>
                     </View>
                     <View style={styles.eventTime}>
-                      <AntDesign name="clockcircleo" size={20} color="black" />
-                      <Text style={{ paddingLeft: 10 }}>
-                        {moment(item.dateTo).format('HH:mm')}{' '}
-                      </Text>
+                      <AntDesign
+                        name="clockcircleo"
+                        size={20}
+                        style={{ paddingRight: 10 }}
+                        color="black"
+                      />
+                      <Text>{moment(item.dateTo).format('HH:mm')} </Text>
                     </View>
                   </View>
                 </View>
@@ -132,14 +154,42 @@ const DisplayPOIScreen = ({ route, navigation }: IProps) => {
                   })
                 }
               >
-                <Image
-                  style={styles.imageListItem}
-                  source={require('../assets/images/placeholder.jpg')}
-                />
-                <View>
-                  <Text>{item.title}</Text>
-                  <Text>{item.safetyRating}</Text>
-                  <Text>{item.tags}</Text>
+                {POIInfo.reviews[index].picture !== '' ? (
+                  <Image
+                    style={styles.imageListItem}
+                    source={{ uri: POIInfo.reviews[index].picture }}
+                  />
+                ) : (
+                  <Image
+                    style={styles.imageListItem}
+                    source={require('../assets/images/camera_icon.jpg')}
+                  />
+                )}
+                <View style={styles.detailsContainer}>
+                  <Text style={styles.eventTitle}>{item.title}</Text>
+                  <View style={{ alignSelf: 'flex-start' }}>
+                    <AirbnbRating
+                      count={5}
+                      defaultRating={item.rating}
+                      size={10}
+                      isDisabled={true}
+                      showRating={false}
+                    />
+                  </View>
+                  <View style={{ alignSelf: 'flex-start' }}>
+                    <StarRating
+                      disabled={false}
+                      starSize={10}
+                      starStyle={{ paddingHorizontal: 3 }}
+                      emptyStar={'shield-checkmark-outline'}
+                      fullStar={'shield-checkmark-sharp'}
+                      iconSet={'Ionicons'}
+                      maxStars={3}
+                      rating={item.safetyRating}
+                      fullStarColor={Colors.blue}
+                    />
+                  </View>
+                  <Text numberOfLines={1}>{item.description}</Text>
                 </View>
               </TouchableOpacity>
             ))}
@@ -155,8 +205,13 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     paddingBottom: 0,
+    backgroundColor: Colors.white,
   },
-
+  detailsContainer: {
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    paddingHorizontal: 10,
+  },
   eventsTipsBtnsContainer: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',
@@ -218,11 +273,10 @@ const styles = StyleSheet.create({
   },
   eventTime: {
     flexDirection: 'row',
-    paddingHorizontal: 10,
     paddingTop: 5,
     alignItems: 'center',
   },
   eventTitle: {
-    paddingHorizontal: 10,
+    fontWeight: 'bold',
   },
 });

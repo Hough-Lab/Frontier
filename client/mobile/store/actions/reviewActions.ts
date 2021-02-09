@@ -162,3 +162,75 @@ export const getReviewById = (reviewId: string) => async (
 //     console.log(e);
 //   }
 // };
+
+export const likeReview = (reviewId: string) => async (
+  dispatch: AppDispatch,
+) => {
+  try {
+    const token = await AsyncStorage.getItem('jwtToken');
+
+    if (token) {
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      const { data } = await axios.put(
+        `${REACT_APP_SERVER_URI}/api/review/likeReview/${reviewId}`,
+      );
+      dispatch({ type: GET_CURRENT_REVIEW, payload: data });
+    }
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const undoLikeReview = (reviewId: string) => async (
+  dispatch: AppDispatch,
+) => {
+  try {
+    const token = await AsyncStorage.getItem('jwtToken');
+
+    if (token) {
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      const { data } = await axios.put(
+        `${REACT_APP_SERVER_URI}/api/review/undo/likeReview/${reviewId}`,
+      );
+      dispatch({ type: GET_CURRENT_REVIEW, payload: data });
+    }
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const dislikeReview = (reviewId: string) => async (
+  dispatch: AppDispatch,
+) => {
+  try {
+    const token = await AsyncStorage.getItem('jwtToken');
+
+    if (token) {
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      const { data } = await axios.put(
+        `${REACT_APP_SERVER_URI}/api/review/dislikeReview/${reviewId}`,
+      );
+      dispatch({ type: GET_CURRENT_REVIEW, payload: data });
+    }
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const undoDislikeReview = (reviewId: string) => async (
+  dispatch: AppDispatch,
+) => {
+  try {
+    const token = await AsyncStorage.getItem('jwtToken');
+
+    if (token) {
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      const { data } = await axios.put(
+        `${REACT_APP_SERVER_URI}/api/review/undo/dislikeReview/${reviewId}`,
+      );
+      dispatch({ type: GET_CURRENT_REVIEW, payload: data });
+    }
+  } catch (e) {
+    console.log(e);
+  }
+};
