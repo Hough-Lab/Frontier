@@ -46,7 +46,7 @@ const RegisterProfilePicScreen = ({ navigation }: IProps) => {
         <UploadImageComponent setImage={setImage} image={image} />
       </View>
       <View>
-        {image && (
+        {image?.length > 0 && (
           <Image
             source={{ uri: image }}
             style={{ width: 150, height: 150, borderRadius: 75 }}
