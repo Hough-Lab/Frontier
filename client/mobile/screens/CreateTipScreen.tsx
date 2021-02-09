@@ -99,20 +99,16 @@ const CreateTipScreen = ({ navigation }: { navigation: Navigation }) => {
         image={image}
         pictureStyle={{
           width: Dimensions.get('window').width - 20,
-          height: 150,
-          borderRadius: 75,
+          height: 190,
+          borderRadius: 30,
           alignSelf: 'center',
         }}
       />
       <TagsInsertComponent getTags={getTags} />
 
       {/* Tip title and location*/}
-      <View style={styles.tipTitleView}>
-        <MaterialCommunityIcons
-          name="page-layout-header"
-          size={24}
-          color="black"
-        />
+      <View style={styles.eventTitleView}>
+        <Text style={styles.labelText}>Tip title:</Text>
         <View style={styles.inputView}>
           <TextInput
             placeholder="Title"
@@ -123,6 +119,7 @@ const CreateTipScreen = ({ navigation }: { navigation: Navigation }) => {
           />
         </View>
       </View>
+
       <View style={styles.tipTitleView}>
         <Ionicons name="location-sharp" size={24} color="black" />
         <GooglePlacesInput getLocation={getLocation} />
@@ -130,6 +127,7 @@ const CreateTipScreen = ({ navigation }: { navigation: Navigation }) => {
 
       {/* Star Rating section */}
       <View style={styles.starsView}>
+        <Text style={styles.labelText}>Overall rating:</Text>
         <AirbnbRating
           count={5}
           reviews={['Terrible', 'Bad', 'OK', 'Good', 'Excellent']}
@@ -143,21 +141,26 @@ const CreateTipScreen = ({ navigation }: { navigation: Navigation }) => {
       </View>
 
       {/* Description section */}
-      <View style={styles.descriptionView}>
-        <TextInput
-          placeholder="Add description..."
-          defaultValue={''}
-          multiline={true}
-          value={inputValues.description}
-          onChangeText={(text) => {
-            setInputValues({ ...inputValues, description: text });
-          }}
-        />
+      <View style={{ paddingTop: 10 }}>
+        <Text style={styles.descriptionTitle}>Tip description:</Text>
+        <View style={styles.descriptionView}>
+          <TextInput
+            placeholder="Add description..."
+            defaultValue={''}
+            multiline={true}
+            value={inputValues.description}
+            onChangeText={(text) => {
+              setInputValues({ ...inputValues, description: text });
+            }}
+          />
+        </View>
       </View>
 
       {/* Safety Ratings */}
       <View style={styles.dollarView}>
-        <Text style={{ paddingRight: 25 }}>Safety Rating</Text>
+        <Text style={{ paddingRight: 25, fontWeight: 'bold' }}>
+          Safety Rating:
+        </Text>
         <StarRating
           disabled={false}
           starSize={30}
@@ -189,7 +192,9 @@ const CreateTipScreen = ({ navigation }: { navigation: Navigation }) => {
       </View>
 
       <View style={styles.dollarView}>
-        <Text style={{ paddingRight: 50 }}>Budget Level</Text>
+        <Text style={{ paddingRight: 50, fontWeight: 'bold' }}>
+          Budget Level:
+        </Text>
 
         <StarRating
           disabled={false}
@@ -232,7 +237,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 30,
-    // backgroundColor: Colors.white,
+    backgroundColor: Colors.white,
   },
   inputView: {
     width: 200,
@@ -258,6 +263,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderRadius: 10,
   },
+  descriptionTitle: {
+    paddingBottom: 5,
+    fontWeight: 'bold',
+  },
+  labelText: {
+    paddingBottom: 5,
+    fontWeight: 'bold',
+  },
   shareBtn: {
     width: 150,
     height: 40,
@@ -277,5 +290,11 @@ const styles = StyleSheet.create({
   shareBtnText: {
     color: Colors.white,
     fontWeight: 'bold',
+  },
+  eventTitleView: {
+    paddingTop: 30,
+    paddingBottom: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 });

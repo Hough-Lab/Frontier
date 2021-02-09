@@ -9,7 +9,7 @@ import {
   ActivityIndicator,
   Dimensions,
 } from 'react-native';
-import { AntDesign, Entypo } from '@expo/vector-icons';
+import { AntDesign, Entypo, MaterialCommunityIcons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 
 import { upload_preset, cloudinary_name } from '../config';
@@ -85,7 +85,7 @@ const UploadImageComponent = ({ setImage, image, pictureStyle }: IProps) => {
   };
 
   return (
-    <View style={styles.uploadImageArea}>
+    <View>
       <TouchableOpacity style={styles.uploadImageArea} onPress={pickImage}>
         {isLoaded ? (
           <View style={styles.image}>
@@ -98,8 +98,13 @@ const UploadImageComponent = ({ setImage, image, pictureStyle }: IProps) => {
           <ActivityIndicator size="large" color={Colors.pink} />
         ) : (
           <View>
-            <Entypo name="image" size={50} color="black" />
-            <AntDesign name="pluscircle" size={24} color="black" />
+            <Entypo name="image" size={50} color={Colors.green} />
+            <AntDesign
+              name="pluscircle"
+              size={24}
+              color={Colors.green}
+              style={styles.plusSign}
+            />
           </View>
         )}
       </TouchableOpacity>
@@ -115,17 +120,17 @@ const styles = StyleSheet.create({
     height: 180,
     justifyContent: 'center',
     alignItems: 'center',
-    alignSelf: 'center',
-    // backgroundColor: Colors.grey,
+    borderColor: 'black',
+    backgroundColor: 'white',
+    elevation: 1,
+    borderRadius: 8,
+    borderWidth: 1,
     padding: 20,
-    marginBottom: 20,
-  },
-  uploadImageBtn: {
-    flex: 1,
+    marginBottom: 30,
   },
   plusSign: {
     position: 'absolute',
-    top: 15,
+    top: 30,
     left: 35,
     backgroundColor: Colors.white,
     borderRadius: 50,
