@@ -13,6 +13,7 @@ import {
   MaterialCommunityIcons,
   Ionicons,
   FontAwesome,
+  AntDesign,
 } from '@expo/vector-icons';
 import { connect, useDispatch } from 'react-redux';
 import StarRating from 'react-native-star-rating';
@@ -30,12 +31,13 @@ LogBox.ignoreLogs([
 ]);
 
 const CreateTipScreen = ({ navigation }: { navigation: Navigation }) => {
+  const [image, setImage] = useState('');
   const [inputValues, setInputValues] = useState({
     title: '',
     description: '',
-    rating: 3,
-    budgetLevel: 10,
-    safetyRating: 2,
+    rating: 1,
+    budgetLevel: 1,
+    safetyRating: 1,
     safetyComment: '',
     formattedAddress: '',
     picture: 'Placeholder Image',
@@ -63,7 +65,7 @@ const CreateTipScreen = ({ navigation }: { navigation: Navigation }) => {
         inputValues.safetyRating,
         inputValues.safetyComment,
         inputValues.formattedAddress,
-        inputValues.picture,
+        image,
         inputValues.latitude,
         inputValues.longitude,
         inputValues.tags,
@@ -87,10 +89,11 @@ const CreateTipScreen = ({ navigation }: { navigation: Navigation }) => {
   };
 
   const [budgetCount, setBudgetCount] = useState<number>(1);
+  const [safety, setSafety] = useState<number>(1);
 
   return (
     <ScrollView style={styles.container} keyboardShouldPersistTaps="always">
-      <UploadImageComponent />
+      <UploadImageComponent setImage={setImage} image={image} />
       <TagsInsertComponent getTags={getTags} />
 
       {/* Tip title and location*/}
@@ -120,7 +123,7 @@ const CreateTipScreen = ({ navigation }: { navigation: Navigation }) => {
         <AirbnbRating
           count={5}
           reviews={['Terrible', 'Bad', 'OK', 'Good', 'Excellent']}
-          defaultRating={5}
+          defaultRating={2}
           size={20}
           isDisabled={false}
           onFinishRating={(text) => {
@@ -143,17 +146,22 @@ const CreateTipScreen = ({ navigation }: { navigation: Navigation }) => {
       </View>
 
       {/* Safety Ratings */}
-      <View style={styles.starsView}>
-        <Text style={{ textAlign: 'center' }}>Safety Ratings</Text>
-        <AirbnbRating
-          count={3}
-          reviews={['Not Safe', 'Fairly Safe', 'Super Safe']}
-          defaultRating={2}
-          size={20}
-          isDisabled={false}
-          onFinishRating={(text) => {
-            setInputValues({ ...inputValues, safetyRating: text });
+      <View style={styles.dollarView}>
+        <Text style={{ paddingRight: 25 }}>Safety Rating</Text>
+        <StarRating
+          disabled={false}
+          starSize={35}
+          starStyle={{ paddingHorizontal: 5 }}
+          emptyStar={'shield-checkmark-outline'}
+          fullStar={'shield-checkmark-sharp'}
+          iconSet={'Ionicons'}
+          maxStars={3}
+          rating={safety}
+          selectedStar={(rating: number) => {
+            setSafety(rating);
+            setInputValues({ ...inputValues, safetyRating: rating });
           }}
+          fullStarColor={Colors.blue}
         />
       </View>
 

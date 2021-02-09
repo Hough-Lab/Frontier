@@ -10,7 +10,7 @@ import {
   Platform,
 } from 'react-native';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
-import { connect, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import moment from 'moment';
 import { Picker } from '@react-native-picker/picker';
 
@@ -25,8 +25,8 @@ import DateTimePickerComponent from '../components/DateTimePickerComponent';
 
 import { numbers } from '../assets/numbers';
 
-
 const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
+  const [image, setImage] = useState('');
   const [inputValues, setInputValues] = useState({
     title: '',
     formattedAddress: '',
@@ -34,10 +34,9 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
     longitude: 0,
     dateFrom: new Date(Date.now()).toString(),
     dateTo: new Date(Date.now()).toString(),
-    description: 'This is a temporary description.',
-    maxCapacity: 10,
+    description: '',
+    maxCapacity: 1,
     isPrivate: false,
-    picture: "new File(['foo'], 'foo.jpg')",
     tags: [''],
   });
 
@@ -111,7 +110,7 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
         inputValues.description,
         inputValues.maxCapacity,
         inputValues.isPrivate,
-        inputValues.picture,
+        image,
         inputValues.tags,
         navigation,
       ),
@@ -121,7 +120,7 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
 
   return (
     <ScrollView style={styles.container} keyboardShouldPersistTaps="always">
-      <UploadImageComponent />
+      <UploadImageComponent setImage={setImage} image={image} />
       <TagsInsertComponent getTags={getTags} />
 
       {/* Event title and location*/}
@@ -227,11 +226,7 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
   );
 };
 
-const mapStateToProps = ({ event }: { event: Event }) => {
-  return { event };
-};
-
-export default connect(mapStateToProps, { createEvent })(CreateEventScreen);
+export default CreateEventScreen;
 
 const styles = StyleSheet.create({
   container: {

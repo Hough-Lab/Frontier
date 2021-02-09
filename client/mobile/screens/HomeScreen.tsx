@@ -130,11 +130,11 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
                   >
                     <Callout
                       tooltip={true}
-                      onPress={() =>
+                      onPress={() => {
                         navigation.navigate('DisplayPOIScreen', {
                           POIId: POI.pointOfInterestId,
-                        })
-                      }
+                        });
+                      }}
                     >
                       <EventPopupComponent />
                     </Callout>

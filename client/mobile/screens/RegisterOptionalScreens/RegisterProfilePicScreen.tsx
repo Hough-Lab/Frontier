@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   StyleSheet,
   Image,
@@ -9,18 +9,30 @@ import {
 } from 'react-native';
 import { AntDesign, Entypo } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
+import { useDispatch } from 'react-redux';
 
+import { editUserProfile, getAllPOI } from '../../store/actions';
 import Colors from '../../assets/colors';
 import { Navigation } from '../../interfaces/interfaces';
-import ImportPictureComponent from '../../components/ImportPictureComponent';
+import UploadImageComponent from '../../components/UploadImageComponent';
 
-const RegisterProfilePicScreen = ({
-  navigation,
-  image,
-}: {
+interface IProps {
   navigation: Navigation;
-  image: string;
-}) => {
+}
+
+const RegisterProfilePicScreen = ({ navigation }: IProps) => {
+  const [image, setImage] = useState('');
+
+  const dispatch = useDispatch();
+
+  const handleSubmit = useCallback(async () => {
+    if (image !== '') {
+      await dispatch(editUserProfile({ profilePicture: image }));
+      dispatch(getAllPOI());
+      navigation.navigate('MainStackNavigator', { screen: 'HomeScreen' });
+    }
+  }, [image]);
+
   return (
     <View style={styles.container}>
       <View style={styles.title}>
@@ -31,7 +43,7 @@ const RegisterProfilePicScreen = ({
         <View style={styles.label}>
           <Text style={styles.labelText}>Upload your profile picture</Text>
         </View>
-        <ImportPictureComponent />
+        <UploadImageComponent setImage={setImage} image={image} />
       </View>
       <View>
         {image && (
@@ -54,12 +66,7 @@ const RegisterProfilePicScreen = ({
         >
           <Text>SKIP</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() =>
-            navigation.navigate('MainStackNavigator', { screen: 'HomeScreen' })
-          }
-          activeOpacity={0.7}
-        >
+        <TouchableOpacity onPress={handleSubmit} activeOpacity={0.7}>
           <AntDesign name="rightcircle" size={40} color={Colors.pink} />
         </TouchableOpacity>
       </View>

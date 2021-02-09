@@ -5,16 +5,16 @@ import './DisplayPOIScreen.css';
 export const DisplayPOIScreen = () => {
   // const [eventsTab, setEventsTab] = useState(true);
   return (
-    <div className="container">
+    <div className="AddEvent">
       <POIImageComponent />
 
       {/*Events and Tips buttons*/}
       <div className="eventTipsBtnsContainer">
-        <button className="eventsButton">
+        <button className="shareButton">
           {/* onClick={() => setEventsTab(true)} */}
           Events
         </button>
-        <button className="tipsButton">
+        <button className="shareButton">
           {/* onClick={() => setEventsTab(false)} */}
           Travel Tips
         </button>

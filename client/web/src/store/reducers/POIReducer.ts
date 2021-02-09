@@ -1,13 +1,13 @@
-import { GET_POI_BY_ID } from '../actions/types';
-import { FrontierAction, POI } from '../../interfaces/reducerInterfaces';
+import { GET_POI_BY_ID } from "../actions/types";
+import { FrontierAction, POI } from "../../interfaces/reducerInterfaces";
 
 const initialState: POI = {
-  formattedAddress: '',
-  latitude: 0,
-  longitude: 0,
-  pointOfInterestId: '',
-  createdAt: '',
-  updatedAt: '',
+  formattedAddress: "",
+  latitude: "",
+  longitude: "",
+  pointOfInterestId: "",
+  createdAt: "",
+  updatedAt: "",
 };
 
 const reducer = (state = initialState, action: FrontierAction<POI>) => {

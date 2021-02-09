@@ -5,6 +5,10 @@ import {
   RegisterInputValues,
 } from '../interfaces/interfaces';
 
+
+import { Review } from '../interfaces/reducerInterfaces';
+
+
 export const applyAnimation = (property = 'scaleXY') => {
   LayoutAnimation.configureNext({
     duration: 700,
@@ -34,3 +38,18 @@ export const validateRegister = (inputValues: RegisterInputValues) => {
     return 'Please make sure your passwords match.';
   else return '';
 };
+
+export const getAverageRating = (reviews: Review[]) => {
+  const ratings = reviews.map((review) => review.rating);
+  const reducer = (accumulator: number, currentValue: number) =>
+    accumulator + currentValue;
+  return ratings.reduce(reducer, 0) / ratings.length;
+}
+
+export const getAverageSafetyRating = (reviews: Review[]) => {
+  const ratings = reviews.map((review) => review.safetyRating);
+  console.log('ratings', ratings.length);
+  const reducer = (accumulator: number, currentValue: number) =>
+    accumulator + currentValue;
+  return ratings.reduce(reducer, 0) / ratings.length;
+}

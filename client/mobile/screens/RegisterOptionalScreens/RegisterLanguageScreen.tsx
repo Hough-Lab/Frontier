@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import {
   StyleSheet,
   Text,
@@ -10,7 +10,9 @@ import {
 import { AntDesign, Entypo } from '@expo/vector-icons';
 import { Picker } from '@react-native-picker/picker';
 import { countriesList, languagesList } from '../../assets/countries';
+import { useDispatch } from 'react-redux';
 
+import { editUserProfile, getAllPOI } from '../../store/actions';
 import Colors from '../../assets/colors';
 import { colors, randomColor } from '../../assets/colorFunction';
 import { Navigation } from '../../interfaces/interfaces';
@@ -23,14 +25,30 @@ const RegisterLanguageScreen = ({ navigation }: { navigation: Navigation }) => {
   const [input, setInput] = useState('');
 
   function addLanguageSpoken(languageSpoken: string) {
-    setLanguagesSpoken(() => [...languagesSpoken, languageSpoken]);
+    if (
+      languagesSpoken.indexOf(languageSpoken) === -1 &&
+      languageSpoken.trim() !== ''
+    ) {
+      setLanguagesSpoken(() => [...languagesSpoken, languageSpoken]);
+    }
   }
-  console.log('tags', languagesSpoken);
 
   function deleteLanguageSpoken(languageSpoken: string) {
     languagesSpoken.splice(languagesSpoken.indexOf(languageSpoken), 1);
     setLanguagesSpoken(() => [...languagesSpoken]);
   }
+
+  const dispatch = useDispatch();
+
+  const handleSubmit = useCallback(async () => {
+    if (country?.trim() !== '' && languagesSpoken !== []) {
+      await dispatch(
+        editUserProfile({ language: languagesSpoken, from: country }),
+      );
+      dispatch(getAllPOI());
+      navigation.navigate('RegisterTagsScreen');
+    }
+  }, [languagesSpoken, country]);
 
   return (
     <View style={styles.container}>
@@ -43,6 +61,7 @@ const RegisterLanguageScreen = ({ navigation }: { navigation: Navigation }) => {
         <View style={styles.label}>
           <Text style={styles.labelText}>What country are you from?</Text>
         </View>
+
         <Picker
           selectedValue={country}
           style={{ height: 50, width: '70%' }}
@@ -50,6 +69,7 @@ const RegisterLanguageScreen = ({ navigation }: { navigation: Navigation }) => {
             setCountry(itemValue)
           }
         >
+          <Picker.Item value="" label="Please select a country" />
           {countriesList.map((country: string, index: number) => (
             <Picker.Item label={country} value={country} key={index} />
           ))}
@@ -68,6 +88,8 @@ const RegisterLanguageScreen = ({ navigation }: { navigation: Navigation }) => {
             addLanguageSpoken(itemValue);
           }}
         >
+          <Picker.Item value="" label="Please select a language" />
+
           {languagesList.map((country: string, index: number) => (
             <Picker.Item label={country} value={country} key={index} />
           ))}
@@ -77,8 +99,8 @@ const RegisterLanguageScreen = ({ navigation }: { navigation: Navigation }) => {
             <FlatList
               horizontal={true}
               data={languagesSpoken}
-              renderItem={({ item }) => (
-                <View style={styles.tag}>
+              renderItem={({ item, index }) => (
+                <View key={index} style={styles.tag}>
                   <Text style={styles.tagText}>{item}</Text>
                   <Text style={styles.tagLine}>|</Text>
                   <TouchableOpacity>
@@ -114,10 +136,7 @@ const RegisterLanguageScreen = ({ navigation }: { navigation: Navigation }) => {
         >
           <Text>SKIP</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('RegisterTagsScreen')}
-          activeOpacity={0.7}
-        >
+        <TouchableOpacity onPress={handleSubmit} activeOpacity={0.7}>
           <AntDesign name="rightcircle" size={40} color={Colors.pink} />
         </TouchableOpacity>
       </View>

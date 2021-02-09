@@ -1,14 +1,21 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
 import { AirbnbRating } from 'react-native-ratings';
+import StarRating from 'react-native-star-rating';
 
 import Colors from '../assets/colors';
 
 interface IProps {
   formattedAddress: String;
+  averageRating: number;
+  averageSafetyRating: number;
 }
 
-const POIImageComponent = ({ formattedAddress }: IProps) => {
+const POIImageComponent = ({
+  formattedAddress,
+  averageRating,
+  averageSafetyRating,
+}: IProps) => {
   return (
     <View style={styles.imageArea}>
       <Image
@@ -17,16 +24,31 @@ const POIImageComponent = ({ formattedAddress }: IProps) => {
       />
       <View style={styles.titleView}>
         <Text style={styles.title}>{formattedAddress}</Text>
-        <Text style={styles.titleLocation}>23 Long Road, London, AB12 3CD</Text>
+        {/* <Text style={styles.titleLocation}>23 Long Road, London, AB12 3CD</Text> */}
       </View>
-      <View style={styles.starsView}>
-        <AirbnbRating
-          count={5}
-          defaultRating={5}
-          size={20}
-          isDisabled={true}
-          showRating={false}
-        />
+      <View style={styles.ratings}>
+        <View style={styles.starsView}>
+          <StarRating
+            disabled={false}
+            starSize={35}
+            starStyle={{ paddingHorizontal: 5 }}
+            emptyStar={'shield-checkmark-outline'}
+            fullStar={'shield-checkmark-sharp'}
+            iconSet={'Ionicons'}
+            maxStars={3}
+            rating={averageSafetyRating}
+            fullStarColor={Colors.blue}
+          />
+        </View>
+        <View style={styles.starsView}>
+          <AirbnbRating
+            count={5}
+            defaultRating={averageRating}
+            size={20}
+            isDisabled={true}
+            showRating={false}
+          />
+        </View>
       </View>
     </View>
   );
@@ -74,5 +96,8 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
     bottom: -10,
     left: 20,
+  },
+  ratings: {
+    paddingBottom: 20,
   },
 });

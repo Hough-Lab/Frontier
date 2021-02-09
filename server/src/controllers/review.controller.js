@@ -1,6 +1,7 @@
 const uuid = require('uuid');
 const models = require('../models').sequelize.models;
 const { createPOI } = require('./pointOfInterest.controller');
+const { CreateReviewTag } = require('./reviewTag.controller');
 
 exports.PostReview = async (req, res) => {
   try {
@@ -15,10 +16,12 @@ exports.PostReview = async (req, res) => {
       safetyRating,
       safetyComment,
       picture,
+      tags,
     } = req.body;
 
     const user = req.user;
 
+    CreateReviewTag(tags);
     const newPOI = await createPOI(formattedAddress, latitude, longitude);
     const reviewId = uuid.v4();
 
@@ -42,6 +45,7 @@ exports.PostReview = async (req, res) => {
       picture,
       createdBy: user.userId,
       PointOfInterestPointOfInterestId: newPOI.pointOfInterestId,
+      tags,
     });
 
     if (!newReview) {
@@ -101,3 +105,31 @@ exports.GetEventById = async (req, res) => {
     res.status(500).send(err);
   }
 };
+
+// exports.LikeReview = async (req, res) => {
+//   try {
+//     const { reviewId } = req.params;
+//     const editedReview = await models.Review.update(
+//       { likes: sequelize.literal('field + 1') },
+//       { where: { reviewId: reviewId }, returning: true, plain: true },
+//     );
+//     if (!editedReview) throw new Error('No review found');
+//     res.status(200).send(editedReview[1].dataValues);
+//   } catch (err) {
+//     res.status(500).send(err);
+//   }
+// };
+
+// exports.DislikeReview = async (req, res) => {
+//   try {
+//     const { reviewId } = req.params;
+//     const editedReview = await models.Review.update(
+//       { likes: sequelize.literal('field - 1'), sequelize.fn('array_append', sequelize.col('job_ids'), new_jobId) },
+//       { where: { reviewId: reviewId }, returning: true, plain: true },
+//     );
+//     if (!editedReview) throw new Error('No review found');
+//     res.status(200).send(editedReview[1].dataValues);
+//   } catch (err) {
+//     res.status(500).send(err);
+//   }
+// };

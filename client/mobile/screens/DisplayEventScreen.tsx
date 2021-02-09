@@ -1,36 +1,88 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   StyleSheet,
   Text,
   View,
   ScrollView,
   TouchableOpacity,
-  FlatList,
+  ActivityIndicator,
 } from 'react-native';
-import { useSelector } from 'react-redux';
-
-import Colors from '../assets/colors';
-import { AntDesign, Entypo, Ionicons, FontAwesome } from '@expo/vector-icons';
+import { useSelector, useDispatch } from 'react-redux';
+import { RouteProp } from '@react-navigation/native';
+import {
+  AntDesign,
+  Entypo,
+  Ionicons,
+  FontAwesome,
+  MaterialIcons,
+} from '@expo/vector-icons';
 import MapView, { Marker } from 'react-native-maps';
-import GooglePlacesInput from '../components/GooglePlacesInput';
-import { Event, SystemState } from '../interfaces/reducerInterfaces';
 import dayjs from 'dayjs';
 
-const DisplayEventScreen = () => {
+var calendar = require('dayjs/plugin/calendar');
+dayjs.extend(calendar);
+
+import Colors from '../assets/colors';
+import { Event, POI, SystemState } from '../interfaces/reducerInterfaces';
+import { Navigation } from '../interfaces/interfaces';
+import { getEventById, getPOIById } from '../store/actions';
+
+type RootStackParamList = {
+  DisplayEventScreen: { eventId: string };
+};
+
+type DisplayEventScreenRouteProp = RouteProp<
+  RootStackParamList,
+  'DisplayEventScreen'
+>;
+
+interface IProps {
+  route: DisplayEventScreenRouteProp;
+  navigation: Navigation;
+}
+
+const DisplayEventScreen = ({ route, navigation }: IProps) => {
+  const { eventId } = route.params;
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {}, [eventId]);
+
+  useEffect(() => {
+    const getReview = async () => {
+      await dispatch(getEventById(eventId));
+      dispatch(getPOIById(event.pointOfInterestId));
+    };
+    getReview();
+  }, [eventId]);
+
   const event: Event = useSelector((state: SystemState) => state.event);
-  console.log('event', event);
-  console.log('event.tags', event.tags);
+  const POI: POI = useSelector((state: SystemState) => state.POI);
 
   return (
     <View style={styles.container}>
-      <ScrollView>
-        <Text style={styles.eventTitle}>{event.title}</Text>
-        <Text>{dayjs(event.dateFrom).format('DD-MM-YYYY HH:mm')}</Text>
-        {event.tags && (
-          <View style={styles.tagsContainer}>
-            <Text>tag</Text>
-            {/* to be replaced by the below once the tags are part of the event */}
-            {/* <View style={styles.tagContainer}>
+      {event.title !== '' ? (
+        <View style={styles.container}>
+          <ScrollView>
+            <Text style={styles.eventTitle}>{event && event.title}</Text>
+            <View style={styles.eventTime}>
+              <MaterialIcons name="date-range" size={20} color="black" />
+              <Text style={{ paddingLeft: 10 }}>
+                From: {dayjs(event.dateFrom).format('DD MMMM, YYYY [at] HH:mm')}
+              </Text>
+            </View>
+            <View style={styles.eventTime}>
+              {/* <MaterialIcons name="date-range" size={20} color="black" /> */}
+              <Text style={{ paddingLeft: 10 }}>
+                To: {dayjs(event.dateTo).format('DD MMMM, YYYY [at] HH:mm')}
+              </Text>
+            </View>
+
+            {/* {event.tags && (
+              <View style={styles.tagsContainer}>
+                <Text>tag</Text>
+                to be replaced by the below once the tags are part of the event 
+                 <View style={styles.tagContainer}>
         <FlatList
           horizontal={true}
           data={event.tags}
@@ -41,60 +93,71 @@ const DisplayEventScreen = () => {
           )}
           keyExtractor={(item) => item.key}
         />
-      </View> */}
-          </View>
-        )}
-
-        <View style={styles.uploadImageArea}>
-          <TouchableOpacity style={styles.uploadImageBtn} onPress={() => {}}>
-            <Entypo name="image" size={50} color="black" />
-          </TouchableOpacity>
-        </View>
-
-        <MapView
-          style={styles.uploadImageArea}
-          initialRegion={{
-            latitude: 37.78825,
-            longitude: -122.4324,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-          }}
-        >
-          <Marker
-            coordinate={{
-              latitude: 37.78825,
-              longitude: -122.4324,
-            }}
-            title={'A place'}
-            description={'Descriptions go here'}
-          />
-        </MapView>
-
-        <View style={styles.description}>
-          <Text style={styles.descriptionText}>{event.description}</Text>
-        </View>
-
-        <View style={styles.capacity}>
-          <Text style={styles.capacityText}>maximum capacity of event</Text>
-          <Text style={styles.capacityText}>{event.maxCapacity}</Text>
-        </View>
-
-        <View>
-          <Text>Going</Text>
-          <Text>Interested</Text>
-        </View>
-      </ScrollView>
-
-      <View style={styles.userStatusContainer}>
-        <TouchableOpacity style={styles.userStatus} activeOpacity={0.7}>
-          <AntDesign name="check" size={24} color={Colors.pink} />
-          <Text>I'm going!</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.userStatus} activeOpacity={0.7}>
-          <FontAwesome name="star-o" size={24} color={Colors.grey} />
-          <Text>I'm interested</Text>
-        </TouchableOpacity>
       </View>
+              </View>
+            )} */}
+
+            <View style={styles.uploadImageArea}>
+              <TouchableOpacity
+                style={styles.uploadImageBtn}
+                onPress={() => {}}
+              >
+                <Entypo name="image" size={50} color="black" />
+              </TouchableOpacity>
+            </View>
+
+            <MapView
+              style={styles.uploadImageArea}
+              initialRegion={{
+                latitude: +POI.latitude,
+                longitude: +POI.longitude,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421,
+              }}
+            >
+              <Marker
+                coordinate={{
+                  latitude: +POI.latitude,
+                  longitude: +POI.longitude,
+                }}
+                title={'A place'}
+                description={'Descriptions go here'}
+              />
+            </MapView>
+
+            <View style={styles.description}>
+              <Text style={styles.descriptionText}>{event.description}</Text>
+            </View>
+
+            {event.maxCapacity && (
+              <View style={styles.capacity}>
+                <Text style={styles.capacityText}>
+                  maximum capacity of event: {event.maxCapacity} people
+                </Text>
+              </View>
+            )}
+
+            <View>
+              <Text>Going</Text>
+              <Text>Interested</Text>
+            </View>
+          </ScrollView>
+          <View style={styles.userStatusContainer}>
+            <TouchableOpacity style={styles.userStatus} activeOpacity={0.7}>
+              <AntDesign name="check" size={24} color={Colors.pink} />
+              <Text>I'm going!</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.userStatus} activeOpacity={0.7}>
+              <FontAwesome name="star-o" size={24} color={Colors.grey} />
+              <Text>I'm interested</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      ) : (
+        <View style={styles.loader}>
+          <ActivityIndicator size="large" color={Colors.pink} />
+        </View>
+      )}
     </View>
   );
 };
@@ -110,6 +173,10 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 30,
     backgroundColor: Colors.white,
+  },
+  loader: {
+    flex: 1,
+    justifyContent: 'center',
   },
   tagContainer: {
     paddingVertical: 10,
@@ -188,5 +255,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     padding: 10,
     justifyContent: 'center',
+  },
+  eventTime: {
+    flexDirection: 'row',
+    paddingHorizontal: 10,
+    paddingTop: 5,
+    alignItems: 'center',
   },
 });

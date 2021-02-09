@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import {
   StyleSheet,
   Text,
@@ -8,12 +8,26 @@ import {
   Touchable,
 } from 'react-native';
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
+import { useDispatch } from 'react-redux';
 
+import { editUserProfile, getAllPOI } from '../../store/actions';
 import Colors from '../../assets/colors';
 import { Navigation } from '../../interfaces/interfaces';
 import TagsInsertComponent from '../../components/TagsInsertComponent';
 
 const RegisterTagsScreen = ({ navigation }: { navigation: Navigation }) => {
+  const tags = ['aa'];
+
+  const dispatch = useDispatch();
+
+  const handleSubmit = useCallback(async () => {
+    if (tags !== []) {
+      // await dispatch(editUserProfile({ userTags: tags }));
+      // dispatch(getAllPOI());
+      navigation.navigate('RegisterProfilePicScreen');
+    }
+  }, [tags]);
+
   return (
     <View style={styles.container}>
       <View style={styles.title}>
@@ -47,10 +61,7 @@ const RegisterTagsScreen = ({ navigation }: { navigation: Navigation }) => {
         >
           <Text>SKIP</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('RegisterProfilePicScreen')}
-          activeOpacity={0.7}
-        >
+        <TouchableOpacity onPress={handleSubmit} activeOpacity={0.7}>
           <AntDesign name="rightcircle" size={40} color={Colors.pink} />
         </TouchableOpacity>
       </View>

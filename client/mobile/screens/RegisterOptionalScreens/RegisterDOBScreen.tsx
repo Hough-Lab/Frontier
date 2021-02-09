@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import {
   StyleSheet,
   Text,
@@ -8,12 +8,31 @@ import {
   Touchable,
 } from 'react-native';
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
+import { useDispatch } from 'react-redux';
 
 import Colors from '../../assets/colors';
 import { Navigation } from '../../interfaces/interfaces';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import { editUserProfile, getAllPOI } from '../../store/actions';
+import DateTimePickerComponent from '../../components/DateTimePickerComponent';
+import dayjs from 'dayjs';
+
+var relativeTime = require('dayjs/plugin/relativeTime');
+dayjs.extend(relativeTime);
 
 const RegisterDOBScreen = ({ navigation }: { navigation: Navigation }) => {
+  const [date, setDate] = useState();
+  const dispatch = useDispatch();
+
+  console.log(date);
+
+  const handleSubmit = useCallback(async () => {
+    if (typeof date !== 'undefined') {
+      await dispatch(editUserProfile({ dateOfBirth: date }));
+      dispatch(getAllPOI());
+      navigation.navigate('RegisterLanguageScreen');
+    }
+  }, [date]);
+
   return (
     <View style={styles.container}>
       <View style={styles.title}>
@@ -26,21 +45,12 @@ const RegisterDOBScreen = ({ navigation }: { navigation: Navigation }) => {
         </View>
 
         <View style={styles.inputContainer}>
-          <TextInput placeholder="Date" />
-          <TouchableOpacity onPress={() => {}} activeOpacity={0.7}>
-            <MaterialCommunityIcons
-              name="calendar-month"
-              size={24}
-              color={Colors.blue}
-            />
-          </TouchableOpacity>
-          {/* <DateTimePicker
-            testID="dateTimePicker"
-            value={date}
-            mode='date'
-            display='default'
-            onChange={() => {}}
-          /> */}
+          <Text>
+            {' '}
+            {date && dayjs().from(dayjs(date), true)}{' '}
+            {date ? 'old' : 'Please enter your date of birth'}
+          </Text>
+          <DateTimePickerComponent setDate={setDate} mode="date" />
         </View>
       </View>
 
@@ -59,10 +69,7 @@ const RegisterDOBScreen = ({ navigation }: { navigation: Navigation }) => {
         >
           <Text>SKIP</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('RegisterLanguageScreen')}
-          activeOpacity={0.7}
-        >
+        <TouchableOpacity onPress={handleSubmit} activeOpacity={0.7}>
           <AntDesign name="rightcircle" size={40} color={Colors.pink} />
         </TouchableOpacity>
       </View>

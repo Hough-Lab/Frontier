@@ -8,11 +8,46 @@ import { ip_address } from '../../config';
 
 const REACT_APP_SERVER_URI = `http://${ip_address}:5000`;
 
+interface EditProfileObject {
+  username?: string;
+  fistName?: string;
+  lastName?: string;
+  email?: string;
+  password?: string;
+  confirmPassword?: string;
+  dateOfBirth?: string;
+  from?: string;
+  language?: string[];
+  userTags?: string[];
+  profilePicture?: string;
+}
+
 export const getCurrentUser = () => async (dispatch: AppDispatch) => {
   const { data } = await axios.get(`${REACT_APP_SERVER_URI}/api/user`, {
     withCredentials: true,
   });
   dispatch({ type: GET_CURRENT_USER, payload: data.user });
+};
+
+export const editUserProfile = (editProfileObject: EditProfileObject) => async (
+  dispatch: AppDispatch,
+) => {
+  const token = await AsyncStorage.getItem('jwtToken');
+
+  if (token) {
+    const { data } = await axios.put(
+      `${REACT_APP_SERVER_URI}/api/user/editProfile/`,
+      {
+        editProfileObject,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+    dispatch({ type: GET_CURRENT_USER, payload: data.user });
+  }
 };
 
 export const loginUser = (

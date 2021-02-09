@@ -4,6 +4,7 @@ import { Navigation } from '../../interfaces/interfaces';
 import { CREATE_EVENT, GET_ALL_POI, GET_CURRENT_EVENT } from './types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ip_address } from '../../config';
+import { getAllPOI } from '.';
 
 const REACT_APP_SERVER_URI = `http://${ip_address}:5000`;
 
@@ -17,7 +18,7 @@ export const createEvent = (
   description: string,
   maxCapacity: number,
   isPrivate: boolean,
-  picture: File,
+  picture: string,
   tags: string[],
   navigation: Navigation,
 ) => async (dispatch: AppDispatch) => {
@@ -52,13 +53,12 @@ export const createEvent = (
           },
         },
       );
-      dispatch({ type: CREATE_EVENT, payload: data });
 
       // The axios request will return the event. Only if the object returned by the server has a property 'title', meaning that it is an event
       // and not an error, it will take the user to the event detail screen
       if (data.title) {
-        navigation.navigate('EventNavigator', {
-          screen: 'DisplayEventScreen',
+        navigation.navigate('DisplayEventScreen', {
+          eventId: data.eventId,
         });
       }
     }
@@ -67,19 +67,15 @@ export const createEvent = (
   }
 };
 
-export const getCurrentEvent = (
-  eventId: string,
-  navigation: Navigation,
-) => async (dispatch: AppDispatch) => {
+export const getEventById = (eventId: string) => async (
+  dispatch: AppDispatch,
+) => {
   try {
     const token = await AsyncStorage.getItem('jwtToken');
 
     if (token) {
-      const { data } = await axios.post(
-        `${REACT_APP_SERVER_URI}/api/event/getEventById/`,
-        {
-          eventId: eventId,
-        },
+      const { data } = await axios.get(
+        `${REACT_APP_SERVER_URI}/api/event/getEventById/${eventId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -87,13 +83,6 @@ export const getCurrentEvent = (
         },
       );
       dispatch({ type: GET_CURRENT_EVENT, payload: data });
-
-      // TODO clean, needed?
-      // if (data.title) {
-      //   navigation.navigate('EventNavigator', {
-      //     screen: 'DisplayEventScreen',
-      //   });
-      // }
     }
   } catch (e) {
     console.log(e);

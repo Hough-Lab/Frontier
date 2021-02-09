@@ -20,9 +20,9 @@ export const createReview = (
   safetyRating: number,
   safetyComment: string,
   formattedAddress: string,
-  picture: File,
-  latitude: string,
-  longitude: string,
+  picture: string,
+  latitude: number,
+  longitude: number,
   tags: string[],
   navigation: Navigation,
 ) => async (dispatch: AppDispatch) => {
@@ -54,8 +54,8 @@ export const createReview = (
       dispatch({ type: CREATE_REVIEW, payload: data });
 
       if (data.title) {
-        navigation.navigate('TipNavigator', {
-          screen: 'DisplayTipScreen',
+        navigation.navigate('DisplayTipScreen', {
+          reviewId: data.reviewId,
         });
       }
     }
@@ -118,7 +118,7 @@ export const createReview = (
 //   }
 // };
 
-export const getCurrentReview = (reviewId: string) => async (
+export const getReviewById = (reviewId: string) => async (
   dispatch: AppDispatch,
 ) => {
   try {

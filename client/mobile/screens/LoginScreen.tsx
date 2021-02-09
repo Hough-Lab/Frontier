@@ -92,13 +92,7 @@ const LoginScreen = ({ navigation }: { navigation: Navigation }) => {
   );
 };
 
-const mapStateToProps = ({ user }: { user: User }) => {
-  return { user };
-};
-
-const mapDispatchToProps = { loginUser };
-
-export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
+export default LoginScreen;
 
 const styles = StyleSheet.create({
   container: {

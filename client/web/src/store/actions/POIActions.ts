@@ -1,14 +1,14 @@
-import axios from 'axios';
-import { AppDispatch } from '../../App';
-import { Navigation } from '../../interfaces/interfaces';
-import { GET_ALL_POI, GET_POI_BY_ID } from './types';
-const ip_address = 'localhost';
+import axios from "axios";
+import { AppDispatch } from "../../App";
+import { Navigation } from "../../interfaces/interfaces";
+import { GET_ALL_POI, GET_POI_BY_ID } from "./types";
+const ip_address = "localhost";
 
 const REACT_APP_SERVER_URI = `http://${ip_address}:5000`;
 
 export const getAllPOI = () => async (dispatch: AppDispatch) => {
   try {
-    const token = await localStorage.getItem('jwtToken');
+    const token = await localStorage.getItem("jwtToken");
 
     if (token) {
       const { data } = await axios.get(
@@ -17,7 +17,7 @@ export const getAllPOI = () => async (dispatch: AppDispatch) => {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        },
+        }
       );
 
       if (data.length > 0) {
@@ -30,10 +30,10 @@ export const getAllPOI = () => async (dispatch: AppDispatch) => {
 };
 
 export const getPOIById = (POIId: string, navigation: Navigation) => async (
-  dispatch: AppDispatch,
+  dispatch: AppDispatch
 ) => {
   try {
-    const token = await localStorage.getItem('jwtToken');
+    const token = await localStorage.getItem("jwtToken");
 
     if (token) {
       const { data } = await axios.post(
@@ -42,7 +42,7 @@ export const getPOIById = (POIId: string, navigation: Navigation) => async (
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        },
+        }
       );
 
       if (data.formattedAddress) {
