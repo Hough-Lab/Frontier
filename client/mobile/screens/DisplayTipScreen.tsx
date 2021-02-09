@@ -7,6 +7,7 @@ import {
   ScrollView,
   ActivityIndicator,
   Image,
+  Dimensions,
 } from 'react-native';
 import ViewMoreText from 'react-native-view-more-text';
 import { AirbnbRating } from 'react-native-ratings';
@@ -62,18 +63,21 @@ const DisplayTipScreen = ({ route, navigation }: IProps) => {
     <View style={{ flex: 1 }}>
       {review.title !== '' ? (
         <ScrollView style={styles.container}>
-          <View style={styles.uploadImageArea}>
-            {review?.picture.length > 0 && (
-              <Image
-                source={{ uri: `${review.picture}` }}
-                style={{ width: 400, height: 400 }}
-              />
-            )}
-
-            <TouchableOpacity style={styles.uploadImageBtn} onPress={() => {}}>
-              <Entypo name="image" size={50} color="black" />
-            </TouchableOpacity>
-          </View>
+          {review?.picture ? (
+            <Image
+              source={{ uri: `${review.picture}` }}
+              style={styles.upLoadedPicture}
+            />
+          ) : (
+            <View style={styles.uploadImageArea}>
+              <TouchableOpacity
+                style={styles.uploadImageBtn}
+                onPress={() => {}}
+              >
+                <Entypo name="image" size={50} color="black" />
+              </TouchableOpacity>
+            </View>
+          )}
 
           <View style={styles.tipIntro}>
             <Ionicons name="location-sharp" size={24} color="black" />
@@ -154,12 +158,22 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   uploadImageArea: {
-    width: '100%',
-    height: 100,
+    width: Dimensions.get('window').width - 20,
+    height: 150,
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
     backgroundColor: Colors.grey,
+    padding: 20,
+    marginVertical: 20,
+    borderRadius: 8,
+  },
+  upLoadedPicture: {
+    width: '100%',
+    height: 150,
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
     padding: 20,
     marginVertical: 20,
     borderRadius: 8,

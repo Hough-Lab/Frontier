@@ -19,6 +19,6 @@ router.get('/getReviewById/:reviewId', GetReviewById);
 router.put('/likeReview/:reviewId', authMiddleware, LikeReview);
 router.put('/undo/likeReview/:reviewId', authMiddleware, UndoLikeReview);
 router.put('/dislikeReview/:reviewId', authMiddleware, DislikeReview);
-router.put('/undo/dislikeReview/:reviewId', authMiddleware, UndoDislikeReview);
+
 
 module.exports = router;
