@@ -23,6 +23,7 @@ import TagsInsertComponent from '../components/TagsInsertComponent';
 import GooglePlacesInput from '../components/GooglePlacesInput';
 import dayjs from 'dayjs';
 import DateTimePickerComponent from '../components/DateTimePickerComponent';
+import { applyAnimation } from '../utils/generalFunctions';
 
 import { numbers } from '../assets/numbers';
 
@@ -120,6 +121,7 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
           {moment(inputValues.dateFrom).format('Do MMMM, YYYY [at] HH:mm')}
         </Text>
         <DateTimePickerComponent
+          mode="datetime"
           setDate={(selectedDate: string) =>
             setInputValues({ ...inputValues, dateFrom: selectedDate })
           }
@@ -133,6 +135,7 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
           {moment(inputValues.dateTo).format('Do MMMM, YYYY [at] HH:mm')}
         </Text>
         <DateTimePickerComponent
+          mode="datetime"
           setDate={(selectedDate: string) =>
             setInputValues({ ...inputValues, dateTo: selectedDate })
           }

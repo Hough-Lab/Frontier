@@ -38,7 +38,6 @@ const LoginScreen = ({ navigation }: { navigation: Navigation }) => {
     }
   }, [inputValues]);
 
-  // console.log('errMsg', errMsg);
   return (
     <View style={styles.container}>
       <LottieView
