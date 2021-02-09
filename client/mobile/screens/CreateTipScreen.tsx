@@ -7,6 +7,7 @@ import {
   TextInput,
   ScrollView,
   LogBox,
+  Dimensions,
 } from 'react-native';
 import { AirbnbRating, Rating } from 'react-native-ratings';
 import {
@@ -93,7 +94,16 @@ const CreateTipScreen = ({ navigation }: { navigation: Navigation }) => {
 
   return (
     <ScrollView style={styles.container} keyboardShouldPersistTaps="always">
-      <UploadImageComponent setImage={setImage} image={image} />
+      <UploadImageComponent
+        setImage={setImage}
+        image={image}
+        pictureStyle={{
+          width: Dimensions.get('window').width - 20,
+          height: 150,
+          borderRadius: 75,
+          alignSelf: 'center',
+        }}
+      />
       <TagsInsertComponent getTags={getTags} />
 
       {/* Tip title and location*/}

@@ -9,19 +9,25 @@ interface IProps {
   formattedAddress: String;
   averageRating: number;
   averageSafetyRating: number;
+  POIImage: string;
 }
 
 const POIImageComponent = ({
   formattedAddress,
   averageRating,
   averageSafetyRating,
+  POIImage,
 }: IProps) => {
   return (
     <View style={styles.imageArea}>
-      <Image
-        style={styles.imageBackdrop}
-        source={require('../assets/images/placeholder.jpg')}
-      />
+      {POIImage !== '' ? (
+        <Image style={styles.imageBackdrop} source={{ uri: POIImage }} />
+      ) : (
+        <Image
+          style={styles.imageBackdrop}
+          source={require('../assets/images/placeholder.jpg')}
+        />
+      )}
       <View style={styles.titleView}>
         <Text style={styles.title}>{formattedAddress}</Text>
         {/* <Text style={styles.titleLocation}>23 Long Road, London, AB12 3CD</Text> */}

@@ -23,12 +23,12 @@ var calendar = require('dayjs/plugin/calendar');
 dayjs.extend(calendar);
 
 import Colors from '../assets/colors';
-import { Event, POI, SystemState } from '../interfaces/reducerInterfaces';
+import { Event, SystemState, POI } from '../interfaces/reducerInterfaces';
 import { Navigation } from '../interfaces/interfaces';
 import { getEventById, getPOIById } from '../store/actions';
 
 type RootStackParamList = {
-  DisplayEventScreen: { eventId: string };
+  DisplayEventScreen: { eventId: string; pointOfInterestId: string };
 };
 
 type DisplayEventScreenRouteProp = RouteProp<
@@ -46,21 +46,20 @@ const DisplayEventScreen = ({ route, navigation }: IProps) => {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {}, [eventId]);
-
   useEffect(() => {
-    const getReview = async () => {
+    const getEvent = async () => {
       await dispatch(getEventById(eventId));
       dispatch(getPOIById(event.pointOfInterestId));
     };
-    getReview();
+    getEvent();
   }, [eventId]);
 
   const event: Event = useSelector((state: SystemState) => state.event);
   const POI: POI = useSelector((state: SystemState) => state.POI);
+  console.log('POI', POI);
 
   return (
-    <View style={styles.container}>
+    <View style={{ flex: 1 }}>
       {event.title !== '' ? (
         <View style={styles.container}>
           <ScrollView>
@@ -120,8 +119,8 @@ const DisplayEventScreen = ({ route, navigation }: IProps) => {
                   latitude: +POI.latitude,
                   longitude: +POI.longitude,
                 }}
-                title={'A place'}
-                description={'Descriptions go here'}
+                title={event.title}
+                description={event.description}
               />
             </MapView>
 

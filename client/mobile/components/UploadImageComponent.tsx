@@ -6,6 +6,8 @@ import {
   Platform,
   TouchableOpacity,
   Alert,
+  ActivityIndicator,
+  Dimensions,
 } from 'react-native';
 import { AntDesign, Entypo } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
@@ -16,11 +18,19 @@ import Colors from '../assets/colors';
 interface IProps {
   setImage: Dispatch<SetStateAction<string>>;
   image: string;
+  pictureStyle: {
+    width: number;
+    height: number;
+    borderRadius: number;
+    alignSelf: string;
+  };
 }
 
-const UploadImageComponent = ({ setImage, image }: IProps) => {
+const UploadImageComponent = ({ setImage, image, pictureStyle }: IProps) => {
   const [preUploaded, setPreUploaded] = useState<string>();
-  const [requestSuccessful, setRequestSuccessful] = useState(false);
+  const [requestSuccessful, setRequestSuccessful] = useState<boolean>(false);
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
+  const [isBeingPicked, setIsBeingPicked] = useState<boolean>(false);
 
   useEffect(() => {
     (async () => {
@@ -36,10 +46,11 @@ const UploadImageComponent = ({ setImage, image }: IProps) => {
   }, []);
 
   const pickImage = async () => {
+    setIsBeingPicked(true);
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
-      aspect: [3, 3],
+      aspect: [4, 3],
       quality: 1,
       base64: true,
     });
@@ -68,17 +79,23 @@ const UploadImageComponent = ({ setImage, image }: IProps) => {
           console.log(err);
 
           Alert.alert('An error ocurred while uploading.');
-        });
+        })
+        .finally(() => setIsLoaded(true));
     }
   };
 
   return (
     <View style={styles.uploadImageArea}>
       <TouchableOpacity style={styles.uploadImageArea} onPress={pickImage}>
-        {image?.length > 0 ? (
+        {isLoaded ? (
           <View style={styles.image}>
-            <Image style={styles.image} source={{ uri: preUploaded }} />
+            <Image
+              style={pictureStyle ? pictureStyle : styles.roundedPicture}
+              source={{ uri: preUploaded }}
+            />
           </View>
+        ) : isBeingPicked ? (
+          <ActivityIndicator size="large" color={Colors.pink} />
         ) : (
           <View>
             <Entypo name="image" size={50} color="black" />
@@ -99,7 +116,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
-    backgroundColor: Colors.grey,
+    // backgroundColor: Colors.grey,
     padding: 20,
     marginBottom: 20,
   },
@@ -108,7 +125,7 @@ const styles = StyleSheet.create({
   },
   plusSign: {
     position: 'absolute',
-    top: 25,
+    top: 15,
     left: 35,
     backgroundColor: Colors.white,
     borderRadius: 50,
@@ -151,5 +168,12 @@ const styles = StyleSheet.create({
     width: 330,
     height: 200,
     zIndex: -1,
+  },
+
+  roundedPicture: {
+    width: 150,
+    height: 150,
+    borderRadius: 75,
+    alignSelf: 'center',
   },
 });
