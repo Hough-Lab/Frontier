@@ -69,8 +69,8 @@ const DisplayPOIScreen = ({ route, navigation }: IProps) => {
         formattedAddress={POIInfo.formattedAddress}
         averageRating={averageRating && averageRating}
         averageSafetyRating={averageSafetyRating && averageSafetyRating}
-        POIImage={POIImage ? POIImage : placeHolder}
-        // POIImage={POIImage}
+        // POIImage={POIImage ? POIImage : placeHolder}
+        POIImage={POIImage}
       />
 
       {/* Events and Tips buttons */}
