@@ -149,7 +149,7 @@ const CreateTipScreen = ({ navigation }: { navigation: Navigation }) => {
         <Text style={{ paddingRight: 25 }}>Safety Rating</Text>
         <StarRating
           disabled={false}
-          starSize={35}
+          starSize={30}
           starStyle={{ paddingHorizontal: 5 }}
           emptyStar={'shield-checkmark-outline'}
           fullStar={'shield-checkmark-sharp'}
