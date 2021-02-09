@@ -21,7 +21,7 @@ const TagsInsertComponent = ({
   const [input, setInput] = useState('');
 
   function addTag(tag: string) {
-    setTags(() => [...tags, tag]);
+    if (tags.indexOf(tag) === -1) setTags(() => [...tags, tag]);
   }
 
   function deleteTag(tag: string) {
@@ -68,8 +68,8 @@ const TagsInsertComponent = ({
         <FlatList
           horizontal={true}
           data={tags}
-          renderItem={({ item }) => (
-            <View style={styles.tag}>
+          renderItem={({ item, index }) => (
+            <View key={index} style={styles.tag}>
               <Text style={styles.tagText}>{item}</Text>
               <Text style={styles.tagLine}>|</Text>
               <TouchableOpacity>

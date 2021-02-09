@@ -58,8 +58,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     userTags: {
       type: DataTypes.ARRAY(DataTypes.STRING),
-      allowNull: true
-    }
+      allowNull: true,
+    },
   });
 
   User.associate = (models) => {
