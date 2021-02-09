@@ -13,6 +13,7 @@ import { registerUser, getAllPOI } from '../store/actions';
 import { User } from '../interfaces/reducerInterfaces';
 import Colors from '../assets/colors';
 import { Navigation } from '../interfaces/interfaces';
+import { validateRegister } from '../utils/generalFunctions';
 
 const RegisterScreen = ({ navigation }: { navigation: Navigation }) => {
   const [inputValues, setInputValues] = useState({
@@ -23,9 +24,11 @@ const RegisterScreen = ({ navigation }: { navigation: Navigation }) => {
     password: '',
     confirmPassword: '',
   });
+  const [errMsg, setErrMsg] = useState('');
   const dispatch = useDispatch();
 
   const handleSubmit = useCallback(async () => {
+    setErrMsg(validateRegister(inputValues));
     await dispatch(
       registerUser(
         inputValues.email,
@@ -116,6 +119,14 @@ const RegisterScreen = ({ navigation }: { navigation: Navigation }) => {
         />
       </View>
 
+      {errMsg ? (
+        <View style={styles.errMsgView}>
+          <Text style={styles.errMsgText}>{errMsg}</Text>
+        </View>
+      ) : (
+        <></>
+      )}
+
       <TouchableOpacity style={styles.registerBtn} onPress={handleSubmit}>
         <Text style={styles.registerBtnText}>Register</Text>
       </TouchableOpacity>
@@ -155,6 +166,12 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     padding: 5,
     paddingLeft: 15,
+  },
+  errMsgView: {
+    paddingBottom: 20,
+  },
+  errMsgText: {
+    color: 'red',
   },
   registerBtn: {
     justifyContent: 'center',

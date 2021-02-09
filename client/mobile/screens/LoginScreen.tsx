@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -6,7 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
-import { connect, useDispatch } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import LottieView from 'lottie-react-native';
 
 import { getAllPOI, loginUser } from '../store/actions';
@@ -14,6 +14,7 @@ import Colors from '../assets/colors';
 import { Navigation } from '../interfaces/interfaces';
 import { User } from '../interfaces/reducerInterfaces';
 import { validateLogin } from '../utils/generalFunctions';
+import { SystemState } from '../interfaces/reducerInterfaces';
 
 const LoginScreen = ({ navigation }: { navigation: Navigation }) => {
   const [inputValues, setInputValues] = useState({
@@ -25,13 +26,19 @@ const LoginScreen = ({ navigation }: { navigation: Navigation }) => {
   const dispatch = useDispatch();
 
   const handleSubmit = useCallback(async () => {
+    setErrMsg('');
     setErrMsg(validateLogin(inputValues));
-    await dispatch(
-      loginUser(inputValues.email, inputValues.password, navigation),
-    );
-    dispatch(getAllPOI());
+    try {
+      await dispatch(
+        loginUser(inputValues.email, inputValues.password, navigation),
+      );
+      dispatch(getAllPOI());
+    } catch (e) {
+      setErrMsg('Invalid username or password.');
+    }
   }, [inputValues]);
 
+  console.log('errMsg', errMsg);
   return (
     <View style={styles.container}>
       <LottieView
@@ -40,14 +47,6 @@ const LoginScreen = ({ navigation }: { navigation: Navigation }) => {
         autoPlay
         loop
       />
-
-      {errMsg ? (
-        <View style={styles.errMsgView}>
-          <Text style={styles.errMsgText}>{errMsg}</Text>
-        </View>
-      ) : (
-        <></>
-      )}
 
       <View style={styles.inputContainer}>
         <TextInput
@@ -72,6 +71,12 @@ const LoginScreen = ({ navigation }: { navigation: Navigation }) => {
           }
         />
       </View>
+
+      {errMsg.length > 1 && (
+        <View style={styles.errMsgView}>
+          <Text style={styles.errMsgText}>{errMsg}</Text>
+        </View>
+      )}
 
       <TouchableOpacity style={styles.loginBtn} onPress={handleSubmit}>
         <Text style={styles.loginBtnText}>Login</Text>
