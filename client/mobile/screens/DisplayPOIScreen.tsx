@@ -18,9 +18,14 @@ import { SystemState, Review } from '../interfaces/reducerInterfaces';
 import {
   getAverageRating,
   getAverageSafetyRating,
+  getFirstPicture,
 } from '../utils/generalFunctions';
 import moment from 'moment';
 import { AntDesign, MaterialIcons } from '@expo/vector-icons';
+import { AirbnbRating } from 'react-native-elements';
+import StarRating from 'react-native-star-rating';
+
+const placeHolder = require('../assets/images/camera_icon.jpg');
 
 type RootStackParamList = {
   DisplayPOIScreen: { POIId: string };
@@ -48,10 +53,15 @@ const DisplayPOIScreen = ({ route, navigation }: IProps) => {
 
   const POIInfo = useSelector((state: SystemState) => state.POI);
 
+  let POIImage = '';
+  if (POIInfo !== undefined) {
+    POIImage = getFirstPicture(POIInfo);
+  }
   const averageRating = getAverageRating(POIInfo?.reviews);
   const averageSafetyRating = getAverageSafetyRating(POIInfo?.reviews);
 
-  console.log('averageRating', averageRating);
+  console.log('POIInfo', POIInfo);
+  console.log('POIImage', POIImage);
 
   return (
     <View style={styles.container}>
@@ -59,6 +69,8 @@ const DisplayPOIScreen = ({ route, navigation }: IProps) => {
         formattedAddress={POIInfo.formattedAddress}
         averageRating={averageRating && averageRating}
         averageSafetyRating={averageSafetyRating && averageSafetyRating}
+        POIImage={POIImage ? POIImage : placeHolder}
+        // POIImage={POIImage}
       />
 
       {/* Events and Tips buttons */}
@@ -91,14 +103,23 @@ const DisplayPOIScreen = ({ route, navigation }: IProps) => {
                 onPress={() => {
                   navigation.navigate('DisplayEventScreen', {
                     eventId: POIInfo.events[index].eventId,
+                    pointOfInterestId: POIInfo.pointOfInterestId,
                   });
                 }}
               >
                 <View key={index} style={styles.listItemView}>
-                  <Image
-                    style={styles.imageListItem}
-                    source={require('../assets/images/placeholder.jpg')}
-                  />
+                  {POIInfo.events[index].picture !== '' ? (
+                    <Image
+                      style={styles.imageListItem}
+                      source={{ uri: POIInfo.events[index].picture }}
+                    />
+                  ) : (
+                    <Image
+                      style={styles.imageListItem}
+                      source={require('../assets/images/camera_icon.jpg')}
+                    />
+                  )}
+
                   <View>
                     <Text style={styles.eventTitle}>{item.title}</Text>
                     <View style={styles.eventTime}>
@@ -132,14 +153,44 @@ const DisplayPOIScreen = ({ route, navigation }: IProps) => {
                   })
                 }
               >
-                <Image
-                  style={styles.imageListItem}
-                  source={require('../assets/images/placeholder.jpg')}
-                />
+                {POIInfo.reviews[index].picture !== '' ? (
+                  <Image
+                    style={styles.imageListItem}
+                    source={{ uri: POIInfo.reviews[index].picture }}
+                  />
+                ) : (
+                  <Image
+                    style={styles.imageListItem}
+                    source={require('../assets/images/camera_icon.jpg')}
+                  />
+                )}
                 <View>
-                  <Text>{item.title}</Text>
-                  <Text>{item.safetyRating}</Text>
-                  <Text>{item.tags}</Text>
+                  <Text style={styles.eventTitle}>{item.title}</Text>
+                  <View style={{ paddingLeft: 7 }}>
+                    <AirbnbRating
+                      count={5}
+                      defaultRating={item.rating}
+                      size={10}
+                      isDisabled={true}
+                      showRating={false}
+                    />
+                  </View>
+                  <View style={{ paddingLeft: 7 }}>
+                    <StarRating
+                      disabled={false}
+                      starSize={10}
+                      starStyle={{ paddingHorizontal: 5 }}
+                      emptyStar={'shield-checkmark-outline'}
+                      fullStar={'shield-checkmark-sharp'}
+                      iconSet={'Ionicons'}
+                      maxStars={3}
+                      rating={item.safetyRating}
+                      fullStarColor={Colors.blue}
+                    />
+                  </View>
+                  <Text numberOfLines={1} style={{ paddingLeft: 10 }}>
+                    {item.description}
+                  </Text>
                 </View>
               </TouchableOpacity>
             ))}
@@ -224,5 +275,6 @@ const styles = StyleSheet.create({
   },
   eventTitle: {
     paddingHorizontal: 10,
+    fontWeight: 'bold',
   },
 });

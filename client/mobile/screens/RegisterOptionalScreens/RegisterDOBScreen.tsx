@@ -30,6 +30,9 @@ const RegisterDOBScreen = ({ navigation }: { navigation: Navigation }) => {
       await dispatch(editUserProfile({ dateOfBirth: date }));
       dispatch(getAllPOI());
       navigation.navigate('RegisterLanguageScreen');
+    } else {
+      dispatch(getAllPOI());
+      navigation.navigate('RegisterLanguageScreen');
     }
   }, [date]);
 

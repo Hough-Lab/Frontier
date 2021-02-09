@@ -6,7 +6,7 @@ import {
 } from '../interfaces/interfaces';
 
 
-import { Review } from '../interfaces/reducerInterfaces';
+import { Review, POI } from '../interfaces/reducerInterfaces';
 
 
 export const applyAnimation = (property = 'scaleXY') => {
@@ -52,4 +52,9 @@ export const getAverageSafetyRating = (reviews: Review[]) => {
   const reducer = (accumulator: number, currentValue: number) =>
     accumulator + currentValue;
   return ratings.reduce(reducer, 0) / ratings.length;
+}
+
+export const getFirstPicture = (POI: POI) => {
+  // console.log('POI.reviews[0].picture', POI.reviews[0].picture.toString());
+  if (POI?.reviews[0]?.picture !== null) { return POI.reviews[0].picture }
 }
