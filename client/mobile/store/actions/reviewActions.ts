@@ -163,7 +163,9 @@ export const getReviewById = (reviewId: string) => async (
 //   }
 // };
 
-export const likeReview = async (reviewId: string) => {
+export const likeReview = (reviewId: string) => async (
+  dispatch: AppDispatch,
+) => {
   try {
     const token = await AsyncStorage.getItem('jwtToken');
 
@@ -172,13 +174,16 @@ export const likeReview = async (reviewId: string) => {
       const { data } = await axios.put(
         `${REACT_APP_SERVER_URI}/api/review/likeReview/${reviewId}`,
       );
+      dispatch({ type: GET_CURRENT_REVIEW, payload: data });
     }
   } catch (e) {
     console.log(e);
   }
 };
 
-export const undoLikeReview = async (reviewId: string) => {
+export const undoLikeReview = (reviewId: string) => async (
+  dispatch: AppDispatch,
+) => {
   try {
     const token = await AsyncStorage.getItem('jwtToken');
 
@@ -187,13 +192,16 @@ export const undoLikeReview = async (reviewId: string) => {
       const { data } = await axios.put(
         `${REACT_APP_SERVER_URI}/api/review/undo/likeReview/${reviewId}`,
       );
+      dispatch({ type: GET_CURRENT_REVIEW, payload: data });
     }
   } catch (e) {
     console.log(e);
   }
 };
 
-export const dislikeReview = async (reviewId: string) => {
+export const dislikeReview = (reviewId: string) => async (
+  dispatch: AppDispatch,
+) => {
   try {
     const token = await AsyncStorage.getItem('jwtToken');
 
@@ -202,13 +210,16 @@ export const dislikeReview = async (reviewId: string) => {
       const { data } = await axios.put(
         `${REACT_APP_SERVER_URI}/api/review/dislikeReview/${reviewId}`,
       );
+      dispatch({ type: GET_CURRENT_REVIEW, payload: data });
     }
   } catch (e) {
     console.log(e);
   }
 };
 
-export const undoDislikeReview = async (reviewId: string) => {
+export const undoDislikeReview = (reviewId: string) => async (
+  dispatch: AppDispatch,
+) => {
   try {
     const token = await AsyncStorage.getItem('jwtToken');
 
@@ -217,6 +228,7 @@ export const undoDislikeReview = async (reviewId: string) => {
       const { data } = await axios.put(
         `${REACT_APP_SERVER_URI}/api/review/undo/dislikeReview/${reviewId}`,
       );
+      dispatch({ type: GET_CURRENT_REVIEW, payload: data });
     }
   } catch (e) {
     console.log(e);

@@ -1,10 +1,10 @@
 import { LayoutAnimation } from 'react-native';
+import { useSelector } from 'react-redux';
 
 import {
   LoginInputValues,
   RegisterInputValues,
 } from '../interfaces/interfaces';
-
 import { Review, POI } from '../interfaces/reducerInterfaces';
 
 export const applyAnimation = (property = 'scaleXY') => {
@@ -27,7 +27,6 @@ export const validateLogin = (inputValues: LoginInputValues) => {
 export const validateRegister = (inputValues: RegisterInputValues) => {
   const allInputs = Object.values(inputValues);
   let error = '';
-  console.log('allInputs', allInputs);
   allInputs.forEach((input) => {
     if (input === '') error = 'You must not leave any field blank.';
   });
@@ -46,7 +45,6 @@ export const getAverageRating = (reviews: Review[]) => {
 
 export const getAverageSafetyRating = (reviews: Review[]) => {
   const ratings = reviews.map((review) => review.safetyRating);
-  console.log('ratings', ratings.length);
   const reducer = (accumulator: number, currentValue: number) =>
     accumulator + currentValue;
   return ratings.reduce(reducer, 0) / ratings.length;

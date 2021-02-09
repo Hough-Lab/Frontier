@@ -21,6 +21,8 @@ import {
   dislikeReview,
   undoDislikeReview,
 } from './reviewActions';
+import { getEventsAttending } from './attendingEventsActions';
+import { getEventsInterested } from './interestedEventsActions';
 import { getAllPOI, getPOIById } from './POIActions';
 
 export {
@@ -43,4 +45,6 @@ export {
   getReviewById,
   getAllPOI,
   getPOIById,
+  getEventsAttending,
+  getEventsInterested,
 };

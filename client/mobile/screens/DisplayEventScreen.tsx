@@ -53,7 +53,6 @@ const DisplayEventScreen = ({ route, navigation }: IProps) => {
 
   const event: Event = useSelector((state: SystemState) => state.event);
   const POI: POI = useSelector((state: SystemState) => state.POI);
-
   const user: User = useSelector((state: SystemState) => state.user);
 
   return (
