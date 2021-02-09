@@ -70,6 +70,7 @@ export const loginUser = (
       await AsyncStorage.setItem('jwtToken', data.token);
     } catch (e) {
       console.log(e);
+      throw new Error();
     }
 
     if (data.user.firstName) {
@@ -77,7 +78,7 @@ export const loginUser = (
     }
   } catch (e) {
     dispatch({ type: SET_ERROR, payload: 'Incorrect username or password.' });
-    return 'Incorrect username or password.';
+    throw new Error();
   }
 };
 

@@ -11,6 +11,7 @@ export interface SystemState {
   review: Review;
   POI: POI;
   allPOI: POIArray;
+  error: string;
 }
 
 export interface User {
