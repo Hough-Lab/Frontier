@@ -48,6 +48,16 @@ exports.PostEvent = async (req, res) => {
       attendees: [user.userId.toString()],
     });
 
+    console.log('pointofinterestId', pointOfInterestId);
+
+    const poiToUpdate = await models.PointOfInterest.findByPk( pointOfInterestId );
+    if (!poiToUpdate.events) {
+      poiToUpdate.events = [newEvent];
+    } else {
+      poiToUpdate.events = [poiToUpdate.events, newEvent];
+    }
+    await poiToUpdate.save();
+
     if (!newEvent) {
       throw new Error('could not add Event');
     } else {

@@ -17,6 +17,14 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DECIMAL,
       allowNull: false,
     },
+    events: {
+      type: DataTypes.ARRAY(DataTypes.JSONB),
+      allowNull: true,
+    },
+    reviews: {
+      type: DataTypes.ARRAY(DataTypes.JSONB),
+      allowNull: true,
+    }
   });
 
   PointOfInterest.associate = (models) => {
