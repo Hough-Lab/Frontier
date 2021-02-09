@@ -1,6 +1,7 @@
 import { LayoutAnimation } from 'react-native';
 
 import { LoginInputValues } from '../interfaces/interfaces';
+import { Review } from '../interfaces/reducerInterfaces';
 
 export const applyAnimation = (property = 'scaleXY') => {
   LayoutAnimation.configureNext({
@@ -18,3 +19,19 @@ export const validateLogin = (inputValues: LoginInputValues) => {
   else if (inputValues.password === '') return 'Please enter your password.';
   else return '';
 };
+
+
+export const getAverageRating = (reviews: Review[]) => {
+  const ratings = reviews.map((review) => review.rating);
+  const reducer = (accumulator: number, currentValue: number) =>
+    accumulator + currentValue;
+  return ratings.reduce(reducer, 0) / ratings.length;
+}
+
+export const getAverageSafetyRating = (reviews: Review[]) => {
+  const ratings = reviews.map((review) => review.safetyRating);
+  console.log('ratings', ratings.length);
+  const reducer = (accumulator: number, currentValue: number) =>
+    accumulator + currentValue;
+  return ratings.reduce(reducer, 0) / ratings.length;
+}
