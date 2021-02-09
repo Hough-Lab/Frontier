@@ -13,6 +13,8 @@ const initialState: Review = {
   picture: '',
   pointOfInterestId: '',
   tags: [],
+  likedBy: [],
+  dislikedBy: [],
 };
 
 const reducer = (state = initialState, action: FrontierAction<Review>) => {

@@ -46,17 +46,13 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: true,
     },
-    likes: {
-      type: DataTypes.INTEGER,
-      defaultValue: 0,
-    },
     likedBy: {
       type: DataTypes.ARRAY(DataTypes.STRING),
-      allowNull: true,
+      defaultValue: [],
     },
     dislikedBy: {
       type: DataTypes.ARRAY(DataTypes.STRING),
-      allowNull: true,
+      defaultValue: [],
     },
   });
 

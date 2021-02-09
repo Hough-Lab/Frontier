@@ -18,8 +18,14 @@ import { AntDesign, Entypo, Ionicons } from '@expo/vector-icons';
 import Colors from '../assets/colors';
 import { Navigation } from '../interfaces/interfaces';
 import { getReviewById, getPOIById } from '../store/actions';
-import { Review, SystemState, POI } from '../interfaces/reducerInterfaces';
+import {
+  Review,
+  SystemState,
+  POI,
+  User,
+} from '../interfaces/reducerInterfaces';
 import StarRating from 'react-native-star-rating';
+import TipLike from '../components/TipLikeComponent';
 
 type RootStackParamList = {
   DisplayTipScreen: { reviewId: string; pointOfInterestId: string };
@@ -47,9 +53,11 @@ const DisplayTipScreen = ({ route, navigation }: IProps) => {
     };
     getReview();
   }, [reviewId]);
+  console.log('here');
 
   const review: Review = useSelector((state: SystemState) => state.review);
   const POI: POI = useSelector((state: SystemState) => state.POI);
+  const user: User = useSelector((state: SystemState) => state.user);
 
   return (
     <View style={{ flex: 1 }}>
@@ -126,18 +134,7 @@ const DisplayTipScreen = ({ route, navigation }: IProps) => {
                 fullStarColor={Colors.green}
               />
             </View>
-
-            <Text style={{ paddingTop: 10 }}>
-              xx other travellers found this tip helpful
-            </Text>
-            <View style={styles.helpfulTip}>
-              <TouchableOpacity onPress={() => {}} style={styles.icon}>
-                <AntDesign name="like2" size={30} color={Colors.blue} />
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => {}} style={styles.icon}>
-                <AntDesign name="dislike2" size={30} color={Colors.pink} />
-              </TouchableOpacity>
-            </View>
+            <TipLike review={review} user={user} />
           </View>
         </ScrollView>
       ) : (

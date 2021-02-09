@@ -12,6 +12,8 @@ const initialState: Event = {
   picture: '',
   pointOfInterestId: '',
   tags: [],
+  attendees: [],
+  possibleAttendees: [],
 };
 
 const reducer = (state = initialState, action: FrontierAction<Event>) => {
