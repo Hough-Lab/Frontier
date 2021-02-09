@@ -48,14 +48,6 @@ const RegisterProfilePicScreen = ({ navigation }: IProps) => {
         </View>
         <UploadImageComponent setImage={setImage} image={image} />
       </View>
-      {/* <View>
-        {image?.length > 0 && (
-          <Image
-            source={{ uri: image }}
-            style={{ width: 150, height: 150, borderRadius: 75 }}
-          />
-        )}
-      </View> */}
 
       <View style={styles.bottomBtnsContainer}>
         <TouchableOpacity onPress={() => navigation.goBack()}>

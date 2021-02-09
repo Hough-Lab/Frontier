@@ -27,7 +27,7 @@ const POIImageComponent = ({
       ) : (
         <Image
           style={styles.imageBackdrop}
-          source={require('../assets/images/placeholder.jpg')}
+          source={require('../assets/images/placeholder-image10.jpg')}
         />
       )}
       <View style={styles.titleView}>
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
-    backgroundColor: Colors.grey,
+    // backgroundColor: Colors.grey,
     marginTop: 40,
     marginBottom: 20,
     borderRadius: 10,
