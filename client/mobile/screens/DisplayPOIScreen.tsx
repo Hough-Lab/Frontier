@@ -60,9 +60,6 @@ const DisplayPOIScreen = ({ route, navigation }: IProps) => {
   const averageRating = getAverageRating(POIInfo?.reviews);
   const averageSafetyRating = getAverageSafetyRating(POIInfo?.reviews);
 
-  console.log('POIInfo', POIInfo);
-  console.log('POIImage', POIImage);
-
   return (
     <View style={styles.container}>
       <POIImageComponent

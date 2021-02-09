@@ -53,7 +53,6 @@ const DisplayTipScreen = ({ route, navigation }: IProps) => {
     };
     getReview();
   }, [reviewId]);
-  console.log('here');
 
   const review: Review = useSelector((state: SystemState) => state.review);
   const POI: POI = useSelector((state: SystemState) => state.POI);

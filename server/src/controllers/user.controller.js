@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt');
 const uuid = require('uuid');
 
 const models = require('../models').sequelize.models;
-const { CreateUserTag } = require ('./eventTag.controller')
+const { CreateUserTag } = require('./eventTag.controller');
 const { generateAuthToken } = require('../utils/authHelpers.js');
 const {
   validateRegisterInput,
@@ -189,5 +189,33 @@ exports.EditProfile = async (req, res) => {
   } catch (e) {
     res.status(500);
     res.send(e.message);
+  }
+};
+
+exports.getAttendingEventsByUserId = async (req, res) => {
+  const { userId } = req.user;
+
+  try {
+    const events = await models.Event.findAll();
+    const attendingEvents = events.filter(
+      (event) => event.dataValues.attendees.indexOf(userId) !== -1,
+    );
+    res.status(200).send(attendingEvents);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
+exports.getInterestedEventsByUserId = async (req, res) => {
+  const { userId } = req.user;
+
+  try {
+    const events = await models.Event.findAll();
+    const attendingEvents = events.filter(
+      (event) => event.dataValues.possibleAttendees.indexOf(userId) !== -1,
+    );
+    res.status(200).send(attendingEvents);
+  } catch (error) {
+    res.status(500).send(error);
   }
 };

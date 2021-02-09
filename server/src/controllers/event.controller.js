@@ -102,8 +102,6 @@ exports.AttendEvent = async (req, res) => {
     const currentAttendees = event.dataValues.attendees;
 
     if (currentAttendees.indexOf(user.userId) === -1) {
-      const emptyValue = currentAttendees.indexOf('');
-      emptyValue && currentAttendees.splice(emptyValue, 1);
       currentAttendees.push(user.userId);
       const editedEvent = await models.Event.update(
         {
@@ -133,7 +131,9 @@ exports.UndoAttendEvent = async (req, res) => {
 
     if (currentAttendees.indexOf(user.userId) !== -1) {
       const userIndex = currentAttendees.indexOf(user.userId);
+      console.log(currentAttendees);
       currentAttendees.splice(userIndex, 1);
+      console.log(currentAttendees);
       const editedEvent = await models.Event.update(
         {
           attendees: currentAttendees,
@@ -161,8 +161,6 @@ exports.MarkEventAsInterested = async (req, res) => {
     const currentPossibleAttendees = event.dataValues.possibleAttendees;
 
     if (currentPossibleAttendees.indexOf(user.userId) === -1) {
-      const emptyValue = currentPossibleAttendees.indexOf('');
-      emptyValue && currentPossibleAttendees.splice(emptyValue, 1);
       currentPossibleAttendees.push(user.userId);
       const editedEvent = await models.Event.update(
         {

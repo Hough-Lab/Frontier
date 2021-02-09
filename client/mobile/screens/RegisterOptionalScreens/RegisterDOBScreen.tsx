@@ -23,8 +23,6 @@ const RegisterDOBScreen = ({ navigation }: { navigation: Navigation }) => {
   const [date, setDate] = useState();
   const dispatch = useDispatch();
 
-  console.log(date);
-
   const handleSubmit = useCallback(async () => {
     if (typeof date !== 'undefined') {
       await dispatch(editUserProfile({ dateOfBirth: date }));
