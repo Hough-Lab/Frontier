@@ -18,7 +18,13 @@ dayjs.extend(calendar);
 
 import EventAttendance from '../components/EventAttendanceComponent';
 import Colors from '../assets/colors';
+<<<<<<< HEAD
 import { Event, POI, SystemState, User } from '../interfaces/reducerInterfaces';
+=======
+
+import { Event, POI, SystemState, User } from '../interfaces/reducerInterfaces';
+
+>>>>>>> 26d0ad675f81a86f704b963f9ee450fd9cfd3fad
 import { Navigation } from '../interfaces/interfaces';
 import { getEventById, getPOIById } from '../store/actions';
 
@@ -51,6 +57,10 @@ const DisplayEventScreen = ({ route, navigation }: IProps) => {
 
   const event: Event = useSelector((state: SystemState) => state.event);
   const POI: POI = useSelector((state: SystemState) => state.POI);
+<<<<<<< HEAD
+=======
+
+>>>>>>> 26d0ad675f81a86f704b963f9ee450fd9cfd3fad
   const user: User = useSelector((state: SystemState) => state.user);
 
   return (

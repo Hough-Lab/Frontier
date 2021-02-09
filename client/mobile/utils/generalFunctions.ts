@@ -5,9 +5,7 @@ import {
   RegisterInputValues,
 } from '../interfaces/interfaces';
 
-
 import { Review, POI } from '../interfaces/reducerInterfaces';
-
 
 export const applyAnimation = (property = 'scaleXY') => {
   LayoutAnimation.configureNext({
@@ -44,7 +42,7 @@ export const getAverageRating = (reviews: Review[]) => {
   const reducer = (accumulator: number, currentValue: number) =>
     accumulator + currentValue;
   return ratings.reduce(reducer, 0) / ratings.length;
-}
+};
 
 export const getAverageSafetyRating = (reviews: Review[]) => {
   const ratings = reviews.map((review) => review.safetyRating);
@@ -52,9 +50,11 @@ export const getAverageSafetyRating = (reviews: Review[]) => {
   const reducer = (accumulator: number, currentValue: number) =>
     accumulator + currentValue;
   return ratings.reduce(reducer, 0) / ratings.length;
-}
+};
 
 export const getFirstPicture = (POI: POI) => {
   // console.log('POI.reviews[0].picture', POI.reviews[0].picture.toString());
-  if (POI?.reviews[0]?.picture !== null) { return POI.reviews[0].picture }
-}
+  if (POI?.reviews[0]?.picture && POI?.reviews[0]?.picture !== null) {
+    return POI.reviews[0].picture;
+  }
+};
