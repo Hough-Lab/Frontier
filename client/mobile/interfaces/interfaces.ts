@@ -31,3 +31,12 @@ export interface LoginInputValues {
   email: string;
   password: string;
 }
+
+export interface RegisterInputValues {
+  email: string;
+  password: string;
+  confirmPassword: string;
+  username: string;
+  firstName: string;
+  lastName: string;
+}
