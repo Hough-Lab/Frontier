@@ -15,7 +15,7 @@ import { useDispatch } from 'react-redux';
 import moment from 'moment';
 import { Picker } from '@react-native-picker/picker';
 
-import { createEvent, getAllPOI } from '../store/actions';
+import { createEvent, getAllPOI, getEventsAttending } from '../store/actions';
 import { Navigation } from '../interfaces/interfaces';
 import Colors from '../assets/colors';
 import UploadImageComponent from '../components/UploadImageComponent';
@@ -54,7 +54,7 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
     });
   };
 
-  const [capacity, setCapacity] = useState<number>();
+  const [capacity, setCapacity] = useState<number>(1);
   const [tags, setTags] = useState<string[]>([]);
 
   const dispatch = useDispatch();
@@ -77,9 +77,8 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
       ),
     );
     dispatch(getAllPOI());
+    dispatch(getEventsAttending());
   }, [inputValues, tags, image]);
-
-  console.log(tags);
 
   return (
     <ScrollView style={styles.container} keyboardShouldPersistTaps="always">

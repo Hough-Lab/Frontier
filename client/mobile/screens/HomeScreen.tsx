@@ -204,4 +204,10 @@ const styles = StyleSheet.create({
     height: 45,
     elevation: 5,
   },
+  popupCallout: {
+    borderWidth: 2,
+    elevation: 5,
+    padding: 15,
+    margin: 15,
+  },
 });

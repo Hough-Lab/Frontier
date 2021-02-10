@@ -62,7 +62,7 @@ export const filterPOIByTag = (allPOI: POI[], tags: string[]) => {
   if (!tags.length) {
     return allPOI;
   } else {
-    const filteredPOI = allPOI.filter((POI: POI) => {
+    const filteredPOI = allPOI?.filter((POI: POI) => {
       return tags.every((tag) => {
         return POI.tags?.indexOf(tag) !== -1;
       });

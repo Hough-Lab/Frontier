@@ -19,9 +19,8 @@ import { Navigation } from '../../interfaces/interfaces';
 const RegisterLanguageScreen = ({ navigation }: { navigation: Navigation }) => {
   const [country, setCountry] = useState<string>();
   const [language, setLanguage] = useState<string>();
-  const [languageSpoken, setLanguageSpoken] = useState('');
   const [languagesSpoken, setLanguagesSpoken]: any = useState([]);
-  const [input, setInput] = useState('');
+  console.log(languagesSpoken);
 
   function addLanguageSpoken(languageSpoken: string) {
     if (
@@ -113,7 +112,7 @@ const RegisterLanguageScreen = ({ navigation }: { navigation: Navigation }) => {
                   </TouchableOpacity>
                 </View>
               )}
-              keyExtractor={(item) => item.key}
+              keyExtractor={(item) => item}
             />
           </View>
         )}

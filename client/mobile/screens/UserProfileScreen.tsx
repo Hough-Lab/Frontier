@@ -95,7 +95,6 @@ const UserProfileScreen = ({ navigation }: { navigation: Navigation }) => {
 
   return (
     <View style={styles.container}>
-      {/* Logout section */}
       <TouchableOpacity
         style={styles.logoutBtn}
         onPress={() => {
@@ -106,7 +105,6 @@ const UserProfileScreen = ({ navigation }: { navigation: Navigation }) => {
         <Text style={{ fontSize: 10, color: Colors.pink }}>logout</Text>
       </TouchableOpacity>
 
-      {/* Edit User Profile section */}
       {!isEditMode ? (
         <TouchableOpacity
           style={styles.editBtn}
@@ -179,7 +177,6 @@ const UserProfileScreen = ({ navigation }: { navigation: Navigation }) => {
         </View>
       )}
 
-      {/* User Profile section */}
       <View style={styles.profilePicContainer}>
         <Image
           style={styles.profilePic}
@@ -192,7 +189,22 @@ const UserProfileScreen = ({ navigation }: { navigation: Navigation }) => {
             {user.firstName} {user.lastName}
           </Text>
 
+<<<<<<< HEAD
           {user.dateOfBirth && (
+=======
+        <Text>
+          <Text style={{ color: 'black', fontSize: 12 }}>
+            {'joined ' + dayjs(user.createdAt).month(0).from(dayjs().month(0))}
+          </Text>
+        </Text>
+        {user.from && (
+          <Text style={{ color: 'black', paddingTop: 5 }}>
+            {'From ' + user.from}
+          </Text>
+        )}
+        {user.userTags && (
+          <View style={styles.languages}>
+>>>>>>> 828a96a14b55fc9258d74fb73f07406cd2472f5a
             <Text
               style={{
                 fontWeight: 'normal',
@@ -202,7 +214,49 @@ const UserProfileScreen = ({ navigation }: { navigation: Navigation }) => {
               {user.dateOfBirth && dayjs().from(dayjs(user.dateOfBirth), true)}{' '}
               old
             </Text>
+<<<<<<< HEAD
           )}
+=======
+            <FlatList
+              horizontal={true}
+              data={user.userTags}
+              renderItem={({ item, index }) => (
+                <View
+                  key={index}
+                  style={{ ...styles.tag, backgroundColor: Colors.pink }}
+                >
+                  <Text style={styles.tagText}>{item}</Text>
+                </View>
+              )}
+              keyExtractor={(item) => item}
+            />
+          </View>
+        )}
+        {user.language && (
+          <View style={styles.languages}>
+            <Text
+              style={{
+                fontWeight: 'bold',
+                paddingRight: 10,
+                paddingVertical: 5,
+              }}
+            >
+              Languages spoken:
+            </Text>
+            <FlatList
+              horizontal={true}
+              data={user.language}
+              renderItem={({ item, index }) => (
+                <View key={index} style={styles.tag}>
+                  <Text style={styles.tagText}>{item}</Text>
+                </View>
+              )}
+              keyExtractor={(item) => item}
+            />
+          </View>
+        )}
+      </View>
+>>>>>>> 828a96a14b55fc9258d74fb73f07406cd2472f5a
 
           <Text>
             {/* <Text style={{ ...styles.regularText, fontWeight: 'bold' }}>

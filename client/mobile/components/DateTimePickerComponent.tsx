@@ -38,6 +38,7 @@ const DateTimePickerComponent = ({ setDate, mode }: IProps) => {
       </TouchableOpacity>
 
       <DateTimePickerModal
+        maximumDate={new Date()}
         isVisible={isDatePickerVisible}
         mode={mode ? mode : 'datetime'}
         onConfirm={handleConfirm}
