@@ -6,6 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
   FlatList,
+  Dimensions,
 } from 'react-native';
 
 import Colors from '../assets/colors';
@@ -31,12 +32,12 @@ const TagsInsertComponent = ({ setTags, tags }: IProps) => {
   return (
     <View>
       <View style={styles.tagsContainer}>
-        <View style={styles.labelView}>
+        <View>
           <Text style={styles.labelText}>Tags:</Text>
         </View>
         <View style={styles.inputView}>
           <TextInput
-            placeholder="Create tag..."
+            placeholder="Create tags..."
             returnKeyType="done"
             value={input}
             onSubmitEditing={() => {
@@ -91,15 +92,19 @@ export default TagsInsertComponent;
 const styles = StyleSheet.create({
   tagsContainer: {
     flexDirection: 'row',
+    alignItems: 'center',
   },
-  labelView: {},
   labelText: {
-    fontSize: 16,
+    paddingBottom: 5,
+    fontWeight: 'bold',
   },
   inputView: {
     width: 200,
-    borderBottomWidth: 1,
+    borderWidth: 1,
     paddingLeft: 10,
+    marginLeft: 10,
+    marginRight: 5,
+    borderRadius: 8,
   },
   tagContainer: {
     paddingVertical: 10,

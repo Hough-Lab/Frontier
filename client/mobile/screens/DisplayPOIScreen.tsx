@@ -117,23 +117,27 @@ const DisplayPOIScreen = ({ route, navigation }: IProps) => {
                     />
                   )}
 
-                  <View>
+                  <View style={{ paddingLeft: 10 }}>
                     <Text style={styles.eventTitle}>{item.title}</Text>
                     <View style={styles.eventTime}>
                       <MaterialIcons
                         name="date-range"
                         size={20}
                         color="black"
+                        style={{ paddingRight: 10 }}
                       />
-                      <Text style={{ paddingLeft: 10 }}>
+                      <Text>
                         {moment(item.dateTo).format('Do MMMM, YYYY')}{' '}
                       </Text>
                     </View>
                     <View style={styles.eventTime}>
-                      <AntDesign name="clockcircleo" size={20} color="black" />
-                      <Text style={{ paddingLeft: 10 }}>
-                        {moment(item.dateTo).format('HH:mm')}{' '}
-                      </Text>
+                      <AntDesign
+                        name="clockcircleo"
+                        size={20}
+                        style={{ paddingRight: 10 }}
+                        color="black"
+                      />
+                      <Text>{moment(item.dateTo).format('HH:mm')} </Text>
                     </View>
                   </View>
                 </View>
@@ -161,9 +165,9 @@ const DisplayPOIScreen = ({ route, navigation }: IProps) => {
                     source={require('../assets/images/camera_icon.jpg')}
                   />
                 )}
-                <View>
+                <View style={styles.detailsContainer}>
                   <Text style={styles.eventTitle}>{item.title}</Text>
-                  <View style={{ paddingLeft: 7 }}>
+                  <View style={{ alignSelf: 'flex-start' }}>
                     <AirbnbRating
                       count={5}
                       defaultRating={item.rating}
@@ -172,11 +176,11 @@ const DisplayPOIScreen = ({ route, navigation }: IProps) => {
                       showRating={false}
                     />
                   </View>
-                  <View style={{ paddingLeft: 7 }}>
+                  <View style={{ alignSelf: 'flex-start' }}>
                     <StarRating
                       disabled={false}
                       starSize={10}
-                      starStyle={{ paddingHorizontal: 5 }}
+                      starStyle={{ paddingHorizontal: 3 }}
                       emptyStar={'shield-checkmark-outline'}
                       fullStar={'shield-checkmark-sharp'}
                       iconSet={'Ionicons'}
@@ -185,9 +189,7 @@ const DisplayPOIScreen = ({ route, navigation }: IProps) => {
                       fullStarColor={Colors.blue}
                     />
                   </View>
-                  <Text numberOfLines={1} style={{ paddingLeft: 10 }}>
-                    {item.description}
-                  </Text>
+                  <Text numberOfLines={1}>{item.description}</Text>
                 </View>
               </TouchableOpacity>
             ))}
@@ -203,8 +205,13 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     paddingBottom: 0,
+    backgroundColor: Colors.white,
   },
-
+  detailsContainer: {
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    paddingHorizontal: 10,
+  },
   eventsTipsBtnsContainer: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',
@@ -266,12 +273,10 @@ const styles = StyleSheet.create({
   },
   eventTime: {
     flexDirection: 'row',
-    paddingHorizontal: 10,
     paddingTop: 5,
     alignItems: 'center',
   },
   eventTitle: {
-    paddingHorizontal: 10,
     fontWeight: 'bold',
   },
 });

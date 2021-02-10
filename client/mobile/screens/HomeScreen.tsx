@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   LogBox,
   Dimensions,
+  Animated,
 } from 'react-native';
 import MapView, { Marker, Callout } from 'react-native-maps';
 import * as Location from 'expo-location';
@@ -20,6 +21,8 @@ import EventPopupComponent from '../components/EventPopupComponent';
 import { POI, POIArray, SystemState } from '../interfaces/reducerInterfaces';
 import SearchTagComponent from '../components/SearchTagComponent';
 import { filterPOIByTag } from '../utils/generalFunctions';
+import { getPOIById } from '../store/actions';
+import { applyAnimation } from '../utils/generalFunctions';
 
 LogBox.ignoreLogs([/MapView/g]);
 
@@ -35,6 +38,8 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
   const [filteredPOI, setFilteredPOI] = useState<POI[]>([]);
 
   const allPOI: POI[] = useSelector((state: SystemState) => state.allPOI);
+    
+  const dispatch = useDispatch();
 
   const [userLocation, setUserLocation] = useState({
     latitude: 51.507351,
@@ -92,7 +97,6 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
         .finally(() => setLoading(false));
     })();
   }, []);
-  console.log(filteredPOI.length, tags);
 
   return (
     <View style={styles.container}>
@@ -134,6 +138,9 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
                     }}
                     title={'PostgreSQL Party'}
                     // description={'Descriptions go here'}
+                    onPress={() => {
+                      dispatch(getPOIById(POI.pointOfInterestId));
+                    }}
                   >
                     <Callout
                       tooltip={true}
@@ -143,7 +150,7 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
                         });
                       }}
                     >
-                      <EventPopupComponent />
+                      <EventPopupComponent POI={POI} />
                     </Callout>
                   </Marker>
                 );

@@ -69,10 +69,12 @@ function TipLike({ review, user }: IProps) {
   };
 
   return (
+
     <View style={styles.likeButtonsContainer}>
       <Text style={{ paddingTop: 10 }}>
         {calculateTipLikes()} travellers found this tip helpful
       </Text>
+
       <View style={styles.helpfulTip}>
         <TouchableOpacity onPress={pressLikeReview}>
           <AntDesign
@@ -101,7 +103,7 @@ const styles = StyleSheet.create({
   },
   helpfulTip: {
     flexDirection: 'row',
-    paddingTop: 10,
+    paddingTop: 20,
   },
   likeButtonsContainer: {
     marginTop: 20,

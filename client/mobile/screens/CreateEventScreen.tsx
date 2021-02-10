@@ -8,6 +8,7 @@ import {
   TextInput,
   Switch,
   Platform,
+  Dimensions,
 } from 'react-native';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { useDispatch } from 'react-redux';
@@ -22,6 +23,7 @@ import TagsInsertComponent from '../components/TagsInsertComponent';
 import GooglePlacesInput from '../components/GooglePlacesInput';
 import dayjs from 'dayjs';
 import DateTimePickerComponent from '../components/DateTimePickerComponent';
+import { applyAnimation } from '../utils/generalFunctions';
 
 import { numbers } from '../assets/numbers';
 
@@ -55,40 +57,6 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
   const [capacity, setCapacity] = useState<number>();
   const [tags, setTags] = useState<string[]>([]);
 
-  const [isDatePickerShow, setIsDatePickerShow] = useState(false);
-  const [date, setDate] = useState(new Date(Date.now()));
-  const [isDateSelected, setIsDateSelected] = useState(false);
-
-  const [time, setTime] = useState(new Date(Date.now()));
-  const [isTimeSelected, setIsTimeSelected] = useState(false);
-  const [isTimePickerShow, setIsTimePickerShow] = useState(false);
-
-  const showDatePicker = () => {
-    setIsDatePickerShow(true);
-  };
-
-  const showTimePicker = () => {
-    setIsTimePickerShow(true);
-  };
-
-  const onChangeDate = (selectedDate: Date) => {
-    const currentDate = selectedDate || date;
-    setDate(currentDate);
-    if (Platform.OS === 'android') {
-      setIsDatePickerShow(false);
-    }
-    setIsDateSelected(true);
-  };
-
-  const onChangeTime = (selectedTime: any) => {
-    const currentTime = selectedTime || time;
-    setTime(currentTime);
-    if (Platform.OS === 'android') {
-      setIsTimePickerShow(false);
-    }
-    setIsTimeSelected(true);
-  };
-
   const dispatch = useDispatch();
 
   const handleSubmit = useCallback(async () => {
@@ -115,12 +83,21 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
 
   return (
     <ScrollView style={styles.container} keyboardShouldPersistTaps="always">
-      <UploadImageComponent setImage={setImage} image={image} />
+      <UploadImageComponent
+        setImage={setImage}
+        image={image}
+        pictureStyle={{
+          width: Dimensions.get('window').width - 20,
+          height: 190,
+          borderRadius: 30,
+          alignSelf: 'center',
+        }}
+      />
       <TagsInsertComponent setTags={setTags} tags={tags} />
 
       {/* Event title and location*/}
       <View style={styles.eventTitleView}>
-        {/* <MaterialIcons name="event" size={24} color="black" /> */}
+        <Text style={styles.labelText}>Event title:</Text>
         <View style={styles.inputView}>
           <TextInput
             placeholder="Title"
@@ -134,11 +111,12 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
 
       {/* Date From section */}
       <View style={styles.datePicker}>
-        <Text style={styles.datePickerLabel}>FROM: </Text>
+        <Text style={styles.datePickerLabel}>From: </Text>
         <Text style={styles.datePickerText}>
           {moment(inputValues.dateFrom).format('Do MMMM, YYYY [at] HH:mm')}
         </Text>
         <DateTimePickerComponent
+          mode="datetime"
           setDate={(selectedDate: string) =>
             setInputValues({ ...inputValues, dateFrom: selectedDate })
           }
@@ -147,11 +125,12 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
 
       {/* Date To section */}
       <View style={styles.datePicker}>
-        <Text style={styles.datePickerLabel}>TO: </Text>
+        <Text style={styles.datePickerLabel}>To: </Text>
         <Text style={styles.datePickerText}>
           {moment(inputValues.dateTo).format('Do MMMM, YYYY [at] HH:mm')}
         </Text>
         <DateTimePickerComponent
+          mode="datetime"
           setDate={(selectedDate: string) =>
             setInputValues({ ...inputValues, dateTo: selectedDate })
           }
@@ -164,7 +143,8 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
       </View>
 
       {/* Description section */}
-      <View style={{ paddingTop: 20 }}>
+      <View style={{ paddingTop: 10 }}>
+        <Text style={styles.descriptionTitle}>Event description:</Text>
         <View style={styles.descriptionView}>
           <TextInput
             placeholder="Add a description for the event..."
@@ -181,10 +161,10 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
       {/* capacity of event */}
 
       <View style={styles.eventCapacity}>
-        <Text style={{ paddingRight: 10 }}>Maximum capacity of event</Text>
+        <Text style={{ fontWeight: 'bold' }}>Maximum capacity of event:</Text>
         <Picker
           selectedValue={capacity}
-          style={{ height: 50, width: '40%' }}
+          style={{ marginLeft: 10, width: '30%' }}
           onValueChange={(value: number, itemIndex: number) => {
             setCapacity(value);
             setInputValues({ ...inputValues, maxCapacity: value });
@@ -198,7 +178,7 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
 
       {/* privacy of event */}
       <View style={styles.isPrivate}>
-        <Text>Private event</Text>
+        <Text style={styles.privateEvent}>Private event</Text>
         <Switch
           trackColor={{ false: '#767577', true: '#81b0ff' }}
           thumbColor={inputValues.isPrivate ? Colors.blue : '#f4f3f4'}
@@ -227,37 +207,43 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 30,
+    backgroundColor: 'white',
   },
   tagsContainer: {
     flexDirection: 'row',
   },
-  labelView: {},
   labelText: {
-    fontSize: 16,
+    paddingBottom: 5,
+    fontWeight: 'bold',
   },
   inputView: {
     width: 200,
-    borderBottomWidth: 1,
+    marginLeft: 10,
+    borderBottomWidth: 0.5,
     paddingLeft: 10,
+  },
+  descriptionTitle: {
+    paddingBottom: 5,
+    fontWeight: 'bold',
   },
   eventTitleView: {
     paddingTop: 30,
+    paddingBottom: 20,
     flexDirection: 'row',
-    justifyContent: 'center',
+    alignItems: 'center',
   },
   datePicker: {
     flexDirection: 'row',
     paddingTop: 20,
-    justifyContent: 'center',
     alignItems: 'center',
   },
   datePickerLabel: {
-    color: Colors.blue,
+    color: 'black',
     fontWeight: 'bold',
   },
   datePickerText: {
     color: 'black',
-    paddingHorizontal: 5,
+    paddingHorizontal: 15,
   },
   createBtn: {
     width: 150,
@@ -280,6 +266,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingTop: 20,
+  },
+  privateEvent: {
+    fontWeight: 'bold',
+    paddingRight: 10,
   },
   descriptionView: {
     borderWidth: 1,
