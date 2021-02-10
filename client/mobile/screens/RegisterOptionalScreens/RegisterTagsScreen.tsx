@@ -16,17 +16,24 @@ import { Navigation } from '../../interfaces/interfaces';
 import TagsInsertComponent from '../../components/TagsInsertComponent';
 
 const RegisterTagsScreen = ({ navigation }: { navigation: Navigation }) => {
-  const tags = ['aa'];
+  const [inputValues, setInputValues] = useState({
+    tags: [''],
+  });
 
   const dispatch = useDispatch();
 
   const handleSubmit = useCallback(async () => {
-    if (tags !== []) {
-      // await dispatch(editUserProfile({ userTags: tags }));
-      // dispatch(getAllPOI());
-      navigation.navigate('RegisterProfilePicScreen');
-    }
-  }, [tags]);
+    await dispatch(editUserProfile({ userTags: inputValues.tags }));
+    dispatch(getAllPOI());
+    navigation.navigate('RegisterProfilePicScreen');
+  }, [inputValues]);
+
+  const getTags = (tags: string[]) => {
+    setInputValues({
+      ...inputValues,
+      tags: tags,
+    });
+  };
 
   return (
     <View style={styles.container}>
@@ -39,14 +46,8 @@ const RegisterTagsScreen = ({ navigation }: { navigation: Navigation }) => {
           <Text style={styles.labelText}>Create tags that describe you?</Text>
         </View>
         <View style={styles.inputContainer}>
-          <TextInput placeholder="Tag name" />
-          <TouchableOpacity onPress={() => {}}>
-            <AntDesign name="pluscircleo" size={24} color="black" />
-          </TouchableOpacity>
+          <TagsInsertComponent getTags={getTags} />
         </View>
-
-        {/* add the below once  have the action "edit user" */}
-        {/* <TagsInsertComponent getTags={getTags} /> */}
       </View>
 
       <View style={styles.bottomBtnsContainer}>
@@ -102,8 +103,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     borderRadius: 30,
-    borderBottomWidth: 1,
-    height: 45,
     width: '70%',
     marginBottom: 20,
     padding: 5,

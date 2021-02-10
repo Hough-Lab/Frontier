@@ -3,9 +3,12 @@ import {
   StyleSheet,
   Text,
   View,
+  Image,
   ScrollView,
   TouchableOpacity,
   ActivityIndicator,
+  Dimensions,
+  FlatList,
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { RouteProp } from '@react-navigation/native';
@@ -18,12 +21,14 @@ dayjs.extend(calendar);
 
 import EventAttendance from '../components/EventAttendanceComponent';
 import Colors from '../assets/colors';
+
 import { Event, POI, SystemState, User } from '../interfaces/reducerInterfaces';
+
 import { Navigation } from '../interfaces/interfaces';
 import { getEventById, getPOIById } from '../store/actions';
 
 type RootStackParamList = {
-  DisplayEventScreen: { eventId: string };
+  DisplayEventScreen: { eventId: string; pointOfInterestId: string };
 };
 
 type DisplayEventScreenRouteProp = RouteProp<
@@ -41,14 +46,12 @@ const DisplayEventScreen = ({ route, navigation }: IProps) => {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {}, [eventId]);
-
   useEffect(() => {
-    const getReview = async () => {
+    const getEvent = async () => {
       await dispatch(getEventById(eventId));
       dispatch(getPOIById(event.pointOfInterestId));
     };
-    getReview();
+    getEvent();
   }, [eventId]);
 
   const event: Event = useSelector((state: SystemState) => state.event);
@@ -56,43 +59,47 @@ const DisplayEventScreen = ({ route, navigation }: IProps) => {
   const user: User = useSelector((state: SystemState) => state.user);
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={{ flex: 1 }}>
       {event.title !== '' ? (
         <View style={styles.container}>
-          <ScrollView>
-            <Text style={styles.eventTitle}>{event && event.title}</Text>
-            <View style={styles.eventTime}>
-              <MaterialIcons name="date-range" size={20} color="black" />
-              <Text style={{ paddingLeft: 10 }}>
-                From: {dayjs(event.dateFrom).format('DD MMMM, YYYY [at] HH:mm')}
-              </Text>
-            </View>
-            <View style={styles.eventTime}>
-              {/* <MaterialIcons name="date-range" size={20} color="black" /> */}
-              <Text style={{ paddingLeft: 10 }}>
-                To: {dayjs(event.dateTo).format('DD MMMM, YYYY [at] HH:mm')}
-              </Text>
-            </View>
+          <Text style={styles.eventTitle}>{event && event.title}</Text>
+          <View style={styles.eventTime}>
+            <MaterialIcons name="date-range" size={20} color="black" />
+            <Text style={{ paddingLeft: 10, fontWeight: 'bold' }}>
+              From: {dayjs(event.dateFrom).format('DD MMMM, YYYY [at] HH:mm')}
+            </Text>
+          </View>
+          <View style={styles.eventTime}>
+            {/* <MaterialIcons name="date-range" size={20} color="black" /> */}
+            <Text
+              style={{ paddingLeft: 30, paddingBottom: 10, fontWeight: 'bold' }}
+            >
+              To: {dayjs(event.dateTo).format('DD MMMM, YYYY [at] HH:mm')}
+            </Text>
+          </View>
 
-            {/* {event.tags && (
-              <View style={styles.tagsContainer}>
-                <Text>tag</Text>
-                to be replaced by the below once the tags are part of the event 
-                 <View style={styles.tagContainer}>
-        <FlatList
-          horizontal={true}
-          data={event.tags}
-          renderItem={({ item }) => (
-            <View style={styles.tag}>
-              <Text style={styles.tagText}>{item}</Text>
+          {event.tags && (
+            <View style={styles.tagContainer}>
+              {/* <Text>tags</Text> */}
+              <FlatList
+                horizontal={true}
+                data={event.tags}
+                renderItem={({ item, index }) => (
+                  <View key={index} style={styles.tag}>
+                    <Text style={styles.tagText}>{item}</Text>
+                  </View>
+                )}
+                keyExtractor={(item) => item}
+              />
             </View>
           )}
-          keyExtractor={(item) => item.key}
-        />
-      </View>
-              </View>
-            )} */}
 
+          {event?.picture ? (
+            <Image
+              source={{ uri: event.picture }}
+              style={styles.upLoadedPicture}
+            />
+          ) : (
             <View style={styles.uploadImageArea}>
               <TouchableOpacity
                 style={styles.uploadImageBtn}
@@ -101,47 +108,51 @@ const DisplayEventScreen = ({ route, navigation }: IProps) => {
                 <Entypo name="image" size={50} color="black" />
               </TouchableOpacity>
             </View>
+          )}
 
-            <MapView
-              style={styles.uploadImageArea}
-              initialRegion={{
+          <MapView
+            style={styles.uploadImageArea}
+            initialRegion={{
+              latitude: +POI.latitude,
+              longitude: +POI.longitude,
+              latitudeDelta: 0.0122,
+              longitudeDelta:
+                (Dimensions.get('window').width /
+                  Dimensions.get('window').height) *
+                0.0122,
+            }}
+          >
+            <Marker
+              coordinate={{
                 latitude: +POI.latitude,
                 longitude: +POI.longitude,
-                latitudeDelta: 0.0922,
-                longitudeDelta: 0.0421,
               }}
-            >
-              <Marker
-                coordinate={{
-                  latitude: +POI.latitude,
-                  longitude: +POI.longitude,
-                }}
-                title={'A place'}
-                description={'Descriptions go here'}
-              />
-            </MapView>
+              title={event.title}
+              description={event.description}
+            />
+          </MapView>
 
-            <View style={styles.description}>
-              <Text style={styles.descriptionText}>{event.description}</Text>
+          <Text style={styles.descriptionTitle}>Event Description:</Text>
+          <View style={styles.description}>
+            <Text style={styles.descriptionText}>{event.description}</Text>
+          </View>
+
+          {event.maxCapacity && (
+            <View style={styles.capacity}>
+              <Text style={styles.capacityText}>
+                Maximum capacity of event: {event.maxCapacity} people
+              </Text>
             </View>
+          )}
 
-            {event.maxCapacity && (
-              <View style={styles.capacity}>
-                <Text style={styles.capacityText}>
-                  Maximum capacity of event: {event.maxCapacity} people
-                </Text>
-              </View>
-            )}
-
-            <EventAttendance event={event} user={user} />
-          </ScrollView>
+          <EventAttendance event={event} user={user} />
         </View>
       ) : (
         <View style={styles.loader}>
           <ActivityIndicator size="large" color={Colors.pink} />
         </View>
       )}
-    </View>
+    </ScrollView>
   );
 };
 
@@ -150,7 +161,9 @@ export default DisplayEventScreen;
 const styles = StyleSheet.create({
   eventTitle: {
     fontWeight: 'bold',
-    paddingVertical: 5,
+    paddingTop: 10,
+    paddingBottom: 5,
+    fontSize: 30,
   },
   container: {
     flex: 1,
@@ -164,44 +177,54 @@ const styles = StyleSheet.create({
   tagContainer: {
     paddingVertical: 10,
   },
+  descriptionTitle: {
+    paddingBottom: 5,
+    fontWeight: 'bold',
+  },
   tag: {
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 20,
+    borderRadius: 5,
+    flexDirection: 'row',
     backgroundColor: Colors.pink,
     height: 20,
     width: 'auto',
+    marginRight: 5,
   },
   tagText: {
     color: Colors.white,
     padding: 10,
     fontSize: 10,
   },
+  tagLine: {
+    color: Colors.white,
+    fontSize: 10,
+  },
   description: {
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 8,
-    backgroundColor: Colors.pink,
+    borderColor: Colors.blue,
+    borderWidth: 1,
+    elevation: 1,
+    backgroundColor: 'white',
     height: 'auto',
     width: '100%',
   },
   descriptionText: {
-    color: Colors.white,
+    color: 'black',
     padding: 15,
     textAlign: 'justify',
   },
   capacity: {
     flexDirection: 'row',
-    // justifyContent: 'center',
-    alignItems: 'center',
-    // borderRadius: 8,
-    // backgroundColor: Colors.pink,
+    // alignItems: 'center',
     height: 'auto',
     width: '100%',
   },
   capacityText: {
-    // color: Colors.white,
-    padding: 15,
+    paddingVertical: 15,
+    fontWeight: 'bold',
     textAlign: 'justify',
   },
   tagsContainer: {
@@ -217,8 +240,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'center',
     backgroundColor: Colors.grey,
-    padding: 20,
-    marginVertical: 20,
+    // padding: 20,
+    marginBottom: 20,
     borderRadius: 8,
   },
   uploadImageBtn: {
@@ -244,5 +267,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingTop: 5,
     alignItems: 'center',
+  },
+  upLoadedPicture: {
+    width: '100%',
+    height: 150,
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+    padding: 20,
+    marginVertical: 20,
+    borderRadius: 8,
   },
 });

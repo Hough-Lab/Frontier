@@ -9,19 +9,25 @@ interface IProps {
   formattedAddress: String;
   averageRating: number;
   averageSafetyRating: number;
+  POIImage: string;
 }
 
 const POIImageComponent = ({
   formattedAddress,
   averageRating,
   averageSafetyRating,
+  POIImage,
 }: IProps) => {
   return (
     <View style={styles.imageArea}>
-      <Image
-        style={styles.imageBackdrop}
-        source={require('../assets/images/placeholder.jpg')}
-      />
+      {typeof POIImage !== 'undefined' ? (
+        <Image style={styles.imageBackdrop} source={{ uri: POIImage }} />
+      ) : (
+        <Image
+          style={styles.imageBackdrop}
+          source={require('../assets/images/placeholder-image10.jpg')}
+        />
+      )}
       <View style={styles.titleView}>
         <Text style={styles.title}>{formattedAddress}</Text>
         {/* <Text style={styles.titleLocation}>23 Long Road, London, AB12 3CD</Text> */}
@@ -29,8 +35,8 @@ const POIImageComponent = ({
       <View style={styles.ratings}>
         <View style={styles.starsView}>
           <StarRating
-            disabled={false}
-            starSize={35}
+            disabled={true}
+            starSize={30}
             starStyle={{ paddingHorizontal: 5 }}
             emptyStar={'shield-checkmark-outline'}
             fullStar={'shield-checkmark-sharp'}
@@ -40,7 +46,7 @@ const POIImageComponent = ({
             fullStarColor={Colors.blue}
           />
         </View>
-        <View style={styles.starsView}>
+        <View style={styles.starsSafety}>
           <AirbnbRating
             count={5}
             defaultRating={averageRating}
@@ -63,7 +69,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
-    backgroundColor: Colors.grey,
+    // backgroundColor: Colors.grey,
     marginTop: 40,
     marginBottom: 20,
     borderRadius: 10,
@@ -75,7 +81,7 @@ const styles = StyleSheet.create({
   },
   titleView: {
     position: 'absolute',
-    backgroundColor: Colors.blue,
+    backgroundColor: Colors.green,
     borderRadius: 10,
     padding: 10,
     width: 'auto',
@@ -92,12 +98,19 @@ const styles = StyleSheet.create({
   },
   starsView: {
     position: 'absolute',
-    paddingVertical: 20,
+    // paddingVertical: 20,
     paddingLeft: 5,
-    bottom: -10,
-    left: 20,
+    bottom: 50,
+    left: -160,
+  },
+  starsSafety: {
+    position: 'absolute',
+    // paddingVertical: 20,
+    paddingLeft: 5,
+    bottom: 10,
+    left: -160,
   },
   ratings: {
-    paddingBottom: 20,
+    // paddingBottom: 10,
   },
 });

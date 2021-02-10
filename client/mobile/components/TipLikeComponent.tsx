@@ -26,17 +26,21 @@ interface IProps {
 function TipLike({ review, user }: IProps) {
   const dispatch = useDispatch();
 
+  const calculateTipLikes = () => {
+    return review.likedBy.length - review.dislikedBy.length;
+  };
+
   const iconLikeColor = () => {
     if (review?.likedBy?.indexOf(user.userId) !== -1) {
-      return Colors.pink;
+      return Colors.blue;
     } else {
       return Colors.grey;
     }
   };
 
   const iconDislikeColor = () => {
-    if (review?.likedBy?.indexOf(user.userId) !== -1) {
-      return Colors.blue;
+    if (review?.dislikedBy?.indexOf(user.userId) !== -1) {
+      return Colors.pink;
     } else {
       return Colors.grey;
     }
@@ -65,16 +69,28 @@ function TipLike({ review, user }: IProps) {
   };
 
   return (
-    <View>
+
+    <View style={styles.likeButtonsContainer}>
       <Text style={{ paddingTop: 10 }}>
-        xx other travellers found this tip helpful
+        {calculateTipLikes()} travellers found this tip helpful
       </Text>
+
       <View style={styles.helpfulTip}>
         <TouchableOpacity onPress={pressLikeReview}>
-          <AntDesign name="like2" size={30} color={iconLikeColor()} />
+          <AntDesign
+            name="like2"
+            style={styles.icon}
+            size={35}
+            color={iconLikeColor()}
+          />
         </TouchableOpacity>
         <TouchableOpacity onPress={pressDislikeReview}>
-          <AntDesign name="dislike2" size={30} color={iconDislikeColor()} />
+          <AntDesign
+            name="dislike2"
+            style={styles.icon}
+            size={35}
+            color={iconDislikeColor()}
+          />
         </TouchableOpacity>
       </View>
     </View>
@@ -83,12 +99,16 @@ function TipLike({ review, user }: IProps) {
 
 const styles = StyleSheet.create({
   icon: {
-    paddingHorizontal: 15,
-    paddingVertical: 5,
+    padding: 20,
   },
   helpfulTip: {
     flexDirection: 'row',
-    paddingTop: 10,
+    paddingTop: 20,
+  },
+  likeButtonsContainer: {
+    marginTop: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

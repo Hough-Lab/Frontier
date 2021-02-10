@@ -1,7 +1,5 @@
-import React, { useRef, useState, useEffect } from 'react';
-import { Text, StyleSheet, View } from 'react-native';
+import React from 'react';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import { getLocation, geocodeLocationByName } from '../utils/locationService';
 import { GoogleKey } from '../config';
 
 import Colors from '../assets/colors';
@@ -13,10 +11,6 @@ const GooglePlacesInput = ({ getLocation }: { getLocation: Function }) => {
       minLength={2}
       fetchDetails={true}
       onPress={(data, details) => {
-        // 'details' is provided when fetchDetails = true
-        // console.log('pressed');
-        // console.log('DATA', data);
-        // console.log('DETAILS', details);
         getLocation(
           details?.formatted_address,
           details?.geometry.location.lat,
@@ -31,6 +25,10 @@ const GooglePlacesInput = ({ getLocation }: { getLocation: Function }) => {
         predefinedPlacesDescription: {
           color: Colors.pink,
         },
+        textInput: {
+          backgroundColor: '#f5f3f4',
+          borderRadius: 8,
+        },
       }}
       query={{
         key: GoogleKey,
@@ -41,5 +39,3 @@ const GooglePlacesInput = ({ getLocation }: { getLocation: Function }) => {
 };
 
 export default GooglePlacesInput;
-
-const styles = StyleSheet.create({});

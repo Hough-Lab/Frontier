@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   Platform,
   UIManager,
+  Animated,
 } from 'react-native';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
@@ -26,9 +27,18 @@ import { applyAnimation } from '../utils/generalFunctions';
 import Colors from '../assets/colors';
 import { countriesList, languagesList } from '../assets/countries';
 import DateTimePickerComponent from '../components/DateTimePickerComponent';
-import { logoutUser } from '../store/actions';
+import {
+  getEventsAttending,
+  getEventsInterested,
+  logoutUser,
+} from '../store/actions';
 
 const UserProfileScreen = ({ navigation }: { navigation: Navigation }) => {
+  useEffect(() => {
+    dispatch(getEventsAttending());
+    dispatch(getEventsInterested());
+  }, []);
+
   if (Platform.OS === 'android') {
     if (UIManager.setLayoutAnimationEnabledExperimental) {
       UIManager.setLayoutAnimationEnabledExperimental(true);
