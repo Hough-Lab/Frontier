@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
   StyleSheet,
   View,
@@ -18,7 +18,9 @@ import Colors from '../assets/colors';
 import { Navigation } from '../interfaces/interfaces';
 import SearchBtnComponent from '../components/SearchBtnComponent';
 import EventPopupComponent from '../components/EventPopupComponent';
-import { POI, SystemState } from '../interfaces/reducerInterfaces';
+import { POI, POIArray, SystemState } from '../interfaces/reducerInterfaces';
+import SearchTagComponent from '../components/SearchTagComponent';
+import { filterPOIByTag } from '../utils/generalFunctions';
 import { getPOIById } from '../store/actions';
 import { applyAnimation } from '../utils/generalFunctions';
 
@@ -32,7 +34,11 @@ export interface ISeenOnMap {
 }
 
 const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
-  const allPOI: any = useSelector((state: SystemState) => state.allPOI);
+  const [tags, setTags] = useState<string[]>([]);
+  const [filteredPOI, setFilteredPOI] = useState<POI[]>([]);
+
+  const allPOI: POI[] = useSelector((state: SystemState) => state.allPOI);
+    
   const dispatch = useDispatch();
 
   const [userLocation, setUserLocation] = useState({
@@ -68,6 +74,7 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
         setErrorMsg('Permission to access location was denied');
         return;
       }
+      await setFilteredPOI(filterPOIByTag(allPOI, tags));
 
       Location.getCurrentPositionAsync({})
         .then((location) => {
@@ -120,14 +127,14 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
             }}
             region={seenOnMap}
           >
-            {Object.keys(allPOI)[0] !== 'POI' &&
-              allPOI?.map((POI: POI, index: number) => {
+            {allPOI?.length > 0 &&
+              allPOI?.map((POI: POI) => {
                 return (
                   <Marker
                     key={POI.pointOfInterestId}
                     coordinate={{
-                      latitude: +POI.latitude,
-                      longitude: +POI.longitude,
+                      latitude: +POI?.latitude,
+                      longitude: +POI?.longitude,
                     }}
                     title={'PostgreSQL Party'}
                     // description={'Descriptions go here'}
@@ -159,6 +166,7 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
       </View>
 
       <SearchBtnComponent setSeenOnMap={setSeenOnMap} />
+      <SearchTagComponent setTags={setTags} tags={tags} />
     </View>
   );
 };
