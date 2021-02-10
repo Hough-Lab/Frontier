@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import "./CreateTipScreen.css";
-import { handleImageUpload } from "../../components/UploadImageComponent/UploadImageComponent";
+import UploadImageComponent from "../../components/UploadImageComponent/UploadImageComponent";
 import { StarRating } from "../../components/StarComponent/StarComponent";
 
 interface Tag {
@@ -37,6 +37,7 @@ export function CreateTipScreen() {
   const [selectedTags, setSelectedTags] = useState(emptyTagsArray);
   const [recommendedTags, setRecommendedTags] = useState(mockArrayTags);
   const [eventObject, setEventObject] = useState(emptyEventObject);
+  const [image, setImage] = useState("");
 
   const handleInputChange = (
     e:
@@ -109,14 +110,7 @@ export function CreateTipScreen() {
       <form onSubmit={handleSubmit}>
         <div className="photoUploadContainer">
           <label className="eventScreenLabel">Upload Photo</label>
-          <input
-            name="picture"
-            type="file"
-            accept="image/*"
-            onClick={handleImageUpload}
-            multiple={false}
-            onChange={handleInputChange}
-          />
+          <UploadImageComponent setImage={setImage} />
         </div>
 
         <div className="titleInputContainer">

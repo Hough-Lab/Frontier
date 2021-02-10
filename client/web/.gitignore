@@ -26,4 +26,4 @@ package-lock.json
 eslintcache
 .eslintrc.js
 .prettierrc.js
-googleConfig.js
+src/config.ts

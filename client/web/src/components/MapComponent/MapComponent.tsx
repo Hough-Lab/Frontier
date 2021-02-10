@@ -1,4 +1,4 @@
-import { GoogleKey } from "../../googleConfig";
+import { GoogleKey } from "../../config";
 import { useSelector, useDispatch } from "react-redux";
 import React, { useState, useEffect } from "react";
 import {

@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { createEvent, getAllPOI } from "../../store/actions";
-import { handleImageUpload } from "../../components/UploadImageComponent/UploadImageComponent";
+import UploadImageComponent from "../../components/UploadImageComponent/UploadImageComponent";
 import { StandaloneSearchBox } from "@react-google-maps/api";
 
 import "./CreateEventScreen.css";
+
+interface HTMLInputEvent extends Event {
+  target: HTMLInputElement & EventTarget;
+}
 
 let mockArrayTags: string[] = ["Food", "Adventure", "Nature"];
 
@@ -31,6 +35,7 @@ export const CreateEventScreen = () => {
   const [recommendedTags, setRecommendedTags] = useState(mockArrayTags);
   const [eventObject, setEventObject] = useState(emptyEventObject);
   const [searchBox, setSearchBox] = useState(initalSearchBox);
+  const [image, setImage] = useState("");
 
   const dispatch = useDispatch();
 
@@ -43,6 +48,8 @@ export const CreateEventScreen = () => {
     setEventObject({ ...eventObject, [name]: value });
   };
 
+  const handleImageChange = (e: HTMLInputEvent) => {};
+
   useEffect(() => {
     setEventObject({ ...eventObject, tags: selectedTags });
   }, [selectedTags]);
@@ -51,7 +58,6 @@ export const CreateEventScreen = () => {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent> | any
   ) => {
     e.preventDefault();
-    console.log("eventObject :>> ", eventObject);
     await dispatch(
       createEvent(
         eventObject.title,
@@ -63,7 +69,7 @@ export const CreateEventScreen = () => {
         eventObject.description,
         eventObject.maxCapacity,
         eventObject.isPrivate,
-        eventObject.picture,
+        image,
         eventObject.tags
       )
     );
@@ -144,14 +150,7 @@ export const CreateEventScreen = () => {
           <form onSubmit={handleSubmit}>
             <div className="photoUploadContainer">
               <label className="eventScreenLabel">Upload Photo</label>
-              <input
-                name="picture"
-                type="file"
-                accept="image/*"
-                onClick={handleImageUpload}
-                multiple={false}
-                onChange={handleInputChange}
-              />
+              <UploadImageComponent setImage={setImage} />
             </div>
 
             <div className="titleInputContainer">

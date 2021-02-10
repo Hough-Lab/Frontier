@@ -30,11 +30,8 @@ export const loginUser = (
     );
     dispatch({ type: GET_CURRENT_USER, payload: data.user });
 
-    try {
-      await localStorage.setItem("jwtToken", data.token);
-    } catch (e) {
-      console.log(e);
-    }
+    await localStorage.setItem("jwtToken", data.token);
+    console.log(localStorage);
 
     if (data.user.firstName) {
       navigation.navigate("MainStackNavigator", { screen: "HomeScreen" });
