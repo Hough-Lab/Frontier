@@ -1,4 +1,14 @@
-
+googleConfig.js
 node_modules
 .DS_Store
 client/.DS_Store
+server/src/config.js
+.prettierrc.js
+client/web/package-lock.json
+.eslintcache
+.prettierrc.js
+.eslintrc.js
+config.js
+client/web/.eslintcache
+client/web/package-lock.json
+/client/web/src/googleConfig.js

@@ -1,4 +1,7 @@
 node_modules/**/*
+package-lock.json
+.env
+config.ts
 .expo/*
 npm-debug.*
 *.jks
@@ -8,7 +11,11 @@ npm-debug.*
 *.mobileprovision
 *.orig.*
 web-build/
+package-lock.json
+.eslintrc.js
+.prettierrc.js
+configExemple.ts
+package.json
 
 # macOS
 .DS_Store
-
