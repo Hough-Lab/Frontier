@@ -80,7 +80,7 @@ const TagsInsertComponent = ({ setTags, tags }: IProps) => {
               </TouchableOpacity>
             </View>
           )}
-          keyExtractor={(item) => item.key}
+          keyExtractor={(item) => item}
         />
       </View>
     </View>

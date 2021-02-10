@@ -1,4 +1,3 @@
-
 import React, { useState, useCallback } from 'react';
 import {
   StyleSheet,
@@ -122,4 +121,3 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
-

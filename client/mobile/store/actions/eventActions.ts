@@ -59,8 +59,6 @@ export const createEvent = (
       // The axios request will return the event. Only if the object returned by the server has a property 'title', meaning that it is an event
       // and not an error, it will take the user to the event detail screen
       if (data.title) {
-        const dispatch = useDispatch();
-        dispatch(getEventsAttending());
         navigation.navigate('DisplayEventScreen', {
           eventId: data.eventId,
         });
@@ -105,11 +103,6 @@ export const markAsInterested = (eventId: string) => async (
         `${REACT_APP_SERVER_URI}/api/event/markEventAsInterested/${eventId}`,
       );
       dispatch({ type: GET_CURRENT_EVENT, payload: data });
-
-      if (data) {
-        const dispatch = useDispatch();
-        dispatch(getEventsInterested());
-      }
     }
   } catch (e) {
     console.log(e);
@@ -128,11 +121,6 @@ export const undoMarkAsInterested = (eventId: string) => async (
         `${REACT_APP_SERVER_URI}/api/event/undo/markEventAsInterested/${eventId}`,
       );
       dispatch({ type: GET_CURRENT_EVENT, payload: data });
-
-      if (data) {
-        const dispatch = useDispatch();
-        dispatch(getEventsInterested());
-      }
     }
   } catch (e) {
     console.log(e);
@@ -151,11 +139,6 @@ export const markAsGoing = (eventId: string) => async (
         `${REACT_APP_SERVER_URI}/api/event/attendEvent/${eventId}`,
       );
       dispatch({ type: GET_CURRENT_EVENT, payload: data });
-
-      if (data) {
-        const dispatch = useDispatch();
-        dispatch(getEventsAttending());
-      }
     }
   } catch (e) {
     console.log(e);
@@ -174,11 +157,6 @@ export const undoMarkAsGoing = (eventId: string) => async (
         `${REACT_APP_SERVER_URI}/api/event/undo/attendEvent/${eventId}`,
       );
       dispatch({ type: GET_CURRENT_EVENT, payload: data });
-
-      if (data) {
-        const dispatch = useDispatch();
-        dispatch(getEventsAttending());
-      }
     }
   } catch (e) {
     console.log(e);

@@ -13,8 +13,7 @@ export interface SystemState {
   allPOI: POI[];
   error: string;
   eventsInterested: Event[];
-  eventsAttending: Event[]
-
+  eventsAttending: Event[];
 }
 
 export interface User {
