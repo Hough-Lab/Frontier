@@ -23,7 +23,6 @@ export function LoginScreen() {
   const history = useHistory();
 
   const handleNavBarClick = (pathString: string) => {
-    console.log("in HandleNavClick");
     history.push(pathString);
   };
 
@@ -32,18 +31,22 @@ export function LoginScreen() {
     setLoginValues({ ...loginValues, [name]: value });
   };
 
-  const handleSubmit = useCallback(async () => {
+  const handleSubmit = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent> | any
+  ) => {
+    e.preventDefault();
     setErrMsg("");
     setErrMsg(validateLogin(loginValues));
     try {
       await dispatch(loginUser(loginValues.email, loginValues.password));
       dispatch(getAllPOI());
+      history.push("/");
     } catch (e) {
+      console.log(e);
+
       setErrMsg("Invalid username or password.");
     }
-  }, [loginValues]);
-
-  console.log("errMsg", errMsg);
+  };
 
   // const Logo = () => {
   //   useEffect(() => {
@@ -81,7 +84,7 @@ export function LoginScreen() {
           <button
             className="registerButton"
             type="submit"
-            onClick={() => handleNavBarClick("/")}
+            onClick={handleSubmit}
           >
             Login
           </button>
