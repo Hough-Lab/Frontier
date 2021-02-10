@@ -1,15 +1,17 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { registerUser, getAllPOI } from '../../store/actions';
-import './RegisterScreen.css';
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { registerUser, getAllPOI } from "../../store/actions";
+import { useHistory } from "react-router-dom";
+import "./RegisterScreen.css";
+import Map from "../../assets/images/map.png";
 
 const emptyUserObject = {
-  email: '',
-  password: '',
-  confirmPassword: '',
-  username: '',
-  firstName: '',
-  lastName: '',
+  email: "",
+  password: "",
+  confirmPassword: "",
+  username: "",
+  firstName: "",
+  lastName: "",
 };
 
 export function RegisterScreen() {
@@ -22,7 +24,7 @@ export function RegisterScreen() {
   };
 
   const handleSubmit = async (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent> | any,
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent> | any
   ) => {
     e.preventDefault();
     await dispatch(
@@ -32,14 +34,22 @@ export function RegisterScreen() {
         userObject.confirmPassword,
         userObject.username,
         userObject.firstName,
-        userObject.lastName,
-      ),
+        userObject.lastName
+      )
     );
     dispatch(getAllPOI());
   };
 
+  const history = useHistory();
+  const handleNavBarClick = (pathString: string) => {
+    console.log("in HandleNavClick");
+    history.push(pathString);
+  };
+
   return (
     <div className="registerContainer">
+      <img className="mapImage" src={Map} alt="map graphic" />
+
       <div className="registerBox">
         <form onSubmit={handleSubmit} className="registerForm">
           <input
@@ -90,7 +100,11 @@ export function RegisterScreen() {
             type="password"
             placeholder="Confirm Password"
           />
-          <button type="submit" className="registerButton">
+          <button
+            onClick={() => handleNavBarClick("/")}
+            type="submit"
+            className="registerButton"
+          >
             Register
           </button>
         </form>

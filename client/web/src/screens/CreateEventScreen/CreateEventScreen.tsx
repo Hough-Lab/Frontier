@@ -158,7 +158,7 @@ export const CreateEventScreen = () => {
               <label className="eventScreenLabel">Event Name</label>
               <input
                 name="title"
-                className="textInput"
+                className="formInput"
                 type="text"
                 placeholder="Type Event Name..."
                 onClick={(text) => setInputValues({ ...inputValues })}
@@ -173,7 +173,7 @@ export const CreateEventScreen = () => {
                 onPlacesChanged={onPlacesChanged}
               >
                 <input
-                  className="textInput"
+                  className="formInput"
                   type="text"
                   placeholder="Location"
                 ></input>
@@ -182,15 +182,22 @@ export const CreateEventScreen = () => {
 
             <div className="tagSelectionContainer">
               <label className="eventScreenLabel">Tags:</label>
-              <input
-                onChange={handleTagInputChange}
-                value={tagInputValue}
-                type="text"
-                name="Tags"
-                placeholder="Input Tags"
-              />
-              <button onClick={(e) => handleAddUserTag(e)}>+</button>
-
+              <div className="tagsAddContainer">
+                <input
+                  className="formInput"
+                  onChange={handleTagInputChange}
+                  value={tagInputValue}
+                  type="text"
+                  name="Tags"
+                  placeholder="Input Tags"
+                />
+                <button
+                  className="tagsAddButton"
+                  onClick={(e) => handleAddUserTag(e)}
+                >
+                  +
+                </button>
+              </div>
               <div className="tagsContainer">
                 {selectedTags.map((tag) => (
                   <button
@@ -218,7 +225,7 @@ export const CreateEventScreen = () => {
               <input
                 onChange={handleInputChange}
                 name="dateFrom"
-                className="textInput"
+                className="formInput"
                 type="datetime-local"
                 value={eventObject.dateFrom}
               />
@@ -226,7 +233,7 @@ export const CreateEventScreen = () => {
               <input
                 onChange={handleInputChange}
                 name="dateTo"
-                className="textInput"
+                className="formInput"
                 type="datetime-local"
                 value={eventObject.dateTo}
               />
@@ -246,7 +253,7 @@ export const CreateEventScreen = () => {
             <div className="selectPrivateEventContainer">
               <input
                 onClick={() => handleIsPrivateClick()}
-                className="textInput"
+                className="formInput"
                 type="checkbox"
                 id="event"
                 name="isPrivate"

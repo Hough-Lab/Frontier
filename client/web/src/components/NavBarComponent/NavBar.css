@@ -4,6 +4,7 @@
   justify-content: flex-start;
   align-items: flex-end;
   background-color: #3685b5;
+  overflow-y: scroll;
   /* background-color: #c2f5ff; */
 }
 
