@@ -13,6 +13,8 @@ import POIInfoWindow from "../POIInfoWindow/POIInfoWindow";
 import { SystemState } from "../../interfaces/reducerInterfaces";
 import { getAllPOI } from "../../store/actions";
 
+import { picture } from "../../assets/MarkerPink.svg";
+
 interface MarkerInfo {
   pointOfInterestId: string;
   formattedAddress: string;

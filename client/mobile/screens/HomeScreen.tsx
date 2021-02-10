@@ -139,12 +139,17 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
                       latitude: +POI?.latitude,
                       longitude: +POI?.longitude,
                     }}
-                    title={'PostgreSQL Party'}
+                    // title={'PostgreSQL Party'}
+                    image={require('../assets/images/MarkerPink1.png')}
+
+                    // width={100}
+                    // height={100}
                     // description={'Descriptions go here'}
                     onPress={() => {
                       dispatch(getPOIById(POI.pointOfInterestId));
                     }}
                   >
+                    {/* <Image source={require('../assets/images/MarkerPink.png')} /> */}
                     <Callout
                       tooltip={true}
                       onPress={() => {

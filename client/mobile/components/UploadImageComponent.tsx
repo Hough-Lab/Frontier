@@ -24,9 +24,27 @@ interface IProps {
     borderRadius: number;
     alignSelf: string;
   };
+  uploadContainer: {
+    width: string;
+    height: number;
+    justifyContent: string;
+    alignItems: string;
+    borderColor?: string;
+    backgroundColor?: string;
+    elevation?: number;
+    borderRadius?: number;
+    borderWidth?: number;
+    padding: number;
+    marginBottom: number;
+  };
 }
 
-const UploadImageComponent = ({ setImage, image, pictureStyle }: IProps) => {
+const UploadImageComponent = ({
+  setImage,
+  image,
+  pictureStyle,
+  uploadContainer,
+}: IProps) => {
   const [preUploaded, setPreUploaded] = useState<string>();
   const [requestSuccessful, setRequestSuccessful] = useState<boolean>(false);
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
@@ -86,7 +104,10 @@ const UploadImageComponent = ({ setImage, image, pictureStyle }: IProps) => {
 
   return (
     <View>
-      <TouchableOpacity style={styles.uploadImageArea} onPress={pickImage}>
+      <TouchableOpacity
+        style={uploadContainer ? uploadContainer : styles.uploadImageArea}
+        onPress={pickImage}
+      >
         {isLoaded ? (
           <View style={styles.image}>
             <Image

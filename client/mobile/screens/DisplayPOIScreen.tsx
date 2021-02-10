@@ -270,6 +270,7 @@ const styles = StyleSheet.create({
   imageListItem: {
     height: 75,
     width: 75,
+    borderRadius: 3,
   },
   eventTime: {
     flexDirection: 'row',
