@@ -30,12 +30,12 @@ const RegisterTagsScreen = ({ navigation }: { navigation: Navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.title}>
-        <Text style={styles.titleText}>About Me</Text>
+        <Text style={styles.titleText}>About you</Text>
       </View>
 
       <View style={styles.midContent}>
         <View style={styles.label}>
-          <Text style={styles.labelText}>What tags better describe you?</Text>
+          <Text style={styles.labelText}>What words best describe you?</Text>
         </View>
         <View style={styles.inputContainer}>
           <TagsInsertComponent setTags={setTags} tags={tags} />
@@ -70,6 +70,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+    paddingTop: 30,
     alignItems: 'center',
     justifyContent: 'space-between',
     backgroundColor: Colors.white,
@@ -80,8 +81,9 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
   },
   titleText: {
-    fontSize: 25,
+    fontSize: 30,
     fontWeight: 'bold',
+    color: Colors.green,
   },
   midContent: {
     alignItems: 'center',

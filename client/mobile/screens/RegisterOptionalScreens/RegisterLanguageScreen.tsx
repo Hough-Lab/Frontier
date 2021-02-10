@@ -52,7 +52,7 @@ const RegisterLanguageScreen = ({ navigation }: { navigation: Navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.title}>
-        <Text style={styles.titleText}>About Me</Text>
+        <Text style={styles.titleText}>About you</Text>
       </View>
 
       <View style={styles.midContent}>
@@ -150,6 +150,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     alignItems: 'center',
+    paddingTop: 30,
     justifyContent: 'space-between',
     backgroundColor: Colors.white,
     width: '100%',
@@ -159,8 +160,9 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
   },
   titleText: {
-    fontSize: 25,
+    fontSize: 30,
     fontWeight: 'bold',
+    color: Colors.green,
   },
   midContent: {
     // alignItems: 'center',

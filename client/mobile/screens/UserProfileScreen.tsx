@@ -29,7 +29,6 @@ import { Navigation } from '../interfaces/interfaces';
 import { applyAnimation } from '../utils/generalFunctions';
 import Colors from '../assets/colors';
 import { countriesList, languagesList } from '../assets/countries';
-import { logoutUser } from '../store/actions';
 import DateTimePickerComponent from '../components/DateTimePickerComponent';
 import EventCardCarouselComponent from '../components/EventCardCarouselComponent';
 import {
@@ -104,6 +103,7 @@ const UserProfileScreen = ({ navigation }: { navigation: Navigation }) => {
         }}
       >
         <AntDesign name="logout" size={24} color={Colors.pink} />
+        <Text style={{ fontSize: 10, color: Colors.pink }}>logout</Text>
       </TouchableOpacity>
 
       {/* Edit User Profile section */}
@@ -113,6 +113,7 @@ const UserProfileScreen = ({ navigation }: { navigation: Navigation }) => {
           onPress={() => setIsEditMode(true)}
         >
           <FontAwesome5 name="user-edit" size={22} color={Colors.blue} />
+          <Text style={{ fontSize: 10, color: Colors.blue }}>edit</Text>
         </TouchableOpacity>
       ) : (
         <View style={styles.editView}>
@@ -185,119 +186,128 @@ const UserProfileScreen = ({ navigation }: { navigation: Navigation }) => {
           source={{ uri: user && user.profilePicture }}
         />
       </View>
-      <View style={styles.nameView}>
-        <Text style={styles.name}>
-          {user.firstName} {user.lastName}
-        </Text>
-
-        {user.dateOfBirth && (
-          <Text
-            style={{
-              fontWeight: 'normal',
-              fontSize: 15,
-            }}
-          >
-            {user.dateOfBirth && dayjs().from(dayjs(user.dateOfBirth), true)}{' '}
-            old
+      <ScrollView>
+        <View style={styles.nameView}>
+          <Text style={styles.name}>
+            {user.firstName} {user.lastName}
           </Text>
-        )}
 
-        <Text>
-          {/* <Text style={{ ...styles.regularText, fontWeight: 'bold' }}>
+          {user.dateOfBirth && (
+            <Text
+              style={{
+                fontWeight: 'normal',
+                fontSize: 15,
+              }}
+            >
+              {user.dateOfBirth && dayjs().from(dayjs(user.dateOfBirth), true)}{' '}
+              old
+            </Text>
+          )}
+
+          <Text>
+            {/* <Text style={{ ...styles.regularText, fontWeight: 'bold' }}>
     {user.username}
   </Text> */}
-          <Text style={{ color: 'black', fontSize: 12 }}>
-            {'joined ' + dayjs(user.createdAt).month(0).from(dayjs().month(0))}
+            <Text style={{ color: 'black', fontSize: 12 }}>
+              {'joined ' +
+                dayjs(user.createdAt).month(0).from(dayjs().month(0))}
+            </Text>
           </Text>
-        </Text>
-        {user.from && (
-          <Text style={{ color: 'black', paddingTop: 5 }}>
-            {'From ' + user.from}
-          </Text>
-        )}
-        {user.userTags && (
-          <View style={styles.languages}>
-            <Text
-              style={{
-                fontWeight: 'bold',
-                paddingRight: 10,
-                paddingVertical: 5,
-              }}
-            >
-              bio:
-            </Text>
-            <FlatList
-              horizontal={true}
-              data={user.userTags}
-              renderItem={({ item, index }) => (
-                <View
-                  key={index}
-                  style={{ ...styles.tag, backgroundColor: Colors.pink }}
-                >
-                  <Text style={styles.tagText}>{item}</Text>
-                </View>
-              )}
-              keyExtractor={(item) => item}
-            />
-          </View>
-        )}
-        {user.language && (
-          <View style={styles.languages}>
-            <Text
-              style={{
-                fontWeight: 'bold',
-                paddingRight: 10,
-                paddingVertical: 5,
-              }}
-            >
-              languages spoken:
-            </Text>
-            <FlatList
-              horizontal={true}
-              data={user.language}
-              renderItem={({ item, index }) => (
-                <View key={index} style={styles.tag}>
-                  <Text style={styles.tagText}>{item}</Text>
-                </View>
-              )}
-              keyExtractor={(item) => item}
-            />
-          </View>
-        )}
-      </View>
+          {user.from && (
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Image
+                style={{ width: 20, height: 20, zIndex: 100 }}
+                source={require('../assets/images/MarkerBlue1.png')}
+              />
+              <Text style={{ color: 'black', paddingTop: 5 }}>
+                {'From ' + user.from}
+              </Text>
+            </View>
+          )}
+          {user.userTags && (
+            <View style={styles.languages}>
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  paddingRight: 10,
+                  paddingVertical: 5,
+                }}
+              >
+                bio:
+              </Text>
+              <FlatList
+                horizontal={true}
+                data={user.userTags}
+                renderItem={({ item, index }) => (
+                  <View
+                    key={index}
+                    style={{ ...styles.tag, backgroundColor: Colors.pink }}
+                  >
+                    <Text style={styles.tagText}>{item}</Text>
+                  </View>
+                )}
+                keyExtractor={(item) => item}
+              />
+            </View>
+          )}
+          {user.language && (
+            <View style={styles.languages}>
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  paddingRight: 10,
+                  paddingVertical: 5,
+                }}
+              >
+                languages spoken:
+              </Text>
+              <FlatList
+                horizontal={true}
+                data={user.language}
+                renderItem={({ item, index }) => (
+                  <View key={index} style={styles.tag}>
+                    <Text style={styles.tagText}>{item}</Text>
+                  </View>
+                )}
+                keyExtractor={(item) => item}
+              />
+            </View>
+          )}
+        </View>
 
-      {/* Upcoming events section */}
-      <ScrollView style={styles.eventsContainer}>
-        {eventsAttending && (
-          <View>
-            <Text style={styles.eventTitle}>Upcoming events: </Text>
-            <EventCardCarouselComponent
-              navigation={navigation}
-              eventsAttending={eventsAttending}
-            />
-          </View>
-        )}
-        {eventInterested && (
-          <View>
-            <Text style={styles.eventTitle}>
-              Events you are interested in:{' '}
-            </Text>
-            <EventCardCarouselComponent
-              navigation={navigation}
-              eventsAttending={eventInterested}
-            />
-          </View>
-        )}
-      </ScrollView>
+        {/* Upcoming events section */}
+        <View style={styles.eventsContainer}>
+          {eventsAttending && (
+            <View>
+              <Text style={styles.eventTitle}>Upcoming events: </Text>
+              <EventCardCarouselComponent
+                navigation={navigation}
+                eventsAttending={eventsAttending}
+              />
+            </View>
+          )}
+          {eventInterested && (
+            <View>
+              <Text style={styles.eventTitle}>
+                Events you are interested in:{' '}
+              </Text>
+              <EventCardCarouselComponent
+                navigation={navigation}
+                eventsAttending={eventInterested}
+              />
+            </View>
+          )}
+        </View>
 
-      {/* Log out Button */}
-      {/* <Button
+        {/* Log out Button */}
+        {/* <Button
         title="Log out"
         color={Colors.pink}
         onPress={() => {
           dispatch(logoutUser(navigation));
         }}
       /> */}
+      </ScrollView>
     </View>
   );
 };
@@ -313,13 +323,14 @@ const styles = StyleSheet.create({
   },
   eventsContainer: {
     paddingTop: 30,
-    paddingBottom: 100,
+    // paddingBottom: 100,
   },
   profilePicContainer: {
     marginTop: 30,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 75,
+    paddingBottom: 15,
   },
   profilePic: {
     height: 150,
@@ -329,14 +340,19 @@ const styles = StyleSheet.create({
     borderColor: Colors.lightBlue,
   },
   nameView: {
+    backgroundColor: Colors.grey,
+    elevation: 3,
+    borderColor: Colors.green,
+    borderWidth: 1,
     // alignItems: 'center',
-    // padding: 10,
+    padding: 10,
+    borderRadius: 8,
   },
   name: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: 'black',
-    paddingTop: 20,
+    color: Colors.green,
+    // paddingTop: 20,
     paddingBottom: 5,
   },
   regularText: {
@@ -377,11 +393,13 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 50,
     right: 30,
+    alignItems: 'center',
   },
   editBtn: {
     position: 'absolute',
-    top: 190,
+    top: 180,
     right: 115,
+    alignItems: 'center',
   },
   changesBtn: {
     justifyContent: 'center',
