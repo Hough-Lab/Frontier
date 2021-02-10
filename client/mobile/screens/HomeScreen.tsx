@@ -38,7 +38,7 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
   const [filteredPOI, setFilteredPOI] = useState<POI[]>([]);
 
   const allPOI: POI[] = useSelector((state: SystemState) => state.allPOI);
-    
+
   const dispatch = useDispatch();
 
   const [userLocation, setUserLocation] = useState({
@@ -68,13 +68,16 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
   };
 
   useEffect(() => {
+    setFilteredPOI(filterPOIByTag(allPOI, tags));
+  }, [tags, allPOI]);
+
+  useEffect(() => {
     (async () => {
       let { status } = await Location.requestPermissionsAsync();
       if (status !== 'granted') {
         setErrorMsg('Permission to access location was denied');
         return;
       }
-      await setFilteredPOI(filterPOIByTag(allPOI, tags));
 
       Location.getCurrentPositionAsync({})
         .then((location) => {
@@ -127,8 +130,8 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
             }}
             region={seenOnMap}
           >
-            {allPOI?.length > 0 &&
-              allPOI?.map((POI: POI) => {
+            {filteredPOI?.length > 0 &&
+              filteredPOI?.map((POI: POI) => {
                 return (
                   <Marker
                     key={POI.pointOfInterestId}

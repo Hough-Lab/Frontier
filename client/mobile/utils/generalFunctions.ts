@@ -51,7 +51,6 @@ export const getAverageSafetyRating = (reviews: Review[]) => {
 };
 
 export const getFirstPicture = (POI: POI) => {
-  // console.log('POI.reviews[0].picture', POI.reviews[0].picture.toString());
   if (typeof POI?.reviews !== 'undefined') {
     if (POI?.reviews[0]?.picture && POI?.reviews[0]?.picture !== null) {
       return POI.reviews[0].picture;
@@ -60,8 +59,6 @@ export const getFirstPicture = (POI: POI) => {
 };
 
 export const filterPOIByTag = (allPOI: POI[], tags: string[]) => {
-  console.log(tags.length);
-
   if (!tags.length) {
     return allPOI;
   } else {
@@ -70,7 +67,6 @@ export const filterPOIByTag = (allPOI: POI[], tags: string[]) => {
         return POI.tags?.indexOf(tag) !== -1;
       });
     });
-    console.log('return', filteredPOI.length);
 
     return filteredPOI;
   }

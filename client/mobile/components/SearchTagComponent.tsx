@@ -55,7 +55,7 @@ const SearchTagComponent = ({ setTags, tags }: IProps) => {
       ) : (
         <>
           <TextInput
-            placeholder="Create tag..."
+            placeholder="Search by tag"
             returnKeyType="done"
             value={input}
             onSubmitEditing={() => {
