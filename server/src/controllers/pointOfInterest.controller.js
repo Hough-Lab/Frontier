@@ -1,7 +1,7 @@
 const uuid = require('uuid');
 const models = require('../models').sequelize.models;
 
-exports.createPOI = async (formattedAddress, latitude, longitude) => {
+exports.createPOI = async (formattedAddress, latitude, longitude, tags) => {
   const pointOfInterestId = uuid.v4();
   const locationId = uuid.v4();
   const searchPOI = await models.PointOfInterest.findAll({
@@ -16,13 +16,14 @@ exports.createPOI = async (formattedAddress, latitude, longitude) => {
       },
     ],
   });
-
+  console.log('thetruth', searchPOI.length === 0);
   if (searchPOI.length === 0) {
     const newPOI = await models.PointOfInterest.create({
       pointOfInterestId,
       formattedAddress,
       latitude,
       longitude,
+      tags: tags,
     });
 
     const newLocation = await models.Location.create({
@@ -35,7 +36,25 @@ exports.createPOI = async (formattedAddress, latitude, longitude) => {
 
     return newPOI;
   } else {
-    return searchPOI;
+    const oldTags = searchPOI[0].dataValues.tags;
+    for (let tag in tags) {
+      console.log('one', tag);
+      if (oldTags.indexOf(tags[tag]) === -1) {
+        oldTags.push(tags[tag]);
+      }
+    }
+    console.log('oldTags', oldTags);
+    const editedPOI = await models.PointOfInterest.update(
+      {
+        tags: oldTags,
+      },
+      {
+        where: { pointOfInterestId: searchPOI[0].dataValues.pointOfInterestId },
+        returning: true,
+        plain: true,
+      },
+    );
+    return editedPOI[1].dataValues;
   }
 };
 

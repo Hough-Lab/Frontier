@@ -39,7 +39,6 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
     description: '',
     maxCapacity: 1,
     isPrivate: false,
-    tags: [''],
   });
 
   const getLocation = (
@@ -55,14 +54,8 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
     });
   };
 
-  const getTags = (tags: string[]) => {
-    setInputValues({
-      ...inputValues,
-      tags: tags,
-    });
-  };
-
   const [capacity, setCapacity] = useState<number>();
+  const [tags, setTags] = useState<string[]>([]);
 
   const dispatch = useDispatch();
 
@@ -79,12 +72,14 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
         inputValues.maxCapacity,
         inputValues.isPrivate,
         image,
-        inputValues.tags,
+        tags,
         navigation,
       ),
     );
     dispatch(getAllPOI());
-  }, [inputValues]);
+  }, [inputValues, tags, image]);
+
+  console.log(tags);
 
   return (
     <ScrollView style={styles.container} keyboardShouldPersistTaps="always">
@@ -98,7 +93,7 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
           alignSelf: 'center',
         }}
       />
-      <TagsInsertComponent getTags={getTags} />
+      <TagsInsertComponent setTags={setTags} tags={tags} />
 
       {/* Event title and location*/}
       <View style={styles.eventTitleView}>
