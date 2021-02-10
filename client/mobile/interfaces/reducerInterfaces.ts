@@ -66,15 +66,15 @@ export interface POIArray {
 }
 
 export interface POI {
-  pointOfInterestId?: string;
-  formattedAddress?: string;
-  latitude?: number;
-  longitude?: number;
-  createdAt?: string;
-  updatedAt?: string;
-  events?: Event[];
-  reviews?: Review[];
-  tags?: string[];
+  pointOfInterestId: string;
+  formattedAddress: string;
+  latitude: number;
+  longitude: number;
+  createdAt: string;
+  updatedAt: string;
+  events: Event[];
+  reviews: Review[];
+  tags: string[];
 }
 
 //TODO set up rest of interfaces

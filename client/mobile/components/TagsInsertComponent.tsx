@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Dispatch, SetStateAction } from 'react';
 import {
   StyleSheet,
   Text,
@@ -11,17 +11,16 @@ import {
 import Colors from '../assets/colors';
 import { AntDesign, Entypo } from '@expo/vector-icons';
 
-const TagsInsertComponent = ({
-  getTags,
-}: {
-  getTags: (tags: string[]) => void;
-}) => {
-  const [tag, setTag] = useState('');
-  const [tags, setTags]: any = useState([]);
+interface IProps {
+  setTags: Dispatch<SetStateAction<string[]>>;
+  tags: string[];
+}
+
+const TagsInsertComponent = ({ setTags, tags }: IProps) => {
   const [input, setInput] = useState('');
 
   function addTag(tag: string) {
-    if (tags.indexOf(tag) === -1) setTags(() => [...tags, tag]);
+    if (tags.indexOf(tag) === -1 && tag !== '') setTags(() => [...tags, tag]);
   }
 
   function deleteTag(tag: string) {
@@ -41,12 +40,10 @@ const TagsInsertComponent = ({
             returnKeyType="done"
             value={input}
             onSubmitEditing={() => {
-              addTag(tag);
+              addTag(input);
               setInput('');
-              getTags(tags);
             }}
             onChangeText={(tag) => {
-              setTag(tag);
               setInput(tag);
             }}
           />
@@ -57,9 +54,8 @@ const TagsInsertComponent = ({
             size={24}
             color="black"
             onPress={() => {
-              addTag(tag);
+              addTag(input);
               setInput('');
-              getTags(tags);
             }}
           />
         </TouchableOpacity>

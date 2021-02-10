@@ -17,11 +17,11 @@ import GooglePlacesInput from './GooglePlacesInput';
 import { ISeenOnMap } from '../screens/HomeScreen';
 
 interface IProps {
-  setSeenOnMap: Dispatch<SetStateAction<ISeenOnMap>>;
+  setTags: Dispatch<SetStateAction<string[]>>;
+  tags: string[];
 }
 
-const SearchTagComponent = ({ setSeenOnMap }: IProps) => {
-  const [tags, setTags] = useState<string[]>([]);
+const SearchTagComponent = ({ setTags, tags }: IProps) => {
   const [input, setInput] = useState('');
 
   const [searchBar, setSearchBar] = useState(false);

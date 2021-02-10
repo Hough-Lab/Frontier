@@ -31,6 +31,7 @@ export const createEvent = (
       // Bearer ${token}
       // Because it is convention. The server will use the token to create the event including data about the user. If the token is in
       // the wrong format, the server will return 'Action not authorised'.
+      console.log('bfrq', tags);
 
       const { data } = await axios.post(
         `${REACT_APP_SERVER_URI}/api/event/postEvent/`,

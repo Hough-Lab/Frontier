@@ -24,7 +24,11 @@ module.exports = (sequelize, DataTypes) => {
     reviews: {
       type: DataTypes.ARRAY(DataTypes.JSONB),
       allowNull: true,
-    }
+    },
+    tags: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      defaultValue: [],
+    },
   });
 
   PointOfInterest.associate = (models) => {

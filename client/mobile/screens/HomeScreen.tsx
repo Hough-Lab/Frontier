@@ -32,7 +32,7 @@ export interface ISeenOnMap {
 
 const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
   const [tags, setTags] = useState<string[]>([]);
-  const [filteredPOI, setFilteredPOI] = useState([{}]);
+  const [filteredPOI, setFilteredPOI] = useState<POI[]>([]);
 
   const allPOI: POI[] = useSelector((state: SystemState) => state.allPOI);
 
@@ -62,10 +62,6 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
     });
   };
 
-  useMemo(() => {
-    setFilteredPOI(filterPOIByTag(allPOI, tags));
-  }, [tags]);
-
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestPermissionsAsync();
@@ -73,6 +69,7 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
         setErrorMsg('Permission to access location was denied');
         return;
       }
+      await setFilteredPOI(filterPOIByTag(allPOI, tags));
 
       Location.getCurrentPositionAsync({})
         .then((location) => {
@@ -95,6 +92,7 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
         .finally(() => setLoading(false));
     })();
   }, []);
+  console.log(filteredPOI.length, tags);
 
   return (
     <View style={styles.container}>
@@ -126,7 +124,7 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
             region={seenOnMap}
           >
             {filteredPOI?.length > 0 &&
-              filteredPOI?.map((POI: POI, index: number) => {
+              filteredPOI?.map((POI: POI) => {
                 return (
                   <Marker
                     key={POI.pointOfInterestId}
@@ -161,7 +159,7 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
       </View>
 
       <SearchBtnComponent setSeenOnMap={setSeenOnMap} />
-      <SearchTagComponent setSeenOnMap={setSeenOnMap} />
+      <SearchTagComponent setTags={setTags} tags={tags} />
     </View>
   );
 };
