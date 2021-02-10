@@ -68,13 +68,16 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
   };
 
   useEffect(() => {
+    setFilteredPOI(filterPOIByTag(allPOI, tags));
+  }, [tags, allPOI]);
+
+  useEffect(() => {
     (async () => {
       let { status } = await Location.requestPermissionsAsync();
       if (status !== 'granted') {
         setErrorMsg('Permission to access location was denied');
         return;
       }
-      await setFilteredPOI(filterPOIByTag(allPOI, tags));
 
       Location.getCurrentPositionAsync({})
         .then((location) => {
@@ -127,8 +130,8 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
             }}
             region={seenOnMap}
           >
-            {allPOI?.length > 0 &&
-              allPOI?.map((POI: POI) => {
+            {filteredPOI?.length > 0 &&
+              filteredPOI?.map((POI: POI) => {
                 return (
                   <Marker
                     key={POI.pointOfInterestId}
@@ -136,12 +139,17 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
                       latitude: +POI?.latitude,
                       longitude: +POI?.longitude,
                     }}
-                    title={'PostgreSQL Party'}
+                    // title={'PostgreSQL Party'}
+                    image={require('../assets/images/MarkerPink1.png')}
+
+                    // width={100}
+                    // height={100}
                     // description={'Descriptions go here'}
                     onPress={() => {
                       dispatch(getPOIById(POI.pointOfInterestId));
                     }}
                   >
+                    {/* <Image source={require('../assets/images/MarkerPink.png')} /> */}
                     <Callout
                       tooltip={true}
                       onPress={() => {

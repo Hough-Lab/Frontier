@@ -49,6 +49,7 @@ const SearchTagComponent = ({ setTags, tags }: IProps) => {
             onPress={() => {
               setSearchBar(true);
               applyAnimation();
+
             }}
           >
             <Ionicons name="pricetag-outline" size={30} color={Colors.green} />
