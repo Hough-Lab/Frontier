@@ -44,6 +44,22 @@
 
 .eventContainer::-webkit-scrollbar {
   display: none;
+  position: absolute;
+  animation: slide 0.5s alternate;
+}
+
+@keyframes slide {
+  from {
+    left: -50%;
+  }
+  to {
+    left: 0%;
+  }
+}
+
+.eventContainerSelected {
+  left: 50%;
+  transition: left 2s;
 }
 
 .tagsAddContainer {

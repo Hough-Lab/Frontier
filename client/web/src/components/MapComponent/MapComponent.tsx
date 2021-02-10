@@ -12,6 +12,17 @@ import { SearchPopOut } from "../../components/SearchPopOut/SearchPopOut";
 import POIInfoWindow from "../POIInfoWindow/POIInfoWindow";
 import { SystemState } from "../../interfaces/reducerInterfaces";
 import { getAllPOI } from "../../store/actions";
+import Lottie from "react-lottie";
+import animationData from "../../assets/JSON/logo.json";
+
+const defaultOptions = {
+  loop: true,
+  autoplay: true,
+  animationData: animationData,
+  rendererSettings: {
+    preserveAspectRatio: "xMidYMid slice",
+  },
+};
 
 interface MarkerInfo {
   pointOfInterestId: string;
@@ -41,7 +52,7 @@ interface IProps {
 
 const MapComponent = ({ toggleShowPointOfInterest }: IProps) => {
   const initialPosition = { lat: 51.46262, lng: -0.2143 };
-
+  const [isMapLoaded, setIsMapLoaded] = useState(false);
   const [currentPosition, setCurrentPosition] = useState(initialPosition);
   const [selected, setSelected] = useState(initialState);
 
@@ -58,6 +69,7 @@ const MapComponent = ({ toggleShowPointOfInterest }: IProps) => {
       lng: position.coords.longitude,
     };
     setCurrentPosition(currentPosition);
+    setIsMapLoaded(true);
   };
 
   const onSelect = (item: MarkerInfo) => {
@@ -76,7 +88,7 @@ const MapComponent = ({ toggleShowPointOfInterest }: IProps) => {
     dispatch(getAllPOI());
   }, []);
 
-  return (
+  return isMapLoaded ? (
     <LoadScript googleMapsApiKey={GoogleKey} libraries={["places"]}>
       <SearchPopOut handleUpdateMapCenter={handleUpdateMapCenter} />
 
@@ -119,6 +131,10 @@ const MapComponent = ({ toggleShowPointOfInterest }: IProps) => {
         )}
       </GoogleMap>
     </LoadScript>
+  ) : (
+    <div className="splashScreenContainer">
+      <Lottie options={defaultOptions} />
+    </div>
   );
 };
 
