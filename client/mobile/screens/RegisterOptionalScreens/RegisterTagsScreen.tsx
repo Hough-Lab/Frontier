@@ -14,26 +14,18 @@ import { editUserProfile, getAllPOI } from '../../store/actions';
 import Colors from '../../assets/colors';
 import { Navigation } from '../../interfaces/interfaces';
 import TagsInsertComponent from '../../components/TagsInsertComponent';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const RegisterTagsScreen = ({ navigation }: { navigation: Navigation }) => {
-  const [inputValues, setInputValues] = useState({
-    tags: [''],
-  });
+  const [tags, setTags] = useState<string[]>([]);
 
   const dispatch = useDispatch();
 
   const handleSubmit = useCallback(async () => {
-    await dispatch(editUserProfile({ userTags: inputValues.tags }));
+    await dispatch(editUserProfile({ userTags: tags }));
     dispatch(getAllPOI());
     navigation.navigate('RegisterProfilePicScreen');
-  }, [inputValues]);
-
-  const getTags = (tags: string[]) => {
-    setInputValues({
-      ...inputValues,
-      tags: tags,
-    });
-  };
+  }, [tags]);
 
   return (
     <View style={styles.container}>
@@ -43,10 +35,10 @@ const RegisterTagsScreen = ({ navigation }: { navigation: Navigation }) => {
 
       <View style={styles.midContent}>
         <View style={styles.label}>
-          <Text style={styles.labelText}>Create tags that describe you?</Text>
+          <Text style={styles.labelText}>What tags better describe you?</Text>
         </View>
         <View style={styles.inputContainer}>
-          <TagsInsertComponent getTags={getTags} />
+          <TagsInsertComponent setTags={setTags} tags={tags} />
         </View>
       </View>
 
@@ -56,7 +48,9 @@ const RegisterTagsScreen = ({ navigation }: { navigation: Navigation }) => {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() =>
-            navigation.navigate('MainStackNavigator', { screen: 'HomeScreen' })
+            navigation.navigate('MainStackNavigator', {
+              screen: 'HomeScreen',
+            })
           }
           activeOpacity={0.7}
         >
@@ -104,9 +98,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     borderRadius: 30,
     width: '70%',
-    marginBottom: 20,
+    margin: 20,
+    marginLeft: -25,
     padding: 5,
-    paddingLeft: 15,
   },
   bottomBtnsContainer: {
     flexDirection: 'row',

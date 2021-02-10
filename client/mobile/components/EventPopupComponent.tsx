@@ -41,10 +41,7 @@ const EventPopupComponent = ({ POI }: { POI: POI }) => {
       <View style={styles.contentArea}>
         <View style={styles.box}>
           <MaterialIcons name="date-range" size={24} color="black" />
-          <Text>
-            {console.log('POIInfo', POIInfo.events.length)}
-            {POIInfo.events.length} Event
-          </Text>
+          <Text>{POIInfo.events.length} Event</Text>
         </View>
         <View style={styles.box}>
           <AntDesign name="clockcircleo" size={24} color="black" />
