@@ -53,6 +53,7 @@ const SearchBtnComponent = ({ setSeenOnMap }: IProps) => {
         <>
           <GooglePlacesInput getLocation={getLocation} />
           <TouchableOpacity
+            style={{ alignSelf: 'flex-start', paddingTop: 10 }}
             onPress={() => {
               setSearchBar(false);
               applyAnimation();

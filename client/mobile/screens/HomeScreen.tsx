@@ -38,7 +38,7 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
   const [filteredPOI, setFilteredPOI] = useState<POI[]>([]);
 
   const allPOI: POI[] = useSelector((state: SystemState) => state.allPOI);
-    
+
   const dispatch = useDispatch();
 
   const [userLocation, setUserLocation] = useState({
@@ -195,5 +195,11 @@ const styles = StyleSheet.create({
     width: 45,
     height: 45,
     elevation: 5,
+  },
+  popupCallout: {
+    borderWidth: 2,
+    elevation: 5,
+    padding: 15,
+    margin: 15,
   },
 });

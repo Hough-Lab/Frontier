@@ -42,32 +42,32 @@ const SearchTagComponent = ({ setTags, tags }: IProps) => {
   }
 
   return (
-    <View style={searchBar ? styles.searchBarView : styles.searchBtn}>
-      {!searchBar ? (
-        <TouchableOpacity
-          onPress={() => {
-            setSearchBar(true);
-            applyAnimation();
-          }}
-        >
-          <Ionicons name="pricetag-outline" size={30} color={Colors.green} />
-        </TouchableOpacity>
-      ) : (
-        <>
-          <TextInput
-            placeholder="Create tag..."
-            returnKeyType="done"
-            value={input}
-            onSubmitEditing={() => {
-              addTag(input);
-              setInput('');
+    <>
+      <View style={searchBar ? styles.searchBarView : styles.searchBtn}>
+        {!searchBar ? (
+          <TouchableOpacity
+            onPress={() => {
+              setSearchBar(true);
+              applyAnimation();
             }}
-            onChangeText={(tag) => {
-              setInput(tag);
-            }}
-            style={styles.searchByTagBar}
-          ></TextInput>
-          <TouchableOpacity>
+          >
+            <Ionicons name="pricetag-outline" size={30} color={Colors.green} />
+          </TouchableOpacity>
+        ) : (
+          <>
+            <TextInput
+              placeholder="Search tags..."
+              returnKeyType="done"
+              value={input}
+              onSubmitEditing={() => {
+                addTag(input);
+                setInput('');
+              }}
+              onChangeText={(tag) => {
+                setInput(tag);
+              }}
+              style={styles.searchByTagBar}
+            ></TextInput>
             <View style={styles.iconsContainer}>
               <Entypo
                 name="plus"
@@ -89,32 +89,36 @@ const SearchTagComponent = ({ setTags, tags }: IProps) => {
                 }}
               />
             </View>
-          </TouchableOpacity>
-        </>
-      )}
-      <View style={styles.tagContainer}>
-        <FlatList
-          horizontal={true}
-          data={tags}
-          renderItem={({ item, index }) => (
-            <View key={index} style={styles.tag}>
-              <Text style={styles.tagText}>{item}</Text>
-              <Text style={styles.tagLine}>|</Text>
-              <TouchableOpacity>
-                <Entypo
-                  style={{ paddingRight: 4 }}
-                  name="cross"
-                  size={15}
-                  color={Colors.white}
-                  onPress={() => deleteTag(item)}
-                />
-              </TouchableOpacity>
-            </View>
-          )}
-          keyExtractor={(item) => item.index}
-        />
+          </>
+        )}
       </View>
-    </View>
+      {searchBar && (
+        <View style={styles.tagContainer}>
+          <FlatList
+            contentContainerStyle={styles.flatlistContainer}
+            horizontal={true}
+            data={tags}
+            showsHorizontalScrollIndicator={false}
+            renderItem={({ item, index }) => (
+              <View key={index} style={styles.tag}>
+                <Text style={styles.tagText}>{item}</Text>
+                <Text style={styles.tagLine}>|</Text>
+                <TouchableOpacity>
+                  <Entypo
+                    style={{ paddingRight: 4 }}
+                    name="cross"
+                    size={15}
+                    color={Colors.white}
+                    onPress={() => deleteTag(item)}
+                  />
+                </TouchableOpacity>
+              </View>
+            )}
+            keyExtractor={(item) => item.index}
+          />
+        </View>
+      )}
+    </>
   );
 };
 
@@ -158,6 +162,11 @@ const styles = StyleSheet.create({
   },
   tagContainer: {
     paddingVertical: 10,
+    position: 'absolute',
+    top: 155,
+  },
+  flatlistContainer: {
+    paddingHorizontal: 35,
   },
   tagText: {
     color: Colors.white,
@@ -176,6 +185,6 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.pink,
     height: 20,
     width: 'auto',
-    marginRight: 5,
+    marginLeft: 5,
   },
 });
