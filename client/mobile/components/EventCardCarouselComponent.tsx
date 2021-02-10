@@ -18,7 +18,7 @@ const EventCardCarouselComponent = ({
   eventsAttending,
   navigation,
 }: {
-  eventsAttending: Event;
+  eventsAttending: Event[];
   navigation: Navigation;
 }) => {
   return (

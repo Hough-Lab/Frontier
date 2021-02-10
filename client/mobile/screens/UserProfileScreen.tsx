@@ -29,7 +29,6 @@ import { Navigation } from '../interfaces/interfaces';
 import { applyAnimation } from '../utils/generalFunctions';
 import Colors from '../assets/colors';
 import { countriesList, languagesList } from '../assets/countries';
-import { logoutUser } from '../store/actions';
 import DateTimePickerComponent from '../components/DateTimePickerComponent';
 import EventCardCarouselComponent from '../components/EventCardCarouselComponent';
 import {
@@ -96,7 +95,6 @@ const UserProfileScreen = ({ navigation }: { navigation: Navigation }) => {
 
   return (
     <View style={styles.container}>
-      {/* Logout section */}
       <TouchableOpacity
         style={styles.logoutBtn}
         onPress={() => {
@@ -106,7 +104,6 @@ const UserProfileScreen = ({ navigation }: { navigation: Navigation }) => {
         <AntDesign name="logout" size={24} color={Colors.pink} />
       </TouchableOpacity>
 
-      {/* Edit User Profile section */}
       {!isEditMode ? (
         <TouchableOpacity
           style={styles.editBtn}
@@ -178,7 +175,6 @@ const UserProfileScreen = ({ navigation }: { navigation: Navigation }) => {
         </View>
       )}
 
-      {/* User Profile section */}
       <View style={styles.profilePicContainer}>
         <Image
           style={styles.profilePic}
@@ -203,9 +199,6 @@ const UserProfileScreen = ({ navigation }: { navigation: Navigation }) => {
         )}
 
         <Text>
-          {/* <Text style={{ ...styles.regularText, fontWeight: 'bold' }}>
-    {user.username}
-  </Text> */}
           <Text style={{ color: 'black', fontSize: 12 }}>
             {'joined ' + dayjs(user.createdAt).month(0).from(dayjs().month(0))}
           </Text>
@@ -250,7 +243,7 @@ const UserProfileScreen = ({ navigation }: { navigation: Navigation }) => {
                 paddingVertical: 5,
               }}
             >
-              languages spoken:
+              Languages spoken:
             </Text>
             <FlatList
               horizontal={true}

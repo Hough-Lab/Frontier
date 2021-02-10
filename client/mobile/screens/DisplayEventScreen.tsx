@@ -131,13 +131,16 @@ const DisplayEventScreen = ({ route, navigation }: IProps) => {
               description={event.description}
             />
           </MapView>
+          {event?.description?.length > 0 && (
+            <View>
+              <Text style={styles.descriptionTitle}>Event Description:</Text>
+              <View style={styles.description}>
+                <Text style={styles.descriptionText}>{event.description}</Text>
+              </View>
+            </View>
+          )}
 
-          <Text style={styles.descriptionTitle}>Event Description:</Text>
-          <View style={styles.description}>
-            <Text style={styles.descriptionText}>{event.description}</Text>
-          </View>
-
-          {event.maxCapacity && (
+          {event?.maxCapacity && (
             <View style={styles.capacity}>
               <Text style={styles.capacityText}>
                 Maximum capacity of event: {event.maxCapacity} people

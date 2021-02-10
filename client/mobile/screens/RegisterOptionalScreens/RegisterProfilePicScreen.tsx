@@ -44,7 +44,7 @@ const RegisterProfilePicScreen = ({ navigation }: IProps) => {
 
       <View style={styles.midContent}>
         <View style={styles.label}>
-          <Text style={styles.labelText}>Upload your profile picture</Text>
+          <Text style={styles.labelText}>Upload a profile picture</Text>
         </View>
         <UploadImageComponent
           setImage={setImage}
@@ -135,4 +135,3 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
-
