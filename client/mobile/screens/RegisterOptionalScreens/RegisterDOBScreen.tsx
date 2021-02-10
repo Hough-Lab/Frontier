@@ -26,12 +26,9 @@ const RegisterDOBScreen = ({ navigation }: { navigation: Navigation }) => {
   const handleSubmit = useCallback(async () => {
     if (typeof date !== 'undefined') {
       await dispatch(editUserProfile({ dateOfBirth: date }));
-      dispatch(getAllPOI());
-      navigation.navigate('RegisterLanguageScreen');
-    } else {
-      dispatch(getAllPOI());
-      navigation.navigate('RegisterLanguageScreen');
     }
+    dispatch(getAllPOI());
+    navigation.navigate('RegisterLanguageScreen');
   }, [date]);
 
   return (
@@ -47,9 +44,8 @@ const RegisterDOBScreen = ({ navigation }: { navigation: Navigation }) => {
 
         <View style={styles.inputContainer}>
           <Text>
-            {' '}
-            {date && dayjs().from(dayjs(date), true)}{' '}
-            {date ? 'old' : 'Please enter your date of birth'}
+            {date && dayjs().from(dayjs(date), true)}
+            {date ? ' old' : 'Please enter your date of birth'}
           </Text>
           <DateTimePickerComponent setDate={setDate} mode="date" />
         </View>

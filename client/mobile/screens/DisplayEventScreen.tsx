@@ -59,9 +59,9 @@ const DisplayEventScreen = ({ route, navigation }: IProps) => {
   const user: User = useSelector((state: SystemState) => state.user);
 
   return (
-    <ScrollView style={{ flex: 1 }}>
+    <ScrollView style={styles.container}>
       {event.title !== '' ? (
-        <View style={styles.container}>
+        <View style={{ flex: 1 }}>
           <Text style={styles.eventTitle}>{event && event.title}</Text>
           <View style={styles.eventTime}>
             <MaterialIcons name="date-range" size={20} color="black" />

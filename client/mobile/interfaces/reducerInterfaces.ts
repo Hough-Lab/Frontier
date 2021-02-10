@@ -12,6 +12,9 @@ export interface SystemState {
   POI: POI;
   allPOI: POIArray;
   error: string;
+  eventsInterested: Event[];
+  eventsAttending: Event[]
+
 }
 
 export interface User {
@@ -28,6 +31,8 @@ export interface User {
   email: string;
   verifications: number;
   certified: boolean;
+  userTags: string[];
+  createdAt: string;
 }
 
 export interface Event {

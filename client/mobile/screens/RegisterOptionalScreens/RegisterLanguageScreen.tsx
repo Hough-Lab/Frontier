@@ -14,7 +14,6 @@ import { useDispatch } from 'react-redux';
 
 import { editUserProfile, getAllPOI } from '../../store/actions';
 import Colors from '../../assets/colors';
-import { colors, randomColor } from '../../assets/colorFunction';
 import { Navigation } from '../../interfaces/interfaces';
 
 const RegisterLanguageScreen = ({ navigation }: { navigation: Navigation }) => {
@@ -199,7 +198,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 5,
     flexDirection: 'row',
-    backgroundColor: randomColor(colors),
+    backgroundColor: Colors.blue,
     height: 20,
     width: 'auto',
     marginRight: 5,

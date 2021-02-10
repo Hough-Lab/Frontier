@@ -12,6 +12,8 @@ import { SearchPopOut } from "../../components/SearchPopOut/SearchPopOut";
 import { POI, SystemState } from "../../interfaces/reducerInterfaces";
 import { getAllPOI } from "../../store/actions";
 
+import { picture } from "../../assets/MarkerPink.svg";
+
 interface MarkerInfo {
   pointOfInterestId: string;
   formattedAddress: string;
@@ -97,6 +99,7 @@ const MapComponent = () => {
                   lng: +POI.longitude,
                 }}
                 title={"PostgreSQL Party"}
+                image={{ uri: "../../assets/MarkerPink.svg" }}
                 // description={'Descriptions go here'}
               />
             );
