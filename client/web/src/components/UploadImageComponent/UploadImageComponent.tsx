@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { ChangeEvent, Dispatch, SetStateAction } from "react";
 import { cloudinary_name, upload_preset } from "../../config";
 import "./UploadImageComponent.css";
@@ -31,8 +32,14 @@ function UploadImageComponent({ setImage }: IProps) {
     let file: File = e.target.files[0];
     uploadFile(file);
   };
+=======
+import React from "react";
+import "./UploadImageComponent.css";
+import Map from "../../assets/images/map.png";
+>>>>>>> 84b138d2978bdcb7a6008741902007e1c9af823b
 
   return (
+<<<<<<< HEAD
     <input
       name="picture"
       type="file"
@@ -40,6 +47,11 @@ function UploadImageComponent({ setImage }: IProps) {
       multiple={false}
       onChange={(e) => handleImageChange(e)}
     />
+=======
+    <div>
+      <img alt="dance party" src={Map}></img>
+    </div>
+>>>>>>> 84b138d2978bdcb7a6008741902007e1c9af823b
   );
 }
 

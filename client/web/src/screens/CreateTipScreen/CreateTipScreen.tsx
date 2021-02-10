@@ -193,7 +193,7 @@ export function CreateTipScreen() {
         </div>
 
         <div className="descriptionInputContainer">
-          <label className="eventScreenLabel">Saftey Comment</label>
+          <label className="eventScreenLabel">Safety Comment</label>
           <textarea
             onChange={handleInputChange}
             className="descriptionInputContainer"
@@ -206,7 +206,7 @@ export function CreateTipScreen() {
 
         <div className="priceLevelInputContainer">
           <div className="rating">
-            <p>saftey rating</p>
+            <p>Safety Rating</p>
             <span>$</span>
             <span>$</span>
             <span>$</span>

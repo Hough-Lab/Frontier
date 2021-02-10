@@ -1,39 +1,43 @@
-import React, { useState } from 'react';
-import MapComponent from '../../components/MapComponent/MapComponent';
-import { CreateEventScreen } from '../CreateEventScreen/CreateEventScreen';
-import { CreateTipScreen } from '../CreateTipScreen/CreateTipScreen';
-import { DisplayPOIScreen } from '../DisplayPOIScreen/DisplayPOIScreen';
-import { NavBar } from '../../components/NavBarComponent/NavBar';
-import './HomeScreen.css';
+import React, { useState } from "react";
+import MapComponent from "../../components/MapComponent/MapComponent";
+import { CreateEventScreen } from "../CreateEventScreen/CreateEventScreen";
+import { CreateTipScreen } from "../CreateTipScreen/CreateTipScreen";
+import { DisplayPOIScreen } from "../DisplayPOIScreen/DisplayPOIScreen";
+import { NavBar } from "../../components/NavBarComponent/NavBar";
+import "./HomeScreen.css";
 
 function HomeScreen() {
   const [showCreateEvent, setShowCreateEvent] = useState(false);
   const [showCreateTip, setShowCreateTip] = useState(false);
   const [showPointOfInterest, setShowPointOfInterest] = useState(false);
+  const [showHomeButton, setShowHomeButton] = useState(true);
 
   const toggleShowCreateEvent = () => {
     setShowCreateEvent((showCreateEvent) => !showCreateEvent);
     setShowCreateTip(false);
     setShowPointOfInterest(false);
+    setShowHomeButton(false);
   };
 
   const toggleShowCreateTip = () => {
     setShowCreateTip((showCreateTip) => !showCreateTip);
     setShowCreateEvent(false);
     setShowPointOfInterest(false);
+    setShowHomeButton(false);
   };
 
   const toggleShowPointOfInterest = () => {
     setShowPointOfInterest((showPointOfInterest) => !showPointOfInterest);
     setShowCreateTip(false);
     setShowCreateEvent(false);
+    setShowHomeButton(false);
   };
 
-  const homeButtonPressed = () => {
+  const toggleHomeButtonPressed = () => {
+    setShowHomeButton((showHomeButton) => !showHomeButton);
     setShowCreateEvent(false);
     setShowCreateTip(false);
     setShowPointOfInterest(false);
-    // setShowSearchPopout(false)
   };
 
   return (
@@ -42,7 +46,11 @@ function HomeScreen() {
         toggleShowCreateEvent={toggleShowCreateEvent}
         toggleShowCreateTip={toggleShowCreateTip}
         toggleShowPointOfInterest={toggleShowPointOfInterest}
-        homeButtonPressed={homeButtonPressed}
+        toggleHomeButtonPressed={toggleHomeButtonPressed}
+        showCreateEvent={showCreateEvent}
+        showCreateTip={showCreateTip}
+        showPointOfInterest={showPointOfInterest}
+        showHomeButton={showHomeButton}
       />
       <div className="homeContainer">
         {showCreateEvent && (
@@ -61,7 +69,7 @@ function HomeScreen() {
           </div>
         )}
         <div className="mapContainer">
-          <MapComponent />
+          <MapComponent toggleShowPointOfInterest={toggleShowPointOfInterest} />
         </div>
       </div>
     </div>
