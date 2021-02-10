@@ -2,16 +2,10 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: center;
-
+  align-items: flex-end;
   background-color: #3685b5;
+  overflow-y: scroll;
   /* background-color: #c2f5ff; */
-}
-
-.logout {
-  display: flex;
-  justify-self: end;
-  margin-top: auto;
 }
 
 .navBarButton {
@@ -25,11 +19,19 @@
 }
 
 .selected {
-  display: flex;
-  align-items: center;
-  background-color: #fd9b9b;
-  box-shadow: -2px 3px 2px 1px #fd7b8f;
+  background-color: white;
+  box-shadow: -2px 3px 2px 1px rgba(0, 0, 0, 0.2);
   border-radius: 20px 0 0 20px;
+}
+
+.centered {
+  align-self: center;
+}
+
+.homeSelected {
+  background-color: white;
+  box-shadow: -2px 3px 2px 1px rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
 }
 
 Link {
@@ -53,7 +55,7 @@ Link {
 }
 
 .logout {
-  flex: 0 0 64px;
+  margin-top: auto;
 }
 
 .myReact-icons {

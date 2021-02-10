@@ -15,7 +15,7 @@ const initialState: POI = {
 const reducer = (state = initialState, action: FrontierAction<POI>) => {
   switch (action.type) {
     case GET_POI_BY_ID:
-      return action.payload || initialState;
+      return { ...action.payload } || initialState;
     default:
       return state;
   }

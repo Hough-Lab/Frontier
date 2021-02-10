@@ -3,11 +3,13 @@ import { FrontierAction, POI } from "../../interfaces/reducerInterfaces";
 
 const initialState: POI = {
   formattedAddress: "",
+  pointOfInterestId: "",
   latitude: "",
   longitude: "",
-  pointOfInterestId: "",
   createdAt: "",
   updatedAt: "",
+  events: [],
+  reviews: [],
 };
 
 const reducer = (state = initialState, action: FrontierAction<POI>) => {

@@ -14,18 +14,17 @@ import { editUserProfile, getAllPOI } from '../../store/actions';
 import Colors from '../../assets/colors';
 import { Navigation } from '../../interfaces/interfaces';
 import TagsInsertComponent from '../../components/TagsInsertComponent';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const RegisterTagsScreen = ({ navigation }: { navigation: Navigation }) => {
-  const tags = ['aa'];
+  const [tags, setTags] = useState<string[]>([]);
 
   const dispatch = useDispatch();
 
   const handleSubmit = useCallback(async () => {
-    if (tags !== []) {
-      // await dispatch(editUserProfile({ userTags: tags }));
-      // dispatch(getAllPOI());
-      navigation.navigate('RegisterProfilePicScreen');
-    }
+    await dispatch(editUserProfile({ userTags: tags }));
+    dispatch(getAllPOI());
+    navigation.navigate('RegisterProfilePicScreen');
   }, [tags]);
 
   return (
@@ -36,17 +35,11 @@ const RegisterTagsScreen = ({ navigation }: { navigation: Navigation }) => {
 
       <View style={styles.midContent}>
         <View style={styles.label}>
-          <Text style={styles.labelText}>Create tags that describe you?</Text>
+          <Text style={styles.labelText}>What tags better describe you?</Text>
         </View>
         <View style={styles.inputContainer}>
-          <TextInput placeholder="Tag name" />
-          <TouchableOpacity onPress={() => {}}>
-            <AntDesign name="pluscircleo" size={24} color="black" />
-          </TouchableOpacity>
+          <TagsInsertComponent setTags={setTags} tags={tags} />
         </View>
-
-        {/* add the below once  have the action "edit user" */}
-        {/* <TagsInsertComponent getTags={getTags} /> */}
       </View>
 
       <View style={styles.bottomBtnsContainer}>
@@ -55,7 +48,9 @@ const RegisterTagsScreen = ({ navigation }: { navigation: Navigation }) => {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() =>
-            navigation.navigate('MainStackNavigator', { screen: 'HomeScreen' })
+            navigation.navigate('MainStackNavigator', {
+              screen: 'HomeScreen',
+            })
           }
           activeOpacity={0.7}
         >
@@ -102,12 +97,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     borderRadius: 30,
-    borderBottomWidth: 1,
-    height: 45,
     width: '70%',
-    marginBottom: 20,
+    margin: 20,
+    marginLeft: -25,
     padding: 5,
-    paddingLeft: 15,
   },
   bottomBtnsContainer: {
     flexDirection: 'row',

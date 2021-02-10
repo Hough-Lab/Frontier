@@ -23,6 +23,7 @@ import TagsInsertComponent from '../components/TagsInsertComponent';
 import GooglePlacesInput from '../components/GooglePlacesInput';
 import dayjs from 'dayjs';
 import DateTimePickerComponent from '../components/DateTimePickerComponent';
+import { applyAnimation } from '../utils/generalFunctions';
 
 import { numbers } from '../assets/numbers';
 
@@ -38,7 +39,6 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
     description: '',
     maxCapacity: 1,
     isPrivate: false,
-    tags: [''],
   });
 
   const getLocation = (
@@ -54,14 +54,8 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
     });
   };
 
-  const getTags = (tags: string[]) => {
-    setInputValues({
-      ...inputValues,
-      tags: tags,
-    });
-  };
-
   const [capacity, setCapacity] = useState<number>();
+  const [tags, setTags] = useState<string[]>([]);
 
   const dispatch = useDispatch();
 
@@ -78,12 +72,14 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
         inputValues.maxCapacity,
         inputValues.isPrivate,
         image,
-        inputValues.tags,
+        tags,
         navigation,
       ),
     );
     dispatch(getAllPOI());
-  }, [inputValues]);
+  }, [inputValues, tags, image]);
+
+  console.log(tags);
 
   return (
     <ScrollView style={styles.container} keyboardShouldPersistTaps="always">
@@ -97,7 +93,7 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
           alignSelf: 'center',
         }}
       />
-      <TagsInsertComponent getTags={getTags} />
+      <TagsInsertComponent setTags={setTags} tags={tags} />
 
       {/* Event title and location*/}
       <View style={styles.eventTitleView}>
@@ -120,6 +116,7 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
           {moment(inputValues.dateFrom).format('Do MMMM, YYYY [at] HH:mm')}
         </Text>
         <DateTimePickerComponent
+          mode="datetime"
           setDate={(selectedDate: string) =>
             setInputValues({ ...inputValues, dateFrom: selectedDate })
           }
@@ -133,6 +130,7 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
           {moment(inputValues.dateTo).format('Do MMMM, YYYY [at] HH:mm')}
         </Text>
         <DateTimePickerComponent
+          mode="datetime"
           setDate={(selectedDate: string) =>
             setInputValues({ ...inputValues, dateTo: selectedDate })
           }

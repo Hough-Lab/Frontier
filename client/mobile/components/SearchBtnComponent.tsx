@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   UIManager,
   Platform,
+  Text,
 } from 'react-native';
 import { Ionicons, Entypo } from '@expo/vector-icons';
 

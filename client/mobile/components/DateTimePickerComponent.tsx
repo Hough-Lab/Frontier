@@ -9,7 +9,7 @@ LogBox.ignoreAllLogs();
 
 interface IProps {
   setDate: Function;
-  mode: string;
+  mode?: string;
 }
 
 const DateTimePickerComponent = ({ setDate, mode }: IProps) => {

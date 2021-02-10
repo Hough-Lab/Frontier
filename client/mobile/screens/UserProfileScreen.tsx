@@ -11,6 +11,7 @@ import {
   UIManager,
   FlatList,
   ScrollView,
+  Animated,
 } from 'react-native';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
@@ -28,6 +29,7 @@ import { Navigation } from '../interfaces/interfaces';
 import { applyAnimation } from '../utils/generalFunctions';
 import Colors from '../assets/colors';
 import { countriesList, languagesList } from '../assets/countries';
+import { logoutUser } from '../store/actions';
 import DateTimePickerComponent from '../components/DateTimePickerComponent';
 import EventCardCarouselComponent from '../components/EventCardCarouselComponent';
 import {

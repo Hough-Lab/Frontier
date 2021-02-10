@@ -1,18 +1,31 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { Entypo, Ionicons, MaterialIcons, AntDesign } from '@expo/vector-icons';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Colors from '../assets/colors';
+import { POI, SystemState } from '../interfaces/reducerInterfaces';
+import { getPOIById } from '../store/actions';
+import {
+  getAverageRating,
+  getAverageSafetyRating,
+} from '../utils/generalFunctions';
 
-const EventPopupComponent = () => {
+const EventPopupComponent = ({ POI }: { POI: POI }) => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getPOIById(POI.pointOfInterestId));
+  }, [POI.pointOfInterestId]);
+
+  const POIInfo = useSelector((state: SystemState) => state.POI);
+
+  const eventsArr = POIInfo.events;
+  const averageRating = getAverageRating(POIInfo?.reviews);
+  const averageSafetyRating = getAverageSafetyRating(POIInfo?.reviews);
+
   return (
     <View style={styles.container}>
-      <View style={styles.titleBarView}>
-        <Text style={styles.title}>Event Title</Text>
-        <TouchableOpacity>
-          <Entypo name="cross" size={24} color="black" />
-        </TouchableOpacity>
-      </View>
       <Image
         style={styles.image}
         resizeMode="cover"
@@ -21,26 +34,18 @@ const EventPopupComponent = () => {
 
       <View style={styles.locationView}>
         <Entypo name="location-pin" size={24} color="black" />
-        <Text style={styles.locationText}>1 Holborn, London, UK</Text>
+        <Text style={styles.locationText}>{POI.formattedAddress}</Text>
       </View>
 
       {/* Boxes Section */}
       <View style={styles.contentArea}>
         <View style={styles.box}>
-          <Ionicons name="md-people-sharp" size={24} color="black" />
-          <Text>40</Text>
-        </View>
-        <View style={styles.box}>
           <MaterialIcons name="date-range" size={24} color="black" />
-          <Text>19/02/2021</Text>
+          <Text>{POIInfo.events.length} Event</Text>
         </View>
         <View style={styles.box}>
           <AntDesign name="clockcircleo" size={24} color="black" />
           <Text>9:00 AM</Text>
-        </View>
-        <View style={styles.box}>
-          <Ionicons name="md-people-sharp" size={24} color="black" />
-          <Text>40</Text>
         </View>
       </View>
     </View>
@@ -73,6 +78,7 @@ const styles = StyleSheet.create({
   },
   locationView: {
     flexDirection: 'row',
+    alignItems: 'center',
   },
   locationText: {
     fontWeight: 'bold',
@@ -82,9 +88,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   box: {
-    width: 60,
+    flex: 1,
     height: 60,
-    // borderWidth: 1,
+    margin: 5,
     borderRadius: 5,
     justifyContent: 'center',
     alignItems: 'center',

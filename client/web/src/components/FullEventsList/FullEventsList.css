@@ -1,0 +1,49 @@
+.eventCardContainer {
+  display: flex;
+  padding: 5px;
+  margin-bottom: 5px;
+  background-color: white;
+  color: black;
+  border-radius: 10px;
+}
+
+.tempImage {
+  border-radius: 5px;
+}
+
+.eventInfoContainer {
+  display: flex;
+  flex-direction: column;
+  padding: 0px 5px;
+}
+
+.eventsListContainer {
+  overflow-y: scroll;
+  height: 65vh;
+  width: 100%;
+  margin-top: 5px;
+}
+
+.eventName {
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.eventDescription {
+  font-size: 13px;
+}
+
+.eventDateTimeContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-top: auto;
+}
+
+.eventTime {
+  font-size: 13px;
+}
+
+.eventDate {
+  font-size: 13px;
+}

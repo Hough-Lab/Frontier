@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
   StyleSheet,
   View,
@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   LogBox,
   Dimensions,
+  Animated,
 } from 'react-native';
 import MapView, { Marker, Callout } from 'react-native-maps';
 import * as Location from 'expo-location';
@@ -17,7 +18,11 @@ import Colors from '../assets/colors';
 import { Navigation } from '../interfaces/interfaces';
 import SearchBtnComponent from '../components/SearchBtnComponent';
 import EventPopupComponent from '../components/EventPopupComponent';
-import { POI, SystemState } from '../interfaces/reducerInterfaces';
+import { POI, POIArray, SystemState } from '../interfaces/reducerInterfaces';
+import SearchTagComponent from '../components/SearchTagComponent';
+import { filterPOIByTag } from '../utils/generalFunctions';
+import { getPOIById } from '../store/actions';
+import { applyAnimation } from '../utils/generalFunctions';
 
 LogBox.ignoreLogs([/MapView/g]);
 
@@ -29,7 +34,12 @@ export interface ISeenOnMap {
 }
 
 const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
-  const allPOI: any = useSelector((state: SystemState) => state.allPOI);
+  const [tags, setTags] = useState<string[]>([]);
+  const [filteredPOI, setFilteredPOI] = useState<POI[]>([]);
+
+  const allPOI: POI[] = useSelector((state: SystemState) => state.allPOI);
+
+  const dispatch = useDispatch();
 
   const [userLocation, setUserLocation] = useState({
     latitude: 51.507351,
@@ -56,6 +66,10 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
         0.0122,
     });
   };
+
+  useEffect(() => {
+    setFilteredPOI(filterPOIByTag(allPOI, tags));
+  }, [tags, allPOI]);
 
   useEffect(() => {
     (async () => {
@@ -116,14 +130,14 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
             }}
             region={seenOnMap}
           >
-            {Object.keys(allPOI)[0] !== 'POI' &&
-              allPOI?.map((POI: POI, index: number) => {
+            {filteredPOI?.length > 0 &&
+              filteredPOI?.map((POI: POI) => {
                 return (
                   <Marker
                     key={POI.pointOfInterestId}
                     coordinate={{
-                      latitude: +POI.latitude,
-                      longitude: +POI.longitude,
+                      latitude: +POI?.latitude,
+                      longitude: +POI?.longitude,
                     }}
                     // title={'PostgreSQL Party'}
                     image={require('../assets/images/MarkerPink1.png')}
@@ -131,6 +145,9 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
                     // width={100}
                     // height={100}
                     // description={'Descriptions go here'}
+                    onPress={() => {
+                      dispatch(getPOIById(POI.pointOfInterestId));
+                    }}
                   >
                     {/* <Image source={require('../assets/images/MarkerPink.png')} /> */}
                     <Callout
@@ -141,7 +158,7 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
                         });
                       }}
                     >
-                      <EventPopupComponent />
+                      <EventPopupComponent POI={POI} />
                     </Callout>
                   </Marker>
                 );
@@ -157,6 +174,7 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
       </View>
 
       <SearchBtnComponent setSeenOnMap={setSeenOnMap} />
+      <SearchTagComponent setTags={setTags} tags={tags} />
     </View>
   );
 };
