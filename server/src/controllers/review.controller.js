@@ -22,7 +22,7 @@ exports.PostReview = async (req, res) => {
     const user = req.user;
 
     CreateReviewTag(tags);
-    const newPOI = await createPOI(formattedAddress, latitude, longitude);
+    const newPOI = await createPOI(formattedAddress, latitude, longitude, tags);
     const reviewId = uuid.v4();
 
     let pointOfInterestId;
@@ -47,6 +47,16 @@ exports.PostReview = async (req, res) => {
       PointOfInterestPointOfInterestId: newPOI.pointOfInterestId,
       tags,
     });
+
+    const poiToUpdate = await models.PointOfInterest.findByPk(
+      pointOfInterestId,
+    );
+    if (!poiToUpdate.reviews) {
+      poiToUpdate.reviews = [newReview];
+    } else {
+      poiToUpdate.reviews = [poiToUpdate.reviews, newReview];
+    }
+    await poiToUpdate.save();
 
     if (!newReview) {
       throw new Error('could not add review');
@@ -89,19 +99,6 @@ exports.DeleteReview = async (req, res) => {
     res.sendStatus(204);
   } catch (err) {
     console.log(err);
-    res.status(500).send(err);
-  }
-};
-
-exports.GetEventById = async (req, res) => {
-  try {
-    const { eventId } = req.params;
-    const event = await models.Event.findAll({
-      where: { eventId: eventId },
-    });
-    if (!event) throw new Error('event not found');
-    res.status(200).send(event);
-  } catch (err) {
     res.status(500).send(err);
   }
 };

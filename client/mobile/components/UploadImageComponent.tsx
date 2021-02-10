@@ -18,7 +18,7 @@ import Colors from '../assets/colors';
 interface IProps {
   setImage: Dispatch<SetStateAction<string>>;
   image: string;
-  pictureStyle: {
+  pictureStyle?: {
     width: number;
     height: number;
     borderRadius: number;
