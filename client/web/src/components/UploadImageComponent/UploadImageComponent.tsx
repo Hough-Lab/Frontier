@@ -1,7 +1,6 @@
-import React, { ChangeEvent, Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { cloudinary_name, upload_preset } from "../../config";
 import "./UploadImageComponent.css";
-import "../../assets/images/placeholder.jpg";
 
 interface Event<T = EventTarget> {
   target: T;

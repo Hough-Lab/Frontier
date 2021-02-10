@@ -3,41 +3,34 @@ import { useDispatch } from "react-redux";
 import "./CreateTipScreen.css";
 import UploadImageComponent from "../../components/UploadImageComponent/UploadImageComponent";
 import { StarRating } from "../../components/StarComponent/StarComponent";
+import { createReview } from "../../store/actions";
+import { StandaloneSearchBox } from "@react-google-maps/api";
 
-interface Tag {
-  reviewTagId: number;
-  tagName: string;
-}
+const mockArrayTags: string[] = ["food", "adventure", "mountain"];
 
-const mockArrayTags: Tag[] = [
-  { reviewTagId: 1, tagName: "Food" },
-  { reviewTagId: 2, tagName: "Adventure" },
-  { reviewTagId: 3, tagName: "Nature" },
-];
-
-const emptyTagsArray: Tag[] = [];
+const emptyTagsArray: string[] = [];
 
 const emptyEventObject = {
-  reviewId: "fakeEventId",
-  createdAt: "fakeTime",
+  formattedAddress: "",
+  latitude: 0,
+  longitude: 0,
   budgetLevel: 5,
   title: "",
   description: "",
   rating: 5,
   safetyRating: 3,
   safetyComment: "",
-  picture: "",
-  pointOfInterestId: "fakePointId",
   tags: emptyTagsArray,
 };
+const initalSearchBox: any = {};
 
 export function CreateTipScreen() {
-  const [inputValues, setInputValues] = useState({ title: "", location: "" });
   const [tagInputValue, setTagInputValue] = useState("");
   const [selectedTags, setSelectedTags] = useState(emptyTagsArray);
   const [recommendedTags, setRecommendedTags] = useState(mockArrayTags);
-  const [eventObject, setEventObject] = useState(emptyEventObject);
-  const [image, setImage] = useState("");
+  const [reviewObject, setReviewObject] = useState(emptyEventObject);
+  const [image, setImage] = useState<string>("");
+  const [searchBox, setSearchBox] = useState(initalSearchBox);
 
   const handleInputChange = (
     e:
@@ -45,11 +38,11 @@ export function CreateTipScreen() {
       | React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    setEventObject({ ...eventObject, [name]: value });
+    setReviewObject({ ...reviewObject, [name]: value });
   };
 
   useEffect(() => {
-    setEventObject({ ...eventObject, tags: selectedTags });
+    setReviewObject({ ...reviewObject, tags: selectedTags });
   }, [selectedTags]);
 
   const dispatch = useDispatch();
@@ -58,13 +51,50 @@ export function CreateTipScreen() {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent> | any
   ) => {
     e.preventDefault();
+    dispatch(
+      createReview(
+        reviewObject.title,
+        reviewObject.description,
+        reviewObject.rating,
+        reviewObject.budgetLevel,
+        reviewObject.safetyRating,
+        reviewObject.safetyComment,
+        reviewObject.formattedAddress,
+        image,
+        reviewObject.latitude,
+        reviewObject.longitude,
+        selectedTags
+      )
+    );
     console.log("selectedTags :>> ", selectedTags);
-    console.log("eventObject :>> ", eventObject);
+    console.log("eventObject :>> ", reviewObject);
+    console.log(image);
+  };
+
+  const onLoad = (ref: any) => {
+    if (ref) {
+      setSearchBox(ref);
+    }
+  };
+
+  const onPlacesChanged = () => {
+    const item = searchBox.getPlaces()[0];
+
+    const newFormattedAddress = item.formatted_address;
+    const newLat = item.geometry.location.lat();
+    const newLng = item.geometry.location.lng();
+
+    setReviewObject({
+      ...reviewObject,
+      formattedAddress: newFormattedAddress,
+      latitude: newLat,
+      longitude: newLng,
+    });
   };
 
   const handleRecommendedTagClick = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    tag: Tag
+    tag: string
   ) => {
     e.preventDefault();
     addTagtoSelected(tag);
@@ -72,7 +102,7 @@ export function CreateTipScreen() {
 
   const handleSelectedTagClick = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    tag: Tag
+    tag: string
   ) => {
     e.preventDefault();
     removeTagFromSelected(tag);
@@ -82,20 +112,15 @@ export function CreateTipScreen() {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
-    const newTag = {
-      reviewTagId: 4,
-      tagName: tagInputValue,
-    };
+    const newTag = tagInputValue;
     addTagtoSelected(newTag);
     setTagInputValue("");
   };
-
-  const addTagtoSelected = (tag: Tag) => {
+  const addTagtoSelected = (tag: string) => {
     setSelectedTags((prevTags) => [...prevTags, tag]);
     setRecommendedTags((prevTags) => prevTags.filter((el) => el !== tag));
   };
-
-  const removeTagFromSelected = (tag: Tag) => {
+  const removeTagFromSelected = (tag: string) => {
     setRecommendedTags((prevTags) => [...prevTags, tag]);
     setSelectedTags((prevTags) => prevTags.filter((el) => el !== tag));
   };
@@ -119,27 +144,25 @@ export function CreateTipScreen() {
             className="formInput"
             name="title"
             type="text"
-            placeholder="Type Event Name..."
-            onClick={(text) => setInputValues({ ...inputValues })}
+            placeholder="Title"
             onChange={handleInputChange}
-            value={eventObject.title}
+            value={reviewObject.title}
           />
         </div>
 
-        {/*//TODO check if location is need or it is linked with point of interest if so add auto location api google
         <div className="locationInputContainer">
           <label className="eventScreenLabel">Location</label>
- 
-
-        <input
-            onChange={handleInputChange}
-            name="location"
-            className="textInput"
-            type="text"
-            placeholder="Location"
-            value={eventObject.location}
-          ></input>
-        </div> */}
+          <StandaloneSearchBox
+            onLoad={onLoad}
+            onPlacesChanged={onPlacesChanged}
+          >
+            <input
+              className="formInput"
+              type="text"
+              placeholder="Location"
+            ></input>
+          </StandaloneSearchBox>
+        </div>
 
         <div className="tagSelectionContainer">
           <label className="eventScreenLabel">Tags:</label>
@@ -164,7 +187,7 @@ export function CreateTipScreen() {
                 onClick={(e) => handleSelectedTagClick(e, tag)}
                 className="tagButton selectedTag"
               >
-                {tag.tagName}
+                {tag}
               </button>
             ))}
           </div>
@@ -175,7 +198,7 @@ export function CreateTipScreen() {
                 onClick={(e) => handleRecommendedTagClick(e, tag)}
                 className="tagButton"
               >
-                {tag.tagName}
+                {tag}
               </button>
             ))}
           </div>
@@ -188,7 +211,7 @@ export function CreateTipScreen() {
             name="description"
             cols={40}
             rows={5}
-            value={eventObject.description}
+            value={reviewObject.description}
           />
         </div>
 
@@ -197,10 +220,10 @@ export function CreateTipScreen() {
           <textarea
             onChange={handleInputChange}
             className="descriptionInputContainer"
-            name="description"
+            name="safetyComment"
             cols={40}
             rows={5}
-            value={eventObject.safetyComment}
+            value={reviewObject.safetyComment}
           />
         </div>
 

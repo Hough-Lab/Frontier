@@ -27,6 +27,7 @@ export const loginUser = (email: string, password: string) => async (
   );
   dispatch({ type: GET_CURRENT_USER, payload: data.user });
 
+  console.log("done");
   try {
     await localStorage.setItem("jwtToken", data.token);
   } catch (e) {
