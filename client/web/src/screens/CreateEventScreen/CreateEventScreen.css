@@ -99,17 +99,12 @@
 }
 
 .tagsAddButton {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 10px;
-  font-weight: bold;
-  border-radius: 5px;
-  height: 1px;
+  border-radius: 6px;
   border: none;
-  font-size: 14px;
-  min-width: 150px;
+  margin-bottom: 8px;
+  width: 25px;
+  padding: 5px;
+  height: 25px;
 }
 
 .photoUploadContainer {
