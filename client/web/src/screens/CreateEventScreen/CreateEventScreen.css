@@ -13,6 +13,7 @@
   border: none;
   font-size: 14px;
   min-width: 150px;
+  margin-bottom:50px;
 }
 
 .shareButtonContainer {
@@ -22,12 +23,15 @@
   margin-top: 20px;
 }
 
-.eventContainer {
-  background-color: #fd9b9be3;
+.eventContainer{
+  background-color: grey;
+  opacity: 0.85;
   z-index: 10;
   border-radius: 0px 20px 20px 0px;
   margin-top: 100px;
-  width: 20%;
+  margin-bottom: 50px;
+  width: 25%;
+  max-height: 65%;
   min-width: 330px;
   justify-content: flex-start;
   display: flex;
@@ -35,7 +39,18 @@
   align-items: center;
   color: white;
   overflow-y: scroll;
+  font-weight: bold;
 }
+
+.eventContainer::-webkit-scrollbar {
+  display: none;
+}
+
+.tagsAddContainer {
+ display: flex;
+ justify-content: space-between;
+}
+
 
 .suggestedTagsContainer {
   padding-bottom: 10px;
@@ -46,8 +61,9 @@
   padding-left: 0px;
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
+
 }
 
 .tagButton {
@@ -84,11 +100,12 @@
 
 .tagsAddButton {
   border-radius: 6px;
+  padding-top: 10px;
   border: none;
-  margin-bottom: 8px;
-  width: 25px;
+  width: 34px;
   padding: 5px;
-  height: 25px;
+  height: 34px;
+  size: auto;
 }
 
 .photoUploadContainer {
@@ -120,7 +137,7 @@
 .selectPrivateEventContainer {
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
 }
 

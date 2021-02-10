@@ -253,18 +253,18 @@ export const CreateEventScreen = () => {
             <div className="selectPrivateEventContainer">
               <input
                 onClick={() => handleIsPrivateClick()}
-                className="formInput"
+                className="formInput-checkbox"
                 type="checkbox"
                 id="event"
                 name="isPrivate"
                 value="private"
               />
               <label className="eventScreenLabel" htmlFor="event">
-                Private Event
+                Private Event?
               </label>
             </div>
             <div className="shareButtonContainer">
-              <button type="submit" className="shareButton">
+              <button type="submit" className="shareButton" >
                 Share
               </button>
             </div>
