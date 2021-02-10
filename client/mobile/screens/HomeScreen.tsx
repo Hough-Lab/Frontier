@@ -123,8 +123,8 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
             }}
             region={seenOnMap}
           >
-            {filteredPOI?.length > 0 &&
-              filteredPOI?.map((POI: POI) => {
+            {allPOI?.length > 0 &&
+              allPOI?.map((POI: POI) => {
                 return (
                   <Marker
                     key={POI.pointOfInterestId}
