@@ -6,7 +6,6 @@ import {
   TextInput,
   TouchableOpacity,
   FlatList,
-  Dimensions,
 } from 'react-native';
 
 import Colors from '../assets/colors';

@@ -7,12 +7,10 @@ import {
   ScrollView,
   TextInput,
   Switch,
-  Platform,
   Dimensions,
 } from 'react-native';
-import { MaterialIcons, Ionicons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import { useDispatch } from 'react-redux';
-import moment from 'moment';
 import { Picker } from '@react-native-picker/picker';
 
 import { createEvent, getAllPOI, getEventsAttending } from '../store/actions';
@@ -23,7 +21,6 @@ import TagsInsertComponent from '../components/TagsInsertComponent';
 import GooglePlacesInput from '../components/GooglePlacesInput';
 import dayjs from 'dayjs';
 import DateTimePickerComponent from '../components/DateTimePickerComponent';
-import { applyAnimation } from '../utils/generalFunctions';
 
 import { numbers } from '../assets/numbers';
 
@@ -85,12 +82,8 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
       <UploadImageComponent
         setImage={setImage}
         image={image}
-        pictureStyle={{
-          width: Dimensions.get('window').width - 20,
-          height: 190,
-          borderRadius: 30,
-          alignSelf: 'center',
-        }}
+        pictureStyle={styles.uploadImagePicture}
+        uploadContainer={styles.uploadImageArea}
       />
       <TagsInsertComponent setTags={setTags} tags={tags} />
 
@@ -112,7 +105,7 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
       <View style={styles.datePicker}>
         <Text style={styles.datePickerLabel}>From: </Text>
         <Text style={styles.datePickerText}>
-          {moment(inputValues.dateFrom).format('Do MMMM, YYYY [at] HH:mm')}
+          {dayjs(inputValues.dateFrom).format('D MMMM, YYYY [at] HH:mm')}
         </Text>
         <DateTimePickerComponent
           mode="datetime"
@@ -126,7 +119,7 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
       <View style={styles.datePicker}>
         <Text style={styles.datePickerLabel}>To: </Text>
         <Text style={styles.datePickerText}>
-          {moment(inputValues.dateTo).format('Do MMMM, YYYY [at] HH:mm')}
+          {dayjs(inputValues.dateTo).format('D MMMM, YYYY [at] HH:mm')}
         </Text>
         <DateTimePickerComponent
           mode="datetime"
@@ -163,7 +156,7 @@ const CreateEventScreen = ({ navigation }: { navigation: Navigation }) => {
         <Text style={{ fontWeight: 'bold' }}>Maximum capacity of event:</Text>
         <Picker
           selectedValue={capacity}
-          style={{ marginLeft: 10, width: '30%' }}
+          style={{ marginLeft: 10, width: '40%' }}
           onValueChange={(value: number, itemIndex: number) => {
             setCapacity(value);
             setInputValues({ ...inputValues, maxCapacity: value });
@@ -282,5 +275,24 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     width: '70%',
     alignItems: 'center',
+  },
+  uploadImageArea: {
+    width: '100%',
+    height: 180,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: 'black',
+    backgroundColor: 'white',
+    elevation: 1,
+    borderRadius: 8,
+    borderWidth: 1,
+    padding: 20,
+    marginBottom: 30,
+  },
+  uploadImagePicture: {
+    width: Dimensions.get('window').width - 20,
+    height: 190,
+    borderRadius: 30,
+    alignSelf: 'center',
   },
 });

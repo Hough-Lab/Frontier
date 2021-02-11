@@ -1,20 +1,12 @@
 import React, { useState, useCallback } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  TextInput,
-  Touchable,
-} from 'react-native';
-import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { AntDesign } from '@expo/vector-icons';
 import { useDispatch } from 'react-redux';
 
 import { editUserProfile, getAllPOI } from '../../store/actions';
 import Colors from '../../assets/colors';
 import { Navigation } from '../../interfaces/interfaces';
 import TagsInsertComponent from '../../components/TagsInsertComponent';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 const RegisterTagsScreen = ({ navigation }: { navigation: Navigation }) => {
   const [tags, setTags] = useState<string[]>([]);

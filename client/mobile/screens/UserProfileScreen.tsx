@@ -11,16 +11,9 @@ import {
   UIManager,
   FlatList,
   ScrollView,
-  Animated,
 } from 'react-native';
 import { useSelector } from 'react-redux';
-import moment from 'moment';
-import {
-  AntDesign,
-  FontAwesome5,
-  MaterialCommunityIcons,
-  MaterialIcons,
-} from '@expo/vector-icons';
+import { AntDesign, FontAwesome5 } from '@expo/vector-icons';
 import { Picker } from '@react-native-picker/picker';
 import { useDispatch } from 'react-redux';
 
@@ -146,7 +139,7 @@ const UserProfileScreen = ({ navigation }: { navigation: Navigation }) => {
                 color: 'black',
               }}
             >
-              {moment(inputValues.dateOfBirth).format('DD.MM.YYYY ')}
+              {dayjs(inputValues.dateOfBirth).format('DD.MM.YYYY ')}
             </Text>
             <DateTimePickerComponent
               setDate={(selectedDate: string) =>
@@ -157,7 +150,7 @@ const UserProfileScreen = ({ navigation }: { navigation: Navigation }) => {
           <Picker
             selectedValue={user.from}
             style={{ height: 50, width: '70%' }}
-            onValueChange={(itemValue: string, itemIndex: number) =>
+            onValueChange={(itemValue: string | number, itemIndex: number) =>
               setCountry(itemValue)
             }
           >
@@ -185,148 +178,99 @@ const UserProfileScreen = ({ navigation }: { navigation: Navigation }) => {
       </View>
       <ScrollView>
         <View style={styles.nameView}>
-          <Text style={styles.name}>
-            {user.firstName} {user.lastName}
-          </Text>
+          <View>
+            <View style={{ flexDirection: 'row' }}>
+              <Text style={styles.name}>{user.firstName}</Text>
+              <Text style={styles.name}> {user.lastName}</Text>
+            </View>
 
-<<<<<<< HEAD
-          {user.dateOfBirth && (
-=======
-        <Text>
-          <Text style={{ color: 'black', fontSize: 12 }}>
-            {'joined ' + dayjs(user.createdAt).month(0).from(dayjs().month(0))}
-          </Text>
-        </Text>
-        {user.from && (
-          <Text style={{ color: 'black', paddingTop: 5 }}>
-            {'From ' + user.from}
-          </Text>
-        )}
-        {user.userTags && (
-          <View style={styles.languages}>
->>>>>>> 828a96a14b55fc9258d74fb73f07406cd2472f5a
-            <Text
-              style={{
-                fontWeight: 'normal',
-                fontSize: 15,
-              }}
-            >
-              {user.dateOfBirth && dayjs().from(dayjs(user.dateOfBirth), true)}{' '}
-              old
-            </Text>
-<<<<<<< HEAD
-          )}
-=======
-            <FlatList
-              horizontal={true}
-              data={user.userTags}
-              renderItem={({ item, index }) => (
-                <View
-                  key={index}
-                  style={{ ...styles.tag, backgroundColor: Colors.pink }}
-                >
-                  <Text style={styles.tagText}>{item}</Text>
-                </View>
-              )}
-              keyExtractor={(item) => item}
-            />
-          </View>
-        )}
-        {user.language && (
-          <View style={styles.languages}>
-            <Text
-              style={{
-                fontWeight: 'bold',
-                paddingRight: 10,
-                paddingVertical: 5,
-              }}
-            >
-              Languages spoken:
-            </Text>
-            <FlatList
-              horizontal={true}
-              data={user.language}
-              renderItem={({ item, index }) => (
-                <View key={index} style={styles.tag}>
-                  <Text style={styles.tagText}>{item}</Text>
-                </View>
-              )}
-              keyExtractor={(item) => item}
-            />
-          </View>
-        )}
-      </View>
->>>>>>> 828a96a14b55fc9258d74fb73f07406cd2472f5a
-
-          <Text>
-            {/* <Text style={{ ...styles.regularText, fontWeight: 'bold' }}>
-    {user.username}
-  </Text> */}
             <Text style={{ color: 'black', fontSize: 12 }}>
               {'joined ' +
                 dayjs(user.createdAt).month(0).from(dayjs().month(0))}
             </Text>
+          </View>
+          <Text>
+            {user.from && (
+              <View style={styles.languages}>
+                <Image
+                  style={{ width: 20, height: 20, zIndex: 100 }}
+                  source={require('../assets/images/MarkerBlue1.png')}
+                />
+                <Text style={{ color: 'black', paddingTop: 5 }}>
+                  {'From ' + user.from}
+                </Text>
+              </View>
+            )}
           </Text>
-          {user.from && (
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Image
-                style={{ width: 20, height: 20, zIndex: 100 }}
-                source={require('../assets/images/MarkerBlue1.png')}
-              />
-              <Text style={{ color: 'black', paddingTop: 5 }}>
-                {'From ' + user.from}
-              </Text>
-            </View>
-          )}
-          {user.userTags && (
-            <View style={styles.languages}>
-              <Text
-                style={{
-                  fontWeight: 'bold',
-                  paddingRight: 10,
-                  paddingVertical: 5,
-                }}
-              >
-                bio:
-              </Text>
-              <FlatList
-                horizontal={true}
-                data={user.userTags}
-                renderItem={({ item, index }) => (
-                  <View
-                    key={index}
-                    style={{ ...styles.tag, backgroundColor: Colors.pink }}
-                  >
-                    <Text style={styles.tagText}>{item}</Text>
-                  </View>
-                )}
-                keyExtractor={(item) => item}
-              />
-            </View>
-          )}
-          {user.language && (
-            <View style={styles.languages}>
-              <Text
-                style={{
-                  fontWeight: 'bold',
-                  paddingRight: 10,
-                  paddingVertical: 5,
-                }}
-              >
-                languages spoken:
-              </Text>
-              <FlatList
-                horizontal={true}
-                data={user.language}
-                renderItem={({ item, index }) => (
-                  <View key={index} style={styles.tag}>
-                    <Text style={styles.tagText}>{item}</Text>
-                  </View>
-                )}
-                keyExtractor={(item) => item}
-              />
-            </View>
-          )}
+
+          <Text>
+            {user.dateOfBirth && (
+              <View style={styles.languages}>
+                <Text
+                  style={{
+                    fontWeight: 'normal',
+                    fontSize: 15,
+                  }}
+                >
+                  {user.dateOfBirth &&
+                    dayjs().from(dayjs(user.dateOfBirth), true)}{' '}
+                  old
+                </Text>
+              </View>
+            )}
+          </Text>
+          <Text>
+            {user.userTags && (
+              <View style={styles.languages}>
+                <Text
+                  style={{
+                    fontWeight: 'bold',
+                    paddingRight: 10,
+                    paddingVertical: 5,
+                  }}
+                >
+                  bio:
+                </Text>
+                <FlatList
+                  horizontal={true}
+                  data={user.userTags}
+                  renderItem={({ item, index }) => (
+                    <View
+                      key={index}
+                      style={{ ...styles.tag, backgroundColor: Colors.pink }}
+                    >
+                      <Text style={styles.tagText}>{item}</Text>
+                    </View>
+                  )}
+                  keyExtractor={(item) => item}
+                />
+              </View>
+            )}
+
+            {user.language && (
+              <View style={styles.languages}>
+                <Text
+                  style={{
+                    fontWeight: 'bold',
+                    paddingRight: 10,
+                    paddingVertical: 5,
+                  }}
+                >
+                  languages spoken:
+                </Text>
+                <FlatList
+                  horizontal={true}
+                  data={user.language}
+                  renderItem={({ item, index }) => (
+                    <View key={index} style={styles.tag}>
+                      <Text style={styles.tagText}>{item}</Text>
+                    </View>
+                  )}
+                  keyExtractor={(item) => item}
+                />
+              </View>
+            )}
+          </Text>
         </View>
 
         {/* Upcoming events section */}
@@ -377,7 +321,6 @@ const styles = StyleSheet.create({
   },
   eventsContainer: {
     paddingTop: 30,
-    // paddingBottom: 100,
   },
   profilePicContainer: {
     marginTop: 30,
@@ -398,7 +341,6 @@ const styles = StyleSheet.create({
     elevation: 3,
     borderColor: Colors.green,
     borderWidth: 1,
-    // alignItems: 'center',
     padding: 10,
     borderRadius: 8,
   },
@@ -406,7 +348,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     color: Colors.green,
-    // paddingTop: 20,
     paddingBottom: 5,
   },
   regularText: {

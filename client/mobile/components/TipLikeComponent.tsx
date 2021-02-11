@@ -1,15 +1,9 @@
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  ScrollView,
-  TouchableOpacity,
-} from 'react-native';
-import { useSelector, useDispatch } from 'react-redux';
-import { AntDesign, FontAwesome } from '@expo/vector-icons';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { AntDesign } from '@expo/vector-icons';
 
-import { Event, Review, User } from '../interfaces/reducerInterfaces';
+import { Review, User } from '../interfaces/reducerInterfaces';
 import Colors from '../assets/colors';
 import {
   likeReview,
@@ -69,7 +63,6 @@ function TipLike({ review, user }: IProps) {
   };
 
   return (
-
     <View style={styles.likeButtonsContainer}>
       <Text style={{ paddingTop: 10 }}>
         {calculateTipLikes()} travellers found this tip helpful

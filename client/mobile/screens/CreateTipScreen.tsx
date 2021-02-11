@@ -9,13 +9,8 @@ import {
   LogBox,
   Dimensions,
 } from 'react-native';
-import { AirbnbRating, Rating } from 'react-native-ratings';
-import {
-  MaterialCommunityIcons,
-  Ionicons,
-  FontAwesome,
-  AntDesign,
-} from '@expo/vector-icons';
+import { AirbnbRating } from 'react-native-ratings';
+import { Ionicons } from '@expo/vector-icons';
 import { connect, useDispatch } from 'react-redux';
 import StarRating from 'react-native-star-rating';
 
@@ -90,12 +85,8 @@ const CreateTipScreen = ({ navigation }: { navigation: Navigation }) => {
       <UploadImageComponent
         setImage={setImage}
         image={image}
-        pictureStyle={{
-          width: Dimensions.get('window').width - 20,
-          height: 190,
-          borderRadius: 30,
-          alignSelf: 'center',
-        }}
+        pictureStyle={styles.uploadImagePicture}
+        uploadContainer={styles.uploadImageArea}
       />
       <TagsInsertComponent setTags={setTags} tags={tags} />
 
@@ -289,5 +280,24 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  uploadImagePicture: {
+    width: Dimensions.get('window').width - 20,
+    height: 190,
+    borderRadius: 30,
+    alignSelf: 'center',
+  },
+  uploadImageArea: {
+    width: '100%',
+    height: 180,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: 'black',
+    backgroundColor: 'white',
+    elevation: 1,
+    borderRadius: 8,
+    borderWidth: 1,
+    padding: 20,
+    marginBottom: 30,
   },
 });

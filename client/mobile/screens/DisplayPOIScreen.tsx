@@ -14,18 +14,16 @@ import { Navigation } from '../interfaces/interfaces';
 import Colors from '../assets/colors';
 import POIImageComponent from '../components/POIImageComponent';
 import { getPOIById } from '../store/actions';
-import { SystemState, Review } from '../interfaces/reducerInterfaces';
+import { SystemState } from '../interfaces/reducerInterfaces';
 import {
   getAverageRating,
   getAverageSafetyRating,
   getFirstPicture,
 } from '../utils/generalFunctions';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { AntDesign, MaterialIcons } from '@expo/vector-icons';
 import { AirbnbRating } from 'react-native-elements';
 import StarRating from 'react-native-star-rating';
-
-const placeHolder = require('../assets/images/camera_icon.jpg');
 
 type RootStackParamList = {
   DisplayPOIScreen: { POIId: string };
@@ -53,7 +51,8 @@ const DisplayPOIScreen = ({ route, navigation }: IProps) => {
 
   const POIInfo = useSelector((state: SystemState) => state.POI);
 
-  let POIImage = '';
+  let POIImage: string = '';
+
   if (POIInfo !== undefined) {
     POIImage = getFirstPicture(POIInfo);
   }
@@ -66,7 +65,6 @@ const DisplayPOIScreen = ({ route, navigation }: IProps) => {
         formattedAddress={POIInfo.formattedAddress}
         averageRating={averageRating && averageRating}
         averageSafetyRating={averageSafetyRating && averageSafetyRating}
-        // POIImage={POIImage ? POIImage : placeHolder}
         POIImage={POIImage}
       />
 
@@ -126,9 +124,7 @@ const DisplayPOIScreen = ({ route, navigation }: IProps) => {
                         color="black"
                         style={{ paddingRight: 10 }}
                       />
-                      <Text>
-                        {moment(item.dateTo).format('Do MMMM, YYYY')}{' '}
-                      </Text>
+                      <Text>{dayjs(item.dateTo).format('D MMMM, YYYY')} </Text>
                     </View>
                     <View style={styles.eventTime}>
                       <AntDesign
@@ -137,7 +133,7 @@ const DisplayPOIScreen = ({ route, navigation }: IProps) => {
                         style={{ paddingRight: 10 }}
                         color="black"
                       />
-                      <Text>{moment(item.dateTo).format('HH:mm')} </Text>
+                      <Text>{dayjs(item.dateTo).format('HH:mm')} </Text>
                     </View>
                   </View>
                 </View>
@@ -189,7 +185,9 @@ const DisplayPOIScreen = ({ route, navigation }: IProps) => {
                       fullStarColor={Colors.blue}
                     />
                   </View>
-                  <Text numberOfLines={1}>{item.description}</Text>
+                  <Text numberOfLines={1} ellipsizeMode="tail">
+                    {item.description}
+                  </Text>
                 </View>
               </TouchableOpacity>
             ))}

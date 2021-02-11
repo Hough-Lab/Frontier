@@ -4,7 +4,6 @@ import {
   Text,
   View,
   TouchableOpacity,
-  TextInput,
   FlatList,
 } from 'react-native';
 import { AntDesign, Entypo } from '@expo/vector-icons';
@@ -19,7 +18,7 @@ import { Navigation } from '../../interfaces/interfaces';
 const RegisterLanguageScreen = ({ navigation }: { navigation: Navigation }) => {
   const [country, setCountry] = useState<string>();
   const [language, setLanguage] = useState<string>();
-  const [languagesSpoken, setLanguagesSpoken]: any = useState([]);
+  const [languagesSpoken, setLanguagesSpoken] = useState<string[]>([]);
   console.log(languagesSpoken);
 
   function addLanguageSpoken(languageSpoken: string) {
@@ -55,7 +54,6 @@ const RegisterLanguageScreen = ({ navigation }: { navigation: Navigation }) => {
       </View>
 
       <View style={styles.midContent}>
-        {/* <View> */}
         <View style={styles.label}>
           <Text style={styles.labelText}>What country are you from?</Text>
         </View>
@@ -72,9 +70,7 @@ const RegisterLanguageScreen = ({ navigation }: { navigation: Navigation }) => {
             <Picker.Item label={country} value={country} key={index} />
           ))}
         </Picker>
-        {/* </View> */}
 
-        {/* <View> */}
         <View style={styles.label}>
           <Text style={styles.labelText}>What language(s) do you speak?</Text>
         </View>
@@ -117,7 +113,6 @@ const RegisterLanguageScreen = ({ navigation }: { navigation: Navigation }) => {
           </View>
         )}
       </View>
-      {/* </View> */}
 
       <View style={styles.bottomBtnsContainer}>
         <TouchableOpacity
@@ -164,7 +159,6 @@ const styles = StyleSheet.create({
     color: Colors.green,
   },
   midContent: {
-    // alignItems: 'center',
     width: '100%',
   },
   label: {

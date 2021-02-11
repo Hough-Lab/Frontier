@@ -1,4 +1,4 @@
-import React, { useState, Dispatch, SetStateAction, useEffect } from 'react';
+import React, { useState, Dispatch, SetStateAction } from 'react';
 import {
   StyleSheet,
   TextInput,
@@ -13,8 +13,6 @@ import { Ionicons, Entypo } from '@expo/vector-icons';
 
 import Colors from '../assets/colors';
 import { applyAnimation } from '../utils/generalFunctions';
-import GooglePlacesInput from './GooglePlacesInput';
-import { ISeenOnMap } from '../screens/HomeScreen';
 
 interface IProps {
   setTags: Dispatch<SetStateAction<string[]>>;
@@ -49,7 +47,6 @@ const SearchTagComponent = ({ setTags, tags }: IProps) => {
             onPress={() => {
               setSearchBar(true);
               applyAnimation();
-
             }}
           >
             <Ionicons name="pricetag-outline" size={30} color={Colors.green} />
@@ -115,7 +112,7 @@ const SearchTagComponent = ({ setTags, tags }: IProps) => {
                 </TouchableOpacity>
               </View>
             )}
-            keyExtractor={(item) => item.index}
+            keyExtractor={(item) => item}
           />
         </View>
       )}

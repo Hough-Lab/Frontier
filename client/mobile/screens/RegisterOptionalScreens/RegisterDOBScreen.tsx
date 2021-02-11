@@ -1,13 +1,6 @@
 import React, { useState, useCallback } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  TextInput,
-  Touchable,
-} from 'react-native';
-import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { AntDesign } from '@expo/vector-icons';
 import { useDispatch } from 'react-redux';
 
 import Colors from '../../assets/colors';

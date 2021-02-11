@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import {
   StyleSheet,
   Text,
@@ -6,15 +6,13 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import LottieView from 'lottie-react-native';
 
 import { getAllPOI, loginUser } from '../store/actions';
 import Colors from '../assets/colors';
 import { Navigation } from '../interfaces/interfaces';
-import { User } from '../interfaces/reducerInterfaces';
 import { validateLogin } from '../utils/generalFunctions';
-import { SystemState } from '../interfaces/reducerInterfaces';
 
 const LoginScreen = ({ navigation }: { navigation: Navigation }) => {
   const [inputValues, setInputValues] = useState({
