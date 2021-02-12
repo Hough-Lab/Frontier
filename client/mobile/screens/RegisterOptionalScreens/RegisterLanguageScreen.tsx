@@ -19,7 +19,6 @@ const RegisterLanguageScreen = ({ navigation }: { navigation: Navigation }) => {
   const [country, setCountry] = useState<string>();
   const [language, setLanguage] = useState<string>();
   const [languagesSpoken, setLanguagesSpoken] = useState<string[]>([]);
-  console.log(languagesSpoken);
 
   function addLanguageSpoken(languageSpoken: string) {
     if (

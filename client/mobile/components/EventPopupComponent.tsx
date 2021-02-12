@@ -6,7 +6,7 @@ import StarRating from 'react-native-star-rating';
 import { AirbnbRating } from 'react-native-ratings';
 
 import Colors from '../assets/colors';
-import { POI } from '../interfaces/reducerInterfaces';
+import { POI, Review } from '../interfaces/reducerInterfaces';
 import { getPOIById } from '../store/actions';
 import {
   getAverageRating,
@@ -28,8 +28,6 @@ const EventPopupComponent = ({ POI }: { POI: POI }) => {
   if (POI && POI.reviews) {
     averageSafetyRating = getAverageSafetyRating(POI.reviews);
   }
-
-  console.log('averageSafetyRating', averageSafetyRating);
 
   return (
     <View style={styles.container}>

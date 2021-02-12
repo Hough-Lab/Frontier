@@ -55,13 +55,13 @@ const UserProfileScreen = ({ navigation }: { navigation: Navigation }) => {
     (state: SystemState) => state.eventsInterested,
   );
 
-  if (Array.isArray(eventsAttending)) {
+  if (eventsAttending.length > 0) {
     eventsAttending.sort((a: Event, b: Event) => {
       return +new Date(a.dateFrom) - +new Date(b.dateFrom);
     });
   }
 
-  if (Array.isArray(eventInterested)) {
+  if (eventsAttending.length > 0) {
     eventInterested.sort((a: Event, b: Event) => {
       return +new Date(a.dateFrom) - +new Date(b.dateFrom);
     });
@@ -287,7 +287,7 @@ const UserProfileScreen = ({ navigation }: { navigation: Navigation }) => {
           {eventInterested && (
             <View>
               <Text style={styles.eventTitle}>
-                Events you are interested in:{' '}
+                Events you are interested in:
               </Text>
               <EventCardCarouselComponent
                 navigation={navigation}
