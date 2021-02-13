@@ -122,6 +122,6 @@ From the root folder of the project change into `/Client/web/src` and `npm start
 
 
 <p align="center">
- <img src="ReadMeFiles/paperPlaneEarth.gif" alt="frontier logo" style="zoom:30%" width="400" height="400" >
+ <img src="ReadMeFiles/paperPlaneEarth.gif" alt="frontier logo" style="zoom:30%" width="350" height="350" >
 </p>
 
