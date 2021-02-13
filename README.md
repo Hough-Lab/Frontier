@@ -40,6 +40,14 @@ You will need to have an active Google API key along with a Cloudinary API key t
 
 To be able to open the mobile App, you need to either download the Expo Go app on your mobile or have the Android Studio installed in your computer.
 
+## Installation
+
+Install all dependencies at once.
+
+`npm run install-all`
+
+OR
+
 2 separate installations are required: one for the backend and one for the frontend.
 
 #### Backend
