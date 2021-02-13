@@ -6,7 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { AntDesign, FontAwesome } from '@expo/vector-icons';
 
 import { Event, User } from '../interfaces/reducerInterfaces';
@@ -16,6 +16,8 @@ import {
   undoMarkAsInterested,
   markAsGoing,
   undoMarkAsGoing,
+  getEventsInterested,
+  getEventsAttending,
 } from '../store/actions';
 
 interface IProps {
@@ -47,9 +49,11 @@ function EventAttendance({ event, user }: IProps) {
       if (event.possibleAttendees.indexOf(user.userId) !== -1) {
         await dispatch(undoMarkAsInterested(event.eventId));
       }
-      dispatch(markAsGoing(event.eventId));
+      await dispatch(markAsGoing(event.eventId));
+      dispatch(getEventsAttending());
     } else {
-      dispatch(undoMarkAsGoing(event.eventId));
+      await dispatch(undoMarkAsGoing(event.eventId));
+      dispatch(getEventsAttending());
     }
   };
 
@@ -58,9 +62,11 @@ function EventAttendance({ event, user }: IProps) {
       if (event.attendees.indexOf(user.userId) !== -1) {
         await dispatch(undoMarkAsGoing(event.eventId));
       }
-      dispatch(markAsInterested(event.eventId));
+      await dispatch(markAsInterested(event.eventId));
+      dispatch(getEventsInterested());
     } else {
-      dispatch(undoMarkAsInterested(event.eventId));
+      await dispatch(undoMarkAsInterested(event.eventId));
+      dispatch(getEventsInterested());
     }
   };
 

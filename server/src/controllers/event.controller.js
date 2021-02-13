@@ -22,7 +22,7 @@ exports.PostEvent = async (req, res) => {
     const user = req.user;
 
     CreateEventTag(tags);
-    const newPOI = await createPOI(formattedAddress, latitude, longitude);
+    const newPOI = await createPOI(formattedAddress, latitude, longitude, tags);
     const eventId = uuid.v4();
 
     let pointOfInterestId;
@@ -47,6 +47,16 @@ exports.PostEvent = async (req, res) => {
       tags,
       attendees: [user.userId.toString()],
     });
+
+    const poiToUpdate = await models.PointOfInterest.findByPk(
+      pointOfInterestId,
+    );
+    if (!poiToUpdate.events) {
+      poiToUpdate.events = [newEvent];
+    } else {
+      poiToUpdate.events = [poiToUpdate.events, newEvent];
+    }
+    await poiToUpdate.save();
 
     if (!newEvent) {
       throw new Error('could not add Event');
@@ -118,9 +128,7 @@ exports.UndoAttendEvent = async (req, res) => {
 
     if (currentAttendees.indexOf(user.userId) !== -1) {
       const userIndex = currentAttendees.indexOf(user.userId);
-      console.log(currentAttendees);
       currentAttendees.splice(userIndex, 1);
-      console.log(currentAttendees);
       const editedEvent = await models.Event.update(
         {
           attendees: currentAttendees,

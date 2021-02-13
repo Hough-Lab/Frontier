@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { createEvent, getAllPOI } from "../../store/actions";
-import { handleImageUpload } from "../../components/UploadImageComponent/UploadImageComponent";
+import UploadImageComponent from "../../components/UploadImageComponent/UploadImageComponent";
 import { StandaloneSearchBox } from "@react-google-maps/api";
 
 import "./CreateEventScreen.css";
+
+interface HTMLInputEvent extends Event {
+  target: HTMLInputElement & EventTarget;
+}
 
 let mockArrayTags: string[] = ["Food", "Adventure", "Nature"];
 
@@ -31,6 +35,7 @@ export const CreateEventScreen = () => {
   const [recommendedTags, setRecommendedTags] = useState(mockArrayTags);
   const [eventObject, setEventObject] = useState(emptyEventObject);
   const [searchBox, setSearchBox] = useState(initalSearchBox);
+  const [image, setImage] = useState("");
 
   const dispatch = useDispatch();
 
@@ -43,6 +48,8 @@ export const CreateEventScreen = () => {
     setEventObject({ ...eventObject, [name]: value });
   };
 
+  const handleImageChange = (e: HTMLInputEvent) => {};
+
   useEffect(() => {
     setEventObject({ ...eventObject, tags: selectedTags });
   }, [selectedTags]);
@@ -51,7 +58,6 @@ export const CreateEventScreen = () => {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent> | any
   ) => {
     e.preventDefault();
-    console.log("eventObject :>> ", eventObject);
     await dispatch(
       createEvent(
         eventObject.title,
@@ -63,7 +69,7 @@ export const CreateEventScreen = () => {
         eventObject.description,
         eventObject.maxCapacity,
         eventObject.isPrivate,
-        eventObject.picture,
+        image,
         eventObject.tags
       )
     );
@@ -144,21 +150,14 @@ export const CreateEventScreen = () => {
           <form onSubmit={handleSubmit}>
             <div className="photoUploadContainer">
               <label className="eventScreenLabel">Upload Photo</label>
-              <input
-                name="picture"
-                type="file"
-                accept="image/*"
-                onClick={handleImageUpload}
-                multiple={false}
-                onChange={handleInputChange}
-              />
+              <UploadImageComponent setImage={setImage} />
             </div>
 
             <div className="titleInputContainer">
               <label className="eventScreenLabel">Event Name</label>
               <input
                 name="title"
-                className="textInput"
+                className="formInput"
                 type="text"
                 placeholder="Type Event Name..."
                 onClick={(text) => setInputValues({ ...inputValues })}
@@ -173,7 +172,7 @@ export const CreateEventScreen = () => {
                 onPlacesChanged={onPlacesChanged}
               >
                 <input
-                  className="textInput"
+                  className="formInput"
                   type="text"
                   placeholder="Location"
                 ></input>
@@ -182,15 +181,22 @@ export const CreateEventScreen = () => {
 
             <div className="tagSelectionContainer">
               <label className="eventScreenLabel">Tags:</label>
-              <input
-                onChange={handleTagInputChange}
-                value={tagInputValue}
-                type="text"
-                name="Tags"
-                placeholder="Input Tags"
-              />
-              <button onClick={(e) => handleAddUserTag(e)}>+</button>
-
+              <div className="tagsAddContainer">
+                <input
+                  className="formInput"
+                  onChange={handleTagInputChange}
+                  value={tagInputValue}
+                  type="text"
+                  name="Tags"
+                  placeholder="Input Tags"
+                />
+                <button
+                  className="tagsAddButton"
+                  onClick={(e) => handleAddUserTag(e)}
+                >
+                  +
+                </button>
+              </div>
               <div className="tagsContainer">
                 {selectedTags.map((tag) => (
                   <button
@@ -218,7 +224,7 @@ export const CreateEventScreen = () => {
               <input
                 onChange={handleInputChange}
                 name="dateFrom"
-                className="textInput"
+                className="formInput"
                 type="datetime-local"
                 value={eventObject.dateFrom}
               />
@@ -226,7 +232,7 @@ export const CreateEventScreen = () => {
               <input
                 onChange={handleInputChange}
                 name="dateTo"
-                className="textInput"
+                className="formInput"
                 type="datetime-local"
                 value={eventObject.dateTo}
               />
@@ -246,7 +252,7 @@ export const CreateEventScreen = () => {
             <div className="selectPrivateEventContainer">
               <input
                 onClick={() => handleIsPrivateClick()}
-                className="textInput"
+                className="formInput"
                 type="checkbox"
                 id="event"
                 name="isPrivate"

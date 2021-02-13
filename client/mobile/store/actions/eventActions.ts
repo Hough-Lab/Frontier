@@ -1,10 +1,9 @@
 import axios from 'axios';
 import { AppDispatch } from '../../App';
 import { Navigation } from '../../interfaces/interfaces';
-import { CREATE_EVENT, GET_ALL_POI, GET_CURRENT_EVENT } from './types';
+import { CREATE_EVENT, GET_CURRENT_EVENT } from './types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ip_address } from '../../config';
-import { getAllPOI } from '.';
 
 const REACT_APP_SERVER_URI = `http://${ip_address}:5000`;
 
@@ -53,6 +52,7 @@ export const createEvent = (
           },
         },
       );
+      dispatch({ type: CREATE_EVENT, payload: data });
 
       // The axios request will return the event. Only if the object returned by the server has a property 'title', meaning that it is an event
       // and not an error, it will take the user to the event detail screen

@@ -4,7 +4,6 @@ import {
   Text,
   View,
   TouchableOpacity,
-  TextInput,
   FlatList,
 } from 'react-native';
 import { AntDesign, Entypo } from '@expo/vector-icons';
@@ -14,15 +13,12 @@ import { useDispatch } from 'react-redux';
 
 import { editUserProfile, getAllPOI } from '../../store/actions';
 import Colors from '../../assets/colors';
-import { colors, randomColor } from '../../assets/colorFunction';
 import { Navigation } from '../../interfaces/interfaces';
 
 const RegisterLanguageScreen = ({ navigation }: { navigation: Navigation }) => {
   const [country, setCountry] = useState<string>();
   const [language, setLanguage] = useState<string>();
-  const [languageSpoken, setLanguageSpoken] = useState('');
-  const [languagesSpoken, setLanguagesSpoken]: any = useState([]);
-  const [input, setInput] = useState('');
+  const [languagesSpoken, setLanguagesSpoken] = useState<string[]>([]);
 
   function addLanguageSpoken(languageSpoken: string) {
     if (
@@ -53,11 +49,10 @@ const RegisterLanguageScreen = ({ navigation }: { navigation: Navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.title}>
-        <Text style={styles.titleText}>About Me</Text>
+        <Text style={styles.titleText}>About you</Text>
       </View>
 
       <View style={styles.midContent}>
-        {/* <View> */}
         <View style={styles.label}>
           <Text style={styles.labelText}>What country are you from?</Text>
         </View>
@@ -74,9 +69,7 @@ const RegisterLanguageScreen = ({ navigation }: { navigation: Navigation }) => {
             <Picker.Item label={country} value={country} key={index} />
           ))}
         </Picker>
-        {/* </View> */}
 
-        {/* <View> */}
         <View style={styles.label}>
           <Text style={styles.labelText}>What language(s) do you speak?</Text>
         </View>
@@ -114,12 +107,11 @@ const RegisterLanguageScreen = ({ navigation }: { navigation: Navigation }) => {
                   </TouchableOpacity>
                 </View>
               )}
-              keyExtractor={(item) => item.key}
+              keyExtractor={(item) => item}
             />
           </View>
         )}
       </View>
-      {/* </View> */}
 
       <View style={styles.bottomBtnsContainer}>
         <TouchableOpacity
@@ -151,6 +143,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     alignItems: 'center',
+    paddingTop: 30,
     justifyContent: 'space-between',
     backgroundColor: Colors.white,
     width: '100%',
@@ -160,11 +153,11 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
   },
   titleText: {
-    fontSize: 25,
+    fontSize: 30,
     fontWeight: 'bold',
+    color: Colors.green,
   },
   midContent: {
-    // alignItems: 'center',
     width: '100%',
   },
   label: {
@@ -199,7 +192,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 5,
     flexDirection: 'row',
-    backgroundColor: randomColor(colors),
+    backgroundColor: Colors.blue,
     height: 20,
     width: 'auto',
     marginRight: 5,

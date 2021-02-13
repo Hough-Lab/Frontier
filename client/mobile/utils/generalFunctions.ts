@@ -5,7 +5,7 @@ import {
   LoginInputValues,
   RegisterInputValues,
 } from '../interfaces/interfaces';
-import { Review, POI } from '../interfaces/reducerInterfaces';
+import { Review, POI, POIArray } from '../interfaces/reducerInterfaces';
 
 export const applyAnimation = (property = 'scaleXY') => {
   LayoutAnimation.configureNext({
@@ -47,12 +47,27 @@ export const getAverageSafetyRating = (reviews: Review[]) => {
   const ratings = reviews.map((review) => review.safetyRating);
   const reducer = (accumulator: number, currentValue: number) =>
     accumulator + currentValue;
-  return ratings.reduce(reducer, 0) / ratings.length;
+  return Math.round(ratings.reduce(reducer, 0) / ratings.length);
 };
 
 export const getFirstPicture = (POI: POI) => {
-  // console.log('POI.reviews[0].picture', POI.reviews[0].picture.toString());
-  if (POI?.reviews[0]?.picture && POI?.reviews[0]?.picture !== null) {
-    return POI.reviews[0].picture;
+  if (typeof POI?.reviews !== 'undefined') {
+    if (POI?.reviews[0]?.picture && POI?.reviews[0]?.picture !== null) {
+      return POI.reviews[0].picture;
+    }
+  }
+};
+
+export const filterPOIByTag = (allPOI: POI[], tags: string[]) => {
+  if (!tags.length) {
+    return allPOI;
+  } else {
+    const filteredPOI = allPOI?.filter((POI: POI) => {
+      return tags.every((tag) => {
+        return POI.tags?.indexOf(tag) !== -1;
+      });
+    });
+
+    return filteredPOI;
   }
 };

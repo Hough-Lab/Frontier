@@ -33,6 +33,7 @@ import BottomTabBar from './components/BottomTabBar';
 import UserProfileScreen from './screens/UserProfileScreen';
 import { Navigation } from './interfaces/interfaces';
 import { AntDesign } from '@expo/vector-icons';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const store = createStore(
   reducers,
@@ -193,6 +194,7 @@ const MainStackNavigator = () => {
 function App() {
   return (
     <Provider store={store}>
+      {/* <SafeAreaView style={styles.safeArea}> */}
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen
@@ -208,10 +210,15 @@ function App() {
         </Stack.Navigator>
         <StatusBar style="dark" backgroundColor="white" />
       </NavigationContainer>
+      {/* </SafeAreaView> */}
     </Provider>
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+  },
+});
 
 export default App;

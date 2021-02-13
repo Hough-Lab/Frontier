@@ -39,14 +39,25 @@ const RegisterProfilePicScreen = ({ navigation }: IProps) => {
   return (
     <View style={styles.container}>
       <View style={styles.title}>
-        <Text style={styles.titleText}>About Me</Text>
+        <Text style={styles.titleText}>About you</Text>
       </View>
 
       <View style={styles.midContent}>
         <View style={styles.label}>
-          <Text style={styles.labelText}>Upload your profile picture</Text>
+          <Text style={styles.labelText}>Upload a profile picture</Text>
         </View>
-        <UploadImageComponent setImage={setImage} image={image} />
+        <UploadImageComponent
+          setImage={setImage}
+          image={image}
+          uploadContainer={{
+            width: '100%',
+            height: 180,
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: 20,
+            marginBottom: 30,
+          }}
+        />
       </View>
 
       <View style={styles.bottomBtnsContainer}>
@@ -75,6 +86,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+    paddingTop: 30,
     alignItems: 'center',
     justifyContent: 'space-between',
     backgroundColor: Colors.white,
@@ -85,8 +97,9 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
   },
   titleText: {
-    fontSize: 25,
+    fontSize: 30,
     fontWeight: 'bold',
+    color: Colors.green,
   },
   midContent: {
     alignItems: 'center',

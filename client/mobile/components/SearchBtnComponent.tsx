@@ -1,11 +1,11 @@
-import React, { useState, Dispatch, SetStateAction, useEffect } from 'react';
+import React, { useState, Dispatch, SetStateAction } from 'react';
 import {
   StyleSheet,
-  TextInput,
   View,
   TouchableOpacity,
   UIManager,
   Platform,
+  Text,
 } from 'react-native';
 import { Ionicons, Entypo } from '@expo/vector-icons';
 
@@ -52,6 +52,7 @@ const SearchBtnComponent = ({ setSeenOnMap }: IProps) => {
         <>
           <GooglePlacesInput getLocation={getLocation} />
           <TouchableOpacity
+            style={{ alignSelf: 'flex-start', paddingTop: 10 }}
             onPress={() => {
               setSearchBar(false);
               applyAnimation();

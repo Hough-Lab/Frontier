@@ -59,100 +59,106 @@ const DisplayEventScreen = ({ route, navigation }: IProps) => {
   const user: User = useSelector((state: SystemState) => state.user);
 
   return (
-    <ScrollView style={{ flex: 1 }}>
-      {event.title !== '' ? (
-        <View style={styles.container}>
-          <Text style={styles.eventTitle}>{event && event.title}</Text>
-          <View style={styles.eventTime}>
-            <MaterialIcons name="date-range" size={20} color="black" />
-            <Text style={{ paddingLeft: 10, fontWeight: 'bold' }}>
-              From: {dayjs(event.dateFrom).format('DD MMMM, YYYY [at] HH:mm')}
-            </Text>
-          </View>
-          <View style={styles.eventTime}>
-            {/* <MaterialIcons name="date-range" size={20} color="black" /> */}
-            <Text
-              style={{ paddingLeft: 30, paddingBottom: 10, fontWeight: 'bold' }}
-            >
-              To: {dayjs(event.dateTo).format('DD MMMM, YYYY [at] HH:mm')}
-            </Text>
-          </View>
-
-          {event.tags && (
-            <View style={styles.tagContainer}>
-              {/* <Text>tags</Text> */}
-              <FlatList
-                horizontal={true}
-                data={event.tags}
-                renderItem={({ item, index }) => (
-                  <View key={index} style={styles.tag}>
-                    <Text style={styles.tagText}>{item}</Text>
-                  </View>
-                )}
-                keyExtractor={(item) => item}
-              />
-            </View>
-          )}
-
-          {event?.picture ? (
-            <Image
-              source={{ uri: event.picture }}
-              style={styles.upLoadedPicture}
-            />
-          ) : (
-            <View style={styles.uploadImageArea}>
-              <TouchableOpacity
-                style={styles.uploadImageBtn}
-                onPress={() => {}}
-              >
-                <Entypo name="image" size={50} color="black" />
-              </TouchableOpacity>
-            </View>
-          )}
-
-          <MapView
-            style={styles.uploadImageArea}
-            initialRegion={{
-              latitude: +POI.latitude,
-              longitude: +POI.longitude,
-              latitudeDelta: 0.0122,
-              longitudeDelta:
-                (Dimensions.get('window').width /
-                  Dimensions.get('window').height) *
-                0.0122,
-            }}
-          >
-            <Marker
-              coordinate={{
-                latitude: +POI.latitude,
-                longitude: +POI.longitude,
-              }}
-              title={event.title}
-              description={event.description}
-            />
-          </MapView>
-
-          <Text style={styles.descriptionTitle}>Event Description:</Text>
-          <View style={styles.description}>
-            <Text style={styles.descriptionText}>{event.description}</Text>
-          </View>
-
-          {event.maxCapacity && (
-            <View style={styles.capacity}>
-              <Text style={styles.capacityText}>
-                Maximum capacity of event: {event.maxCapacity} people
+    <View style={styles.container}>
+      <ScrollView>
+        {event.title !== '' ? (
+          <View style={{ flex: 1 }}>
+            <Text style={styles.eventTitle}>{event && event.title}</Text>
+            <View style={styles.eventTime}>
+              <MaterialIcons name="date-range" size={20} color="black" />
+              <Text style={{ paddingLeft: 10, fontWeight: 'bold' }}>
+                From: {dayjs(event.dateFrom).format('DD MMMM, YYYY [at] HH:mm')}
               </Text>
             </View>
-          )}
+            <View style={styles.eventTime}>
+              {/* <MaterialIcons name="date-range" size={20} color="black" /> */}
+              <Text
+                style={{
+                  paddingLeft: 30,
+                  paddingBottom: 10,
+                  fontWeight: 'bold',
+                }}
+              >
+                To: {dayjs(event.dateTo).format('DD MMMM, YYYY [at] HH:mm')}
+              </Text>
+            </View>
 
-          <EventAttendance event={event} user={user} />
-        </View>
-      ) : (
-        <View style={styles.loader}>
-          <ActivityIndicator size="large" color={Colors.pink} />
-        </View>
-      )}
-    </ScrollView>
+            {event.tags && (
+              <View style={styles.tagContainer}>
+                {/* <Text>tags</Text> */}
+                <FlatList
+                  horizontal={true}
+                  data={event.tags}
+                  renderItem={({ item, index }) => (
+                    <View key={index} style={styles.tag}>
+                      <Text style={styles.tagText}>{item}</Text>
+                    </View>
+                  )}
+                  keyExtractor={(item) => item}
+                />
+              </View>
+            )}
+
+            {event?.picture ? (
+              <Image
+                source={{ uri: event.picture }}
+                style={styles.upLoadedPicture}
+              />
+            ) : (
+              <View style={styles.uploadImageArea}>
+                <TouchableOpacity
+                  style={styles.uploadImageBtn}
+                  onPress={() => {}}
+                >
+                  <Entypo name="image" size={50} color="black" />
+                </TouchableOpacity>
+              </View>
+            )}
+
+            <MapView
+              style={styles.uploadImageArea}
+              initialRegion={{
+                latitude: +POI.latitude,
+                longitude: +POI.longitude,
+                latitudeDelta: 0.0122,
+                longitudeDelta:
+                  (Dimensions.get('window').width /
+                    Dimensions.get('window').height) *
+                  0.0122,
+              }}
+            >
+              <Marker
+                coordinate={{
+                  latitude: +POI.latitude,
+                  longitude: +POI.longitude,
+                }}
+                title={event.title}
+                description={event.description}
+              />
+            </MapView>
+
+            <Text style={styles.descriptionTitle}>Event Description:</Text>
+            <View style={styles.description}>
+              <Text style={styles.descriptionText}>{event.description}</Text>
+            </View>
+
+            {event.maxCapacity && (
+              <View style={styles.capacity}>
+                <Text style={styles.capacityText}>
+                  Maximum capacity of event: {event.maxCapacity} people
+                </Text>
+              </View>
+            )}
+
+            <EventAttendance event={event} user={user} />
+          </View>
+        ) : (
+          <View style={styles.loader}>
+            <ActivityIndicator size="large" color={Colors.pink} />
+          </View>
+        )}
+      </ScrollView>
+    </View>
   );
 };
 

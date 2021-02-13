@@ -9,13 +9,8 @@ import {
   LogBox,
   Dimensions,
 } from 'react-native';
-import { AirbnbRating, Rating } from 'react-native-ratings';
-import {
-  MaterialCommunityIcons,
-  Ionicons,
-  FontAwesome,
-  AntDesign,
-} from '@expo/vector-icons';
+import { AirbnbRating } from 'react-native-ratings';
+import { Ionicons } from '@expo/vector-icons';
 import { connect, useDispatch } from 'react-redux';
 import StarRating from 'react-native-star-rating';
 
@@ -32,6 +27,7 @@ LogBox.ignoreLogs([
 ]);
 
 const CreateTipScreen = ({ navigation }: { navigation: Navigation }) => {
+  const [tags, setTags] = useState<string[]>([]);
   const [image, setImage] = useState('');
   const [inputValues, setInputValues] = useState({
     title: '',
@@ -44,15 +40,7 @@ const CreateTipScreen = ({ navigation }: { navigation: Navigation }) => {
     picture: 'Placeholder Image',
     latitude: 0,
     longitude: 0,
-    tags: [''],
   });
-
-  const getTags = (tags: string[]) => {
-    setInputValues({
-      ...inputValues,
-      tags: tags,
-    });
-  };
 
   const dispatch = useDispatch();
 
@@ -69,12 +57,12 @@ const CreateTipScreen = ({ navigation }: { navigation: Navigation }) => {
         image,
         inputValues.latitude,
         inputValues.longitude,
-        inputValues.tags,
+        tags,
         navigation,
       ),
     );
     dispatch(getAllPOI());
-  }, [inputValues]);
+  }, [inputValues, image, tags]);
 
   const getLocation = (
     formattedAddress: string,
@@ -97,14 +85,10 @@ const CreateTipScreen = ({ navigation }: { navigation: Navigation }) => {
       <UploadImageComponent
         setImage={setImage}
         image={image}
-        pictureStyle={{
-          width: Dimensions.get('window').width - 20,
-          height: 190,
-          borderRadius: 30,
-          alignSelf: 'center',
-        }}
+        pictureStyle={styles.uploadImagePicture}
+        uploadContainer={styles.uploadImageArea}
       />
-      <TagsInsertComponent getTags={getTags} />
+      <TagsInsertComponent setTags={setTags} tags={tags} />
 
       {/* Tip title and location*/}
       <View style={styles.eventTitleView}>
@@ -296,5 +280,24 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  uploadImagePicture: {
+    width: Dimensions.get('window').width - 20,
+    height: 190,
+    borderRadius: 30,
+    alignSelf: 'center',
+  },
+  uploadImageArea: {
+    width: '100%',
+    height: 180,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: 'black',
+    backgroundColor: 'white',
+    elevation: 1,
+    borderRadius: 8,
+    borderWidth: 1,
+    padding: 20,
+    marginBottom: 30,
   },
 });

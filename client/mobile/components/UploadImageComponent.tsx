@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Dispatch, SetStateAction } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
   View,
@@ -7,26 +7,20 @@ import {
   TouchableOpacity,
   Alert,
   ActivityIndicator,
-  Dimensions,
 } from 'react-native';
-import { AntDesign, Entypo, MaterialCommunityIcons } from '@expo/vector-icons';
+import { AntDesign, Entypo } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 
 import { upload_preset, cloudinary_name } from '../config';
 import Colors from '../assets/colors';
+import { IUploadImage } from '../interfaces/interfaces';
 
-interface IProps {
-  setImage: Dispatch<SetStateAction<string>>;
-  image: string;
-  pictureStyle: {
-    width: number;
-    height: number;
-    borderRadius: number;
-    alignSelf: string;
-  };
-}
-
-const UploadImageComponent = ({ setImage, image, pictureStyle }: IProps) => {
+const UploadImageComponent = ({
+  setImage,
+  image,
+  pictureStyle,
+  uploadContainer,
+}: IUploadImage) => {
   const [preUploaded, setPreUploaded] = useState<string>();
   const [requestSuccessful, setRequestSuccessful] = useState<boolean>(false);
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
@@ -86,7 +80,7 @@ const UploadImageComponent = ({ setImage, image, pictureStyle }: IProps) => {
 
   return (
     <View>
-      <TouchableOpacity style={styles.uploadImageArea} onPress={pickImage}>
+      <TouchableOpacity style={uploadContainer} onPress={pickImage}>
         {isLoaded ? (
           <View style={styles.image}>
             <Image
@@ -115,19 +109,6 @@ const UploadImageComponent = ({ setImage, image, pictureStyle }: IProps) => {
 export default UploadImageComponent;
 
 const styles = StyleSheet.create({
-  uploadImageArea: {
-    width: '100%',
-    height: 180,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderColor: 'black',
-    backgroundColor: 'white',
-    elevation: 1,
-    borderRadius: 8,
-    borderWidth: 1,
-    padding: 20,
-    marginBottom: 30,
-  },
   plusSign: {
     position: 'absolute',
     top: 30,

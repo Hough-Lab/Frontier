@@ -1,13 +1,6 @@
 import React, { useState, useCallback } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  TextInput,
-  Touchable,
-} from 'react-native';
-import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { AntDesign } from '@expo/vector-icons';
 import { useDispatch } from 'react-redux';
 
 import Colors from '../../assets/colors';
@@ -26,18 +19,15 @@ const RegisterDOBScreen = ({ navigation }: { navigation: Navigation }) => {
   const handleSubmit = useCallback(async () => {
     if (typeof date !== 'undefined') {
       await dispatch(editUserProfile({ dateOfBirth: date }));
-      dispatch(getAllPOI());
-      navigation.navigate('RegisterLanguageScreen');
-    } else {
-      dispatch(getAllPOI());
-      navigation.navigate('RegisterLanguageScreen');
     }
+    dispatch(getAllPOI());
+    navigation.navigate('RegisterLanguageScreen');
   }, [date]);
 
   return (
     <View style={styles.container}>
       <View style={styles.title}>
-        <Text style={styles.titleText}>About Me</Text>
+        <Text style={styles.titleText}>About you</Text>
       </View>
 
       <View style={styles.midContent}>
@@ -47,9 +37,8 @@ const RegisterDOBScreen = ({ navigation }: { navigation: Navigation }) => {
 
         <View style={styles.inputContainer}>
           <Text>
-            {' '}
-            {date && dayjs().from(dayjs(date), true)}{' '}
-            {date ? 'old' : 'Please enter your date of birth'}
+            {date && dayjs().from(dayjs(date), true)}
+            {date ? ' old' : 'Please enter your date of birth'}
           </Text>
           <DateTimePickerComponent setDate={setDate} mode="date" />
         </View>
@@ -84,6 +73,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+    paddingTop: 30,
     alignItems: 'center',
     justifyContent: 'space-between',
     backgroundColor: Colors.white,
@@ -94,8 +84,9 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
   },
   titleText: {
-    fontSize: 25,
+    fontSize: 30,
     fontWeight: 'bold',
+    color: Colors.green,
   },
   midContent: {
     alignItems: 'center',

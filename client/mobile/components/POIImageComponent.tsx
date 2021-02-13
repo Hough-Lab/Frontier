@@ -30,9 +30,8 @@ const POIImageComponent = ({
       )}
       <View style={styles.titleView}>
         <Text style={styles.title}>{formattedAddress}</Text>
-        {/* <Text style={styles.titleLocation}>23 Long Road, London, AB12 3CD</Text> */}
       </View>
-      <View style={styles.ratings}>
+      <View>
         <View style={styles.starsView}>
           <StarRating
             disabled={true}
@@ -69,7 +68,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
-    // backgroundColor: Colors.grey,
     marginTop: 40,
     marginBottom: 20,
     borderRadius: 10,
@@ -98,19 +96,14 @@ const styles = StyleSheet.create({
   },
   starsView: {
     position: 'absolute',
-    // paddingVertical: 20,
     paddingLeft: 5,
     bottom: 50,
     left: -160,
   },
   starsSafety: {
     position: 'absolute',
-    // paddingVertical: 20,
     paddingLeft: 5,
     bottom: 10,
     left: -160,
-  },
-  ratings: {
-    // paddingBottom: 10,
   },
 });

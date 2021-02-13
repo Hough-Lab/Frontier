@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { AppDispatch } from '../../App';
-import { Navigation } from '../../interfaces/interfaces';
 import { GET_ALL_POI, GET_POI_BY_ID } from './types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ip_address } from '../../config';

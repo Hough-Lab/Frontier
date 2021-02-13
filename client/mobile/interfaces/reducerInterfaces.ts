@@ -10,8 +10,10 @@ export interface SystemState {
   event: Event;
   review: Review;
   POI: POI;
-  allPOI: POIArray;
+  allPOI: POI[];
   error: string;
+  eventsInterested: Event[];
+  eventsAttending: Event[];
 }
 
 export interface User {
@@ -28,6 +30,8 @@ export interface User {
   email: string;
   verifications: number;
   certified: boolean;
+  userTags: string[];
+  createdAt: string;
 }
 
 export interface Event {
@@ -74,6 +78,7 @@ export interface POI {
   updatedAt: string;
   events: Event[];
   reviews: Review[];
+  tags: string[];
 }
 
 //TODO set up rest of interfaces
