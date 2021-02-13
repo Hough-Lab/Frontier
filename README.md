@@ -13,7 +13,7 @@ Check out a demo here:
 ## Screenshots
 
 <p align="center">
- <img src="./readmeFiles/app-overview.png" >
+ <img src="./ReadMeFiles/app-overview.png" >
 </p>
 
 ## Getting started
@@ -122,6 +122,6 @@ From the root folder of the project change into `/Client/web/src` and `npm start
 
 
 <p align="center">
- <img src="ReadMeFiles/paperPlaneEarth.gif" alt="frontier logo" style="zoom:30%;" >
+ <img src="ReadMeFiles/paperPlaneEarth.gif" alt="frontier logo" style="zoom:10%;" >
 </p>
 
