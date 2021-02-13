@@ -110,7 +110,7 @@ From the root folder of the project change into `/Client/web/src` and `npm start
 
 
 ## Contributors
- <img align="right" src="ReadMeFiles/paperPlaneEarth.gif" alt="frontier logo" style="zoom:30%" width="300" height="300" >
+ <img align="right" src="ReadMeFiles/paperPlaneEarth.gif" alt="frontier logo" style="zoom:30%" width="350" height="350" >
 
 ##### Co-creators and Full-Stack Engineers:
 
