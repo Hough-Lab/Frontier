@@ -11,16 +11,9 @@ import {
   UIManager,
   FlatList,
   ScrollView,
-  Animated,
 } from 'react-native';
 import { useSelector } from 'react-redux';
-import moment from 'moment';
-import {
-  AntDesign,
-  FontAwesome5,
-  MaterialCommunityIcons,
-  MaterialIcons,
-} from '@expo/vector-icons';
+import { AntDesign, FontAwesome5 } from '@expo/vector-icons';
 import { Picker } from '@react-native-picker/picker';
 import { useDispatch } from 'react-redux';
 
@@ -62,13 +55,13 @@ const UserProfileScreen = ({ navigation }: { navigation: Navigation }) => {
     (state: SystemState) => state.eventsInterested,
   );
 
-  if (Array.isArray(eventsAttending)) {
+  if (eventsAttending.length > 0) {
     eventsAttending.sort((a: Event, b: Event) => {
       return +new Date(a.dateFrom) - +new Date(b.dateFrom);
     });
   }
 
-  if (Array.isArray(eventInterested)) {
+  if (eventsAttending.length > 0) {
     eventInterested.sort((a: Event, b: Event) => {
       return +new Date(a.dateFrom) - +new Date(b.dateFrom);
     });
@@ -102,6 +95,7 @@ const UserProfileScreen = ({ navigation }: { navigation: Navigation }) => {
         }}
       >
         <AntDesign name="logout" size={24} color={Colors.pink} />
+        <Text style={{ fontSize: 10, color: Colors.pink }}>logout</Text>
       </TouchableOpacity>
 
       {!isEditMode ? (
@@ -110,6 +104,7 @@ const UserProfileScreen = ({ navigation }: { navigation: Navigation }) => {
           onPress={() => setIsEditMode(true)}
         >
           <FontAwesome5 name="user-edit" size={22} color={Colors.blue} />
+          <Text style={{ fontSize: 10, color: Colors.blue }}>edit</Text>
         </TouchableOpacity>
       ) : (
         <View style={styles.editView}>
@@ -144,7 +139,7 @@ const UserProfileScreen = ({ navigation }: { navigation: Navigation }) => {
                 color: 'black',
               }}
             >
-              {moment(inputValues.dateOfBirth).format('DD.MM.YYYY ')}
+              {dayjs(inputValues.dateOfBirth).format('DD.MM.YYYY ')}
             </Text>
             <DateTimePickerComponent
               setDate={(selectedDate: string) =>
@@ -155,7 +150,7 @@ const UserProfileScreen = ({ navigation }: { navigation: Navigation }) => {
           <Picker
             selectedValue={user.from}
             style={{ height: 50, width: '70%' }}
-            onValueChange={(itemValue: string, itemIndex: number) =>
+            onValueChange={(itemValue: string | number, itemIndex: number) =>
               setCountry(itemValue)
             }
           >
@@ -181,116 +176,136 @@ const UserProfileScreen = ({ navigation }: { navigation: Navigation }) => {
           source={{ uri: user && user.profilePicture }}
         />
       </View>
-      <View style={styles.nameView}>
-        <Text style={styles.name}>
-          {user.firstName} {user.lastName}
-        </Text>
+      <ScrollView>
+        <View style={styles.nameView}>
+          <View>
+            <View style={{ flexDirection: 'row' }}>
+              <Text style={styles.name}>{user.firstName}</Text>
+              <Text style={styles.name}> {user.lastName}</Text>
+            </View>
 
-        {user.dateOfBirth && (
-          <Text
-            style={{
-              fontWeight: 'normal',
-              fontSize: 15,
-            }}
-          >
-            {user.dateOfBirth && dayjs().from(dayjs(user.dateOfBirth), true)}{' '}
-            old
-          </Text>
-        )}
-
-        <Text>
-          <Text style={{ color: 'black', fontSize: 12 }}>
-            {'joined ' + dayjs(user.createdAt).month(0).from(dayjs().month(0))}
-          </Text>
-        </Text>
-        {user.from && (
-          <Text style={{ color: 'black', paddingTop: 5 }}>
-            {'From ' + user.from}
-          </Text>
-        )}
-        {user.userTags && (
-          <View style={styles.languages}>
-            <Text
-              style={{
-                fontWeight: 'bold',
-                paddingRight: 10,
-                paddingVertical: 5,
-              }}
-            >
-              bio:
+            <Text style={{ color: 'black', fontSize: 12 }}>
+              {'joined ' +
+                dayjs(user.createdAt).month(0).from(dayjs().month(0))}
             </Text>
-            <FlatList
-              horizontal={true}
-              data={user.userTags}
-              renderItem={({ item, index }) => (
-                <View
-                  key={index}
-                  style={{ ...styles.tag, backgroundColor: Colors.pink }}
+          </View>
+          <Text>
+            {user.from && (
+              <View style={styles.languages}>
+                <Image
+                  style={{ width: 20, height: 20, zIndex: 100 }}
+                  source={require('../assets/images/MarkerBlue1.png')}
+                />
+                <Text style={{ color: 'black', paddingTop: 5 }}>
+                  {'From ' + user.from}
+                </Text>
+              </View>
+            )}
+          </Text>
+
+          <Text>
+            {user.dateOfBirth && (
+              <View style={styles.languages}>
+                <Text
+                  style={{
+                    fontWeight: 'normal',
+                    fontSize: 15,
+                  }}
                 >
-                  <Text style={styles.tagText}>{item}</Text>
-                </View>
-              )}
-              keyExtractor={(item) => item}
-            />
-          </View>
-        )}
-        {user.language && (
-          <View style={styles.languages}>
-            <Text
-              style={{
-                fontWeight: 'bold',
-                paddingRight: 10,
-                paddingVertical: 5,
-              }}
-            >
-              Languages spoken:
-            </Text>
-            <FlatList
-              horizontal={true}
-              data={user.language}
-              renderItem={({ item, index }) => (
-                <View key={index} style={styles.tag}>
-                  <Text style={styles.tagText}>{item}</Text>
-                </View>
-              )}
-              keyExtractor={(item) => item}
-            />
-          </View>
-        )}
-      </View>
+                  {user.dateOfBirth &&
+                    dayjs().from(dayjs(user.dateOfBirth), true)}{' '}
+                  old
+                </Text>
+              </View>
+            )}
+          </Text>
+          <Text>
+            {user.userTags && (
+              <View style={styles.languages}>
+                <Text
+                  style={{
+                    fontWeight: 'bold',
+                    paddingRight: 10,
+                    paddingVertical: 5,
+                  }}
+                >
+                  bio:
+                </Text>
+                <FlatList
+                  horizontal={true}
+                  data={user.userTags}
+                  renderItem={({ item, index }) => (
+                    <View
+                      key={index}
+                      style={{ ...styles.tag, backgroundColor: Colors.pink }}
+                    >
+                      <Text style={styles.tagText}>{item}</Text>
+                    </View>
+                  )}
+                  keyExtractor={(item) => item}
+                />
+              </View>
+            )}
 
-      {/* Upcoming events section */}
-      <ScrollView style={styles.eventsContainer}>
-        {eventsAttending && (
-          <View>
-            <Text style={styles.eventTitle}>Upcoming events: </Text>
-            <EventCardCarouselComponent
-              navigation={navigation}
-              eventsAttending={eventsAttending}
-            />
-          </View>
-        )}
-        {eventInterested && (
-          <View>
-            <Text style={styles.eventTitle}>
-              Events you are interested in:{' '}
-            </Text>
-            <EventCardCarouselComponent
-              navigation={navigation}
-              eventsAttending={eventInterested}
-            />
-          </View>
-        )}
-      </ScrollView>
+            {user.language && (
+              <View style={styles.languages}>
+                <Text
+                  style={{
+                    fontWeight: 'bold',
+                    paddingRight: 10,
+                    paddingVertical: 5,
+                  }}
+                >
+                  languages spoken:
+                </Text>
+                <FlatList
+                  horizontal={true}
+                  data={user.language}
+                  renderItem={({ item, index }) => (
+                    <View key={index} style={styles.tag}>
+                      <Text style={styles.tagText}>{item}</Text>
+                    </View>
+                  )}
+                  keyExtractor={(item) => item}
+                />
+              </View>
+            )}
+          </Text>
+        </View>
 
-      {/* Log out Button */}
-      {/* <Button
+        {/* Upcoming events section */}
+        <View style={styles.eventsContainer}>
+          {eventsAttending && (
+            <View>
+              <Text style={styles.eventTitle}>Upcoming events: </Text>
+              <EventCardCarouselComponent
+                navigation={navigation}
+                eventsAttending={eventsAttending}
+              />
+            </View>
+          )}
+          {eventInterested && (
+            <View>
+              <Text style={styles.eventTitle}>
+                Events you are interested in:
+              </Text>
+              <EventCardCarouselComponent
+                navigation={navigation}
+                eventsAttending={eventInterested}
+              />
+            </View>
+          )}
+        </View>
+
+        {/* Log out Button */}
+        {/* <Button
         title="Log out"
         color={Colors.pink}
         onPress={() => {
           dispatch(logoutUser(navigation));
         }}
       /> */}
+      </ScrollView>
     </View>
   );
 };
@@ -306,13 +321,13 @@ const styles = StyleSheet.create({
   },
   eventsContainer: {
     paddingTop: 30,
-    paddingBottom: 100,
   },
   profilePicContainer: {
     marginTop: 30,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 75,
+    paddingBottom: 15,
   },
   profilePic: {
     height: 150,
@@ -322,14 +337,17 @@ const styles = StyleSheet.create({
     borderColor: Colors.lightBlue,
   },
   nameView: {
-    // alignItems: 'center',
-    // padding: 10,
+    backgroundColor: Colors.grey,
+    elevation: 3,
+    borderColor: Colors.green,
+    borderWidth: 1,
+    padding: 10,
+    borderRadius: 8,
   },
   name: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: 'black',
-    paddingTop: 20,
+    color: Colors.green,
     paddingBottom: 5,
   },
   regularText: {
@@ -370,11 +388,13 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 50,
     right: 30,
+    alignItems: 'center',
   },
   editBtn: {
     position: 'absolute',
-    top: 190,
+    top: 180,
     right: 115,
+    alignItems: 'center',
   },
   changesBtn: {
     justifyContent: 'center',

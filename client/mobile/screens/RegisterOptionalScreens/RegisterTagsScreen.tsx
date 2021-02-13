@@ -1,20 +1,12 @@
 import React, { useState, useCallback } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  TextInput,
-  Touchable,
-} from 'react-native';
-import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { AntDesign } from '@expo/vector-icons';
 import { useDispatch } from 'react-redux';
 
 import { editUserProfile, getAllPOI } from '../../store/actions';
 import Colors from '../../assets/colors';
 import { Navigation } from '../../interfaces/interfaces';
 import TagsInsertComponent from '../../components/TagsInsertComponent';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 const RegisterTagsScreen = ({ navigation }: { navigation: Navigation }) => {
   const [tags, setTags] = useState<string[]>([]);
@@ -30,12 +22,12 @@ const RegisterTagsScreen = ({ navigation }: { navigation: Navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.title}>
-        <Text style={styles.titleText}>About Me</Text>
+        <Text style={styles.titleText}>About you</Text>
       </View>
 
       <View style={styles.midContent}>
         <View style={styles.label}>
-          <Text style={styles.labelText}>What tags better describe you?</Text>
+          <Text style={styles.labelText}>What words best describe you?</Text>
         </View>
         <View style={styles.inputContainer}>
           <TagsInsertComponent setTags={setTags} tags={tags} />
@@ -70,6 +62,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+    paddingTop: 30,
     alignItems: 'center',
     justifyContent: 'space-between',
     backgroundColor: Colors.white,
@@ -80,8 +73,9 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
   },
   titleText: {
-    fontSize: 25,
+    fontSize: 30,
     fontWeight: 'bold',
+    color: Colors.green,
   },
   midContent: {
     alignItems: 'center',

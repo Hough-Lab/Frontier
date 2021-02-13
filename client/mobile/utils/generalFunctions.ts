@@ -47,7 +47,7 @@ export const getAverageSafetyRating = (reviews: Review[]) => {
   const ratings = reviews.map((review) => review.safetyRating);
   const reducer = (accumulator: number, currentValue: number) =>
     accumulator + currentValue;
-  return ratings.reduce(reducer, 0) / ratings.length;
+  return Math.round(ratings.reduce(reducer, 0) / ratings.length);
 };
 
 export const getFirstPicture = (POI: POI) => {

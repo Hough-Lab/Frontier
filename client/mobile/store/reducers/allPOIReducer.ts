@@ -9,6 +9,9 @@ const initialState: POIArray = {
     longitude: 0,
     createdAt: '',
     updatedAt: '',
+    events: [],
+    reviews: [],
+    tags: []
   },
 };
 

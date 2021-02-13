@@ -1,5 +1,5 @@
 import { MaterialIcons, AntDesign } from '@expo/vector-icons';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import React from 'react';
 import {
   FlatList,
@@ -59,7 +59,7 @@ const EventCardCarouselComponent = ({
                     style={{ paddingRight: 10 }}
                   />
                   <Text style={{ fontSize: 12 }}>
-                    {moment(item.dateTo).format('Do MMMM, YYYY')}{' '}
+                    {dayjs(item.dateTo).format('D MMMM, YYYY')}{' '}
                   </Text>
                 </View>
                 <View style={styles.eventTime}>
@@ -70,7 +70,7 @@ const EventCardCarouselComponent = ({
                     color="black"
                   />
                   <Text style={{ fontSize: 12 }}>
-                    {moment(item.dateTo).format('HH:mm')}{' '}
+                    {dayjs(item.dateTo).format('HH:mm')}{' '}
                   </Text>
                 </View>
               </View>

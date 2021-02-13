@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, LogBox } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, LogBox } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
@@ -9,7 +9,7 @@ LogBox.ignoreAllLogs();
 
 interface IProps {
   setDate: Function;
-  mode?: string;
+  mode?: 'time' | 'date' | 'datetime' | undefined;
 }
 
 const DateTimePickerComponent = ({ setDate, mode }: IProps) => {
@@ -38,7 +38,7 @@ const DateTimePickerComponent = ({ setDate, mode }: IProps) => {
       </TouchableOpacity>
 
       <DateTimePickerModal
-        maximumDate={new Date()}
+        // minimumDate={new Date()}
         isVisible={isDatePickerVisible}
         mode={mode ? mode : 'datetime'}
         onConfirm={handleConfirm}
@@ -49,5 +49,3 @@ const DateTimePickerComponent = ({ setDate, mode }: IProps) => {
 };
 
 export default DateTimePickerComponent;
-
-const styles = StyleSheet.create({});

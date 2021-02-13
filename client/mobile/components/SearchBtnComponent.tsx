@@ -1,7 +1,6 @@
-import React, { useState, Dispatch, SetStateAction, useEffect } from 'react';
+import React, { useState, Dispatch, SetStateAction } from 'react';
 import {
   StyleSheet,
-  TextInput,
   View,
   TouchableOpacity,
   UIManager,

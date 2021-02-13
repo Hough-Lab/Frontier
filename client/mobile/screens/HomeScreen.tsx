@@ -1,13 +1,5 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import {
-  StyleSheet,
-  View,
-  ActivityIndicator,
-  TouchableOpacity,
-  LogBox,
-  Dimensions,
-  Animated,
-} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, View, TouchableOpacity, Dimensions } from 'react-native';
 import MapView, { Marker, Callout } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { FontAwesome5 } from '@expo/vector-icons';
@@ -18,13 +10,10 @@ import Colors from '../assets/colors';
 import { Navigation } from '../interfaces/interfaces';
 import SearchBtnComponent from '../components/SearchBtnComponent';
 import EventPopupComponent from '../components/EventPopupComponent';
-import { POI, POIArray, SystemState } from '../interfaces/reducerInterfaces';
+import { POI, SystemState } from '../interfaces/reducerInterfaces';
 import SearchTagComponent from '../components/SearchTagComponent';
 import { filterPOIByTag } from '../utils/generalFunctions';
 import { getPOIById } from '../store/actions';
-import { applyAnimation } from '../utils/generalFunctions';
-
-LogBox.ignoreLogs([/MapView/g]);
 
 export interface ISeenOnMap {
   latitude: number;
@@ -111,7 +100,6 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
             autoPlay
             loop
           />
-          {/* <ActivityIndicator color={Colors.pink} size="large" /> */}
         </View>
       ) : (
         <>
@@ -139,17 +127,11 @@ const HomeScreen = ({ navigation }: { navigation: Navigation }) => {
                       latitude: +POI?.latitude,
                       longitude: +POI?.longitude,
                     }}
-                    // title={'PostgreSQL Party'}
                     image={require('../assets/images/MarkerPink1.png')}
-
-                    // width={100}
-                    // height={100}
-                    // description={'Descriptions go here'}
                     onPress={() => {
                       dispatch(getPOIById(POI.pointOfInterestId));
                     }}
                   >
-                    {/* <Image source={require('../assets/images/MarkerPink.png')} /> */}
                     <Callout
                       tooltip={true}
                       onPress={() => {

@@ -194,23 +194,23 @@ const MainStackNavigator = () => {
 function App() {
   return (
     <Provider store={store}>
-      <SafeAreaView style={styles.safeArea}>
-        <NavigationContainer>
-          <Stack.Navigator>
-            <Stack.Screen
-              name="LoginStackNavigator"
-              component={LoginStackNavigator}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="MainStackNavigator"
-              component={MainStackNavigator}
-              options={{ headerShown: false }}
-            />
-          </Stack.Navigator>
-          <StatusBar style="dark" backgroundColor="white" />
-        </NavigationContainer>
-      </SafeAreaView>
+      {/* <SafeAreaView style={styles.safeArea}> */}
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="LoginStackNavigator"
+            component={LoginStackNavigator}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="MainStackNavigator"
+            component={MainStackNavigator}
+            options={{ headerShown: false }}
+          />
+        </Stack.Navigator>
+        <StatusBar style="dark" backgroundColor="white" />
+      </NavigationContainer>
+      {/* </SafeAreaView> */}
     </Provider>
   );
 }

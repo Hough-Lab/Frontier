@@ -15,7 +15,7 @@ import { AirbnbRating } from 'react-native-ratings';
 import { RouteProp } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { AntDesign, Entypo, Ionicons } from '@expo/vector-icons';
+import { Entypo, Ionicons } from '@expo/vector-icons';
 import Colors from '../assets/colors';
 import { Navigation } from '../interfaces/interfaces';
 import { getReviewById, getPOIById } from '../store/actions';
@@ -79,7 +79,6 @@ const DisplayTipScreen = ({ route, navigation }: IProps) => {
           </View>
           {review.tags.length > 1 && (
             <View style={styles.tagContainer}>
-              {/* <Text>tags</Text> */}
               <FlatList
                 horizontal={true}
                 data={review.tags}
@@ -202,7 +201,6 @@ const styles = StyleSheet.create({
   },
   tipIntro: {
     flexDirection: 'row',
-    // paddingLeft: 20,
     alignItems: 'center',
   },
   tipTitle: {

@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
 import { Entypo, MaterialIcons, Feather } from '@expo/vector-icons';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import StarRating from 'react-native-star-rating';
 import { AirbnbRating } from 'react-native-ratings';
 
 import Colors from '../assets/colors';
-import { POI, SystemState } from '../interfaces/reducerInterfaces';
+import { POI, Review } from '../interfaces/reducerInterfaces';
 import { getPOIById } from '../store/actions';
 import {
   getAverageRating,
@@ -24,18 +24,20 @@ const EventPopupComponent = ({ POI }: { POI: POI }) => {
 
   const selectedImage = require('../assets/images/placeholderImage2.jpg');
   const averageRating = POI?.reviews && getAverageRating(POI?.reviews);
-  const averageSafetyRating =
-    POI?.reviews && getAverageSafetyRating(POI?.reviews);
+  let averageSafetyRating = 0;
+  if (POI && POI.reviews) {
+    averageSafetyRating = getAverageSafetyRating(POI.reviews);
+  }
 
   return (
     <View style={styles.container}>
-      <Text>
+      {/* <Text>
         <Image
           style={styles.image}
           resizeMode={'cover'}
           source={selectedImage}
         />
-      </Text>
+      </Text> */}
 
       <View style={styles.midContentContainer}>
         <View style={styles.locationView}>

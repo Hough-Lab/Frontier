@@ -4,8 +4,6 @@ import { Navigation } from '../../interfaces/interfaces';
 import { CREATE_EVENT, GET_CURRENT_EVENT } from './types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ip_address } from '../../config';
-import { getEventsInterested, getEventsAttending } from '.';
-import { useDispatch } from 'react-redux';
 
 const REACT_APP_SERVER_URI = `http://${ip_address}:5000`;
 

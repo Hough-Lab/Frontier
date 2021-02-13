@@ -6,7 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { AntDesign, FontAwesome } from '@expo/vector-icons';
 
 import { Event, User } from '../interfaces/reducerInterfaces';
