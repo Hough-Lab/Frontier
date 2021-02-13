@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint .",
-    "start": "nodemon server/src/index.js"
+    "start": "nodemon server/src/index.js",
+    "install-all": "npm i; cd client/mobile; npm i; cd ../web; npm i; cd ../../;"
   },
   "repository": {
     "type": "git",
