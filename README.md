@@ -110,6 +110,7 @@ From the root folder of the project change into `/Client/web/src` and `npm start
 
 
 ## Contributors
+ <img align="right" src="ReadMeFiles/paperPlaneEarth.gif" alt="frontier logo" style="zoom:30%" width="350" height="350" >
 
 ##### Co-creators and Full-Stack Engineers:
 
@@ -121,7 +122,6 @@ From the root folder of the project change into `/Client/web/src` and `npm start
 - James Poulton [GitHub profile](https://www.github.com/JMPoulton33)
 
 
-<p align="center">
- <img src="ReadMeFiles/paperPlaneEarth.gif" alt="frontier logo" style="zoom:30%" width="350" height="350" >
-</p>
+
+
 
