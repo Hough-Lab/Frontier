@@ -121,7 +121,7 @@ From the root folder of the project change into `/Client/web/src` and `npm start
 - James Poulton [GitHub profile](https://www.github.com/JMPoulton33)
 
 
-<p align="center">
- <img src="ReadMeFiles/paperPlaneEarth.gif" alt="frontier logo" style="zoom:30%" width="100" height="100" >
+<p align="right">
+ <img src="ReadMeFiles/paperPlaneEarth.gif" alt="frontier logo" style="zoom:30%" width="200" height="200" >
 </p>
 
