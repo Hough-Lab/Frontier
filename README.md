@@ -8,7 +8,7 @@
 
 A travel app for solo travellers who want to explore the globe without fear. Be part of an online community where you can share your unique travel routes, make connections and explore areas with other like-minded travellers. A focus on safety to achieve fearless travel for all users. 
 
-Check out a demo here: 
+Check out a demo [here](https://www.youtube.com/watch?v=LRagSoKvBnI) 
 
 ## Screenshots
 
